@@ -12,12 +12,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "clsx": "^1.2.1",
+    "google-maps-react": "^2.0.6",
     "jotai": "^2.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-feather": "^2.0.10",
+    "react-google-maps": "^9.4.5",
     "react-helmet": "^6.1.0",
-    "react-router-dom": "6.10.0"
+    "react-indiana-drag-scroll": "^2.2.0",
+    "react-router-dom": "6.10.0",
+    "react-select": "^5.7.2",
+    "react-simple-maps": "^3.0.0",
+    "recharts": "^2.5.0",
+    "recompose": "^0.30.0"
   },
   "devDependencies": {
     "@types/node": "^18.15.11",

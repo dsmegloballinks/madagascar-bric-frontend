@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
+import { Plus } from "react-feather";
+import { register } from "@assets";
+import GraphView from "@components/GraphView";
+import Registerations from "@components/Registrations";
+import { useNavigate } from "react-router-dom";
+import RegistrationsMapView from "@components/RegistrationsMapView";
 
 export default function dashboard() {
+  const navigate = useNavigate();
+  const [selectedFilter, setSelectedFilter] = useState("Graph");
+  const filters = ["Graph", "Map", "List"];
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
   return (
     <div className="dashboard__container">
-      <div>
+      <div className="dashboard__container__top__bar">
         <svg
           width="17"
           height="17"
@@ -25,6 +36,149 @@ export default function dashboard() {
         </svg>
         Overview
       </div>
+      <div className="dashboard__banner__contianer">
+        <div className="dashboard__banner__content">
+          <h2>Welcome Back Anna!</h2>
+          <p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book.
+          </p>
+        </div>
+        <div className="dashboard__banner__button__wrapper">
+          <button onClick={() => navigate("/dashboard/addchild")}>
+            {" "}
+            <Plus size={15} /> Add a Child
+          </button>
+        </div>
+      </div>
+      <div className="dashboard__filters__wrapper">
+        <div className="dashboard__filters__container">
+          {filters.map((item) => (
+            <div
+              className={
+                selectedFilter == item
+                  ? "dashboard__filter__checked"
+                  : "dashboard__filter"
+              }
+              onClick={() => setSelectedFilter(item)}
+            >
+              {item}
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="dashboard__analytics">
+        <div className="dashboard__analytics__container">
+          <div className="analytics__icon__wrapper">
+            <img src={register} />
+          </div>
+          <div className="dashboard__analytics__container__top">
+            <div className="dashboard__analytics__container__top__number">
+              23,345,00
+            </div>
+            <div>Total Registered Child</div>
+          </div>
+        </div>
+        <div
+          className="dashboard__analytics__container"
+          style={{ background: "var(--primary)" }}
+        >
+          <div
+            className="analytics__icon__wrapper"
+            style={{ background: "#00E76C" }}
+          >
+            <img src={register} />
+          </div>
+          <div
+            className="dashboard__analytics__container__top"
+            style={{ borderBottomColor: "#E2E2E2" }}
+          >
+            <div className="dashboard__analytics__container__top__number">
+              23,345,00
+            </div>
+            <div>Last Week Registered Child</div>
+          </div>
+        </div>
+        <div
+          className="dashboard__analytics__container"
+          style={{ background: "var(--colorReverse)", color: "black" }}
+        >
+          <div
+            className="analytics__icon__wrapper"
+            style={{ background: "#E2E2E2" }}
+          >
+            <img src={register} />
+          </div>
+          <div
+            className="dashboard__analytics__container__top"
+            style={{ borderBottomColor: "#E2E2E2" }}
+          >
+            <div className="dashboard__analytics__container__top__number">
+              23,345,00
+            </div>
+            <div>Last Month Registered Child</div>
+          </div>
+        </div>{" "}
+        <div
+          className="dashboard__analytics__container"
+          style={{ background: "#383838" }}
+        >
+          <div
+            className="analytics__icon__wrapper"
+            style={{ background: "#4B4B4B" }}
+          >
+            <img src={register} />
+          </div>
+          <div
+            className="dashboard__analytics__container__top"
+            style={{ borderBottomColor: "#E2E2E2" }}
+          >
+            <div className="dashboard__analytics__container__top__number">
+              23,345,00
+            </div>
+            <div>Last Year Registered Child</div>
+          </div>
+        </div>
+      </div>
+      <div className="list__filters__wrapper">
+        <input
+          type="date"
+          className={
+            start == "" ? "list__filters__input__empty" : "list__filters__input"
+          }
+          onChange={(e) => setStart(e.currentTarget.value)}
+        />
+        <input
+          type="date"
+          className={
+            end == ""
+              ? "list__filters__input__end__empty"
+              : "list__filters__input"
+          }
+          onChange={(e) => setEnd(e.currentTarget.value)}
+        />
+        <input
+          type="text"
+          className="list__filters__input"
+          placeholder="Location"
+        />
+        <input
+          type="text"
+          className="list__filters__input"
+          placeholder="Registrar"
+        />
+        <button className="list__filter__button">Filter</button>
+        <button className="list__filter__button__reset">Reset</button>
+      </div>
+      {selectedFilter == "Graph" ? (
+        <GraphView />
+      ) : selectedFilter == "List" ? (
+        <Registerations />
+      ) : (
+        <RegistrationsMapView />
+      )}
     </div>
   );
 }

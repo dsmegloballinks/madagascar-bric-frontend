@@ -25,10 +25,10 @@ export default function App() {
   return (
     <>
       <Head
-        title="Remixer"
+        title="Madagascar Birth Registeration"
         image="/favicon.svg"
         url="https://vitefilerouter.com"
-        description="Remixer"
+        description="Madagascar Birth Registeration"
       />
       {/* {!location.pathname.toLowerCase().includes("/dashboard") ? (
         <Outlet />
