@@ -5,6 +5,7 @@ import GraphView from "@components/GraphView";
 import Registerations from "@components/Registrations";
 import { useNavigate } from "react-router-dom";
 import RegistrationsMapView from "@components/RegistrationsMapView";
+import Select from "@components/Select";
 
 export default function dashboard() {
   const navigate = useNavigate();
@@ -103,11 +104,11 @@ export default function dashboard() {
         </div>
         <div
           className="dashboard__analytics__container"
-          style={{ background: "var(--colorReverse)", color: "black" }}
+          style={{ background: "#9e2686", color: "white" }}
         >
           <div
             className="analytics__icon__wrapper"
-            style={{ background: "#E2E2E2" }}
+            style={{ background: "#cf78bd" }}
           >
             <img src={register} />
           </div>
@@ -123,7 +124,7 @@ export default function dashboard() {
         </div>{" "}
         <div
           className="dashboard__analytics__container"
-          style={{ background: "#383838" }}
+          style={{ background: "#929292" }}
         >
           <div
             className="analytics__icon__wrapper"
@@ -159,16 +160,18 @@ export default function dashboard() {
           }
           onChange={(e) => setEnd(e.currentTarget.value)}
         />
-        <input
+        {/* <input
           type="text"
           className="list__filters__input"
           placeholder="Location"
-        />
-        <input
+        /> */}
+        <Select placeholder="Location" background="white" widthProp="180px" />
+        <Select placeholder="Registrar" background="white" widthProp="180px" />
+        {/* <input
           type="text"
           className="list__filters__input"
           placeholder="Registrar"
-        />
+        /> */}
         <button className="list__filter__button">Filter</button>
         <button className="list__filter__button__reset">Reset</button>
       </div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Select from "./Select";
+import { ArrowLeft, ArrowRight } from "react-feather";
 
-export default function MotherInformation() {
+export default function MotherInformation({ onNextClick, onPrevClick }) {
   const [niu, setNiu] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -36,19 +36,20 @@ export default function MotherInformation() {
         <input value={niu} onChange={(e) => setNiu(e.currentTarget.value)} />
       </div>
       <div className="form__bottom">
-        <div className="form__bottom__content">First Name</div>
-        <input
-          value={firstName}
-          onChange={(e) => setFirstName(e.currentTarget.value)}
-        />
-      </div>
-      <div className="form__bottom">
         <div className="form__bottom__content">Last Name</div>
         <input
           value={lastName}
           onChange={(e) => setLastName(e.currentTarget.value)}
         />
       </div>
+      <div className="form__bottom">
+        <div className="form__bottom__content">First Name</div>
+        <input
+          value={firstName}
+          onChange={(e) => setFirstName(e.currentTarget.value)}
+        />
+      </div>
+
       <div className="form__bottom">
         <div className="form__bottom__content">Date of Birth</div>
         <input
@@ -80,13 +81,13 @@ export default function MotherInformation() {
           onChange={(e) => setCommune(e.currentTarget.value)}
         />
       </div>
-      <div className="form__bottom">
+      {/* <div className="form__bottom">
         <div className="form__bottom__content">Municipality</div>
         <input
           value={municipality}
           onChange={(e) => setMunicipality(e.currentTarget.value)}
         />
-      </div>
+      </div> */}
       <div className="form__bottom">
         <div className="form__bottom__content">Fokontany</div>
         <input
@@ -94,13 +95,13 @@ export default function MotherInformation() {
           onChange={(e) => setFokontany(e.currentTarget.value)}
         />
       </div>
-      <div className="form__bottom">
-        <div className="form__bottom__content">Function</div>
+      {/* <div className="form__bottom">
+        <div className="form__bottom__content">Profession</div>
         <input
           value={functions}
           onChange={(e) => setFunctions(e.currentTarget.value)}
         />
-      </div>
+      </div> */}
 
       <div className="form__bottom__heading">Usual Residence</div>
       <div className="form__bottom">
@@ -124,13 +125,13 @@ export default function MotherInformation() {
           onChange={(e) => setUsualCommune(e.currentTarget.value)}
         />
       </div>
-      <div className="form__bottom">
+      {/* <div className="form__bottom">
         <div className="form__bottom__content">Municipality</div>
         <input
           value={usualMunicipality}
           onChange={(e) => setUsualMunicipality(e.currentTarget.value)}
         />
-      </div>
+      </div> */}
       <div className="form__bottom">
         <div className="form__bottom__content">Fokontany</div>
         <input
@@ -145,10 +146,53 @@ export default function MotherInformation() {
           onChange={(e) => setProfession(e.currentTarget.value)}
         />
       </div>
-      <div className="form__bottom">
+      {/* <div className="form__bottom">
         <div className="form__bottom__content">Nationality</div>
         <input placeholder="Malangasy" style={{ width: "43%" }} />
-        <input placeholder="Other(Preciser)" style={{ width: "43%" }} />
+        <input placeholder="Other(Precise)" style={{ width: "43%" }} />
+      </div> */}
+
+      <div className="form__bottom__last__bar">
+        <div className="form__bottom__content">Nationality</div>
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "0em 1em",
+          }}
+        >
+          <div style={{ display: "flex" }}>
+            <div class="radio" onClick={() => setNationality("Malangasy")}>
+              <input
+                id="radio-1"
+                name="radio"
+                type="radio"
+                style={{ width: 0 }}
+              />
+              <label for="radio-1" class="radio-label">
+                Malangasy
+              </label>
+            </div>
+
+            <div class="radio" onClick={() => setNationality("other")}>
+              <input
+                id="radio-2"
+                name="radio"
+                type="radio"
+                style={{ width: 0 }}
+              />
+              <label for="radio-2" class="radio-label">
+                Other
+              </label>
+            </div>
+          </div>
+
+          {nationality == "other" && (
+            <input placeholder="Other(Precise)" style={{ width: "63%" }} />
+          )}
+        </div>
       </div>
 
       {/* <div className="form__bottom__last__bar">
@@ -157,6 +201,16 @@ export default function MotherInformation() {
         <div className="form__bottom__content">with health care worker</div>
         <input />
       </div> */}
+      <div className="form__buttons__container">
+        <button className="prev__button" onClick={onPrevClick}>
+          {" "}
+          <ArrowLeft size={18} style={{ marginRight: "1.5em" }} /> Previous{" "}
+        </button>
+        <button className="next__button" onClick={onNextClick}>
+          Next
+          <ArrowRight size={18} style={{ marginLeft: "1.5em" }} />
+        </button>
+      </div>
     </div>
   );
 }

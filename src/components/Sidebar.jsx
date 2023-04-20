@@ -2,7 +2,7 @@ import { Link, NavLink } from "@router";
 import { sidebarCategories, sidebarEnteries } from "../global/index";
 
 import { Fragment } from "react";
-import { X } from "react-feather";
+import { X, LogOut } from "react-feather";
 import { logo } from "@assets";
 import { useState } from "react";
 
@@ -59,6 +59,22 @@ export default function Sidebar({ setSidebarOpen }) {
             )}
           </Fragment>
         ))}
+      </div>
+      <div
+        className="container__sidebar__entry"
+        style={{
+          textAlign: "start",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          fontSize: "14px",
+          padding: ".8em 2em",
+          cursor: "pointer",
+          borderRadius: "0",
+        }}
+      >
+        <LogOut size={18} style={{ marginRight: "1em" }} />
+        Logout
       </div>
     </div>
   );

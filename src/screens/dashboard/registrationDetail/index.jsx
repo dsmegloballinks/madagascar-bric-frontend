@@ -17,13 +17,13 @@ export default function RegistrationDetail() {
         <button className="details__print">Print</button>
       </div>
       <div className="details__container">
-        <div className="details__container__section">
+        <div className="details__container__section" style={{ width: "100%" }}>
           <div className="details__container__heading">
             Reporting Information
           </div>
           <div className="details__container__content__wrapper">
             <div className="details__container__content__wrapper__heading">
-              Region
+              Number
             </div>
             <div className="details__container__content__wrapper__info">
               Punjab
@@ -31,7 +31,7 @@ export default function RegistrationDetail() {
           </div>
           <div className="details__container__content__wrapper">
             <div className="details__container__content__wrapper__heading">
-              District
+              Date of Declaration
             </div>
             <div className="details__container__content__wrapper__info">
               Punjab
@@ -39,39 +39,32 @@ export default function RegistrationDetail() {
           </div>
           <div className="details__container__content__wrapper">
             <div className="details__container__content__wrapper__heading">
-              Municipality
+              Date of Transcription of Declaration
             </div>
             <div className="details__container__content__wrapper__info">
               Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Fokontany
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              N*
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Date
-            </div>
-            <div className="details__container__content__wrapper__info">
-              23/23/23
             </div>
           </div>
         </div>
-        <div className="details__container__section">
+        <div className="details__container__section" style={{ width: "100%" }}>
           <div className="details__container__heading">Child Information</div>
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
+              Last Name
+            </div>
+            <div className="details__container__content__wrapper__info">
+              Punjab
+            </div>
+          </div>
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
+              First Name
+            </div>
+            <div className="details__container__content__wrapper__info">
+              Punjab
+            </div>
+          </div>
+
           <div className="details__container__content__wrapper">
             <div className="details__container__content__wrapper__heading">
               Date of Birth
@@ -98,7 +91,7 @@ export default function RegistrationDetail() {
           </div>
           <div className="details__container__content__wrapper">
             <div className="details__container__content__wrapper__heading">
-              Municipality
+              Commune
             </div>
             <div className="details__container__content__wrapper__info">
               Punjab
@@ -112,25 +105,26 @@ export default function RegistrationDetail() {
               Punjab
             </div>
           </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              First Name
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Last Name
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
+
           <div className="details__container__content__wrapper">
             <div className="details__container__content__wrapper__heading">
               Gender
+            </div>
+            <div className="details__container__content__wrapper__info">
+              Punjab
+            </div>
+          </div>
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
+              Married Parents
+            </div>
+            <div className="details__container__content__wrapper__info">
+              Punjab
+            </div>
+          </div>
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
+              Same usual residence?
             </div>
             <div className="details__container__content__wrapper__info">
               Punjab
@@ -152,150 +146,16 @@ export default function RegistrationDetail() {
               Punjab
             </div>
           </div>
-        </div>
-        <div className="details__container__section">
-          <div className="details__container__heading">Father Information</div>
           <div className="details__container__content__wrapper">
             <div className="details__container__content__wrapper__heading">
-              Married Parents
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Yes
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Same usual residence
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Yes
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              NIU
-            </div>
-            <div className="details__container__content__wrapper__info">
-              23/23/23
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              First Name
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Last Name
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Date of Birth
-            </div>
-            <div className="details__container__content__wrapper__info">
-              23/23/23
-            </div>
-          </div>
-          <div className="details__container__heading">Place Of Birth</div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Region
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              District
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Municipality
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Fokontany
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Function
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__heading">Usual Residence</div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Region
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              District
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Municipality
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Fokontany
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Profession
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Nationality
+              Birth Place Address
             </div>
             <div className="details__container__content__wrapper__info">
               Punjab
             </div>
           </div>
         </div>
+
         <div className="details__container__section">
           <div className="details__container__heading">Mother Information</div>
 
@@ -309,7 +169,7 @@ export default function RegistrationDetail() {
           </div>
           <div className="details__container__content__wrapper">
             <div className="details__container__content__wrapper__heading">
-              First Name
+              Last Name
             </div>
             <div className="details__container__content__wrapper__info">
               Punjab
@@ -317,12 +177,13 @@ export default function RegistrationDetail() {
           </div>
           <div className="details__container__content__wrapper">
             <div className="details__container__content__wrapper__heading">
-              Last Name
+              First Name
             </div>
             <div className="details__container__content__wrapper__info">
               Punjab
             </div>
           </div>
+
           <div className="details__container__content__wrapper">
             <div className="details__container__content__wrapper__heading">
               Date of Birth
@@ -350,7 +211,7 @@ export default function RegistrationDetail() {
           </div>
           <div className="details__container__content__wrapper">
             <div className="details__container__content__wrapper__heading">
-              Municipality
+              Commune
             </div>
             <div className="details__container__content__wrapper__info">
               Punjab
@@ -359,15 +220,6 @@ export default function RegistrationDetail() {
           <div className="details__container__content__wrapper">
             <div className="details__container__content__wrapper__heading">
               Fokontany
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Function
             </div>
             <div className="details__container__content__wrapper__info">
               Punjab
@@ -392,7 +244,7 @@ export default function RegistrationDetail() {
           </div>
           <div className="details__container__content__wrapper">
             <div className="details__container__content__wrapper__heading">
-              Municipality
+              Commune
             </div>
             <div className="details__container__content__wrapper__info">
               Punjab
@@ -418,6 +270,127 @@ export default function RegistrationDetail() {
           <div className="details__container__content__wrapper">
             <div className="details__container__content__wrapper__heading">
               Nationality
+            </div>
+            <div className="details__container__content__wrapper__info">
+              Punjab
+            </div>
+          </div>
+        </div>
+        <div className="details__container__section">
+          <div className="details__container__heading">Father Information</div>
+
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
+              NIU
+            </div>
+            <div className="details__container__content__wrapper__info">
+              23/23/23
+            </div>
+          </div>
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
+              Last Name
+            </div>
+            <div className="details__container__content__wrapper__info">
+              Punjab
+            </div>
+          </div>
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
+              First Name
+            </div>
+            <div className="details__container__content__wrapper__info">
+              Punjab
+            </div>
+          </div>
+
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
+              Date of Birth
+            </div>
+            <div className="details__container__content__wrapper__info">
+              23/23/23
+            </div>
+          </div>
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
+              Is Address of Mother and Father same ?
+            </div>
+            <div className="details__container__content__wrapper__info">
+              Punjab
+            </div>
+          </div>
+          <div className="details__container__heading">Place Of Birth</div>
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
+              Region
+            </div>
+            <div className="details__container__content__wrapper__info">
+              Punjab
+            </div>
+          </div>
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
+              District
+            </div>
+            <div className="details__container__content__wrapper__info">
+              Punjab
+            </div>
+          </div>
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
+              Commune
+            </div>
+            <div className="details__container__content__wrapper__info">
+              Punjab
+            </div>
+          </div>
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
+              Fokontany
+            </div>
+            <div className="details__container__content__wrapper__info">
+              Punjab
+            </div>
+          </div>
+
+          <div className="details__container__heading">Usual Residence</div>
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
+              Region
+            </div>
+            <div className="details__container__content__wrapper__info">
+              Punjab
+            </div>
+          </div>
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
+              District
+            </div>
+            <div className="details__container__content__wrapper__info">
+              Punjab
+            </div>
+          </div>
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
+              Commune
+            </div>
+            <div className="details__container__content__wrapper__info">
+              Punjab
+            </div>
+          </div>
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
+              Fokontany
+            </div>
+            <div className="details__container__content__wrapper__info">
+              Punjab
+            </div>
+          </div>
+
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
+              Profession
             </div>
             <div className="details__container__content__wrapper__info">
               Punjab
@@ -439,7 +412,7 @@ export default function RegistrationDetail() {
           </div>
           <div className="details__container__content__wrapper">
             <div className="details__container__content__wrapper__heading">
-              First Name
+              NIU
             </div>
             <div className="details__container__content__wrapper__info">
               Punjab
@@ -455,99 +428,24 @@ export default function RegistrationDetail() {
           </div>
           <div className="details__container__content__wrapper">
             <div className="details__container__content__wrapper__heading">
+              First Name
+            </div>
+            <div className="details__container__content__wrapper__info">
+              Punjab
+            </div>
+          </div>
+
+          <div className="details__container__content__wrapper">
+            <div className="details__container__content__wrapper__heading">
               Date of Birth
             </div>
             <div className="details__container__content__wrapper__info">
               23/23/23
             </div>
           </div>
-          <div className="details__container__heading">Place Of Birth</div>
           <div className="details__container__content__wrapper">
             <div className="details__container__content__wrapper__heading">
-              Region
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              District
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Municipality
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Fokontany
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Function
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__heading">Usual Residence</div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Region
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              District
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Municipality
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Fokontany
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Profession
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Nationality
+              Address
             </div>
             <div className="details__container__content__wrapper__info">
               Punjab

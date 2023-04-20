@@ -22,13 +22,13 @@ export default function RegistrationStatuses({ activeStep }) {
           step={2}
         />
         <Step
-          label="Information About Father"
+          label="Information About Mother"
           active={activeStep >= 2}
           nextActive={activeStep >= 3}
           step={3}
         />
         <Step
-          label="Information About Mother"
+          label="Information About Father"
           active={activeStep >= 3}
           nextActive={activeStep >= 4}
           step={4}
@@ -38,6 +38,12 @@ export default function RegistrationStatuses({ activeStep }) {
           active={activeStep >= 4}
           nextActive={activeStep >= 5}
           step={5}
+        />
+        <Step
+          label="Certificates"
+          active={activeStep >= 5}
+          nextActive={activeStep >= 6}
+          step={6}
         />
       </ScrollContainer>
       {/* <div onClick={() => setActiveStep(activeStep + 1)}>next</div> */}

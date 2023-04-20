@@ -1,14 +1,29 @@
 import React, { useState } from "react";
 import RegistrationStatuses from "@components/RegisterationStatueses";
 import ChildInformation from "@components/ChildInformation";
-import { ArrowLeft, ArrowRight } from "react-feather";
 import FatherInformation from "@components/FatherInformation";
 import MotherInformation from "@components/MotherInformation";
 import DeclarantInformation from "@components/DeclarantInformation";
 import ReportingInformation from "@components/ReportingInformation";
+import RegistrationCertificates from "@components/RegisterationCertificates";
 
 export default function addChild() {
   let [activeStep, setActiveStep] = useState(0);
+
+  const onNextClick = () => {
+    if (activeStep != 5) {
+      setActiveStep((activeStep = activeStep + 1));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const onPrevClick = () => {
+    if (activeStep != 0) {
+      setActiveStep((activeStep = activeStep - 1));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="main__container">
       <div className="dashboard__container__top__bar">
@@ -38,45 +53,36 @@ export default function addChild() {
       </div>
       <div className="form__container">
         {activeStep == 0 ? (
-          <ReportingInformation />
+          <ReportingInformation
+            onNextClick={onNextClick}
+            onPrevClick={onPrevClick}
+          />
         ) : activeStep == 1 ? (
-          <ChildInformation />
+          <ChildInformation
+            onNextClick={onNextClick}
+            onPrevClick={onPrevClick}
+          />
         ) : activeStep == 2 ? (
-          <FatherInformation />
+          <MotherInformation
+            onNextClick={onNextClick}
+            onPrevClick={onPrevClick}
+          />
         ) : activeStep == 3 ? (
-          <MotherInformation />
+          <FatherInformation
+            onNextClick={onNextClick}
+            onPrevClick={onPrevClick}
+          />
+        ) : activeStep == 4 ? (
+          <DeclarantInformation
+            onNextClick={onNextClick}
+            onPrevClick={onPrevClick}
+          />
         ) : (
-          <DeclarantInformation />
+          <RegistrationCertificates
+            onNextClick={onNextClick}
+            onPrevClick={onPrevClick}
+          />
         )}
-        <div className="form__buttons__container">
-          <button
-            className="prev__button"
-            onClick={() => {
-              if (activeStep != 0) {
-                setActiveStep((activeStep = activeStep - 1));
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }
-            }}
-          >
-            {" "}
-            <ArrowLeft
-              size={18}
-              style={{ marginRight: "1.5em" }}
-            /> Previous{" "}
-          </button>
-          <button
-            className="next__button"
-            onClick={() => {
-              if (activeStep != 4) {
-                setActiveStep((activeStep = activeStep + 1));
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }
-            }}
-          >
-            Next
-            <ArrowRight size={18} style={{ marginLeft: "1.5em" }} />
-          </button>
-        </div>
       </div>
     </div>
   );

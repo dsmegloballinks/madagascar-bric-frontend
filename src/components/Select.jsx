@@ -1,7 +1,12 @@
 import ReactSelect from "react-select";
-export default function Select({ options, placeholder }) {
+export default function Select({
+  options,
+  placeholder,
+  background,
+  widthProp,
+}) {
   return (
-    <div className="list__container__top__select">
+    <div className="list__container__top__select" style={{ width: widthProp }}>
       <ReactSelect
         options={options}
         placeholder={placeholder}
@@ -24,9 +29,10 @@ export default function Select({ options, placeholder }) {
             boxShadow: "none", // no box-shadow
             borderRadius: "20px",
             marginRight: "0.5em",
-            background: "#F2F2FF",
-            width: "150px",
+            background: { background },
+            width: { widthProp },
             fontSize: "12px",
+            color: "black",
           }),
         }}
       />

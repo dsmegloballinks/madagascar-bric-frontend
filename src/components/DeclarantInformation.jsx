@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Select from "./Select";
+import { ArrowLeft, ArrowRight } from "react-feather";
 
-export default function DeclarantInformation() {
+export default function DeclarantInformation({ onNextClick, onPrevClick }) {
   const link = [
     { label: "Father", value: "father" },
     { label: "Mother", value: "mother" },
@@ -62,17 +62,17 @@ export default function DeclarantInformation() {
         <input value={niu} onChange={(e) => setNiu(e.currentTarget.value)} />
       </div>
       <div className="form__bottom">
-        <div className="form__bottom__content">First Name</div>
-        <input
-          value={firstName}
-          onChange={(e) => setFirstName(e.currentTarget.value)}
-        />
-      </div>
-      <div className="form__bottom">
         <div className="form__bottom__content">Last Name</div>
         <input
           value={lastName}
           onChange={(e) => setLastName(e.currentTarget.value)}
+        />
+      </div>
+      <div className="form__bottom">
+        <div className="form__bottom__content">First Name</div>
+        <input
+          value={firstName}
+          onChange={(e) => setFirstName(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
@@ -83,8 +83,12 @@ export default function DeclarantInformation() {
           onChange={(e) => setDob(e.currentTarget.value)}
         />
       </div>
+      <div className="form__bottom">
+        <div className="form__bottom__content">Address</div>
+        <input value={dob} onChange={(e) => setDob(e.currentTarget.value)} />
+      </div>
 
-      <div className="form__bottom__heading">Place Of Birth</div>
+      {/* <div className="form__bottom__heading">Place Of Birth</div>
       <div className="form__bottom">
         <div className="form__bottom__content">Region</div>
         <input
@@ -175,7 +179,7 @@ export default function DeclarantInformation() {
         <div className="form__bottom__content">Nationality</div>
         <input placeholder="Malangasy" style={{ width: "43%" }} />
         <input placeholder="Other(Preciser)" style={{ width: "43%" }} />
-      </div>
+      </div> */}
 
       {/* <div className="form__bottom__last__bar">
         <div className="form__bottom__content">Birth in Health Center</div>
@@ -183,6 +187,16 @@ export default function DeclarantInformation() {
         <div className="form__bottom__content">with health care worker</div>
         <input />
       </div> */}
+      <div className="form__buttons__container">
+        <button className="prev__button" onClick={onPrevClick}>
+          {" "}
+          <ArrowLeft size={18} style={{ marginRight: "1.5em" }} /> Previous{" "}
+        </button>
+        <button className="next__button" onClick={onNextClick}>
+          Next
+          <ArrowRight size={18} style={{ marginLeft: "1.5em" }} />
+        </button>
+      </div>
     </div>
   );
 }

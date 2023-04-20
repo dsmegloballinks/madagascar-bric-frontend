@@ -10,19 +10,13 @@ import {
 
 export default function BarChartGraph() {
   let data = [
-    { uv: "12", pv: "14", name: "" },
-    { uv: "12", pv: "14", name: "" },
-    { uv: "12", pv: "14", name: "" },
-    { uv: "12", pv: "14", name: "" },
-    { uv: "12", pv: "14", name: "" },
-    { uv: "12", pv: "14", name: "" },
-    { uv: "12", pv: "14", name: "" },
-    { uv: "12", pv: "14", name: "" },
-    { uv: "12", pv: "14", name: "" },
-    { uv: "12", pv: "14", name: "" },
-    { uv: "12", pv: "14", name: "" },
-    { uv: "12", pv: "14", name: "" },
-    { uv: "12", pv: "14", name: "" },
+    { uv: "12", days: "14", name: "Mon" },
+    { uv: "12", days: "14", name: "Tue" },
+    { uv: "12", days: "14", name: "Wed" },
+    { uv: "12", days: "14", name: "Thu" },
+    { uv: "12", days: "14", name: "Fri" },
+    { uv: "12", days: "14", name: "Sat" },
+    { uv: "12", days: "14", name: "Sun" },
   ];
   return (
     <BarChart
@@ -36,7 +30,7 @@ export default function BarChartGraph() {
       <YAxis fontSize={12} />
       <Tooltip />
       <Legend />
-      <Bar dataKey="pv" fill="#0ACF66" barSize={10} radius={10} />
+      <Bar dataKey="days" fill="#0ACF66" barSize={10} radius={10} />
       {/* <Bar dataKey="uv" fill="#82ca9d" /> */}
     </BarChart>
   );

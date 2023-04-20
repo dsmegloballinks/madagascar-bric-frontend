@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { ArrowLeft, ArrowRight } from "react-feather";
 
-export default function ReportingInformation() {
+export default function ReportingInformation({ onNextClick, onPrevClick }) {
   const [region, setRegion] = useState("");
   const [district, setDistrict] = useState("");
   const [municipality, setMunicipality] = useState("");
@@ -15,27 +16,29 @@ export default function ReportingInformation() {
       </div>
 
       <div className="form__bottom">
-        <div className="form__bottom__content">Region</div>
+        <div className="form__bottom__content">Number</div>
         <input
           value={region}
           onChange={(e) => setRegion(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
-        <div className="form__bottom__content">District</div>
+        <div className="form__bottom__content">Date of Declaration</div>
         <input
           value={district}
           onChange={(e) => setDistrict(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
-        <div className="form__bottom__content">Municipality</div>
+        <div className="form__bottom__content">
+          Date of Transcription of Declaration
+        </div>
         <input
           value={municipality}
           onChange={(e) => setMunicipality(e.currentTarget.value)}
         />
       </div>
-      <div className="form__bottom">
+      {/* <div className="form__bottom">
         <div className="form__bottom__content">Fokontany</div>
         <input
           value={fokontany}
@@ -57,6 +60,16 @@ export default function ReportingInformation() {
             onChange={(e) => setYear(e.currentTarget.value)}
           />
         </div>
+      </div> */}
+      <div className="form__buttons__container">
+        <button className="prev__button" onClick={onPrevClick}>
+          {" "}
+          <ArrowLeft size={18} style={{ marginRight: "1.5em" }} /> Previous{" "}
+        </button>
+        <button className="next__button" onClick={onNextClick}>
+          Next
+          <ArrowRight size={18} style={{ marginLeft: "1.5em" }} />
+        </button>
       </div>
     </div>
   );

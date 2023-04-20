@@ -8,11 +8,19 @@ export default function GraphView() {
     <>
       <div className="graph__container">
         <div className="bar__graphr__container">
-          <div className="bar__graphr__container__heading">Last 30 Days</div>
+          <div
+            className="bar__graphr__container__heading"
+            style={{ marginBottom: "1em" }}
+          >
+            Last 7 Days
+          </div>
           <BarChartGraph />
         </div>
         <div className="pie__graphr__container">
-          <div className="bar__graphr__container__heading">Verification</div>
+          <div className="bar__graphr__container__heading">
+            Gender Segregation
+          </div>
+          <div className="bar__graphr__container__info">Males or Females</div>
           <PieChartGraph />
         </div>
       </div>
