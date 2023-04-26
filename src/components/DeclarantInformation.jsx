@@ -1,31 +1,28 @@
 import React, { useState } from "react";
 import { ArrowLeft, ArrowRight } from "react-feather";
 
-export default function DeclarantInformation({ onNextClick, onPrevClick }) {
+export default function DeclarantInformation({
+  onNextClick,
+  onPrevClick,
+  setDeclarantLink,
+  declarantLink,
+  setDeclarantNiu,
+  declarantNiu,
+  setDeclarantLastName,
+  declarantLastName,
+  setDeclarantFirstName,
+  declarantFirstName,
+  setDeclarantDob,
+  declarantDob,
+  setDeclarantAddress,
+  declarantAddress,
+}) {
   const link = [
     { label: "Father", value: "father" },
     { label: "Mother", value: "mother" },
     { label: "Health Officer", value: "health officer" },
     { label: "Matron", value: "Matron" },
   ];
-  const [selectedLink, setSelectedLink] = useState("Father");
-  const [niu, setNiu] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [dob, setDob] = useState("");
-  const [region, setRegion] = useState("");
-  const [district, setDistrict] = useState("");
-  const [commune, setCommune] = useState("");
-  const [municipality, setMunicipality] = useState("");
-  const [fokontany, setFokontany] = useState("");
-  const [functions, setFunctions] = useState("");
-  const [usualRegion, setUsualRegion] = useState("");
-  const [usualDistrict, setUsualDistrict] = useState("");
-  const [usualCommune, setUsualCommune] = useState("");
-  const [usualMunicipality, setUsualMunicipality] = useState("");
-  const [usualFokontany, setUsualFokontany] = useState("");
-  const [profession, setProfession] = useState("");
-  const [nationality, setNationality] = useState("");
 
   return (
     <div className="form__wrapper">
@@ -47,11 +44,11 @@ export default function DeclarantInformation({ onNextClick, onPrevClick }) {
         {link.map((item) => (
           <div
             className={
-              selectedLink == item.label
+              declarantLink == item.label
                 ? "form__bottom__content__gender__active"
                 : "form__bottom__content__gender"
             }
-            onClick={() => setSelectedLink(item.label)}
+            onClick={() => setDeclarantLink(item.label)}
           >
             {item.label}
           </div>
@@ -59,33 +56,39 @@ export default function DeclarantInformation({ onNextClick, onPrevClick }) {
       </div>
       <div className="form__bottom">
         <div className="form__bottom__content">NIU</div>
-        <input value={niu} onChange={(e) => setNiu(e.currentTarget.value)} />
+        <input
+          value={declarantNiu}
+          onChange={(e) => setDeclarantNiu(e.currentTarget.value)}
+        />
       </div>
       <div className="form__bottom">
         <div className="form__bottom__content">Last Name</div>
         <input
-          value={lastName}
-          onChange={(e) => setLastName(e.currentTarget.value)}
+          value={declarantLastName}
+          onChange={(e) => setDeclarantLastName(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
         <div className="form__bottom__content">First Name</div>
         <input
-          value={firstName}
-          onChange={(e) => setFirstName(e.currentTarget.value)}
+          value={declarantFirstName}
+          onChange={(e) => setDeclarantFirstName(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
         <div className="form__bottom__content">Date of Birth</div>
         <input
           type="date"
-          value={dob}
-          onChange={(e) => setDob(e.currentTarget.value)}
+          value={declarantDob}
+          onChange={(e) => setDeclarantDob(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
         <div className="form__bottom__content">Address</div>
-        <input value={dob} onChange={(e) => setDob(e.currentTarget.value)} />
+        <input
+          value={declarantAddress}
+          onChange={(e) => setDeclarantAddress(e.currentTarget.value)}
+        />
       </div>
 
       {/* <div className="form__bottom__heading">Place Of Birth</div>

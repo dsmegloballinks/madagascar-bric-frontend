@@ -1,24 +1,38 @@
 import React, { useState } from "react";
 import { ArrowLeft, ArrowRight } from "react-feather";
 
-export default function MotherInformation({ onNextClick, onPrevClick }) {
-  const [niu, setNiu] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [dob, setDob] = useState("");
-  const [region, setRegion] = useState("");
-  const [district, setDistrict] = useState("");
-  const [commune, setCommune] = useState("");
-  const [municipality, setMunicipality] = useState("");
-  const [fokontany, setFokontany] = useState("");
-  const [functions, setFunctions] = useState("");
-  const [usualRegion, setUsualRegion] = useState("");
-  const [usualDistrict, setUsualDistrict] = useState("");
-  const [usualCommune, setUsualCommune] = useState("");
-  const [usualMunicipality, setUsualMunicipality] = useState("");
-  const [usualFokontany, setUsualFokontany] = useState("");
-  const [profession, setProfession] = useState("");
-  const [nationality, setNationality] = useState("");
+export default function MotherInformation({
+  onNextClick,
+  onPrevClick,
+  setMotherNiu,
+  motherNiu,
+  setMotherLastName,
+  motherLastName,
+  setMotherFirstName,
+  motherFirstName,
+  setMotherDob,
+  motherDob,
+  setMotherRegion,
+  motherRegion,
+  setMotherDistrict,
+  motherDistrict,
+  setMotherCommune,
+  motherCommune,
+  setMotherFokontany,
+  motherFokontany,
+  setMotherUsualRegion,
+  motherUsualRegion,
+  setMotherUsualDistrict,
+  motherUsualDistrict,
+  setMotherUsualCommune,
+  motherUsualCommune,
+  setMotherUsualFokontany,
+  motherUsualFokontany,
+  setMotherProfession,
+  motherProfession,
+  setMotherNationality,
+  motherNationality,
+}) {
   return (
     <div className="form__wrapper">
       <div className="form__wrapper__heading">Information About Mother</div>
@@ -33,20 +47,23 @@ export default function MotherInformation({ onNextClick, onPrevClick }) {
       </div> */}
       <div className="form__bottom">
         <div className="form__bottom__content">NIU</div>
-        <input value={niu} onChange={(e) => setNiu(e.currentTarget.value)} />
+        <input
+          value={motherNiu}
+          onChange={(e) => setMotherNiu(e.currentTarget.value)}
+        />
       </div>
       <div className="form__bottom">
         <div className="form__bottom__content">Last Name</div>
         <input
-          value={lastName}
-          onChange={(e) => setLastName(e.currentTarget.value)}
+          value={motherLastName}
+          onChange={(e) => setMotherLastName(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
         <div className="form__bottom__content">First Name</div>
         <input
-          value={firstName}
-          onChange={(e) => setFirstName(e.currentTarget.value)}
+          value={motherFirstName}
+          onChange={(e) => setMotherFirstName(e.currentTarget.value)}
         />
       </div>
 
@@ -54,8 +71,8 @@ export default function MotherInformation({ onNextClick, onPrevClick }) {
         <div className="form__bottom__content">Date of Birth</div>
         <input
           type="date"
-          value={dob}
-          onChange={(e) => setDob(e.currentTarget.value)}
+          value={motherDob}
+          onChange={(e) => setMotherDob(e.currentTarget.value)}
         />
       </div>
 
@@ -63,22 +80,22 @@ export default function MotherInformation({ onNextClick, onPrevClick }) {
       <div className="form__bottom">
         <div className="form__bottom__content">Region</div>
         <input
-          value={region}
-          onChange={(e) => setRegion(e.currentTarget.value)}
+          value={motherRegion}
+          onChange={(e) => setMotherRegion(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
         <div className="form__bottom__content">District</div>
         <input
-          value={district}
-          onChange={(e) => setDistrict(e.currentTarget.value)}
+          value={motherDistrict}
+          onChange={(e) => setMotherDistrict(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
         <div className="form__bottom__content">Commune</div>
         <input
-          value={commune}
-          onChange={(e) => setCommune(e.currentTarget.value)}
+          value={motherCommune}
+          onChange={(e) => setMotherCommune(e.currentTarget.value)}
         />
       </div>
       {/* <div className="form__bottom">
@@ -91,8 +108,8 @@ export default function MotherInformation({ onNextClick, onPrevClick }) {
       <div className="form__bottom">
         <div className="form__bottom__content">Fokontany</div>
         <input
-          value={fokontany}
-          onChange={(e) => setFokontany(e.currentTarget.value)}
+          value={motherFokontany}
+          onChange={(e) => setMotherFokontany(e.currentTarget.value)}
         />
       </div>
       {/* <div className="form__bottom">
@@ -107,22 +124,22 @@ export default function MotherInformation({ onNextClick, onPrevClick }) {
       <div className="form__bottom">
         <div className="form__bottom__content">Region</div>
         <input
-          value={usualRegion}
-          onChange={(e) => setUsualRegion(e.currentTarget.value)}
+          value={motherUsualRegion}
+          onChange={(e) => setMotherUsualRegion(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
         <div className="form__bottom__content">District</div>
         <input
-          value={usualDistrict}
-          onChange={(e) => setUsualDistrict(e.currentTarget.value)}
+          value={motherUsualDistrict}
+          onChange={(e) => setMotherUsualDistrict(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
         <div className="form__bottom__content">Commune</div>
         <input
-          value={usualCommune}
-          onChange={(e) => setUsualCommune(e.currentTarget.value)}
+          value={motherUsualCommune}
+          onChange={(e) => setMotherUsualCommune(e.currentTarget.value)}
         />
       </div>
       {/* <div className="form__bottom">
@@ -135,15 +152,15 @@ export default function MotherInformation({ onNextClick, onPrevClick }) {
       <div className="form__bottom">
         <div className="form__bottom__content">Fokontany</div>
         <input
-          value={usualFokontany}
-          onChange={(e) => setUsualFokontany(e.currentTarget.value)}
+          value={motherUsualFokontany}
+          onChange={(e) => setMotherUsualFokontany(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
         <div className="form__bottom__content">Profession</div>
         <input
-          value={profession}
-          onChange={(e) => setProfession(e.currentTarget.value)}
+          value={motherProfession}
+          onChange={(e) => setMotherProfession(e.currentTarget.value)}
         />
       </div>
       {/* <div className="form__bottom">
@@ -164,7 +181,10 @@ export default function MotherInformation({ onNextClick, onPrevClick }) {
           }}
         >
           <div style={{ display: "flex" }}>
-            <div class="radio" onClick={() => setNationality("Malangasy")}>
+            <div
+              class="radio"
+              onClick={() => setMotherNationality("Malangasy")}
+            >
               <input
                 id="radio-1"
                 name="radio"
@@ -176,7 +196,7 @@ export default function MotherInformation({ onNextClick, onPrevClick }) {
               </label>
             </div>
 
-            <div class="radio" onClick={() => setNationality("other")}>
+            <div class="radio" onClick={() => setMotherNationality("other")}>
               <input
                 id="radio-2"
                 name="radio"
@@ -189,7 +209,7 @@ export default function MotherInformation({ onNextClick, onPrevClick }) {
             </div>
           </div>
 
-          {nationality == "other" && (
+          {motherNationality == "other" && (
             <input placeholder="Other(Precise)" style={{ width: "63%" }} />
           )}
         </div>

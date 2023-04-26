@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { Plus, ArrowLeft, ArrowRight } from "react-feather";
 
-export default function RegistrationCertificates({ onNextClick, onPrevClick }) {
-  const [registry, setRegistry] = useState(null);
-  const [certificate, setCertificate] = useState(null);
-
+export default function RegistrationCertificates({
+  onNextClick,
+  onPrevClick,
+  setRegistry,
+  registry,
+  setCertificate,
+  certificate,
+}) {
   return (
     <div className="form__wrapper">
-      <div className="form__wrapper__heading">Registeration Certificates</div>
+      <div className="form__wrapper__heading">Registration Certificates</div>
       <div className="form__wrapper__content">
         Details about your business corporation and shares
       </div>

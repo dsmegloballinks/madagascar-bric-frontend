@@ -36,7 +36,7 @@ export default function Index() {
           <div className="login__container__content">Let's sign in</div>
           <img className="login__container__logo" src={logo} />
           <div className="login__container__content__heading">
-            Madagascar <br /> Birth Registeration{" "}
+            Madagascar <br /> Birth Registration{" "}
           </div>
           <div className="login__container__content__text">
             Get the process started in less than 10 minutes. Let us handle the

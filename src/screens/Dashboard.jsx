@@ -10,6 +10,8 @@ export default function screens() {
         marginTop: "2em",
         position: "sticky",
         width: "100%",
+        maxWidth: "1350px",
+        margin: "2em auto",
       }}
     >
       <Sidebar />

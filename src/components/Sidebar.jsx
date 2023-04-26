@@ -17,7 +17,7 @@ export default function Sidebar({ setSidebarOpen }) {
             className="container__sidebar__logo__img"
           />
           <div className="container__sidebar__logo__name">
-            Madagascar <br /> Birth Registeration
+            Madagascar <br /> Birth Registration
           </div>
         </Link>
         <button

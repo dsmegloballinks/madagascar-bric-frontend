@@ -1,45 +1,62 @@
 import React, { useState } from "react";
 import { ArrowLeft, ArrowRight } from "react-feather";
 
-export default function ChildInformation({ onNextClick, onPrevClick }) {
+export default function ChildInformation({
+  onNextClick,
+  onPrevClick,
+  setChildNIU,
+  childNIU,
+  setChildLastName,
+  childLastName,
+  setChildFirstName,
+  childFirstName,
+  setChildDateOfBirth,
+  childDateOfBirth,
+  setChildTimeOfBirth,
+  childTimeOfBirth,
+  setChildRegion,
+  childRegion,
+  setChildDistrict,
+  childDistrict,
+  setChildCommune,
+  childCommune,
+  setchildFokontany,
+  childFokontany,
+  setChildGender,
+  childGender,
+  setChildParentsMarried,
+  childParentsMarried,
+  setChildSameUsualResidence,
+  childSameUsualResidence,
+  setChildBirthInHealthCenter,
+  childBirthInHealthCenter,
+  setChildHealthCareWorker,
+  childHealthCareWorker,
+  setChildBirthPlaceAddress,
+  childBirthPlaceAddress,
+}) {
   const gender = [
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
   ];
   const [selectedGender, setSelectedGender] = useState("Male");
 
-  const [marriedParents, setMarriedParents] = useState("");
-  const [usualResidence, setUsualResidence] = useState("");
-  const [date, setDate] = useState("");
-  const [month, setMonth] = useState("");
-  const [year, setYear] = useState("");
-  const [time, setTime] = useState("");
-  const [region, setRegion] = useState("");
-  const [district, setDistrict] = useState("");
-  const [commune, setCommune] = useState("");
-  const [municipality, setMunicipality] = useState("");
-  const [fokontany, setFokontany] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [birthInHealthCenter, setBirthInHealthCenter] = useState("");
-  const [healthCareWorker, setHealthCareWorker] = useState("");
-
-  const onNext = () => {
-    let childObject = {
-      dob: date,
-      time: time,
-      region: region,
-      district: district,
-      commune: commune,
-      municipality: municipality,
-      fokontany: fokontany,
-      firstName: firstName,
-      lastName: lastName,
-      gender: gender,
-      birthInHealthCenter: birthInHealthCenter,
-      healthCareWorker: healthCareWorker,
-    };
-  };
+  // const onNext = () => {
+  //   let childObject = {
+  //     dob: date,
+  //     time: time,
+  //     region: region,
+  //     district: district,
+  //     commune: commune,
+  //     municipality: municipality,
+  //     fokontany: fokontany,
+  //     firstName: firstName,
+  //     lastName: lastName,
+  //     gender: gender,
+  //     birthInHealthCenter: birthInHealthCenter,
+  //     healthCareWorker: healthCareWorker,
+  //   };
+  // };
 
   return (
     <div className="form__wrapper">
@@ -50,22 +67,22 @@ export default function ChildInformation({ onNextClick, onPrevClick }) {
       <div className="form__bottom">
         <div className="form__bottom__content">NIU</div>
         <input
-          value={firstName}
-          onChange={(e) => setFirstName(e.currentTarget.value)}
+          value={childNIU}
+          onChange={(e) => setChildNIU(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
         <div className="form__bottom__content">Last Name</div>
         <input
-          value={lastName}
-          onChange={(e) => setLastName(e.currentTarget.value)}
+          value={childLastName}
+          onChange={(e) => setChildLastName(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
         <div className="form__bottom__content">First Name</div>
         <input
-          value={firstName}
-          onChange={(e) => setFirstName(e.currentTarget.value)}
+          value={childFirstName}
+          onChange={(e) => setChildFirstName(e.currentTarget.value)}
         />
       </div>
       <div className="form__top">
@@ -74,8 +91,8 @@ export default function ChildInformation({ onNextClick, onPrevClick }) {
         <input
           type="date"
           placeholder="DD"
-          value={date}
-          onChange={(e) => setDate(e.currentTarget.value)}
+          value={childDateOfBirth}
+          onChange={(e) => setChildDateOfBirth(e.currentTarget.value)}
           style={{ width: "35%" }}
         />
         {/* <input
@@ -96,8 +113,8 @@ export default function ChildInformation({ onNextClick, onPrevClick }) {
         <input
           type="time"
           placeholder="TT:TT"
-          value={time}
-          onChange={(e) => setTime(e.currentTarget.value)}
+          value={childTimeOfBirth}
+          onChange={(e) => setChildTimeOfBirth(e.currentTarget.value)}
           style={{ width: "35%" }}
         />
       </div>
@@ -105,22 +122,22 @@ export default function ChildInformation({ onNextClick, onPrevClick }) {
       <div className="form__bottom">
         <div className="form__bottom__content">Region</div>
         <input
-          value={region}
-          onChange={(e) => setRegion(e.currentTarget.value)}
+          value={childRegion}
+          onChange={(e) => setChildRegion(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
         <div className="form__bottom__content">District</div>
         <input
-          value={district}
-          onChange={(e) => setDistrict(e.currentTarget.value)}
+          value={childDistrict}
+          onChange={(e) => setChildDistrict(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
         <div className="form__bottom__content">Commune</div>
         <input
-          value={commune}
-          onChange={(e) => setCommune(e.currentTarget.value)}
+          value={childCommune}
+          onChange={(e) => setChildCommune(e.currentTarget.value)}
         />
       </div>
       {/* <div className="form__bottom">
@@ -133,8 +150,8 @@ export default function ChildInformation({ onNextClick, onPrevClick }) {
       <div className="form__bottom">
         <div className="form__bottom__content">Fokontany</div>
         <input
-          value={fokontany}
-          onChange={(e) => setFokontany(e.currentTarget.value)}
+          value={childFokontany}
+          onChange={(e) => setchildFokontany(e.currentTarget.value)}
         />
       </div>
 
@@ -144,11 +161,11 @@ export default function ChildInformation({ onNextClick, onPrevClick }) {
           {gender.map((item) => (
             <div
               className={
-                selectedGender == item.label
+                childGender == item.label
                   ? "form__bottom__content__gender__active"
                   : "form__bottom__content__gender"
               }
-              onClick={() => setSelectedGender(item.label)}
+              onClick={() => setChildGender(item.label)}
             >
               {item.label}
             </div>
@@ -167,7 +184,7 @@ export default function ChildInformation({ onNextClick, onPrevClick }) {
           }}
         >
           <div style={{ display: "flex" }}>
-            <div class="radio" onClick={() => setMarriedParents("Yes")}>
+            <div class="radio" onClick={() => setChildParentsMarried("Yes")}>
               <input
                 id="radio-1"
                 name="radio"
@@ -179,7 +196,7 @@ export default function ChildInformation({ onNextClick, onPrevClick }) {
               </label>
             </div>
 
-            <div class="radio" onClick={() => setMarriedParents("No")}>
+            <div class="radio" onClick={() => setChildParentsMarried("No")}>
               <input
                 id="radio-2"
                 name="radio"
@@ -195,7 +212,10 @@ export default function ChildInformation({ onNextClick, onPrevClick }) {
             Same usual residence?
           </div>
           <div style={{ display: "flex" }}>
-            <div class="radio" onClick={() => setUsualResidence("Yes")}>
+            <div
+              class="radio"
+              onClick={() => setChildSameUsualResidence("Yes")}
+            >
               <input
                 id="radio-1"
                 name="radio"
@@ -207,7 +227,7 @@ export default function ChildInformation({ onNextClick, onPrevClick }) {
               </label>
             </div>
 
-            <div class="radio" onClick={() => setUsualResidence("No")}>
+            <div class="radio" onClick={() => setChildSameUsualResidence("No")}>
               <input
                 id="radio-2"
                 name="radio"
@@ -252,7 +272,10 @@ export default function ChildInformation({ onNextClick, onPrevClick }) {
           }}
         >
           <div style={{ display: "flex" }}>
-            <div class="radio" onClick={() => setBirthInHealthCenter("Yes")}>
+            <div
+              class="radio"
+              onClick={() => setChildBirthInHealthCenter("Yes")}
+            >
               <input
                 id="radio-1"
                 name="radio"
@@ -264,7 +287,10 @@ export default function ChildInformation({ onNextClick, onPrevClick }) {
               </label>
             </div>
 
-            <div class="radio" onClick={() => setBirthInHealthCenter("No")}>
+            <div
+              class="radio"
+              onClick={() => setChildBirthInHealthCenter("No")}
+            >
               <input
                 id="radio-2"
                 name="radio"
@@ -280,7 +306,7 @@ export default function ChildInformation({ onNextClick, onPrevClick }) {
             With health care worker?
           </div>
           <div style={{ display: "flex" }}>
-            <div class="radio" onClick={() => setHealthCareWorker("Yes")}>
+            <div class="radio" onClick={() => setChildHealthCareWorker("Yes")}>
               <input
                 id="radio-1"
                 name="radio"
@@ -292,7 +318,7 @@ export default function ChildInformation({ onNextClick, onPrevClick }) {
               </label>
             </div>
 
-            <div class="radio" onClick={() => setHealthCareWorker("No")}>
+            <div class="radio" onClick={() => setChildHealthCareWorker("No")}>
               <input
                 id="radio-2"
                 name="radio"
@@ -331,8 +357,8 @@ export default function ChildInformation({ onNextClick, onPrevClick }) {
       <div className="form__bottom">
         <div className="form__bottom__content">Birth Place Address</div>
         <input
-          value={fokontany}
-          onChange={(e) => setFokontany(e.currentTarget.value)}
+          value={childBirthPlaceAddress}
+          onChange={(e) => setChildBirthPlaceAddress(e.currentTarget.value)}
         />
       </div>
 

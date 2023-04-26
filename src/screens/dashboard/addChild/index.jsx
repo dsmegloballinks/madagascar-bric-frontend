@@ -9,6 +9,57 @@ import RegistrationCertificates from "@components/RegisterationCertificates";
 
 export default function addChild() {
   let [activeStep, setActiveStep] = useState(0);
+  const [number, setNumber] = useState("");
+  const [dateOfDeclaration, setDateOfDeclaration] = useState("");
+  const [dateOfTranscriptionDeclaration, setDateOfTranscriptionDeclaration] =
+    useState("");
+  const [childNIU, setChildNIU] = useState("");
+  const [childFirstName, setChildFirstName] = useState("");
+  const [childLastName, setChildLastName] = useState("");
+  const [childDateOfBirth, setChildDateOfBirth] = useState("");
+  const [childTimeOfBirth, setChildTimeOfBirth] = useState("");
+  const [childRegion, setChildRegion] = useState("");
+  const [childDistrict, setChildDistrict] = useState("");
+  const [childCommune, setChildCommune] = useState("");
+  const [childFokontany, setchildFokontany] = useState("");
+  const [childGender, setChildGender] = useState("Male");
+  const [childParentsMarried, setChildParentsMarried] = useState("");
+  const [childSameUsualResidence, setChildSameUsualResidence] = useState("");
+  const [childBirthInHealthCenter, setChildBirthInHealthCenter] = useState("");
+  const [childHealthCareWorker, setChildHealthCareWorker] = useState("");
+  const [childBirthPlaceAddress, setChildBirthPlaceAddress] = useState("");
+
+  const [motherNiu, setMotherNiu] = useState("");
+  const [motherFirstName, setMotherFirstName] = useState("");
+  const [motherLastName, setMotherLastName] = useState("");
+  const [motherDob, setMotherDob] = useState("");
+  const [motherRegion, setMotherRegion] = useState("");
+  const [motherDistrict, setMotherDistrict] = useState("");
+  const [motherCommune, setMotherCommune] = useState("");
+  const [motherFokontany, setMotherFokontany] = useState("");
+  const [motherUsualRegion, setMotherUsualRegion] = useState("");
+  const [motherUsualDistrict, setMotherUsualDistrict] = useState("");
+  const [motherUsualCommune, setMotherUsualCommune] = useState("");
+  const [motherUsualFokontany, setMotherUsualFokontany] = useState("");
+  const [motherProfession, setMotherProfession] = useState("");
+  const [motherNationality, setMotherNationality] = useState("");
+
+  const [fatherNiu, setFatherNiu] = useState("");
+  const [fatherFirstName, setFatherFirstName] = useState("");
+  const [fatherLastName, setFatherLastName] = useState("");
+  const [fatherDob, setFatherDob] = useState("");
+  const [motherFatherSameAddress, setMotherFatherSameAddress] = useState("");
+  const [fatherProfession, setFatherProfession] = useState("");
+
+  const [declarantLink, setDeclarantLink] = useState("");
+  const [declarantNiu, setDeclarantNiu] = useState("");
+  const [declarantFirstName, setDeclarantFirstName] = useState("");
+  const [declarantLastName, setDeclarantLastName] = useState("");
+  const [declarantDob, setDeclarantDob] = useState("");
+  const [declarantAddress, setDeclarantAddress] = useState("");
+
+  const [registry, setRegistry] = useState(null);
+  const [certificate, setCertificate] = useState(null);
 
   const onNextClick = () => {
     if (activeStep != 5) {
@@ -56,31 +107,125 @@ export default function addChild() {
           <ReportingInformation
             onNextClick={onNextClick}
             onPrevClick={onPrevClick}
+            setNumber={setNumber}
+            number={number}
+            setDateOfDeclaration={setDateOfDeclaration}
+            dateOfDeclaration={dateOfDeclaration}
+            setDateOfTranscriptionDeclaration={
+              setDateOfTranscriptionDeclaration
+            }
+            dateOfTranscriptionDeclaration={dateOfTranscriptionDeclaration}
           />
         ) : activeStep == 1 ? (
           <ChildInformation
             onNextClick={onNextClick}
             onPrevClick={onPrevClick}
+            setChildNIU={setChildNIU}
+            childNIU={childNIU}
+            setChildLastName={setChildLastName}
+            childLastName={childLastName}
+            setChildFirstName={setChildFirstName}
+            childFirstName={childFirstName}
+            setChildDateOfBirth={setChildDateOfBirth}
+            childDateOfBirth={childDateOfBirth}
+            setChildTimeOfBirth={setChildTimeOfBirth}
+            childTimeOfBirth={childTimeOfBirth}
+            setChildRegion={setChildRegion}
+            childRegion={childRegion}
+            setChildDistrict={setChildDistrict}
+            childDistrict={childDistrict}
+            setChildCommune={setChildCommune}
+            childCommune={childCommune}
+            setchildFokontany={setchildFokontany}
+            childFokontany={childFokontany}
+            setChildGender={setChildGender}
+            childGender={childGender}
+            setChildParentsMarried={setChildParentsMarried}
+            childParentsMarried={childParentsMarried}
+            setChildSameUsualResidence={setChildSameUsualResidence}
+            childSameUsualResidence={childSameUsualResidence}
+            setChildBirthInHealthCenter={setChildBirthInHealthCenter}
+            childBirthInHealthCenter={childBirthInHealthCenter}
+            setChildHealthCareWorker={setChildHealthCareWorker}
+            childHealthCareWorker={childHealthCareWorker}
+            setChildBirthPlaceAddress={setChildBirthPlaceAddress}
+            childBirthPlaceAddress={childBirthPlaceAddress}
           />
         ) : activeStep == 2 ? (
           <MotherInformation
             onNextClick={onNextClick}
             onPrevClick={onPrevClick}
+            setMotherNiu={setMotherNiu}
+            motherNiu={motherNiu}
+            setMotherLastName={setMotherLastName}
+            motherLastName={motherLastName}
+            setMotherFirstName={setMotherFirstName}
+            motherFirstName={motherFirstName}
+            setMotherDob={setMotherDob}
+            motherDob={motherDob}
+            setMotherRegion={setMotherRegion}
+            motherRegion={motherRegion}
+            setMotherDistrict={setMotherDistrict}
+            motherDistrict={motherDistrict}
+            setMotherCommune={setMotherCommune}
+            motherCommune={motherCommune}
+            setMotherFokontany={setMotherFokontany}
+            motherFokontany={motherFokontany}
+            setMotherUsualRegion={setMotherUsualRegion}
+            motherUsualRegion={motherUsualRegion}
+            setMotherUsualDistrict={setMotherUsualDistrict}
+            motherUsualDistrict={motherUsualDistrict}
+            setMotherUsualCommune={setMotherUsualCommune}
+            motherUsualCommune={motherUsualCommune}
+            setMotherUsualFokontany={setMotherUsualFokontany}
+            motherUsualFokontany={motherUsualFokontany}
+            setMotherProfession={setMotherProfession}
+            motherProfession={motherProfession}
+            setMotherNationality={setMotherNationality}
+            motherNationality={motherNationality}
           />
         ) : activeStep == 3 ? (
           <FatherInformation
             onNextClick={onNextClick}
             onPrevClick={onPrevClick}
+            setFatherNiu={setFatherNiu}
+            fatherNiu={fatherNiu}
+            setFatherLastName={setFatherLastName}
+            fatherLastName={fatherLastName}
+            setFatherFirstName={setFatherFirstName}
+            fatherFirstName={fatherFirstName}
+            setFatherDob={setFatherDob}
+            fatherDob={fatherDob}
+            setMotherFatherSameAddress={setMotherFatherSameAddress}
+            motherFatherSameAddress={motherFatherSameAddress}
+            setFatherProfession={setFatherProfession}
+            fatherProfession={fatherProfession}
           />
         ) : activeStep == 4 ? (
           <DeclarantInformation
             onNextClick={onNextClick}
             onPrevClick={onPrevClick}
+            setDeclarantLink={setDeclarantLink}
+            declarantLink={declarantLink}
+            setDeclarantNiu={setDeclarantNiu}
+            declarantNiu={declarantNiu}
+            setDeclarantLastName={setDeclarantLastName}
+            declarantLastName={declarantLastName}
+            setDeclarantFirstName={setDeclarantFirstName}
+            declarantFirstName={declarantFirstName}
+            setDeclarantDob={setDeclarantDob}
+            declarantDob={declarantDob}
+            setDeclarantAddress={setDeclarantAddress}
+            declarantAddress={declarantAddress}
           />
         ) : (
           <RegistrationCertificates
             onNextClick={onNextClick}
             onPrevClick={onPrevClick}
+            setRegistry={setRegistry}
+            registry={registry}
+            setCertificate={setCertificate}
+            certificate={certificate}
           />
         )}
       </div>

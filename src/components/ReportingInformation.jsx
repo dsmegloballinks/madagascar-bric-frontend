@@ -1,13 +1,15 @@
-import React, { useState } from "react";
 import { ArrowLeft, ArrowRight } from "react-feather";
 
-export default function ReportingInformation({ onNextClick, onPrevClick }) {
-  const [region, setRegion] = useState("");
-  const [district, setDistrict] = useState("");
-  const [municipality, setMunicipality] = useState("");
-  const [fokontany, setFokontany] = useState("");
-  const [month, setMonth] = useState("");
-  const [year, setYear] = useState("");
+export default function ReportingInformation({
+  onNextClick,
+  onPrevClick,
+  setNumber,
+  number,
+  setDateOfDeclaration,
+  dateOfDeclaration,
+  setDateOfTranscriptionDeclaration,
+  dateOfTranscriptionDeclaration,
+}) {
   return (
     <div className="form__wrapper">
       <div className="form__wrapper__heading">Reporting Information</div>
@@ -18,15 +20,15 @@ export default function ReportingInformation({ onNextClick, onPrevClick }) {
       <div className="form__bottom">
         <div className="form__bottom__content">Number</div>
         <input
-          value={region}
-          onChange={(e) => setRegion(e.currentTarget.value)}
+          value={number}
+          onChange={(e) => setNumber(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
         <div className="form__bottom__content">Date of Declaration</div>
         <input
-          value={district}
-          onChange={(e) => setDistrict(e.currentTarget.value)}
+          value={dateOfDeclaration}
+          onChange={(e) => setDateOfDeclaration(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
@@ -34,8 +36,10 @@ export default function ReportingInformation({ onNextClick, onPrevClick }) {
           Date of Transcription of Declaration
         </div>
         <input
-          value={municipality}
-          onChange={(e) => setMunicipality(e.currentTarget.value)}
+          value={dateOfTranscriptionDeclaration}
+          onChange={(e) =>
+            setDateOfTranscriptionDeclaration(e.currentTarget.value)
+          }
         />
       </div>
       {/* <div className="form__bottom">

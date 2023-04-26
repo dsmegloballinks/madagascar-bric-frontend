@@ -3,8 +3,16 @@ import TableEntryText from "./TableEntryText";
 import TableEntryStatus from "./TableEntryStatus";
 import { MoreVertical, FileText } from "react-feather";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
+import Pagination from "react-js-pagination";
 
-export default function Registerations() {
+export default function Registerations({
+  dataList,
+  page,
+  limit,
+  totalRecords,
+  handlePageChange,
+}) {
   const options = [{ label: "Last Week", value: "Last Week" }];
   return (
     <div className="list__container">
@@ -69,46 +77,67 @@ export default function Registerations() {
           </div>
         </div>
         <div className="container__main__content__listing__table__content">
-          <TableEntry />
-          <TableEntry />
-          <TableEntry />
-          <TableEntry />
-          <TableEntry />
-          <TableEntry />
-          <TableEntry />
-          <TableEntry />
-          <TableEntry />
-          <TableEntry />
-          <TableEntry />
-          <TableEntry />
-          <TableEntry />
-          <TableEntry />
-          <TableEntry />
-          <TableEntry />
+          {dataList.map((item) => (
+            <TableEntry item={item} />
+          ))}
         </div>
+        {dataList.length > 0 && (
+          <div className="list__container__pagination">
+            <Pagination
+              activePage={page}
+              itemsCountPerPage={limit}
+              totalItemsCount={totalRecords}
+              pageRangeDisplayed={5}
+              onChange={handlePageChange}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-function TableEntry() {
+function TableEntry({ item }) {
   const navigate = useNavigate();
+  const viewFiles = (files) => {
+    files.map((i) =>
+      window.open(
+        "https://docs.google.com/gview?embedded=true&url=" +
+          import.meta.env.VITE_BASE_URL.concat(i.name)
+      )
+    );
+  };
   return (
     <div className="container__main__content__listing__table__content__list">
       <TableEntryText
-        onClick={() => navigate("/dashboard/registrationdetail")}
+        onClick={() =>
+          navigate("/dashboard/registrationdetail", {
+            state: {
+              registrationData: item,
+            },
+          })
+        }
         style={{ cursor: "pointer" }}
+        className="container__main__content__listing__table__content__list__entry__hover"
       >
         987
       </TableEntryText>
-      <TableEntryText>john</TableEntryText>
+      <TableEntryText>{item.given_name}</TableEntryText>
       <TableEntryText>tessa</TableEntryText>
-      <TableEntryText>23/7/21</TableEntryText>
+      <TableEntryText>
+        {moment(item.date_of_birth).format("DD MMM, YYYY")}
+      </TableEntryText>
       <TableEntryText>west</TableEntryText>
       <div className="container__main__content__listing__table__content__list__entry">
-        <FileText size={15} style={{ cursor: "pointer" }} />
+        <FileText
+          size={15}
+          style={{ cursor: "pointer" }}
+          onClick={() => viewFiles()}
+        />
       </div>
-      <TableEntryStatus>Unverified</TableEntryStatus>
+      <TableEntryStatus>
+        {item.status == 0 ? "Unverified" : "Verified"}
+      </TableEntryStatus>
       <div className="container__main__content__listing__table__content__list__entry">
         <MoreVertical style={{ cursor: "pointer" }} />
       </div>
