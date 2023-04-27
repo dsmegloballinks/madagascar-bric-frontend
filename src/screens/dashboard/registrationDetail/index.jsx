@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { ChevronRight } from "react-feather";
 import { useLocation } from "react-router-dom";
-import { logo } from "@assets";
+import { logo, certificateLogo, orgLogo } from "@assets";
 
 import { PDFExport } from "@progress/kendo-react-pdf";
 
@@ -22,11 +22,12 @@ export default function RegistrationDetail() {
   };
   var name = "The FormGroup ref wil";
   return (
-    <div className="main__container">
+    <div className="dashboard__container">
       <div className="main__container__top__bar">
         <div className="details__header">
           Registration Detail <ChevronRight />{" "}
-          {state.registrationData && state.registrationData.given_name}
+          {/* {state.registrationData && state.registrationData.given_name} */}
+          john
         </div>
         <button className="details__print" onClick={generatePDFFile}>
           Print
@@ -39,9 +40,10 @@ export default function RegistrationDetail() {
       >
         <div className="details__container">
           <div className="details__container__header">
-            <img src={logo} />
+            <img src={orgLogo} />
+            <img src={certificateLogo} />
             <div className="details__container__header__title">
-              Madgascar Birth Registration
+              DECLARATION OF BIRTH
             </div>
           </div>
           <div className="details__Info__wrapper">
@@ -249,21 +251,73 @@ export default function RegistrationDetail() {
                     Gender
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
+                    <div style={{ display: "flex" }}>
+                      <div class="radio">
+                        <input
+                          id="radio-1"
+                          name="radio-2"
+                          type="radio"
+                          style={{ width: 0 }}
+                          checked
+                        />
+                        <label for="radio-1" class="radio-label">
+                          Male
+                        </label>
+                      </div>
+
+                      <div class="radio">
+                        <input
+                          id="radio-2"
+                          name="radio-2"
+                          type="radio"
+                          style={{ width: 0 }}
+                        />
+                        <label for="radio-2" class="radio-label">
+                          Female
+                        </label>
+                      </div>
+                    </div>
+                    {/* {name.split("").map((character) => {
                       console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
                         </div>
                       );
-                    })}
+                    })} */}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
                     Married Parents?
                   </div>
-                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                  <div style={{ display: "flex" }}>
+                    <div class="radio">
+                      <input
+                        id="radio-3"
+                        name="radio-4"
+                        type="radio"
+                        style={{ width: 0 }}
+                        checked
+                      />
+                      <label for="radio-3" class="radio-label">
+                        Yes
+                      </label>
+                    </div>
+
+                    <div class="radio">
+                      <input
+                        id="radio-4"
+                        name="radio-4"
+                        type="radio"
+                        style={{ width: 0 }}
+                      />
+                      <label for="radio-4" class="radio-label">
+                        No
+                      </label>
+                    </div>
+                  </div>
+                  {/* <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
                       console.log("character", character);
                       return (
@@ -272,21 +326,47 @@ export default function RegistrationDetail() {
                         </div>
                       );
                     })}
-                  </div>
+                  </div> */}
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
                     Same usual residence?
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
+                    <div style={{ display: "flex" }}>
+                      <div class="radio">
+                        <input
+                          id="radio-5"
+                          name="radio-6"
+                          type="radio"
+                          style={{ width: 0 }}
+                          checked
+                        />
+                        <label for="radio-5" class="radio-label">
+                          Yes
+                        </label>
+                      </div>
+
+                      <div class="radio">
+                        <input
+                          id="radio-6"
+                          name="radio-6"
+                          type="radio"
+                          style={{ width: 0 }}
+                        />
+                        <label for="radio-6" class="radio-label">
+                          No
+                        </label>
+                      </div>
+                    </div>
+                    {/* {name.split("").map((character) => {
                       console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
                         </div>
                       );
-                    })}
+                    })} */}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -294,14 +374,40 @@ export default function RegistrationDetail() {
                     Birth in Health Center
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
+                    <div style={{ display: "flex" }}>
+                      <div class="radio">
+                        <input
+                          id="radio-7"
+                          name="radio-8"
+                          type="radio"
+                          style={{ width: 0 }}
+                          checked
+                        />
+                        <label for="radio-7" class="radio-label">
+                          Yes
+                        </label>
+                      </div>
+
+                      <div class="radio">
+                        <input
+                          id="radio-8"
+                          name="radio-8"
+                          type="radio"
+                          style={{ width: 0 }}
+                        />
+                        <label for="radio-8" class="radio-label">
+                          No
+                        </label>
+                      </div>
+                    </div>
+                    {/* {name.split("").map((character) => {
                       console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
                         </div>
                       );
-                    })}
+                    })} */}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -309,14 +415,40 @@ export default function RegistrationDetail() {
                     With health care worker?
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
+                    <div style={{ display: "flex" }}>
+                      <div class="radio">
+                        <input
+                          id="radio-9"
+                          name="radio-10"
+                          type="radio"
+                          style={{ width: 0 }}
+                          checked
+                        />
+                        <label for="radio-9" class="radio-label">
+                          Yes
+                        </label>
+                      </div>
+
+                      <div class="radio">
+                        <input
+                          id="radio-10"
+                          name="radio-10"
+                          type="radio"
+                          style={{ width: 0 }}
+                        />
+                        <label for="radio-10" class="radio-label">
+                          No
+                        </label>
+                      </div>
+                    </div>
+                    {/* {name.split("").map((character) => {
                       console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
                         </div>
                       );
-                    })}
+                    })} */}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -405,14 +537,41 @@ export default function RegistrationDetail() {
                     Is Address of Mother and Father same ?
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
+                    {/* {name.split("").map((character) => {
                       console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
                         </div>
                       );
-                    })}
+                    })} */}
+                    <div style={{ display: "flex" }}>
+                      <div class="radio">
+                        <input
+                          id="radio-11"
+                          name="radio-12"
+                          type="radio"
+                          style={{ width: 0 }}
+                          checked
+                        />
+                        <label for="radio-11" class="radio-label">
+                          Yes
+                        </label>
+                      </div>
+
+                      <div class="radio">
+                        <input
+                          id="radio-12"
+                          name="radio-12"
+                          type="radio"
+                          style={{ width: 0 }}
+                          checked={false}
+                        />
+                        <label for="radio-12" class="radio-label">
+                          No
+                        </label>
+                      </div>
+                    </div>
                   </div>
                 </div>
 

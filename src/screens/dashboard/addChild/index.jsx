@@ -76,7 +76,7 @@ export default function addChild() {
   };
 
   return (
-    <div className="main__container">
+    <div className="dashboard__container">
       <div className="dashboard__container__top__bar">
         <svg
           width="17"

@@ -7,117 +7,144 @@ import { logo } from "@assets";
 import { useState } from "react";
 
 export default function Sidebar({ setSidebarOpen }) {
+  const [isHover, setIsHover] = useState(false);
   return (
-    <div className="container__sidebar">
-      <div className="container__sidebar__header">
-        <Link to="/dashboard" className="container__sidebar__logo">
-          <img
-            src={logo}
-            alt="logo"
-            className="container__sidebar__logo__img"
-          />
-          <div className="container__sidebar__logo__name">
-            Madagascar <br /> Birth Registration
-          </div>
-        </Link>
-        <button
-          className="container__sidebar__button"
-          onClick={() => setSidebarOpen(false)}
+    <>
+      {isHover ? (
+        <div
+          className="container__sidebar animate"
+          onMouseOver={() => {
+            setIsHover(true);
+          }}
+          onMouseOut={() => {
+            setIsHover(false);
+          }}
+          // style={{ transition: "opacity 2s", opacity: 1 }}
         >
-          <X size={20} color="currentColor" />
-        </button>
-      </div>
-      <div className="container__sidebar__content">
-        {sidebarCategories.map((category) => (
-          <Fragment key={category}>
-            {category === "" ? (
-              sidebarEnteries
-                .filter((entry) => entry.category === category)
-                .map((entry) => (
-                  <NavLink
-                    key={entry.path}
-                    onClick={() => {
-                      if (window.innerWidth < 820) {
-                        setSidebarOpen(false);
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                      }
-                    }}
-                    end
-                    to={entry.path}
-                    className="container__sidebar__entry__content__entry"
-                  >
-                    {entry.icon}
-                    {entry.name}
-                  </NavLink>
-                ))
-            ) : (
-              <SidebarEntry
-                category={category}
-                sidebarEnteries={sidebarEnteries}
-                setSidebarOpen={setSidebarOpen}
+          <div className="container__sidebar__header">
+            <Link to="/dashboard" className="container__sidebar__logo">
+              <img
+                src={logo}
+                alt="logo"
+                className="container__sidebar__logo__img"
               />
-            )}
-          </Fragment>
-        ))}
-      </div>
-      <div
-        className="container__sidebar__entry"
-        style={{
-          textAlign: "start",
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          fontSize: "14px",
-          padding: ".8em 2em",
-          cursor: "pointer",
-          borderRadius: "0",
-        }}
-      >
-        <LogOut size={18} style={{ marginRight: "1em" }} />
-        Logout
-      </div>
-    </div>
-  );
-}
-
-function SidebarEntry({ category, sidebarEnteries, setSidebarOpen }) {
-  const [collepse, setCollepse] = useState(true);
-  return (
-    <div className="container__sidebar__entry">
-      <div
-        className="container__sidebar__entry__label"
-        onClick={() => {
-          setCollepse(!collepse);
-        }}
-        style={!collepse ? { marginBottom: 0 } : null}
-      >
-        {category}
-      </div>
-      {collepse && (
-        <div className="container__sidebar__entry__content">
-          {sidebarEnteries
-            .filter((entry) => entry.category === category)
-            .map((entry) => (
+              <div className="container__sidebar__logo__name">
+                Madagascar <br /> Birth Registration
+              </div>
+            </Link>
+            <button
+              className="container__sidebar__button"
+              onClick={() => setSidebarOpen(false)}
+            >
+              <X size={20} color="currentColor" />
+            </button>
+          </div>
+          <div className="container__sidebar__content">
+            {sidebarEnteries.map((entry) => (
               <NavLink
                 key={entry.path}
-                to={entry.path}
                 onClick={() => {
                   if (window.innerWidth < 820) {
                     setSidebarOpen(false);
-                    window.scrollTo({
-                      top: 0,
-                      behavior: "smooth",
-                    });
+                    window.scrollTo({ top: 0, behavior: "smooth" });
                   }
                 }}
+                end
+                to={entry.path}
                 className="container__sidebar__entry__content__entry"
               >
                 {entry.icon}
                 {entry.name}
               </NavLink>
             ))}
+          </div>
+          <div
+            className="container__sidebar__entry"
+            style={{
+              textAlign: "start",
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              fontSize: "14px",
+              padding: ".8em 2em",
+              cursor: "pointer",
+              borderRadius: "0",
+            }}
+          >
+            <LogOut size={18} style={{ marginRight: "1em" }} />
+            Logout
+          </div>
+        </div>
+      ) : (
+        <div
+          className="container__sidebar__drawer"
+          onMouseOver={() => {
+            console.log("mouse over");
+            setIsHover(true);
+          }}
+          onMouseOut={() => {
+            setIsHover(false);
+          }}
+        >
+          <div className="container__sidebar__header">
+            <Link to="/dashboard" className="container__sidebar__logo">
+              <img
+                src={logo}
+                alt="logo"
+                className="container__sidebar__logo__img"
+              />
+            </Link>
+          </div>
+          <div
+            className="container__sidebar__content"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            {sidebarEnteries.map((entry) => (
+              <NavLink
+                key={entry.path}
+                onClick={() => {
+                  if (window.innerWidth < 820) {
+                    setSidebarOpen(false);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }
+                }}
+                end
+                to={entry.path}
+                className="container__sidebar__entry__content__entry"
+                style={{
+                  width: "40px",
+                  padding: 0,
+                  justifyContent: "center",
+                  paddingLeft: "1em",
+                }}
+              >
+                {entry.icon}
+              </NavLink>
+            ))}
+          </div>
+          <div
+            className="container__sidebar__entry"
+            style={{
+              textAlign: "start",
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              fontSize: "14px",
+              padding: ".8em 2em",
+              cursor: "pointer",
+              borderRadius: "0",
+              justifyContent: "center",
+            }}
+          >
+            <LogOut size={18} />
+            {/* Logout */}
+          </div>
         </div>
       )}
-    </div>
+    </>
   );
 }

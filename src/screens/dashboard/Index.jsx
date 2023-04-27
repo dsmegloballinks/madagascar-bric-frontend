@@ -89,7 +89,7 @@ export default function dashboard() {
           </div>
           <div
             className="dashboard__banner__button__wrapper"
-            style={{ width: "17%", justifyContent: "flex-start" }}
+            style={{ width: "14%", justifyContent: "flex-start" }}
           >
             <button onClick={() => setIsUploadFilePopupOpen(true)}>
               {" "}
@@ -204,51 +204,59 @@ export default function dashboard() {
           </div>
         </div>
         <div className="list__filters__wrapper">
-          <div className="list__filters__wrapper__data">
-            <input
-              type="date"
-              style={{ marginRight: ".5em" }}
-              className={
-                start == ""
-                  ? "list__filters__input__empty"
-                  : "list__filters__input"
-              }
-              onChange={(e) => setStart(e.currentTarget.value)}
-            />
-            <input
-              type="date"
-              style={{ marginRight: ".5em" }}
-              className={
-                end == ""
-                  ? "list__filters__input__end__empty"
-                  : "list__filters__input"
-              }
-              onChange={(e) => setEnd(e.currentTarget.value)}
-            />
-          </div>
-          <div
+          {/* <div className="list__filters__wrapper__data"> */}
+          <input
+            type="date"
+            style={{ marginRight: ".5em" }}
+            className={
+              start == ""
+                ? "list__filters__input__empty"
+                : "list__filters__input"
+            }
+            onChange={(e) => setStart(e.currentTarget.value)}
+          />
+          <input
+            type="date"
+            style={{ marginRight: ".5em" }}
+            className={
+              end == ""
+                ? "list__filters__input__end__empty"
+                : "list__filters__input"
+            }
+            onChange={(e) => setEnd(e.currentTarget.value)}
+          />
+          <Select placeholder="Region" background="white" widthProp="180px" />
+          <Select placeholder="District" background="white" widthProp="180px" />
+          <Select placeholder="Commune" background="white" widthProp="180px" />
+          <Select
+            placeholder="Fokontany"
+            background="white"
+            widthProp="180px"
+          />
+          {/* </div> */}
+          {/* <div
             className="list__filters__wrapper__data"
             style={{ justifyContent: "flex-end", display: "flex" }}
+          > */}
+          <button
+            className="list__filter__button"
+            style={{ marginRight: "1em" }}
           >
-            <button
-              className="list__filter__button"
-              style={{ marginRight: "1em" }}
-            >
-              Filter
-            </button>
-            <button
-              className="list__filter__button__reset"
-              style={{ marginRight: "1em" }}
-            >
-              Reset
-            </button>
-            <AlignCenter
+            Filter
+          </button>
+          <button
+            className="list__filter__button__reset"
+            style={{ marginRight: "1em" }}
+          >
+            Reset
+          </button>
+          {/* <AlignCenter
               size={28}
               color="black"
               className="filter__button"
               onClick={() => setIsFilterOpen(!isFilterOpen)}
             />
-          </div>
+          </div> */}
         </div>
         {isFilterOpen ? (
           <div className="list__filters__wrapper">
@@ -268,11 +276,11 @@ export default function dashboard() {
               background="white"
               widthProp="200px"
             />
-            <Select
+            {/* <Select
               placeholder="Registrar"
               background="white"
               widthProp="200px"
-            />
+            /> */}
           </div>
         ) : null}
         {selectedFilter == "Graph" ? (

@@ -20,7 +20,7 @@ export const registrationsGetCall = async (page, limit) => {
 
 export const filePostCall = async (data) => {
   return await axios.post(
-    import.meta.env.VITE_BASE_URL.concat("api/category/create"),
+    import.meta.env.VITE_BASE_URL.concat("api/civil_register/convert"),
     data,
     {
       headers: {
