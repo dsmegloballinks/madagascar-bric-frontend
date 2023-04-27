@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { logo, certificateLogo, orgLogo } from "@assets";
 
 import { PDFExport } from "@progress/kendo-react-pdf";
+import moment from "moment";
 
 export default function RegistrationDetail() {
   const { state } = useLocation();
@@ -26,8 +27,8 @@ export default function RegistrationDetail() {
       <div className="main__container__top__bar">
         <div className="details__header">
           Registration Detail <ChevronRight />{" "}
-          {/* {state.registrationData && state.registrationData.given_name} */}
-          john
+          {state.registrationData && state.registrationData.given_name}
+          {/* john */}
         </div>
         <button className="details__print" onClick={generatePDFFile}>
           Print
@@ -58,8 +59,7 @@ export default function RegistrationDetail() {
                     Number
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      console.log("character", character);
+                    {state.registrationData.uin.split("").map((character) => {
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -74,7 +74,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -89,7 +88,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -109,8 +107,7 @@ export default function RegistrationDetail() {
                     NIU
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      console.log("character", character);
+                    {state.registrationData.uin.split("").map((character) => {
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -124,14 +121,15 @@ export default function RegistrationDetail() {
                     Last Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      console.log("character", character);
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.given_name
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -139,14 +137,15 @@ export default function RegistrationDetail() {
                     First Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      console.log("character", character);
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.given_name
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -154,14 +153,16 @@ export default function RegistrationDetail() {
                     Date of Birth
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      console.log("character", character);
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {moment(state.registrationData.date_of_birth)
+                      .format("DDMMMMYYYY")
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -169,14 +170,16 @@ export default function RegistrationDetail() {
                     Time of Birth
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      console.log("character", character);
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {moment(state.registrationData.date_of_birth)
+                      .format("HHmm")
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div
@@ -190,14 +193,15 @@ export default function RegistrationDetail() {
                     Region
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      console.log("character", character);
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.region_of_birth
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -205,14 +209,15 @@ export default function RegistrationDetail() {
                     District
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      console.log("character", character);
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.district_of_birth
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -220,14 +225,15 @@ export default function RegistrationDetail() {
                     Commune
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      console.log("character", character);
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.commune_of_birth
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -235,14 +241,15 @@ export default function RegistrationDetail() {
                     Fokontany
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      console.log("character", character);
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.fokontany_of_birth
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
 
@@ -258,7 +265,10 @@ export default function RegistrationDetail() {
                           name="radio-2"
                           type="radio"
                           style={{ width: 0 }}
-                          checked
+                          checked={
+                            state.registrationData.gender.toLowerCase() ==
+                            "masculin".toLowerCase()
+                          }
                         />
                         <label for="radio-1" class="radio-label">
                           Male
@@ -271,6 +281,10 @@ export default function RegistrationDetail() {
                           name="radio-2"
                           type="radio"
                           style={{ width: 0 }}
+                          checked={
+                            state.registrationData.gender.toLowerCase() !=
+                            "masculin".toLowerCase()
+                          }
                         />
                         <label for="radio-2" class="radio-label">
                           Female
@@ -278,7 +292,7 @@ export default function RegistrationDetail() {
                       </div>
                     </div>
                     {/* {name.split("").map((character) => {
-                      console.log("character", character);
+                      
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -298,7 +312,10 @@ export default function RegistrationDetail() {
                         name="radio-4"
                         type="radio"
                         style={{ width: 0 }}
-                        checked
+                        checked={
+                          state.registrationData.is_parents_married.toLowerCase() ==
+                          "oui".toLowerCase()
+                        }
                       />
                       <label for="radio-3" class="radio-label">
                         Yes
@@ -311,6 +328,10 @@ export default function RegistrationDetail() {
                         name="radio-4"
                         type="radio"
                         style={{ width: 0 }}
+                        checked={
+                          state.registrationData.is_parents_married.toLowerCase() ==
+                          "non".toLowerCase()
+                        }
                       />
                       <label for="radio-4" class="radio-label">
                         No
@@ -319,7 +340,7 @@ export default function RegistrationDetail() {
                   </div>
                   {/* <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
+                      
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -340,7 +361,10 @@ export default function RegistrationDetail() {
                           name="radio-6"
                           type="radio"
                           style={{ width: 0 }}
-                          checked
+                          checked={
+                            state.registrationData.is_residence_same.toLowerCase() ==
+                            "oui".toLowerCase()
+                          }
                         />
                         <label for="radio-5" class="radio-label">
                           Yes
@@ -353,6 +377,10 @@ export default function RegistrationDetail() {
                           name="radio-6"
                           type="radio"
                           style={{ width: 0 }}
+                          checked={
+                            state.registrationData.is_residence_same.toLowerCase() ==
+                            "non".toLowerCase()
+                          }
                         />
                         <label for="radio-6" class="radio-label">
                           No
@@ -360,7 +388,7 @@ export default function RegistrationDetail() {
                       </div>
                     </div>
                     {/* {name.split("").map((character) => {
-                      console.log("character", character);
+                      
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -381,7 +409,10 @@ export default function RegistrationDetail() {
                           name="radio-8"
                           type="radio"
                           style={{ width: 0 }}
-                          checked
+                          checked={
+                            state.registrationData.is_birth_in_hc.toLowerCase() ==
+                            "oui".toLowerCase()
+                          }
                         />
                         <label for="radio-7" class="radio-label">
                           Yes
@@ -394,6 +425,10 @@ export default function RegistrationDetail() {
                           name="radio-8"
                           type="radio"
                           style={{ width: 0 }}
+                          checked={
+                            state.registrationData.is_birth_in_hc.toLowerCase() ==
+                            "non".toLowerCase()
+                          }
                         />
                         <label for="radio-8" class="radio-label">
                           No
@@ -401,7 +436,7 @@ export default function RegistrationDetail() {
                       </div>
                     </div>
                     {/* {name.split("").map((character) => {
-                      console.log("character", character);
+                      
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -422,7 +457,10 @@ export default function RegistrationDetail() {
                           name="radio-10"
                           type="radio"
                           style={{ width: 0 }}
-                          checked
+                          checked={
+                            state.registrationData.is_assisted_by_how.toLowerCase() ==
+                            "oui".toLowerCase()
+                          }
                         />
                         <label for="radio-9" class="radio-label">
                           Yes
@@ -435,6 +473,10 @@ export default function RegistrationDetail() {
                           name="radio-10"
                           type="radio"
                           style={{ width: 0 }}
+                          checked={
+                            state.registrationData.is_assisted_by_how.toLowerCase() ==
+                            "non".toLowerCase()
+                          }
                         />
                         <label for="radio-10" class="radio-label">
                           No
@@ -442,7 +484,7 @@ export default function RegistrationDetail() {
                       </div>
                     </div>
                     {/* {name.split("").map((character) => {
-                      console.log("character", character);
+                      
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -456,14 +498,15 @@ export default function RegistrationDetail() {
                     Birth Place Address
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      console.log("character", character);
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.place_of_birth
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
               </div>
@@ -478,7 +521,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -493,7 +535,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -508,7 +549,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -523,7 +563,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -538,7 +577,7 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {/* {name.split("").map((character) => {
-                      console.log("character", character);
+                      
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -581,7 +620,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -604,7 +642,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -619,7 +656,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -634,7 +670,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -649,7 +684,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -670,7 +704,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -685,7 +718,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -700,7 +732,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -715,7 +746,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -736,7 +766,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -751,7 +780,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -766,7 +794,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -781,7 +808,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -796,7 +822,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -811,7 +836,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -832,7 +856,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -847,7 +870,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -862,7 +884,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -877,7 +898,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -892,7 +912,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
@@ -907,7 +926,6 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {name.split("").map((character) => {
-                      console.log("character", character);
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}

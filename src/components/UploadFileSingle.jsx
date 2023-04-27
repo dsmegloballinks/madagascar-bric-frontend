@@ -39,28 +39,64 @@ export default function UploadFileSingle({ onClose, onAdd }) {
             <div className="certificate__wrapper__container__content">
               Upload File
             </div>
-            <div className="container__main__content__details__main__input__field__wrapper__image">
-              <input
-                type="file"
-                onChange={(e) => {
-                  setCertificate(e.target.files[0]);
-                }}
-                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                multiple={false}
-                className="container__main__content__details__main__input__field__wrapper__image__input"
-              />
-              {certificate === null ? (
+            {certificate === null ? (
+              <div className="container__main__content__details__main__input__field__wrapper__image">
+                <input
+                  type="file"
+                  onChange={(e) => {
+                    setCertificate(e.target.files[0]);
+                  }}
+                  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                  multiple={false}
+                  className="container__main__content__details__main__input__field__wrapper__image__input"
+                />
                 <div className="container__main__content__details__main__input__field__wrapper__image__content">
                   <Plus size={20} color="currentColor" />
                 </div>
-              ) : (
-                <img
-                  src={URL.createObjectURL(certificate)}
+              </div>
+            ) : (
+              <div className="input">
+                <input
+                  type="file"
+                  onChange={(e) => {
+                    setCertificate(e.target.files[0]);
+                  }}
+                  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                  multiple={false}
+                  className="container__main__content__details__main__input__field__wrapper__image__input"
+                  style={{
+                    height: "60px",
+                    width: "62px",
+                  }}
+                />
+                <div
+                  // src={URL.createObjectURL(certificate)}
                   alt={certificate?.name}
                   className="container__main__content__details__main__input__field__wrapper__image__content__img"
-                />
-              )}
-            </div>
+                  style={{
+                    display: "flex",
+                    border: "1px solid black",
+                    borderRadius: "10px",
+                    width: "fit-content",
+                  }}
+                >
+                  <div
+                    style={{
+                      background: "#0F7840",
+                      padding: "1em 1.5em",
+                      color: "white",
+                      borderTopLeftRadius: "10px",
+                      borderBottomLeftRadius: "10px",
+                    }}
+                  >
+                    X{" "}
+                  </div>
+                  <div style={{ padding: ".5em", wordBreak: "break-word" }}>
+                    {certificate?.name}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           <div
             style={{

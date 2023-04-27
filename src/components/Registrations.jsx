@@ -69,9 +69,9 @@ export default function Registerations({
           <div className="container__main__content__listing__table__header__entry">
             Attached Files
           </div>
-          <div className="container__main__content__listing__table__header__entry">
+          {/* <div className="container__main__content__listing__table__header__entry">
             Status
-          </div>
+          </div> */}
           <div className="container__main__content__listing__table__header__entry">
             Actions
           </div>
@@ -120,14 +120,14 @@ function TableEntry({ item }) {
         style={{ cursor: "pointer" }}
         className="container__main__content__listing__table__content__list__entry__hover"
       >
-        987
+        {item.uin}
       </TableEntryText>
       <TableEntryText>{item.given_name}</TableEntryText>
-      <TableEntryText>tessa</TableEntryText>
+      <TableEntryText>---</TableEntryText>
       <TableEntryText>
         {moment(item.date_of_birth).format("DD MMM, YYYY")}
       </TableEntryText>
-      <TableEntryText>west</TableEntryText>
+      <TableEntryText>{item.place_of_birth}</TableEntryText>
       <div className="container__main__content__listing__table__content__list__entry">
         <FileText
           size={15}
@@ -135,9 +135,9 @@ function TableEntry({ item }) {
           onClick={() => viewFiles()}
         />
       </div>
-      <TableEntryStatus>
+      {/* <TableEntryStatus>
         {item.status == 0 ? "Unverified" : "Verified"}
-      </TableEntryStatus>
+      </TableEntryStatus> */}
       <div className="container__main__content__listing__table__content__list__entry">
         <MoreVertical style={{ cursor: "pointer" }} />
       </div>

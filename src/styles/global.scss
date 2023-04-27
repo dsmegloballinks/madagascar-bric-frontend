@@ -1214,6 +1214,12 @@ height: 100vh;
   justify-content: center;
 }
 
+.input{position: relative;
+  display: flex;
+  // align-items: center;
+  // justify-content: center;
+}
+
 .container__main__content__details__main__input__field__wrapper__image__input {
   position: absolute;
   top: 0px;

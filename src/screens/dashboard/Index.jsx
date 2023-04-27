@@ -204,7 +204,6 @@ export default function dashboard() {
           </div>
         </div>
         <div className="list__filters__wrapper">
-          {/* <div className="list__filters__wrapper__data"> */}
           <input
             type="date"
             style={{ marginRight: ".5em" }}
@@ -233,11 +232,7 @@ export default function dashboard() {
             background="white"
             widthProp="180px"
           />
-          {/* </div> */}
-          {/* <div
-            className="list__filters__wrapper__data"
-            style={{ justifyContent: "flex-end", display: "flex" }}
-          > */}
+
           <button
             className="list__filter__button"
             style={{ marginRight: "1em" }}
@@ -250,39 +245,8 @@ export default function dashboard() {
           >
             Reset
           </button>
-          {/* <AlignCenter
-              size={28}
-              color="black"
-              className="filter__button"
-              onClick={() => setIsFilterOpen(!isFilterOpen)}
-            />
-          </div> */}
         </div>
-        {isFilterOpen ? (
-          <div className="list__filters__wrapper">
-            <Select placeholder="Region" background="white" widthProp="200px" />
-            <Select
-              placeholder="District"
-              background="white"
-              widthProp="200px"
-            />
-            <Select
-              placeholder="Commune"
-              background="white"
-              widthProp="200px"
-            />
-            <Select
-              placeholder="Fokontany"
-              background="white"
-              widthProp="200px"
-            />
-            {/* <Select
-              placeholder="Registrar"
-              background="white"
-              widthProp="200px"
-            /> */}
-          </div>
-        ) : null}
+
         {selectedFilter == "Graph" ? (
           <GraphView />
         ) : selectedFilter == "List" ? (
