@@ -44,7 +44,10 @@ export default function dashboard() {
     bodyFormData.append("file", file);
     filePostCall(bodyFormData)
       .then(({ data }) => {
-        if (data.data.error_code == 0) setIsUploadFilePopupOpen(false);
+        if (data.error_code == 0) {
+          setIsUploadFilePopupOpen(false);
+          getRegistrations();
+        }
       })
       .catch((err) => {
         console.log("err", err);
@@ -101,10 +104,9 @@ export default function dashboard() {
           <div className="dashboard__banner__content">
             <h2>Welcome Back Anna!</h2>
             <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+              has been the industry's standard dummy text ever since the 1500s, when an unknown
+              printer took a galley of type and scrambled it to make a type specimen book.
             </p>
           </div>
           <div className="dashboard__banner__button__wrapper">
@@ -119,11 +121,12 @@ export default function dashboard() {
             {filters.map((item) => (
               <div
                 className={
-                  selectedFilter == item
-                    ? "dashboard__filter__checked"
-                    : "dashboard__filter"
+                  selectedFilter == item ? "dashboard__filter__checked" : "dashboard__filter"
                 }
-                onClick={() => setSelectedFilter(item)}
+                onClick={() => {
+                  setSelectedFilter(item);
+                  if (item == "List") getRegistrations();
+                }}
               >
                 {item}
               </div>
@@ -136,29 +139,19 @@ export default function dashboard() {
               <img src={register} />
             </div>
             <div className="dashboard__analytics__container__top">
-              <div className="dashboard__analytics__container__top__number">
-                23,345,00
-              </div>
+              <div className="dashboard__analytics__container__top__number">23,345,00</div>
               <div>Total Registered Child</div>
             </div>
           </div>
-          <div
-            className="dashboard__analytics__container"
-            style={{ background: "var(--primary)" }}
-          >
-            <div
-              className="analytics__icon__wrapper"
-              style={{ background: "#00E76C" }}
-            >
+          <div className="dashboard__analytics__container" style={{ background: "var(--primary)" }}>
+            <div className="analytics__icon__wrapper" style={{ background: "#00E76C" }}>
               <img src={register} />
             </div>
             <div
               className="dashboard__analytics__container__top"
               style={{ borderBottomColor: "#E2E2E2" }}
             >
-              <div className="dashboard__analytics__container__top__number">
-                23,345,00
-              </div>
+              <div className="dashboard__analytics__container__top__number">23,345,00</div>
               <div>Last Week Registered Child</div>
             </div>
           </div>
@@ -166,39 +159,26 @@ export default function dashboard() {
             className="dashboard__analytics__container"
             style={{ background: "#9e2686", color: "white" }}
           >
-            <div
-              className="analytics__icon__wrapper"
-              style={{ background: "#cf78bd" }}
-            >
+            <div className="analytics__icon__wrapper" style={{ background: "#cf78bd" }}>
               <img src={register} />
             </div>
             <div
               className="dashboard__analytics__container__top"
               style={{ borderBottomColor: "#E2E2E2" }}
             >
-              <div className="dashboard__analytics__container__top__number">
-                23,345,00
-              </div>
+              <div className="dashboard__analytics__container__top__number">23,345,00</div>
               <div>Last Month Registered Child</div>
             </div>
           </div>{" "}
-          <div
-            className="dashboard__analytics__container"
-            style={{ background: "#929292" }}
-          >
-            <div
-              className="analytics__icon__wrapper"
-              style={{ background: "#4B4B4B" }}
-            >
+          <div className="dashboard__analytics__container" style={{ background: "#929292" }}>
+            <div className="analytics__icon__wrapper" style={{ background: "#4B4B4B" }}>
               <img src={register} />
             </div>
             <div
               className="dashboard__analytics__container__top"
               style={{ borderBottomColor: "#E2E2E2" }}
             >
-              <div className="dashboard__analytics__container__top__number">
-                23,345,00
-              </div>
+              <div className="dashboard__analytics__container__top__number">23,345,00</div>
               <div>Last Year Registered Child</div>
             </div>
           </div>
@@ -207,42 +187,24 @@ export default function dashboard() {
           <input
             type="date"
             style={{ marginRight: ".5em" }}
-            className={
-              start == ""
-                ? "list__filters__input__empty"
-                : "list__filters__input"
-            }
+            className={start == "" ? "list__filters__input__empty" : "list__filters__input"}
             onChange={(e) => setStart(e.currentTarget.value)}
           />
           <input
             type="date"
             style={{ marginRight: ".5em" }}
-            className={
-              end == ""
-                ? "list__filters__input__end__empty"
-                : "list__filters__input"
-            }
+            className={end == "" ? "list__filters__input__end__empty" : "list__filters__input"}
             onChange={(e) => setEnd(e.currentTarget.value)}
           />
           <Select placeholder="Region" background="white" widthProp="180px" />
           <Select placeholder="District" background="white" widthProp="180px" />
           <Select placeholder="Commune" background="white" widthProp="180px" />
-          <Select
-            placeholder="Fokontany"
-            background="white"
-            widthProp="180px"
-          />
+          <Select placeholder="Fokontany" background="white" widthProp="180px" />
 
-          <button
-            className="list__filter__button"
-            style={{ marginRight: "1em" }}
-          >
+          <button className="list__filter__button" style={{ marginRight: "1em" }}>
             Filter
           </button>
-          <button
-            className="list__filter__button__reset"
-            style={{ marginRight: "1em" }}
-          >
+          <button className="list__filter__button__reset" style={{ marginRight: "1em" }}>
             Reset
           </button>
         </div>
@@ -262,10 +224,7 @@ export default function dashboard() {
         )}
       </div>
       {isUploadFilePopupOpen ? (
-        <UploadFileSingle
-          onClose={() => setIsUploadFilePopupOpen(false)}
-          onAdd={uploadFile}
-        />
+        <UploadFileSingle onClose={() => setIsUploadFilePopupOpen(false)} onAdd={uploadFile} />
       ) : null}
     </>
   );

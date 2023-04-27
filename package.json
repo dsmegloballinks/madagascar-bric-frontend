@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "yarn build && firebase deploy"
   },
   "dependencies": {
     "@progress/kendo-drawing": "^1.17.5",
