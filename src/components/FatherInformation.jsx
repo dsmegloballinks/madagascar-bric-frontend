@@ -96,7 +96,7 @@ export default function FatherInformation({
         />
       </div>
 
-      {motherFatherSameAddress ? (
+      {!motherFatherSameAddress ? (
         <>
           <div className="form__bottom__heading">Place Of Birth</div>
           <div className="form__bottom">
@@ -125,36 +125,6 @@ export default function FatherInformation({
             <input
               value={fatherFokontany}
               onChange={(e) => setFatherFokontany(e.currentTarget.value)}
-            />
-          </div>
-
-          <div className="form__bottom__heading">Usual Residence</div>
-          <div className="form__bottom">
-            <div className="form__bottom__content">Region</div>
-            <input
-              value={fatherUsualRegion}
-              onChange={(e) => setFatherUsualRegion(e.currentTarget.value)}
-            />
-          </div>
-          <div className="form__bottom">
-            <div className="form__bottom__content">District</div>
-            <input
-              value={fatherUsualDistrict}
-              onChange={(e) => setFatherUsualDistrict(e.currentTarget.value)}
-            />
-          </div>
-          <div className="form__bottom">
-            <div className="form__bottom__content">Commune</div>
-            <input
-              value={fatherUsualCommune}
-              onChange={(e) => setFatherUsualCommune(e.currentTarget.value)}
-            />
-          </div>
-          <div className="form__bottom">
-            <div className="form__bottom__content">Fokontany</div>
-            <input
-              value={fatherUsualFokontany}
-              onChange={(e) => setFatherUsualFokontany(e.currentTarget.value)}
             />
           </div>
         </>
