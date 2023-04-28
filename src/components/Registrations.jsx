@@ -120,19 +120,19 @@ function TableEntry({ item }) {
         style={{ cursor: "pointer" }}
         className="container__main__content__listing__table__content__list__entry__hover"
       >
-        {item.uin}
+        {item.cr.uin}
       </TableEntryText>
-      <TableEntryText>{item.given_name}</TableEntryText>
-      <TableEntryText>---</TableEntryText>
+      <TableEntryText>{item.cr.given_name}</TableEntryText>
+      <TableEntryText>{item.mother.given_name}</TableEntryText>
       <TableEntryText>
-        {moment(item.date_of_birth).format("DD MMM, YYYY")}
+        {moment(item.cr.date_of_birth).format("DD MMM, YYYY")}
       </TableEntryText>
-      <TableEntryText>{item.place_of_birth}</TableEntryText>
+      <TableEntryText>{item.cr.place_of_birth}</TableEntryText>
       <div className="container__main__content__listing__table__content__list__entry">
         <FileText
           size={15}
           style={{ cursor: "pointer" }}
-          onClick={() => viewFiles()}
+          // onClick={() => viewFiles()}
         />
       </div>
       {/* <TableEntryStatus>

@@ -67,6 +67,7 @@ export default function ChildInformation({
       <div className="form__bottom">
         <div className="form__bottom__content">NIU</div>
         <input
+          maxLength={10}
           value={childNIU}
           onChange={(e) => setChildNIU(e.currentTarget.value)}
         />
@@ -79,7 +80,7 @@ export default function ChildInformation({
         />
       </div>
       <div className="form__bottom">
-        <div className="form__bottom__content">First Name</div>
+        <div className="form__bottom__content">First Name (Optional)</div>
         <input
           value={childFirstName}
           onChange={(e) => setChildFirstName(e.currentTarget.value)}
@@ -119,7 +120,7 @@ export default function ChildInformation({
         />
       </div>
       <div className="form__bottom__heading">Place Of Birth</div>
-      <div className="form__bottom">
+      {/* <div className="form__bottom">
         <div className="form__bottom__content">Region</div>
         <input
           value={childRegion}
@@ -139,21 +140,14 @@ export default function ChildInformation({
           value={childCommune}
           onChange={(e) => setChildCommune(e.currentTarget.value)}
         />
-      </div>
-      {/* <div className="form__bottom">
-        <div className="form__bottom__content">Municipality</div>
-        <input
-          value={municipality}
-          onChange={(e) => setMunicipality(e.currentTarget.value)}
-        />
-      </div> */}
+      </div> 
       <div className="form__bottom">
         <div className="form__bottom__content">Fokontany</div>
         <input
           value={childFokontany}
           onChange={(e) => setchildFokontany(e.currentTarget.value)}
         />
-      </div>
+      </div>*/}
 
       <div className="form__bottom__gender__container">
         <div className="form__bottom__content">Gender</div>
@@ -187,7 +181,7 @@ export default function ChildInformation({
             <div class="radio" onClick={() => setChildParentsMarried("Yes")}>
               <input
                 id="radio-1"
-                name="radio"
+                name="radio-2"
                 type="radio"
                 style={{ width: 0 }}
               />
@@ -199,7 +193,7 @@ export default function ChildInformation({
             <div class="radio" onClick={() => setChildParentsMarried("No")}>
               <input
                 id="radio-2"
-                name="radio"
+                name="radio-2"
                 type="radio"
                 style={{ width: 0 }}
               />
@@ -217,8 +211,8 @@ export default function ChildInformation({
               onClick={() => setChildSameUsualResidence("Yes")}
             >
               <input
-                id="radio-1"
-                name="radio"
+                id="radio-3"
+                name="radio-4"
                 type="radio"
                 style={{ width: 0 }}
               />
@@ -229,8 +223,8 @@ export default function ChildInformation({
 
             <div class="radio" onClick={() => setChildSameUsualResidence("No")}>
               <input
-                id="radio-2"
-                name="radio"
+                id="radio-4"
+                name="radio-4"
                 type="radio"
                 style={{ width: 0 }}
               />
@@ -277,8 +271,8 @@ export default function ChildInformation({
               onClick={() => setChildBirthInHealthCenter("Yes")}
             >
               <input
-                id="radio-1"
-                name="radio"
+                id="radio-5"
+                name="radio-6"
                 type="radio"
                 style={{ width: 0 }}
               />
@@ -292,8 +286,8 @@ export default function ChildInformation({
               onClick={() => setChildBirthInHealthCenter("No")}
             >
               <input
-                id="radio-2"
-                name="radio"
+                id="radio-6"
+                name="radio-6"
                 type="radio"
                 style={{ width: 0 }}
               />
@@ -308,8 +302,8 @@ export default function ChildInformation({
           <div style={{ display: "flex" }}>
             <div class="radio" onClick={() => setChildHealthCareWorker("Yes")}>
               <input
-                id="radio-1"
-                name="radio"
+                id="radio-7"
+                name="radio-8"
                 type="radio"
                 style={{ width: 0 }}
               />
@@ -320,8 +314,8 @@ export default function ChildInformation({
 
             <div class="radio" onClick={() => setChildHealthCareWorker("No")}>
               <input
-                id="radio-2"
-                name="radio"
+                id="radio-8"
+                name="radio-8"
                 type="radio"
                 style={{ width: 0 }}
               />
@@ -332,28 +326,7 @@ export default function ChildInformation({
           </div>
         </div>
       </div>
-      {/* <div className="form__bottom__last__bar">
-        <div className="form__bottom__content">Birth in Health Center</div>
-        <div
-          style={{
-            display: "flex",
-            width: "100%",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "0em 1em",
-          }}
-        >
-          <input
-            value={birthInHealthCenter}
-            onChange={(e) => setBirthInHealthCenter(e.currentTarget.value)}
-          />
-          <div className="form__bottom__content">with health care worker</div>
-          <input
-            value={healthCareWorker}
-            onChange={(e) => setHealthCareWorker(e.currentTarget.value)}
-          />
-        </div>
-      </div> */}
+
       <div className="form__bottom">
         <div className="form__bottom__content">Birth Place Address</div>
         <input

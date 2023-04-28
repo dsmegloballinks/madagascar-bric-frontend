@@ -48,6 +48,7 @@ export default function MotherInformation({
       <div className="form__bottom">
         <div className="form__bottom__content">NIU</div>
         <input
+          maxLength={10}
           value={motherNiu}
           onChange={(e) => setMotherNiu(e.currentTarget.value)}
         />
@@ -60,7 +61,7 @@ export default function MotherInformation({
         />
       </div>
       <div className="form__bottom">
-        <div className="form__bottom__content">First Name</div>
+        <div className="form__bottom__content">First Name (Optional)</div>
         <input
           value={motherFirstName}
           onChange={(e) => setMotherFirstName(e.currentTarget.value)}
@@ -120,7 +121,7 @@ export default function MotherInformation({
         />
       </div> */}
 
-      <div className="form__bottom__heading">Usual Residence</div>
+      {/* <div className="form__bottom__heading">Usual Residence</div>
       <div className="form__bottom">
         <div className="form__bottom__content">Region</div>
         <input
@@ -141,7 +142,7 @@ export default function MotherInformation({
           value={motherUsualCommune}
           onChange={(e) => setMotherUsualCommune(e.currentTarget.value)}
         />
-      </div>
+      </div> */}
       {/* <div className="form__bottom">
         <div className="form__bottom__content">Municipality</div>
         <input
@@ -149,13 +150,13 @@ export default function MotherInformation({
           onChange={(e) => setUsualMunicipality(e.currentTarget.value)}
         />
       </div> */}
-      <div className="form__bottom">
+      {/* <div className="form__bottom">
         <div className="form__bottom__content">Fokontany</div>
         <input
           value={motherUsualFokontany}
           onChange={(e) => setMotherUsualFokontany(e.currentTarget.value)}
         />
-      </div>
+      </div> */}
       <div className="form__bottom">
         <div className="form__bottom__content">Profession</div>
         <input

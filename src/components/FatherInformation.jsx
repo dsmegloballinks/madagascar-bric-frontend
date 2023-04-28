@@ -16,6 +16,22 @@ export default function FatherInformation({
   motherFatherSameAddress,
   setFatherProfession,
   fatherProfession,
+  setFatherRegion,
+  fatherRegion,
+  setFatherDistrict,
+  fatherDistrict,
+  setFatherCommune,
+  fatherCommune,
+  setFatherFokontany,
+  fatherFokontany,
+  setFatherUsualRegion,
+  fatherUsualRegion,
+  setFatherUsualDistrict,
+  fatherUsualDistrict,
+  setFatherUsualCommune,
+  fatherUsualCommune,
+  setFatherUsualFokontany,
+  fatherUsualFokontany,
 }) {
   return (
     <div className="form__wrapper">
@@ -26,6 +42,7 @@ export default function FatherInformation({
       <div className="form__bottom">
         <div className="form__bottom__content">NIU</div>
         <input
+          maxLength={10}
           value={fatherNiu}
           onChange={(e) => setFatherNiu(e.currentTarget.value)}
         />
@@ -38,7 +55,7 @@ export default function FatherInformation({
         />
       </div>
       <div className="form__bottom">
-        <div className="form__bottom__content">First Name</div>
+        <div className="form__bottom__content">First Name (Optional)</div>
         <input
           value={fatherFirstName}
           onChange={(e) => setFatherFirstName(e.currentTarget.value)}
@@ -57,14 +74,14 @@ export default function FatherInformation({
         <div className="form__bottom__content">
           Is Address of Mother and Father same ?
         </div>
-        <div class="radio" onClick={() => setMotherFatherSameAddress("Yes")}>
+        <div class="radio" onClick={() => setMotherFatherSameAddress(true)}>
           <input id="radio-1" name="radio" type="radio" style={{ width: 0 }} />
           <label for="radio-1" class="radio-label">
             Yes
           </label>
         </div>
 
-        <div class="radio" onClick={() => setMotherFatherSameAddress("No")}>
+        <div class="radio" onClick={() => setMotherFatherSameAddress(false)}>
           <input id="radio-2" name="radio" type="radio" style={{ width: 0 }} />
           <label for="radio-2" class="radio-label">
             No
@@ -79,72 +96,70 @@ export default function FatherInformation({
         />
       </div>
 
-      {/* <div className="form__bottom__heading">Place Of Birth</div>
-      <div className="form__bottom">
-        <div className="form__bottom__content">Region</div>
-        <input
-          value={region}
-          onChange={(e) => setRegion(e.currentTarget.value)}
-        />
-      </div>
-      <div className="form__bottom">
-        <div className="form__bottom__content">District</div>
-        <input
-          value={district}
-          onChange={(e) => setDistrict(e.currentTarget.value)}
-        />
-      </div>
-      <div className="form__bottom">
-        <div className="form__bottom__content">Commune</div>
-        <input
-          value={commune}
-          onChange={(e) => setCommune(e.currentTarget.value)}
-        />
-      </div>
-      <div className="form__bottom">
-        <div className="form__bottom__content">Fokontany</div>
-        <input
-          value={fokontany}
-          onChange={(e) => setFokontany(e.currentTarget.value)}
-        />
-      </div>
+      {motherFatherSameAddress ? (
+        <>
+          <div className="form__bottom__heading">Place Of Birth</div>
+          <div className="form__bottom">
+            <div className="form__bottom__content">Region</div>
+            <input
+              value={fatherRegion}
+              onChange={(e) => setFatherRegion(e.currentTarget.value)}
+            />
+          </div>
+          <div className="form__bottom">
+            <div className="form__bottom__content">District</div>
+            <input
+              value={fatherDistrict}
+              onChange={(e) => setFatherDistrict(e.currentTarget.value)}
+            />
+          </div>
+          <div className="form__bottom">
+            <div className="form__bottom__content">Commune</div>
+            <input
+              value={fatherCommune}
+              onChange={(e) => setFatherCommune(e.currentTarget.value)}
+            />
+          </div>
+          <div className="form__bottom">
+            <div className="form__bottom__content">Fokontany</div>
+            <input
+              value={fatherFokontany}
+              onChange={(e) => setFatherFokontany(e.currentTarget.value)}
+            />
+          </div>
 
-      <div className="form__bottom__heading">Usual Residence</div>
-      <div className="form__bottom">
-        <div className="form__bottom__content">Region</div>
-        <input
-          value={usualRegion}
-          onChange={(e) => setUsualRegion(e.currentTarget.value)}
-        />
-      </div>
-      <div className="form__bottom">
-        <div className="form__bottom__content">District</div>
-        <input
-          value={usualDistrict}
-          onChange={(e) => setUsualDistrict(e.currentTarget.value)}
-        />
-      </div>
-      <div className="form__bottom">
-        <div className="form__bottom__content">Commune</div>
-        <input
-          value={usualCommune}
-          onChange={(e) => setUsualCommune(e.currentTarget.value)}
-        />
-      </div>
-      <div className="form__bottom">
-        <div className="form__bottom__content">Fokontany</div>
-        <input
-          value={usualFokontany}
-          onChange={(e) => setUsualFokontany(e.currentTarget.value)}
-        />
-      </div>
-      <div className="form__bottom">
-        <div className="form__bottom__content">Profession</div>
-        <input
-          value={profession}
-          onChange={(e) => setProfession(e.currentTarget.value)}
-        />
-      </div> */}
+          <div className="form__bottom__heading">Usual Residence</div>
+          <div className="form__bottom">
+            <div className="form__bottom__content">Region</div>
+            <input
+              value={fatherUsualRegion}
+              onChange={(e) => setFatherUsualRegion(e.currentTarget.value)}
+            />
+          </div>
+          <div className="form__bottom">
+            <div className="form__bottom__content">District</div>
+            <input
+              value={fatherUsualDistrict}
+              onChange={(e) => setFatherUsualDistrict(e.currentTarget.value)}
+            />
+          </div>
+          <div className="form__bottom">
+            <div className="form__bottom__content">Commune</div>
+            <input
+              value={fatherUsualCommune}
+              onChange={(e) => setFatherUsualCommune(e.currentTarget.value)}
+            />
+          </div>
+          <div className="form__bottom">
+            <div className="form__bottom__content">Fokontany</div>
+            <input
+              value={fatherUsualFokontany}
+              onChange={(e) => setFatherUsualFokontany(e.currentTarget.value)}
+            />
+          </div>
+        </>
+      ) : null}
+
       {/* <div className="form__bottom">
         <div className="form__bottom__content">Nationality</div>
         <input placeholder="Malangasy" style={{ width: "43%" }} />

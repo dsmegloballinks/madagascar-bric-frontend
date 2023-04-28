@@ -54,42 +54,47 @@ export default function DeclarantInformation({
           </div>
         ))}
       </div>
-      <div className="form__bottom">
-        <div className="form__bottom__content">NIU</div>
-        <input
-          value={declarantNiu}
-          onChange={(e) => setDeclarantNiu(e.currentTarget.value)}
-        />
-      </div>
-      <div className="form__bottom">
-        <div className="form__bottom__content">Last Name</div>
-        <input
-          value={declarantLastName}
-          onChange={(e) => setDeclarantLastName(e.currentTarget.value)}
-        />
-      </div>
-      <div className="form__bottom">
-        <div className="form__bottom__content">First Name</div>
-        <input
-          value={declarantFirstName}
-          onChange={(e) => setDeclarantFirstName(e.currentTarget.value)}
-        />
-      </div>
-      <div className="form__bottom">
-        <div className="form__bottom__content">Date of Birth</div>
-        <input
-          type="date"
-          value={declarantDob}
-          onChange={(e) => setDeclarantDob(e.currentTarget.value)}
-        />
-      </div>
-      <div className="form__bottom">
-        <div className="form__bottom__content">Address</div>
-        <input
-          value={declarantAddress}
-          onChange={(e) => setDeclarantAddress(e.currentTarget.value)}
-        />
-      </div>
+      {declarantLink == "Father" || declarantLink == "Mother" ? null : (
+        <>
+          <div className="form__bottom">
+            <div className="form__bottom__content">NIU</div>
+            <input
+              maxLength={10}
+              value={declarantNiu}
+              onChange={(e) => setDeclarantNiu(e.currentTarget.value)}
+            />
+          </div>
+          <div className="form__bottom">
+            <div className="form__bottom__content">Last Name</div>
+            <input
+              value={declarantLastName}
+              onChange={(e) => setDeclarantLastName(e.currentTarget.value)}
+            />
+          </div>
+          <div className="form__bottom">
+            <div className="form__bottom__content">First Name</div>
+            <input
+              value={declarantFirstName}
+              onChange={(e) => setDeclarantFirstName(e.currentTarget.value)}
+            />
+          </div>
+          <div className="form__bottom">
+            <div className="form__bottom__content">Date of Birth</div>
+            <input
+              type="date"
+              value={declarantDob}
+              onChange={(e) => setDeclarantDob(e.currentTarget.value)}
+            />
+          </div>
+          <div className="form__bottom">
+            <div className="form__bottom__content">Address</div>
+            <input
+              value={declarantAddress}
+              onChange={(e) => setDeclarantAddress(e.currentTarget.value)}
+            />
+          </div>
+        </>
+      )}
 
       {/* <div className="form__bottom__heading">Place Of Birth</div>
       <div className="form__bottom">

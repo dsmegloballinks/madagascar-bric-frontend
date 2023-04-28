@@ -21,12 +21,14 @@ export default function ReportingInformation({
         <div className="form__bottom__content">Number</div>
         <input
           value={number}
+          maxLength={5}
           onChange={(e) => setNumber(e.currentTarget.value)}
         />
       </div>
       <div className="form__bottom">
         <div className="form__bottom__content">Date of Declaration</div>
         <input
+          type="date"
           value={dateOfDeclaration}
           onChange={(e) => setDateOfDeclaration(e.currentTarget.value)}
         />
@@ -36,6 +38,7 @@ export default function ReportingInformation({
           Date of Transcription of Declaration
         </div>
         <input
+          type="date"
           value={dateOfTranscriptionDeclaration}
           onChange={(e) =>
             setDateOfTranscriptionDeclaration(e.currentTarget.value)

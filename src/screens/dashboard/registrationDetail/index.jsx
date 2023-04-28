@@ -27,7 +27,7 @@ export default function RegistrationDetail() {
       <div className="main__container__top__bar">
         <div className="details__header">
           Registration Detail <ChevronRight />{" "}
-          {state.registrationData && state.registrationData.given_name}
+          {state.registrationData && state.registrationData.cr.given_name}
           {/* john */}
         </div>
         <button className="details__print" onClick={generatePDFFile}>
@@ -59,13 +59,15 @@ export default function RegistrationDetail() {
                     Number
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {state.registrationData.uin.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.cr.uin
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -107,13 +109,15 @@ export default function RegistrationDetail() {
                     NIU
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {state.registrationData.uin.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.cr.uin
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -121,7 +125,7 @@ export default function RegistrationDetail() {
                     Last Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {state.registrationData.given_name
+                    {state.registrationData.cr.given_name
                       .split("")
                       .map((character) => {
                         return (
@@ -137,7 +141,7 @@ export default function RegistrationDetail() {
                     First Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {state.registrationData.given_name
+                    {state.registrationData.cr.given_name
                       .split("")
                       .map((character) => {
                         return (
@@ -153,7 +157,7 @@ export default function RegistrationDetail() {
                     Date of Birth
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {moment(state.registrationData.date_of_birth)
+                    {moment(state.registrationData.cr.date_of_birth)
                       .format("DDMMMMYYYY")
                       .split("")
                       .map((character) => {
@@ -170,7 +174,7 @@ export default function RegistrationDetail() {
                     Time of Birth
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {moment(state.registrationData.date_of_birth)
+                    {moment(state.registrationData.cr.date_of_birth)
                       .format("HHmm")
                       .split("")
                       .map((character) => {
@@ -193,7 +197,7 @@ export default function RegistrationDetail() {
                     Region
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {state.registrationData.region_of_birth
+                    {state.registrationData.cr.region_of_birth
                       .split("")
                       .map((character) => {
                         return (
@@ -209,7 +213,7 @@ export default function RegistrationDetail() {
                     District
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {state.registrationData.district_of_birth
+                    {state.registrationData.cr.district_of_birth
                       .split("")
                       .map((character) => {
                         return (
@@ -225,7 +229,7 @@ export default function RegistrationDetail() {
                     Commune
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {state.registrationData.commune_of_birth
+                    {state.registrationData.cr.commune_of_birth
                       .split("")
                       .map((character) => {
                         return (
@@ -241,7 +245,7 @@ export default function RegistrationDetail() {
                     Fokontany
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {state.registrationData.fokontany_of_birth
+                    {state.registrationData.cr.fokontany_of_birth
                       .split("")
                       .map((character) => {
                         return (
@@ -266,7 +270,7 @@ export default function RegistrationDetail() {
                           type="radio"
                           style={{ width: 0 }}
                           checked={
-                            state.registrationData.gender.toLowerCase() ==
+                            state.registrationData.cr.gender.toLowerCase() ==
                             "masculin".toLowerCase()
                           }
                         />
@@ -282,7 +286,7 @@ export default function RegistrationDetail() {
                           type="radio"
                           style={{ width: 0 }}
                           checked={
-                            state.registrationData.gender.toLowerCase() !=
+                            state.registrationData.cr.gender.toLowerCase() !=
                             "masculin".toLowerCase()
                           }
                         />
@@ -313,7 +317,7 @@ export default function RegistrationDetail() {
                         type="radio"
                         style={{ width: 0 }}
                         checked={
-                          state.registrationData.is_parents_married.toLowerCase() ==
+                          state.registrationData.cr.is_parents_married.toLowerCase() ==
                           "oui".toLowerCase()
                         }
                       />
@@ -329,7 +333,7 @@ export default function RegistrationDetail() {
                         type="radio"
                         style={{ width: 0 }}
                         checked={
-                          state.registrationData.is_parents_married.toLowerCase() ==
+                          state.registrationData.cr.is_parents_married.toLowerCase() ==
                           "non".toLowerCase()
                         }
                       />
@@ -362,7 +366,7 @@ export default function RegistrationDetail() {
                           type="radio"
                           style={{ width: 0 }}
                           checked={
-                            state.registrationData.is_residence_same.toLowerCase() ==
+                            state.registrationData.cr.is_residence_same.toLowerCase() ==
                             "oui".toLowerCase()
                           }
                         />
@@ -378,7 +382,7 @@ export default function RegistrationDetail() {
                           type="radio"
                           style={{ width: 0 }}
                           checked={
-                            state.registrationData.is_residence_same.toLowerCase() ==
+                            state.registrationData.cr.is_residence_same.toLowerCase() ==
                             "non".toLowerCase()
                           }
                         />
@@ -410,7 +414,7 @@ export default function RegistrationDetail() {
                           type="radio"
                           style={{ width: 0 }}
                           checked={
-                            state.registrationData.is_birth_in_hc.toLowerCase() ==
+                            state.registrationData.cr.is_birth_in_hc.toLowerCase() ==
                             "oui".toLowerCase()
                           }
                         />
@@ -426,7 +430,7 @@ export default function RegistrationDetail() {
                           type="radio"
                           style={{ width: 0 }}
                           checked={
-                            state.registrationData.is_birth_in_hc.toLowerCase() ==
+                            state.registrationData.cr.is_birth_in_hc.toLowerCase() ==
                             "non".toLowerCase()
                           }
                         />
@@ -458,7 +462,7 @@ export default function RegistrationDetail() {
                           type="radio"
                           style={{ width: 0 }}
                           checked={
-                            state.registrationData.is_assisted_by_how.toLowerCase() ==
+                            state.registrationData.cr.is_assisted_by_how.toLowerCase() ==
                             "oui".toLowerCase()
                           }
                         />
@@ -474,7 +478,7 @@ export default function RegistrationDetail() {
                           type="radio"
                           style={{ width: 0 }}
                           checked={
-                            state.registrationData.is_assisted_by_how.toLowerCase() ==
+                            state.registrationData.cr.is_assisted_by_how.toLowerCase() ==
                             "non".toLowerCase()
                           }
                         />
@@ -498,7 +502,7 @@ export default function RegistrationDetail() {
                     Birth Place Address
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {state.registrationData.place_of_birth
+                    {state.registrationData.cr.place_of_birth
                       .split("")
                       .map((character) => {
                         return (
@@ -520,13 +524,15 @@ export default function RegistrationDetail() {
                     NIU
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.father.uin
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -534,13 +540,15 @@ export default function RegistrationDetail() {
                     Last Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.father.given_name
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -548,13 +556,15 @@ export default function RegistrationDetail() {
                     First Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.father.given_name
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -562,13 +572,16 @@ export default function RegistrationDetail() {
                     Date of Birth
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {moment(state.registrationData.father.date_of_birth)
+                      .format("DDMMMMYYYY")
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -591,7 +604,11 @@ export default function RegistrationDetail() {
                           name="radio-12"
                           type="radio"
                           style={{ width: 0 }}
-                          checked
+                          checked={
+                            state.registrationData.father.is_residence_same &&
+                            state.registrationData.father.is_residence_same.toLowerCase() ==
+                              "oui".toLowerCase()
+                          }
                         />
                         <label for="radio-11" class="radio-label">
                           Yes
@@ -604,7 +621,11 @@ export default function RegistrationDetail() {
                           name="radio-12"
                           type="radio"
                           style={{ width: 0 }}
-                          checked={false}
+                          checked={
+                            state.registrationData.father.is_residence_same &&
+                            state.registrationData.father.is_residence_same.toLowerCase() ==
+                              "non".toLowerCase()
+                          }
                         />
                         <label for="radio-12" class="radio-label">
                           No
@@ -619,15 +640,93 @@ export default function RegistrationDetail() {
                     Profession
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.father.cr_profession
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
+                {state.registrationData.father.is_residence_same &&
+                state.registrationData.father.is_residence_same.toLowerCase() ==
+                  "non".toLowerCase() ? (
+                  <>
+                    <div
+                      className="details__Info__wrapper__section__title"
+                      style={{ marginBottom: ".8em" }}
+                    >
+                      Place Of Birth
+                    </div>
+                    <div className="details__Info__wrapper__section__information">
+                      <div className="details__Info__wrapper__section__information__title">
+                        Region
+                      </div>
+                      <div className="details__Info__wrapper__section__information__content__wrapper">
+                        {state.registrationData.father.region_of_birth
+                          .split("")
+                          .map((character) => {
+                            return (
+                              <div className="details__Info__wrapper__section__information__content">
+                                {character}
+                              </div>
+                            );
+                          })}
+                      </div>
+                    </div>
+                    <div className="details__Info__wrapper__section__information">
+                      <div className="details__Info__wrapper__section__information__title">
+                        District
+                      </div>
+                      <div className="details__Info__wrapper__section__information__content__wrapper">
+                        {state.registrationData.father.district_of_birth
+                          .split("")
+                          .map((character) => {
+                            return (
+                              <div className="details__Info__wrapper__section__information__content">
+                                {character}
+                              </div>
+                            );
+                          })}
+                      </div>
+                    </div>
+                    <div className="details__Info__wrapper__section__information">
+                      <div className="details__Info__wrapper__section__information__title">
+                        Commune
+                      </div>
+                      <div className="details__Info__wrapper__section__information__content__wrapper">
+                        {state.registrationData.father.commune_of_birth
+                          .split("")
+                          .map((character) => {
+                            return (
+                              <div className="details__Info__wrapper__section__information__content">
+                                {character}
+                              </div>
+                            );
+                          })}
+                      </div>
+                    </div>
+                    <div className="details__Info__wrapper__section__information">
+                      <div className="details__Info__wrapper__section__information__title">
+                        Fokontany
+                      </div>
+                      <div className="details__Info__wrapper__section__information__content__wrapper">
+                        {state.registrationData.father.fokontany_of_birth
+                          .split("")
+                          .map((character) => {
+                            return (
+                              <div className="details__Info__wrapper__section__information__content">
+                                {character}
+                              </div>
+                            );
+                          })}
+                      </div>
+                    </div>
+                  </>
+                ) : null}
               </div>
             </div>
             <div className="details__Info__wrapper__left">
@@ -641,13 +740,15 @@ export default function RegistrationDetail() {
                     NIU
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.mother.uin
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -655,13 +756,15 @@ export default function RegistrationDetail() {
                     Last Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.mother.given_name
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -669,13 +772,15 @@ export default function RegistrationDetail() {
                     First Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.mother.given_name
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -683,13 +788,16 @@ export default function RegistrationDetail() {
                     Date of Birth
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {moment(state.registrationData.mother.date_of_birth)
+                      .format("DDMMMMYYYY")
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div
@@ -703,13 +811,15 @@ export default function RegistrationDetail() {
                     Region
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.mother.region_of_birth
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -717,13 +827,15 @@ export default function RegistrationDetail() {
                     District
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.mother.district_of_birth
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -731,13 +843,15 @@ export default function RegistrationDetail() {
                     Commune
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.mother.commune_of_birth
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -745,89 +859,32 @@ export default function RegistrationDetail() {
                     Fokontany
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.mother.fokontany_of_birth
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
-                <div
-                  className="details__Info__wrapper__section__title"
-                  style={{ marginBottom: ".8em" }}
-                >
-                  Usual Residence
-                </div>
-                <div className="details__Info__wrapper__section__information">
-                  <div className="details__Info__wrapper__section__information__title">
-                    Region
-                  </div>
-                  <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-                <div className="details__Info__wrapper__section__information">
-                  <div className="details__Info__wrapper__section__information__title">
-                    District
-                  </div>
-                  <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-                <div className="details__Info__wrapper__section__information">
-                  <div className="details__Info__wrapper__section__information__title">
-                    Commune
-                  </div>
-                  <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-                <div className="details__Info__wrapper__section__information">
-                  <div className="details__Info__wrapper__section__information__title">
-                    Fokontany
-                  </div>
-                  <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
+
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
                     Profession
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.mother.cr_profession
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -835,13 +892,15 @@ export default function RegistrationDetail() {
                     Nationality
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.mother.nationality_name
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
               </div>
@@ -855,13 +914,15 @@ export default function RegistrationDetail() {
                     Link
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.declarant.uin
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -869,13 +930,15 @@ export default function RegistrationDetail() {
                     NIU
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.declarant.uin
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -883,13 +946,15 @@ export default function RegistrationDetail() {
                     Last Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.declarant.given_name
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -897,13 +962,15 @@ export default function RegistrationDetail() {
                     First Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.declarant.given_name
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -911,13 +978,16 @@ export default function RegistrationDetail() {
                     Date of Birth
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {moment(state.registrationData.declarant.date_of_birth)
+                      .format("DDMMMMYYYY")
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -925,13 +995,15 @@ export default function RegistrationDetail() {
                     Address
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
+                    {state.registrationData.declarant.region_of_birth
+                      .split("")
+                      .map((character) => {
+                        return (
+                          <div className="details__Info__wrapper__section__information__content">
+                            {character}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
               </div>

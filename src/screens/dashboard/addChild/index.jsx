@@ -48,8 +48,16 @@ export default function addChild() {
   const [fatherFirstName, setFatherFirstName] = useState("");
   const [fatherLastName, setFatherLastName] = useState("");
   const [fatherDob, setFatherDob] = useState("");
-  const [motherFatherSameAddress, setMotherFatherSameAddress] = useState("");
+  const [motherFatherSameAddress, setMotherFatherSameAddress] = useState(true);
   const [fatherProfession, setFatherProfession] = useState("");
+  const [fatherRegion, setFatherRegion] = useState("");
+  const [fatherDistrict, setFatherDistrict] = useState("");
+  const [fatherCommune, setFatherCommune] = useState("");
+  const [fatherFokontany, setFatherFokontany] = useState("");
+  const [fatherUsualRegion, setFatherUsualRegion] = useState("");
+  const [fatherUsualDistrict, setFatherUsualDistrict] = useState("");
+  const [fatherUsualCommune, setFatherUsualCommune] = useState("");
+  const [fatherUsualFokontany, setFatherUsualFokontany] = useState("");
 
   const [declarantLink, setDeclarantLink] = useState("");
   const [declarantNiu, setDeclarantNiu] = useState("");
@@ -200,6 +208,22 @@ export default function addChild() {
             motherFatherSameAddress={motherFatherSameAddress}
             setFatherProfession={setFatherProfession}
             fatherProfession={fatherProfession}
+            setFatherRegion={setFatherRegion}
+            fatherRegion={fatherRegion}
+            setFatherDistrict={setFatherDistrict}
+            fatherDistrict={fatherDistrict}
+            setFatherCommune={setFatherCommune}
+            fatherCommune={fatherCommune}
+            setFatherFokontany={setFatherFokontany}
+            fatherFokontany={fatherFokontany}
+            setFatherUsualRegion={setFatherUsualRegion}
+            fatherUsualRegion={fatherUsualRegion}
+            setFatherUsualDistrict={setFatherUsualDistrict}
+            fatherUsualDistrict={fatherUsualDistrict}
+            setFatherUsualCommune={setFatherUsualCommune}
+            fatherUsualCommune={fatherUsualCommune}
+            setFatherUsualFokontany={setFatherUsualFokontany}
+            fatherUsualFokontany={fatherUsualFokontany}
           />
         ) : activeStep == 4 ? (
           <DeclarantInformation
