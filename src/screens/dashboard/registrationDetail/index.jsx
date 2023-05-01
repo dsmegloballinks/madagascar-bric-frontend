@@ -1183,7 +1183,9 @@ export default function RegistrationDetail() {
                     Region
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues("")}
+                    {setFormValues(
+                      state.registrationData.declarant.region_of_birth
+                    )}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1191,7 +1193,9 @@ export default function RegistrationDetail() {
                     District
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues("")}
+                    {setFormValues(
+                      state.registrationData.declarant.district_of_birth
+                    )}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1199,7 +1203,9 @@ export default function RegistrationDetail() {
                     Commune
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues("")}
+                    {setFormValues(
+                      state.registrationData.declarant.commune_of_birth
+                    )}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1207,7 +1213,9 @@ export default function RegistrationDetail() {
                     Fokontany
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues("")}
+                    {setFormValues(
+                      state.registrationData.declarant.fokontany_of_birth
+                    )}
                   </div>
                 </div>
               </div>

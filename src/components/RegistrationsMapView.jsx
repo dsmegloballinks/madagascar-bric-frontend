@@ -31,7 +31,10 @@ function RegistrationsMapView() {
         style={{ width: "1000px", margin: "1em 0em", borderRadius: "20px" }}
       >
         {markers.map((item) => (
-          <Marker name={item.name} />
+          <Marker
+            name={item.name}
+            position={{ lat: item.coordinates[0], lng: item.coordinates[1] }}
+          />
         ))}
 
         <InfoWindow>
@@ -44,6 +47,9 @@ function RegistrationsMapView() {
   );
 }
 
+const LoadingContainer = (props) => <div>Fancy loading container!</div>;
+
 export default GoogleApiWrapper({
   apiKey: "AIzaSyBch80KN8P7agyjoq_R92ApjKohp-1txiQ",
+  LoadingContainer: LoadingContainer,
 })(RegistrationsMapView);
