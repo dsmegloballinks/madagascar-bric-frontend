@@ -51,6 +51,7 @@ export default function Sidebar({ setSidebarOpen }) {
                 }}
                 end
                 to={entry.path}
+                state={entry.link}
                 className="container__sidebar__entry__content__entry"
               >
                 {entry.icon}

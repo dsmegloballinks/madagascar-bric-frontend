@@ -21,21 +21,26 @@ const markers = [
 
 function RegistrationsMapView() {
   return (
-    <Map
-      google={google}
-      zoom={14}
-      style={{ width: "1000px", margin: "1em 0em", borderRadius: "20px" }}
-    >
-      {markers.map((item) => (
-        <Marker name={item.name} />
-      ))}
+    <div>
+      <div style={{ fontSize: "18px", fontWeight: "600", marginTop: "1em" }}>
+        Field Activites
+      </div>
+      <Map
+        google={google}
+        zoom={14}
+        style={{ width: "1000px", margin: "1em 0em", borderRadius: "20px" }}
+      >
+        {markers.map((item) => (
+          <Marker name={item.name} />
+        ))}
 
-      <InfoWindow>
-        <div>
-          <h1>{"this.state.selectedPlace.name"}</h1>
-        </div>
-      </InfoWindow>
-    </Map>
+        <InfoWindow>
+          <div>
+            <h1>{"this.state.selectedPlace.name"}</h1>
+          </div>
+        </InfoWindow>
+      </Map>
+    </div>
   );
 }
 

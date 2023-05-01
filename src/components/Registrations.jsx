@@ -5,6 +5,9 @@ import { MoreVertical, FileText } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import Pagination from "react-js-pagination";
+import { useState, useRef, useEffect } from "react";
+import { logo } from "@assets";
+import ViewFiles from "./ViewFiles";
 
 export default function Registerations({
   dataList,
@@ -14,11 +17,15 @@ export default function Registerations({
   handlePageChange,
 }) {
   const options = [{ label: "Last Week", value: "Last Week" }];
+  const [fileViewVisibility, setFileViewVisibility] = useState(false);
   return (
-    <div className="list__container">
-      <div className="list__container__top">
-        <div style={{ fontSize: "18px", fontWeight: "600" }}>Registrations</div>
-        {/* <div className="list__container__top__select">
+    <>
+      <div className="list__container">
+        <div className="list__container__top">
+          <div style={{ fontSize: "18px", fontWeight: "600" }}>
+            Form Submission
+          </div>
+          {/* <div className="list__container__top__select">
           <ReactSelect
             options={options}
             placeholder="Last Week"
@@ -48,65 +55,88 @@ export default function Registerations({
             }}
           />
         </div> */}
-      </div>
-      <div className="container__main__content__listing__table">
-        <div className="container__main__content__listing__table__header">
-          <div className="container__main__content__listing__table__header__entry">
-            No
-          </div>
-          <div className="container__main__content__listing__table__header__entry">
-            Child Name
-          </div>
-          <div className="container__main__content__listing__table__header__entry">
-            Mother Name
-          </div>
-          <div className="container__main__content__listing__table__header__entry">
-            DOB
-          </div>
-          <div className="container__main__content__listing__table__header__entry">
-            Address
-          </div>
-          <div className="container__main__content__listing__table__header__entry">
-            Attached Files
-          </div>
-          {/* <div className="container__main__content__listing__table__header__entry">
+        </div>
+        <div className="container__main__content__listing__table">
+          <div className="container__main__content__listing__table__header">
+            <div className="container__main__content__listing__table__header__entry">
+              No
+            </div>
+            <div className="container__main__content__listing__table__header__entry">
+              Child Name
+            </div>
+            <div className="container__main__content__listing__table__header__entry">
+              Mother Name
+            </div>
+            <div className="container__main__content__listing__table__header__entry">
+              DOB
+            </div>
+            <div className="container__main__content__listing__table__header__entry">
+              Coummune, Fokontany
+            </div>
+            <div className="container__main__content__listing__table__header__entry">
+              Office Location
+            </div>
+            <div className="container__main__content__listing__table__header__entry">
+              Attached Files
+            </div>
+            {/* <div className="container__main__content__listing__table__header__entry">
             Status
           </div> */}
-          <div className="container__main__content__listing__table__header__entry">
-            Actions
           </div>
-        </div>
-        <div className="container__main__content__listing__table__content">
-          {dataList.map((item) => (
-            <TableEntry item={item} />
-          ))}
-        </div>
-        {dataList.length > 0 && (
-          <div className="list__container__pagination">
-            <Pagination
-              activePage={page}
-              itemsCountPerPage={limit}
-              totalItemsCount={totalRecords}
-              pageRangeDisplayed={5}
-              onChange={handlePageChange}
-            />
+          <div className="container__main__content__listing__table__content">
+            {dataList.map((item) => (
+              <TableEntry
+                item={item}
+                setFileViewVisibility={setFileViewVisibility}
+              />
+            ))}
           </div>
-        )}
+          {dataList.length > 0 && (
+            <div className="list__container__pagination">
+              <Pagination
+                activePage={page}
+                itemsCountPerPage={limit}
+                totalItemsCount={totalRecords}
+                pageRangeDisplayed={5}
+                onChange={handlePageChange}
+              />
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+      {fileViewVisibility && (
+        <ViewFiles onClose={() => setFileViewVisibility(false)} />
+      )}
+    </>
   );
 }
 
-function TableEntry({ item }) {
+function TableEntry({ item, setFileViewVisibility }) {
   const navigate = useNavigate();
+  const ref = useRef(null);
+  const [isFileActionHover, setIsFileActionHover] = useState(false);
   const viewFiles = (files) => {
-    files.map((i) =>
-      window.open(
-        "https://docs.google.com/gview?embedded=true&url=" +
-          import.meta.env.VITE_BASE_URL.concat(i.name)
-      )
+    window.open(
+      "https://docs.google.com/gview?embedded=true&url=" +
+        import.meta.env.VITE_BASE_URL.concat(files)
     );
   };
+
+  const onClickOutside = () => {
+    setIsFileActionHover(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        onClickOutside && onClickOutside();
+      }
+    };
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [onClickOutside]);
   return (
     <div className="container__main__content__listing__table__content__list">
       <TableEntryText
@@ -127,20 +157,52 @@ function TableEntry({ item }) {
       <TableEntryText>
         {moment(item.cr.date_of_birth).format("DD MMM, YYYY")}
       </TableEntryText>
-      <TableEntryText>{item.cr.place_of_birth}</TableEntryText>
       <div className="container__main__content__listing__table__content__list__entry">
+        <TableEntryText className="container__main__content__listing__table__content__list__entry__hover">
+          {item.mother.commune_of_birth}
+        </TableEntryText>
+        <TableEntryText className="container__main__content__listing__table__content__list__entry__hover">
+          {item.mother.commune_of_birth}
+        </TableEntryText>
+      </div>
+      <TableEntryText>address</TableEntryText>
+      <div
+        className="container__main__content__listing__table__content__list__entry"
+        style={{ position: "relative" }}
+        ref={ref}
+        onMouseOut={() => setIsFileActionHover(false)}
+        onMouseOver={() => {
+          setIsFileActionHover(true);
+        }}
+      >
+        <MoreVertical
+          style={{ cursor: "pointer" }}
+          onClick={() => setFileViewVisibility(true)}
+        />
+        {isFileActionHover && (
+          <div className="action__wrapper">
+            <div className="action__wrapper__item">
+              <img src={logo} className="action__wrapper__img" />
+              <div className="action__wrapper__content">Registry</div>
+            </div>
+            <div className="action__wrapper__item">
+              <img src={logo} className="action__wrapper__img" />
+              <div className="action__wrapper__content">Registry</div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* <div className="container__main__content__listing__table__content__list__entry">
         <FileText
           size={15}
           style={{ cursor: "pointer" }}
           // onClick={() => viewFiles()}
         />
-      </div>
+      </div> */}
       {/* <TableEntryStatus>
         {item.status == 0 ? "Unverified" : "Verified"}
       </TableEntryStatus> */}
-      <div className="container__main__content__listing__table__content__list__entry">
-        <MoreVertical style={{ cursor: "pointer" }} />
-      </div>
     </div>
   );
 }

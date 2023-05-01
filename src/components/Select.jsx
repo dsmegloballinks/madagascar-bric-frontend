@@ -4,12 +4,16 @@ export default function Select({
   placeholder,
   background,
   widthProp,
+  getOptionLabel,
+  defaultValue,
 }) {
   return (
     <div className="list__container__top__select" style={{ width: widthProp }}>
       <ReactSelect
         options={options}
         placeholder={placeholder}
+        getOptionLabel={getOptionLabel}
+        defaultValue={defaultValue}
         theme={(theme) => ({
           ...theme,
           borderRadius: 0,
