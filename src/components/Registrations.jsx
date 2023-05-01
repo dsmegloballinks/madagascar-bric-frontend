@@ -162,7 +162,7 @@ function TableEntry({ item, setFileViewVisibility }) {
           {item.mother.commune_of_birth}
         </TableEntryText>
         <TableEntryText className="container__main__content__listing__table__content__list__entry__hover">
-          {item.mother.commune_of_birth}
+          {item.mother.fokontany_of_birth}
         </TableEntryText>
       </div>
       <TableEntryText>address</TableEntryText>
@@ -183,11 +183,11 @@ function TableEntry({ item, setFileViewVisibility }) {
           <div className="action__wrapper">
             <div className="action__wrapper__item">
               <img src={logo} className="action__wrapper__img" />
-              <div className="action__wrapper__content">Registry</div>
+              <div className="action__wrapper__content">Registered Picture</div>
             </div>
             <div className="action__wrapper__item">
               <img src={logo} className="action__wrapper__img" />
-              <div className="action__wrapper__content">Registry</div>
+              <div className="action__wrapper__content">Birth Certificate</div>
             </div>
           </div>
         )}

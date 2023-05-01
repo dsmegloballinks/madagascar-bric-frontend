@@ -1161,9 +1161,11 @@ height: 100vh;
   justify-content: flex-end;
 }
 
+
+
 .radio {
   margin: 0.5rem;
-  font-size: 13px;
+  font-size: 12px;
 
   input[type="radio"] {
     position: absolute;
@@ -1173,7 +1175,7 @@ height: 100vh;
       &:before {
         content: '';
         background: #f4f4f4;
-        border-radius: 100%;
+        border-radius: 0px;
         border: 1px solid var(--primary);
         display: inline-block;
         width: 1.4em;
@@ -1185,7 +1187,7 @@ height: 100vh;
         cursor: pointer;
         text-align: center;
         transition: all 250ms ease;
-        font-size: 13px;
+        font-size: 12px;
       }
     }
 
@@ -1539,7 +1541,7 @@ border-radius: 200px;
 
 .details__Info__wrapper__section__information__title{
   width: 28%;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .details__Info__wrapper__section__information__content__wrapper{

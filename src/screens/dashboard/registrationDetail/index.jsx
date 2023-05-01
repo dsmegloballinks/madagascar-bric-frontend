@@ -24,22 +24,22 @@ export default function RegistrationDetail() {
   };
   var name = "The FormGroup ref will  be";
 
-  const setFormValues = (data) => {
-    if (data) {
-      var newData = "";
-      if (data.length < 22) {
-        let count = 22 - data.length;
-        let test = data.padEnd(count + 50, " ");
-        newData = test.substring(0, 26);
-      }
-      return newData.split("").map((character) => {
-        return (
-          <div className="details__Info__wrapper__section__information__content">
-            {character}
-          </div>
-        );
-      });
-    }
+  const setFormValues = (data, id) => {
+    var cut = id ? id : 26;
+
+    var newData = "";
+    if (data && data.length < 22) {
+      let count = 22 - data.length;
+      let test = data.padEnd(count + 50, " ");
+      newData = test.substring(0, cut);
+    } else newData = "                          ";
+    return newData.split("").map((character) => {
+      return (
+        <div className="details__Info__wrapper__section__information__content">
+          {character}
+        </div>
+      );
+    });
   };
 
   const setDateValues = (data, id) => {
@@ -49,7 +49,7 @@ export default function RegistrationDetail() {
         let count = 22 - data.length;
         let test = data.padEnd(count + 50, " ");
         newData = test.substring(0, id);
-      }
+      } else newData = "                              ";
       return data.split("").map((character) => {
         return (
           <div className="details__Info__wrapper__section__information__content">
@@ -102,7 +102,7 @@ export default function RegistrationDetail() {
                     Number
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.cr.uin)}
+                    {setFormValues(state.registrationData.cr.uin, 10)}
                     {/* {state.registrationData.cr.uin
                       .split("")
                       .map((character) => {
@@ -119,110 +119,17 @@ export default function RegistrationDetail() {
                     Date of Declaration
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
+                    {/* {name.split("").map((character) => {
                       return (
                         <div className="details__Info__wrapper__section__information__content">
                           {character}
                         </div>
                       );
-                    })}
-                  </div>
-                </div>
-                <div className="details__Info__wrapper__section__information">
-                  <div className="details__Info__wrapper__section__information__title">
-                    Date of Transcription of Declaration
-                  </div>
-                  <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-              <div className="details__Info__wrapper__section">
-                <div className="details__Info__wrapper__section__title">
-                  Information About Child
-                </div>
-                <div className="details__Info__wrapper__section__title__border"></div>
-                <div className="details__Info__wrapper__section__information">
-                  <div className="details__Info__wrapper__section__information__title">
-                    NIU
-                  </div>
-                  <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.cr.uin)}
-                    {/* {state.registrationData.cr.uin
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
-                  </div>
-                </div>
-                <div className="details__Info__wrapper__section__information">
-                  <div className="details__Info__wrapper__section__information__title">
-                    Last Name
-                  </div>
-                  <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.cr.given_name
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
-                    {setFormValues(state.registrationData.cr.given_name)}
-                  </div>
-                </div>
-                <div className="details__Info__wrapper__section__information">
-                  <div className="details__Info__wrapper__section__information__title">
-                    First Name
-                  </div>
-                  <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.cr.given_name
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
-                    {setFormValues(state.registrationData.cr.given_name)}
-                  </div>
-                </div>
-                <div className="details__Info__wrapper__section__information">
-                  <div className="details__Info__wrapper__section__information__title">
-                    Date of Birth
-                  </div>
-                  <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {moment(state.registrationData.cr.date_of_birth)
-                      .format("DDMMMMYYYY")
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
-                    {/* {setFormValues(
-                      moment(state.registrationData.cr.date_of_birth).format(
-                        "DDMMMMYYYY"
-                      )
-                    )} */}
+                    })} */}
                     <div className="details__dob__sections">Day</div>
                     {setDateValues(
                       moment(state.registrationData.cr.date_of_birth).format(
-                        "dddd"
+                        "DD"
                       ),
                       10
                     )}
@@ -234,7 +141,7 @@ export default function RegistrationDetail() {
                     </div>
                     {setDateValues(
                       moment(state.registrationData.cr.date_of_birth).format(
-                        "MMMM"
+                        "MM"
                       ),
                       10
                     )}
@@ -254,46 +161,160 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Time of Birth
+                    Date of Transcription of Declaration
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {moment(state.registrationData.cr.date_of_birth)
-                      .format("HHmm")
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
-                    {setFormValues(
+                    <div className="details__dob__sections">Day</div>
+                    {setDateValues(
                       moment(state.registrationData.cr.date_of_birth).format(
-                        "HHmm"
-                      )
+                        "DD"
+                      ),
+                      10
+                    )}
+                    <div
+                      className="details__dob__sections"
+                      style={{ marginLeft: ".5em" }}
+                    >
+                      Month
+                    </div>
+                    {setDateValues(
+                      moment(state.registrationData.cr.date_of_birth).format(
+                        "MM"
+                      ),
+                      10
+                    )}
+                    <div
+                      className="details__dob__sections"
+                      style={{ marginLeft: ".5em" }}
+                    >
+                      Year
+                    </div>
+                    {setDateValues(
+                      moment(state.registrationData.cr.date_of_birth).format(
+                        "YYYY"
+                      ),
+                      5
                     )}
                   </div>
                 </div>
-                <div
-                  className="details__Info__wrapper__section__title"
-                  style={{ marginBottom: ".8em" }}
-                >
-                  Place Of Birth
+              </div>
+              <div className="details__Info__wrapper__section">
+                <div className="details__Info__wrapper__section__title">
+                  Information About Child
                 </div>
+                <div className="details__Info__wrapper__section__title__border"></div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    NIU
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues(state.registrationData.cr.uin, 10)}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Last Name
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues(state.registrationData.cr.given_name)}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    First Name
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues(state.registrationData.cr.given_name)}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Date of Birth
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    <div className="details__dob__sections">Day</div>
+                    {setDateValues(
+                      moment(state.registrationData.cr.date_of_birth).format(
+                        "DD"
+                      ),
+                      10
+                    )}
+                    <div
+                      className="details__dob__sections"
+                      style={{ marginLeft: ".5em" }}
+                    >
+                      Month
+                    </div>
+                    {setDateValues(
+                      moment(state.registrationData.cr.date_of_birth).format(
+                        "MM"
+                      ),
+                      10
+                    )}
+                    <div
+                      className="details__dob__sections"
+                      style={{ marginLeft: ".5em" }}
+                    >
+                      Year
+                    </div>
+                    {setDateValues(
+                      moment(state.registrationData.cr.date_of_birth).format(
+                        "YYYY"
+                      ),
+                      5
+                    )}
+                    <div
+                      className="details__dob__sections"
+                      style={{ marginLeft: ".5em" }}
+                    >
+                      Hour
+                    </div>
+                    {setDateValues(
+                      moment(state.registrationData.cr.date_of_birth).format(
+                        "HH"
+                      ),
+                      5
+                    )}
+                    <div
+                      className="details__dob__sections"
+                      style={{ marginLeft: ".5em" }}
+                    >
+                      h
+                    </div>
+                    {setDateValues(
+                      moment(state.registrationData.cr.date_of_birth).format(
+                        "mm"
+                      ),
+                      5
+                    )}
+                  </div>
+                  <div
+                    className="details__dob__sections"
+                    style={{ marginLeft: ".5em" }}
+                  >
+                    mn
+                  </div>
+                  <div
+                    className="details__dob__sections"
+                    style={{ marginLeft: ".5em" }}
+                  ></div>
+                </div>
+
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title"></div>
+                  <div
+                    className="details__Info__wrapper__section__information__content__wrapper"
+                    style={{ fontSize: "16px", fontWeight: "600" }}
+                  >
+                    Place Of Birth
+                  </div>
+                </div>
+
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
                     Region
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.cr.region_of_birth
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
                     {setFormValues(state.registrationData.cr.region_of_birth)}
                   </div>
                 </div>
@@ -302,15 +323,6 @@ export default function RegistrationDetail() {
                     District
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.cr.district_of_birth
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
                     {setFormValues(state.registrationData.cr.district_of_birth)}
                   </div>
                 </div>
@@ -319,15 +331,6 @@ export default function RegistrationDetail() {
                     Commune
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.cr.commune_of_birth
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
                     {setFormValues(state.registrationData.cr.commune_of_birth)}
                   </div>
                 </div>
@@ -336,15 +339,6 @@ export default function RegistrationDetail() {
                     Fokontany
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.cr.fokontany_of_birth
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
                     {setFormValues(
                       state.registrationData.cr.fokontany_of_birth
                     )}
@@ -389,14 +383,6 @@ export default function RegistrationDetail() {
                         </label>
                       </div>
                     </div>
-                    {/* {name.split("").map((character) => {
-                      
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })} */}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -435,64 +421,43 @@ export default function RegistrationDetail() {
                         No
                       </label>
                     </div>
-                  </div>
-                  {/* <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {name.split("").map((character) => {
-                      
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })}
-                  </div> */}
-                </div>
-                <div className="details__Info__wrapper__section__information">
-                  <div className="details__Info__wrapper__section__information__title">
-                    Same usual residence?
-                  </div>
-                  <div className="details__Info__wrapper__section__information__content__wrapper">
-                    <div style={{ display: "flex" }}>
-                      <div class="radio">
-                        <input
-                          id="radio-5"
-                          name="radio-6"
-                          type="radio"
-                          style={{ width: 0 }}
-                          checked={
-                            state.registrationData.cr.is_residence_same.toLowerCase() ==
-                            "oui".toLowerCase()
-                          }
-                        />
-                        <label for="radio-5" class="radio-label">
-                          Yes
-                        </label>
-                      </div>
-
-                      <div class="radio">
-                        <input
-                          id="radio-6"
-                          name="radio-6"
-                          type="radio"
-                          style={{ width: 0 }}
-                          checked={
-                            state.registrationData.cr.is_residence_same.toLowerCase() ==
-                            "non".toLowerCase()
-                          }
-                        />
-                        <label for="radio-6" class="radio-label">
-                          No
-                        </label>
-                      </div>
+                    <div
+                      className="details__Info__wrapper__section__information__title"
+                      style={{ paddingLeft: "1em" }}
+                    >
+                      Same usual residence?
                     </div>
-                    {/* {name.split("").map((character) => {
-                      
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })} */}
+                    <div class="radio">
+                      <input
+                        id="radio-5"
+                        name="radio-6"
+                        type="radio"
+                        style={{ width: 0 }}
+                        checked={
+                          state.registrationData.cr.is_residence_same.toLowerCase() ==
+                          "oui".toLowerCase()
+                        }
+                      />
+                      <label for="radio-5" class="radio-label">
+                        Yes
+                      </label>
+                    </div>
+
+                    <div class="radio">
+                      <input
+                        id="radio-6"
+                        name="radio-6"
+                        type="radio"
+                        style={{ width: 0 }}
+                        checked={
+                          state.registrationData.cr.is_residence_same.toLowerCase() ==
+                          "non".toLowerCase()
+                        }
+                      />
+                      <label for="radio-6" class="radio-label">
+                        No
+                      </label>
+                    </div>
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -533,14 +498,6 @@ export default function RegistrationDetail() {
                         </label>
                       </div>
                     </div>
-                    {/* {name.split("").map((character) => {
-                      
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })} */}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -581,14 +538,6 @@ export default function RegistrationDetail() {
                         </label>
                       </div>
                     </div>
-                    {/* {name.split("").map((character) => {
-                      
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })} */}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -596,287 +545,10 @@ export default function RegistrationDetail() {
                     Birth Place Address
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.cr.place_of_birth
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
                     {setFormValues(state.registrationData.cr.place_of_birth)}
                   </div>
                 </div>
               </div>
-              <div className="details__Info__wrapper__section">
-                <div className="details__Info__wrapper__section__title">
-                  Information About Father
-                </div>
-                <div className="details__Info__wrapper__section__title__border"></div>
-                <div className="details__Info__wrapper__section__information">
-                  <div className="details__Info__wrapper__section__information__title">
-                    NIU
-                  </div>
-                  <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.father.uin
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
-                    {setFormValues(state.registrationData.father.uin)}
-                  </div>
-                </div>
-                <div className="details__Info__wrapper__section__information">
-                  <div className="details__Info__wrapper__section__information__title">
-                    Last Name
-                  </div>
-                  <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.father.given_name
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
-                    {setFormValues(state.registrationData.father.given_name)}
-                  </div>
-                </div>
-                <div className="details__Info__wrapper__section__information">
-                  <div className="details__Info__wrapper__section__information__title">
-                    First Name
-                  </div>
-                  <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.father.given_name
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
-                    {setFormValues(state.registrationData.father.given_name)}
-                  </div>
-                </div>
-                <div className="details__Info__wrapper__section__information">
-                  <div className="details__Info__wrapper__section__information__title">
-                    Date of Birth
-                  </div>
-                  <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {moment(state.registrationData.father.date_of_birth)
-                      .format("DDMMMMYYYY")
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
-                    {/* {setFormValues(
-                      moment(
-                        state.registrationData.father.date_of_birth
-                      ).format("DDMMMMYYYY")
-                    )} */}
-                    <div className="details__dob__sections">Day</div>
-                    {setDateValues(
-                      moment(
-                        state.registrationData.father.date_of_birth
-                      ).format("dddd"),
-                      10
-                    )}
-                    <div
-                      className="details__dob__sections"
-                      style={{ marginLeft: ".5em" }}
-                    >
-                      Month
-                    </div>
-                    {setDateValues(
-                      moment(
-                        state.registrationData.father.date_of_birth
-                      ).format("MMMM"),
-                      10
-                    )}
-                    <div
-                      className="details__dob__sections"
-                      style={{ marginLeft: ".5em" }}
-                    >
-                      Year
-                    </div>
-                    {setDateValues(
-                      moment(
-                        state.registrationData.father.date_of_birth
-                      ).format("YYYY"),
-                      5
-                    )}
-                  </div>
-                </div>
-                <div className="details__Info__wrapper__section__information">
-                  <div className="details__Info__wrapper__section__information__title">
-                    Is Address of Mother and Father same ?
-                  </div>
-                  <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {name.split("").map((character) => {
-                      
-                      return (
-                        <div className="details__Info__wrapper__section__information__content">
-                          {character}
-                        </div>
-                      );
-                    })} */}
-                    <div style={{ display: "flex" }}>
-                      <div class="radio">
-                        <input
-                          id="radio-11"
-                          name="radio-12"
-                          type="radio"
-                          style={{ width: 0 }}
-                          checked={
-                            state.registrationData.father.is_residence_same &&
-                            state.registrationData.father.is_residence_same.toLowerCase() ==
-                              "oui".toLowerCase()
-                          }
-                        />
-                        <label for="radio-11" class="radio-label">
-                          Yes
-                        </label>
-                      </div>
-
-                      <div class="radio">
-                        <input
-                          id="radio-12"
-                          name="radio-12"
-                          type="radio"
-                          style={{ width: 0 }}
-                          checked={
-                            state.registrationData.father.is_residence_same &&
-                            state.registrationData.father.is_residence_same.toLowerCase() ==
-                              "non".toLowerCase()
-                          }
-                        />
-                        <label for="radio-12" class="radio-label">
-                          No
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="details__Info__wrapper__section__information">
-                  <div className="details__Info__wrapper__section__information__title">
-                    Profession
-                  </div>
-                  <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.father.cr_profession
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
-                    {setFormValues(state.registrationData.father.cr_profession)}
-                  </div>
-                </div>
-                {state.registrationData.father.is_residence_same &&
-                state.registrationData.father.is_residence_same.toLowerCase() ==
-                  "non".toLowerCase() ? (
-                  <>
-                    <div
-                      className="details__Info__wrapper__section__title"
-                      style={{ marginBottom: ".8em" }}
-                    >
-                      Place Of Birth
-                    </div>
-                    <div className="details__Info__wrapper__section__information">
-                      <div className="details__Info__wrapper__section__information__title">
-                        Region
-                      </div>
-                      <div className="details__Info__wrapper__section__information__content__wrapper">
-                        {/* {state.registrationData.father.region_of_birth
-                          .split("")
-                          .map((character) => {
-                            return (
-                              <div className="details__Info__wrapper__section__information__content">
-                                {character}
-                              </div>
-                            );
-                          })} */}
-                        {setFormValues(
-                          state.registrationData.father.region_of_birth
-                        )}
-                      </div>
-                    </div>
-                    <div className="details__Info__wrapper__section__information">
-                      <div className="details__Info__wrapper__section__information__title">
-                        District
-                      </div>
-                      <div className="details__Info__wrapper__section__information__content__wrapper">
-                        {/* {state.registrationData.father.district_of_birth
-                          .split("")
-                          .map((character) => {
-                            return (
-                              <div className="details__Info__wrapper__section__information__content">
-                                {character}
-                              </div>
-                            );
-                          })} */}
-                        {setFormValues(
-                          state.registrationData.father.district_of_birth
-                        )}
-                      </div>
-                    </div>
-                    <div className="details__Info__wrapper__section__information">
-                      <div className="details__Info__wrapper__section__information__title">
-                        Commune
-                      </div>
-                      <div className="details__Info__wrapper__section__information__content__wrapper">
-                        {/* {state.registrationData.father.commune_of_birth
-                          .split("")
-                          .map((character) => {
-                            return (
-                              <div className="details__Info__wrapper__section__information__content">
-                                {character}
-                              </div>
-                            );
-                          })} */}
-                        {setFormValues(
-                          state.registrationData.father.commune_of_birth
-                        )}
-                      </div>
-                    </div>
-                    <div className="details__Info__wrapper__section__information">
-                      <div className="details__Info__wrapper__section__information__title">
-                        Fokontany
-                      </div>
-                      <div className="details__Info__wrapper__section__information__content__wrapper">
-                        {/* {state.registrationData.father.fokontany_of_birth
-                          .split("")
-                          .map((character) => {
-                            return (
-                              <div className="details__Info__wrapper__section__information__content">
-                                {character}
-                              </div>
-                            );
-                          })} */}
-                        {setFormValues(
-                          state.registrationData.father.fokontany_of_birth
-                        )}
-                      </div>
-                    </div>
-                  </>
-                ) : null}
-              </div>
-            </div>
-            <div className="details__Info__wrapper__left">
               <div className="details__Info__wrapper__section">
                 <div className="details__Info__wrapper__section__title">
                   Information About Mother
@@ -887,16 +559,7 @@ export default function RegistrationDetail() {
                     NIU
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.mother.uin
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
-                    {setFormValues(state.registrationData.mother.uin)}
+                    {setFormValues(state.registrationData.mother.uin, 10)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -904,15 +567,6 @@ export default function RegistrationDetail() {
                     Last Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.mother.given_name
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
                     {setFormValues(state.registrationData.mother.given_name)}
                   </div>
                 </div>
@@ -921,15 +575,6 @@ export default function RegistrationDetail() {
                     First Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.mother.given_name
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
                     {setFormValues(state.registrationData.mother.given_name)}
                   </div>
                 </div>
@@ -938,22 +583,11 @@ export default function RegistrationDetail() {
                     Date of Birth
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {moment(state.registrationData.mother.date_of_birth)
-                      .format("DDMMMMYYYY")
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
-                    {/* {setFormValues(state.registrationData.mother.date_of_birth)} */}
                     <div className="details__dob__sections">Day</div>
                     {setDateValues(
                       moment(
                         state.registrationData.mother.date_of_birth
-                      ).format("dddd"),
+                      ).format("DD"),
                       10
                     )}
                     <div
@@ -965,7 +599,7 @@ export default function RegistrationDetail() {
                     {setDateValues(
                       moment(
                         state.registrationData.mother.date_of_birth
-                      ).format("MMMM"),
+                      ).format("MM"),
                       10
                     )}
                     <div
@@ -982,26 +616,21 @@ export default function RegistrationDetail() {
                     )}
                   </div>
                 </div>
-                <div
-                  className="details__Info__wrapper__section__title"
-                  style={{ marginBottom: ".8em" }}
-                >
-                  Place Of Birth
+
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title"></div>
+                  <div
+                    className="details__Info__wrapper__section__information__content__wrapper"
+                    style={{ fontSize: "16px", fontWeight: "600" }}
+                  >
+                    Place Of Birth
+                  </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
                     Region
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.mother.region_of_birth
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
                     {setFormValues(
                       state.registrationData.mother.region_of_birth
                     )}
@@ -1012,15 +641,6 @@ export default function RegistrationDetail() {
                     District
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.mother.district_of_birth
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
                     {setFormValues(
                       state.registrationData.mother.district_of_birth
                     )}
@@ -1031,15 +651,6 @@ export default function RegistrationDetail() {
                     Commune
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.mother.commune_of_birth
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
                     {setFormValues(
                       state.registrationData.mother.commune_of_birth
                     )}
@@ -1050,18 +661,50 @@ export default function RegistrationDetail() {
                     Fokontany
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.mother.fokontany_of_birth
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
                     {setFormValues(
                       state.registrationData.mother.fokontany_of_birth
                     )}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title"></div>
+                  <div
+                    className="details__Info__wrapper__section__information__content__wrapper"
+                    style={{ fontSize: "16px", fontWeight: "600" }}
+                  >
+                    Usual Residence
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Region
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues("")}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    District
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues("")}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Commune
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues("")}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Fokontany
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues("")}
                   </div>
                 </div>
 
@@ -1070,16 +713,10 @@ export default function RegistrationDetail() {
                     Profession
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.mother.cr_profession
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
-                    {setFormValues(state.registrationData.mother.cr_profession)}
+                    {setFormValues(
+                      state.registrationData.mother.cr_profession,
+                      22
+                    )}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1087,21 +724,235 @@ export default function RegistrationDetail() {
                     Nationality
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.mother.nationality_name
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <div class="radio">
+                        <input
+                          id="radio-17"
+                          name="radio-17"
+                          type="radio"
+                          style={{ width: 0 }}
+                          checked={
+                            state.registrationData.mother
+                              .is_other_nationality &&
+                            state.registrationData.mother.is_other_nationality.toLowerCase() ==
+                              "non".toLowerCase()
+                          }
+                        />
+                        <label for="radio-17" class="radio-label">
+                          Malagasy
+                        </label>
+                      </div>
+
+                      <div class="radio">
+                        <input
+                          id="radio-18"
+                          name="radio-17"
+                          type="radio"
+                          style={{ width: 0 }}
+                          checked={
+                            state.registrationData.mother
+                              .is_other_nationality &&
+                            state.registrationData.mother.is_other_nationality.toLowerCase() ==
+                              "oui".toLowerCase()
+                          }
+                        />
+                        <label for="radio-18" class="radio-label">
+                          Other
+                        </label>
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "12px",
+                          margin: "0em .3em",
+                          marginBottom: ".2em",
+                        }}
+                      >
+                        (To specify)
+                      </div>
+                      {setFormValues(
+                        state.registrationData.mother.nationality_name,
+                        10
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="details__Info__wrapper__left">
+              <div className="details__Info__wrapper__section">
+                <div className="details__Info__wrapper__section__title">
+                  Information About Father
+                </div>
+                <div className="details__Info__wrapper__section__title__border"></div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    NIU
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues(state.registrationData.father.uin, 10)}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Last Name
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues(state.registrationData.father.given_name)}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    First Name
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues(state.registrationData.father.given_name)}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Date of Birth
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    <div className="details__dob__sections">Day</div>
+                    {setDateValues(
+                      moment(
+                        state.registrationData.father.date_of_birth
+                      ).format("DD"),
+                      10
+                    )}
+                    <div
+                      className="details__dob__sections"
+                      style={{ marginLeft: ".5em" }}
+                    >
+                      Month
+                    </div>
+                    {setDateValues(
+                      moment(
+                        state.registrationData.father.date_of_birth
+                      ).format("MM"),
+                      10
+                    )}
+                    <div
+                      className="details__dob__sections"
+                      style={{ marginLeft: ".5em" }}
+                    >
+                      Year
+                    </div>
+                    {setDateValues(
+                      moment(
+                        state.registrationData.father.date_of_birth
+                      ).format("YYYY"),
+                      5
+                    )}
+                  </div>
+                </div>
+
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title"></div>
+                  <div
+                    className="details__Info__wrapper__section__information__content__wrapper"
+                    style={{ fontSize: "16px", fontWeight: "600" }}
+                  >
+                    Place Of Birth
+                  </div>
+                </div>
+
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Region
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
                     {setFormValues(
-                      state.registrationData.mother.nationality_name
+                      state.registrationData.father.region_of_birth
+                    )}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    District
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues(
+                      state.registrationData.father.district_of_birth
+                    )}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Commune
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues(
+                      state.registrationData.father.commune_of_birth
+                    )}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Fokontany
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues(
+                      state.registrationData.father.fokontany_of_birth
+                    )}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title"></div>
+                  <div
+                    className="details__Info__wrapper__section__information__content__wrapper"
+                    style={{ fontSize: "16px", fontWeight: "600" }}
+                  >
+                    Usual Residence
+                  </div>
+                </div>
+
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Region
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues("")}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    District
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues("")}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Commune
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues("")}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Fokontany
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues("")}
+                  </div>
+                </div>
+
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Profession
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues(
+                      state.registrationData.father.cr_profession,
+                      22
                     )}
                   </div>
                 </div>
               </div>
+
               <div className="details__Info__wrapper__section">
                 <div className="details__Info__wrapper__section__title">
                   Declarant Information
@@ -1112,16 +963,6 @@ export default function RegistrationDetail() {
                     Link
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.declarant.uin
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
-                    {/* {setFormValues(state.registrationData.declarant.uin)} */}
                     <div style={{ display: "flex" }}>
                       <div class="radio">
                         <input
@@ -1169,7 +1010,7 @@ export default function RegistrationDetail() {
                           // }
                         />
                         <label for="radio-15" class="radio-label">
-                          Health Officer
+                          Family
                         </label>
                       </div>
                       <div class="radio">
@@ -1185,7 +1026,71 @@ export default function RegistrationDetail() {
                           // }
                         />
                         <label for="radio-16" class="radio-label">
+                          Health worker
+                        </label>
+                      </div>
+                      <div class="radio">
+                        <input
+                          id="radio-19"
+                          name="radio-13"
+                          type="radio"
+                          style={{ width: 0 }}
+                          // checked={
+                          //   state.registrationData.father.is_residence_same &&
+                          //   state.registrationData.father.is_residence_same.toLowerCase() ==
+                          //     "non".toLowerCase()
+                          // }
+                        />
+                        <label for="radio-19" class="radio-label">
                           Matron
+                        </label>
+                      </div>
+                      <div class="radio">
+                        <input
+                          id="radio-20"
+                          name="radio-13"
+                          type="radio"
+                          style={{ width: 0 }}
+                          // checked={
+                          //   state.registrationData.father.is_residence_same &&
+                          //   state.registrationData.father.is_residence_same.toLowerCase() ==
+                          //     "non".toLowerCase()
+                          // }
+                        />
+                        <label for="radio-20" class="radio-label">
+                          Matron
+                        </label>
+                      </div>
+                      <div class="radio">
+                        <input
+                          id="radio-21"
+                          name="radio-13"
+                          type="radio"
+                          style={{ width: 0 }}
+                          // checked={
+                          //   state.registrationData.father.is_residence_same &&
+                          //   state.registrationData.father.is_residence_same.toLowerCase() ==
+                          //     "non".toLowerCase()
+                          // }
+                        />
+                        <label for="radio-21" class="radio-label">
+                          AC
+                        </label>
+                      </div>
+                      <div class="radio">
+                        <input
+                          id="radio-22"
+                          name="radio-13"
+                          type="radio"
+                          style={{ width: 0 }}
+                          // checked={
+                          //   state.registrationData.father.is_residence_same &&
+                          //   state.registrationData.father.is_residence_same.toLowerCase() ==
+                          //     "non".toLowerCase()
+                          // }
+                        />
+                        <label for="radio-22" class="radio-label">
+                          Other
                         </label>
                       </div>
                     </div>
@@ -1196,16 +1101,7 @@ export default function RegistrationDetail() {
                     NIU
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.declarant.uin
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
-                    {setFormValues(state.registrationData.declarant.uin)}
+                    {setFormValues(state.registrationData.declarant.uin, 10)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1213,15 +1109,6 @@ export default function RegistrationDetail() {
                     Last Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.declarant.given_name
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
                     {setFormValues(state.registrationData.declarant.given_name)}
                   </div>
                 </div>
@@ -1230,15 +1117,6 @@ export default function RegistrationDetail() {
                     First Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.declarant.given_name
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
                     {setFormValues(state.registrationData.declarant.given_name)}
                   </div>
                 </div>
@@ -1251,7 +1129,7 @@ export default function RegistrationDetail() {
                     {setDateValues(
                       moment(
                         state.registrationData.declarant.date_of_birth
-                      ).format("dddd"),
+                      ).format("DD"),
                       10
                     )}
                     <div
@@ -1263,7 +1141,7 @@ export default function RegistrationDetail() {
                     {setDateValues(
                       moment(
                         state.registrationData.declarant.date_of_birth
-                      ).format("MMMM"),
+                      ).format("MM"),
                       10
                     )}
                     <div
@@ -1285,458 +1163,56 @@ export default function RegistrationDetail() {
                     Address
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {/* {state.registrationData.declarant.region_of_birth
-                      .split("")
-                      .map((character) => {
-                        return (
-                          <div className="details__Info__wrapper__section__information__content">
-                            {character}
-                          </div>
-                        );
-                      })} */}
                     {setFormValues(
                       state.registrationData.declarant.region_of_birth
                     )}
                   </div>
                 </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title"></div>
+                  <div
+                    className="details__Info__wrapper__section__information__content__wrapper"
+                    style={{ fontSize: "16px", fontWeight: "600" }}
+                  >
+                    Usual Residence
+                  </div>
+                </div>
+
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Region
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues("")}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    District
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues("")}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Commune
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues("")}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Fokontany
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues("")}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          {/* <div className="details__container__section" style={{ width: "100%" }}>
-          <div className="details__container__heading">
-            Reporting Information
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Number
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Date of Declaration
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Date of Transcription of Declaration
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-        </div>
-        <div className="details__container__section" style={{ width: "100%" }}>
-          <div className="details__container__heading">Child Information</div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Last Name
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              First Name
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Date of Birth
-            </div>
-            <div className="details__container__content__wrapper__info">
-              23/23/23
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Region
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              District
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Commune
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Fokontany
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Gender
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Married Parents
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Same usual residence?
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Birth in Health Center
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Health Care Worker
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Birth Place Address
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-        </div>
-
-        <div className="details__container__section">
-          <div className="details__container__heading">Mother Information</div>
-
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              NIU
-            </div>
-            <div className="details__container__content__wrapper__info">
-              23/23/23
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Last Name
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              First Name
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Date of Birth
-            </div>
-            <div className="details__container__content__wrapper__info">
-              23/23/23
-            </div>
-          </div>
-          <div className="details__container__heading">Place Of Birth</div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Region
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              District
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Commune
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Fokontany
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__heading">Usual Residence</div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Region
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              District
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Commune
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Fokontany
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Profession
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Nationality
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-        </div>
-        <div className="details__container__section">
-          <div className="details__container__heading">Father Information</div>
-
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              NIU
-            </div>
-            <div className="details__container__content__wrapper__info">
-              23/23/23
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Last Name
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              First Name
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Date of Birth
-            </div>
-            <div className="details__container__content__wrapper__info">
-              23/23/23
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Is Address of Mother and Father same ?
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__heading">Place Of Birth</div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Region
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              District
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Commune
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Fokontany
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-
-          <div className="details__container__heading">Usual Residence</div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Region
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              District
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Commune
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Fokontany
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Profession
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-        </div>
-        <div className="details__container__section" style={{ width: "100%" }}>
-          <div className="details__container__heading">
-            Declarant Information
-          </div>
-
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Link
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Father
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              NIU
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Last Name
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              First Name
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Date of Birth
-            </div>
-            <div className="details__container__content__wrapper__info">
-              23/23/23
-            </div>
-          </div>
-          <div className="details__container__content__wrapper">
-            <div className="details__container__content__wrapper__heading">
-              Address
-            </div>
-            <div className="details__container__content__wrapper__info">
-              Punjab
-            </div>
-          </div>
-        </div> */}
         </div>
       </PDFExport>
     </div>

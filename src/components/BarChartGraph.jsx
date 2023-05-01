@@ -10,13 +10,13 @@ import {
 
 export default function BarChartGraph() {
   let data = [
-    { uv: "12", days: "14", name: "Mon" },
-    { uv: "12", days: "14", name: "Tue" },
-    { uv: "12", days: "14", name: "Wed" },
-    { uv: "12", days: "14", name: "Thu" },
-    { uv: "12", days: "14", name: "Fri" },
-    { uv: "12", days: "14", name: "Sat" },
-    { uv: "12", days: "14", name: "Sun" },
+    { uv: "12", days: "14", name: "Mon", date: "23/67/2345" },
+    { uv: "12", days: "14", name: "Tue", date: "23/67/2345" },
+    { uv: "12", days: "14", name: "Wed", date: "23/67/2345" },
+    { uv: "12", days: "14", name: "Thu", date: "23/67/2345" },
+    { uv: "12", days: "14", name: "Fri", date: "23/67/2345" },
+    { uv: "12", days: "14", name: "Sat", date: "23/67/2345" },
+    { uv: "12", days: "14", name: "Sun", date: "23/67/2345" },
   ];
   return (
     <BarChart

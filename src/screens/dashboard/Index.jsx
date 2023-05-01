@@ -7,7 +7,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import RegistrationsMapView from "@components/RegistrationsMapView";
 import Select from "@components/Select";
 import UploadFileSingle from "@components/UploadFileSingle";
-import { filePostCall, registrationsGetCall } from "../../apis/Repo";
+import {
+  analyticsGetCall,
+  filePostCall,
+  fokontanyGetCall,
+  registrationsGetCall,
+} from "../../apis/Repo";
 import { PopupContext } from "../../context/PopupContext";
 
 export default function dashboard() {
@@ -24,15 +29,24 @@ export default function dashboard() {
   const limit = 10;
   const [isUploadFilePopupOpen, setIsUploadFilePopupOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [analytics, setAnalytics] = useState(null);
+  const [regionList, setRegionList] = useState([]);
+  const [districtList, setDistrictList] = useState([]);
+  const [communeList, setCommuneList] = useState([]);
+  const [fokontanyList, setFokontanyList] = useState([]);
 
-  console.log("state", state);
+  console.log("fokontanyList", fokontanyList);
 
   useEffect(() => {
     getRegistrations();
   }, [page]);
 
   useEffect(() => {
-    debugger;
+    getAnalytics();
+    getFokontany();
+  }, []);
+
+  useEffect(() => {
     if (state == "List") setSelectedFilter("List");
     else if (state == "Map") setSelectedFilter("Map");
     else setSelectedFilter("Graph");
@@ -202,6 +216,37 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
     },
   ];
 
+  const getAnalytics = () => {
+    analyticsGetCall()
+      .then(({ data }) => {
+        if (data.data) setAnalytics(data.data);
+        else setAnalytics(null);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
+
+  const getFokontany = () => {
+    debugger;
+    fokontanyGetCall()
+      .then(({ data }) => {
+        if (data.data.success) {
+          let newArray = [];
+          for (let index = 0; index < data.data.result.length; index++) {
+            const element = data.data.result[index];
+            element.label = element.libelle_fokontany;
+            element.value = element.code_fokontany;
+            newArray.push(element);
+          }
+          setFokontanyList(newArray);
+        } else setFokontanyList(null);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
+
   return (
     <>
       <div className="dashboard__container">
@@ -302,7 +347,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
             </div>
             <div className="dashboard__analytics__container__top">
               <div className="dashboard__analytics__container__top__number">
-                23,345,00
+                {analytics?.count}
               </div>
               <div>Total Registered Child</div>
             </div>
@@ -322,7 +367,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
               style={{ borderBottomColor: "#E2E2E2" }}
             >
               <div className="dashboard__analytics__container__top__number">
-                23,345,00
+                {analytics?.lastWeekCount}
               </div>
               <div>Last Week Registered Child</div>
             </div>
@@ -342,7 +387,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
               style={{ borderBottomColor: "#E2E2E2" }}
             >
               <div className="dashboard__analytics__container__top__number">
-                23,345,00
+                {analytics?.lastMonthCount}
               </div>
               <div>Last Month Registered Child</div>
             </div>
@@ -362,7 +407,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
               style={{ borderBottomColor: "#E2E2E2" }}
             >
               <div className="dashboard__analytics__container__top__number">
-                23,345,00
+                {analytics?.lastYearCount}
               </div>
               <div>Last Year Registered Child</div>
             </div>
@@ -396,6 +441,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
             placeholder="Fokontany"
             background="white"
             widthProp="180px"
+            options={fokontanyList}
           />
 
           <button

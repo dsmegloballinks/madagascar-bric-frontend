@@ -45,5 +45,5 @@ function RegistrationsMapView() {
 }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyCk5qgy-qtwi9pCbQZMdo2qhtr8iZXJM2M",
+  apiKey: "AIzaSyBch80KN8P7agyjoq_R92ApjKohp-1txiQ",
 })(RegistrationsMapView);
