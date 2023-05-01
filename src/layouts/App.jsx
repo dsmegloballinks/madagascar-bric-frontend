@@ -11,10 +11,7 @@ export default function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (
-      user === null &&
-      location.pathname.toLowerCase().includes("/dashboard")
-    ) {
+    if (user === null && location.pathname.toLowerCase().includes("/dashboard")) {
       navigate("/", { replace: true });
     }
     if (user !== null && location.pathname.toLowerCase() === "/") {
