@@ -8,7 +8,7 @@ const markers = [
     name: "Buenos Aires",
     coordinates: [-19.002846, 46.460938],
   },
-  { markerOffset: -15, name: "La Paz", coordinates: [18.7669, 46.8691] },
+  // { markerOffset: -15, name: "La Paz", coordinates: [18.7669, 46.8691] },
   { markerOffset: 25, name: "Brasilia", coordinates: [-13.203681, 49.662342] },
   { markerOffset: 25, name: "Santiago", coordinates: [-21.0, 48.150002] },
   { markerOffset: 25, name: "Bogota", coordinates: [-16.916668, 47.716667] },
@@ -25,9 +25,7 @@ function RegistrationsMapView(props) {
 
   return (
     <div>
-      <div style={{ fontSize: "18px", fontWeight: "600", marginTop: "1em" }}>
-        Field Activites
-      </div>
+      <div style={{ fontSize: "18px", fontWeight: "600", marginTop: "1em" }}>Field Activites</div>
       <Map
         ref={mapRef}
         id="map"
