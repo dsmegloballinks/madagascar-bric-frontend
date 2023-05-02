@@ -24,7 +24,7 @@ function RegistrationsMapView(props) {
   const mapRef = useRef(null);
 
   return (
-    <div>
+    <div className="map">
       <div style={{ fontSize: "18px", fontWeight: "600", marginTop: "1em" }}>
         Field Activites
       </div>
@@ -49,11 +49,11 @@ function RegistrationsMapView(props) {
           />
         ))}
 
-        <InfoWindow>
+        {/* <InfoWindow>
           <div>
             <h1>{"this.state.selectedPlace.name"}</h1>
           </div>
-        </InfoWindow>
+        </InfoWindow> */}
       </Map>
     </div>
   );

@@ -14,6 +14,7 @@ import {
   registrationsGetCall,
 } from "../../apis/Repo";
 import { PopupContext } from "../../context/PopupContext";
+import moment from "moment";
 
 export default function dashboard() {
   const navigate = useNavigate();
@@ -35,15 +36,14 @@ export default function dashboard() {
   const [communeList, setCommuneList] = useState([]);
   const [fokontanyList, setFokontanyList] = useState([]);
 
-  console.log("fokontanyList", fokontanyList);
-
   useEffect(() => {
     getRegistrations();
   }, [page]);
 
   useEffect(() => {
     getAnalytics();
-    getFokontany();
+    getRegions();
+    setDefatulDates();
   }, []);
 
   useEffect(() => {
@@ -51,6 +51,22 @@ export default function dashboard() {
     else if (state == "Map") setSelectedFilter("Map");
     else setSelectedFilter("Graph");
   }, [state]);
+
+  const setDefatulDates = () => {
+    var makeDate = new Date();
+
+    console.log("Original date: ", makeDate.toString());
+
+    makeDate.setDate(makeDate.getDate() - 7);
+
+    console.log("After subtracting a month: ", makeDate.toString());
+    let startDate = moment(makeDate).format("YYYY-MM-DD h:mm:ss");
+
+    let endDate = moment(new Date()).format("YYYY-MM-DD h:mm:ss");
+
+    setStart(moment(startDate).format("YYYY-MM-DD"));
+    setEnd(moment(endDate).format("YYYY-MM-DD"));
+  };
 
   const getRegistrations = () => {
     registrationsGetCall(page, limit)
@@ -227,24 +243,66 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
       });
   };
 
-  const getFokontany = () => {
-    debugger;
-    fokontanyGetCall()
+  const getRegions = (region, district, commune) => {
+    fokontanyGetCall(region, district, commune)
       .then(({ data }) => {
         if (data.data.success) {
           let newArray = [];
-          for (let index = 0; index < data.data.result.length; index++) {
-            const element = data.data.result[index];
-            element.label = element.libelle_fokontany;
-            element.value = element.code_fokontany;
-            newArray.push(element);
+          if (region) {
+            for (let index = 0; index < data.data.result.length; index++) {
+              const element = data.data.result[index];
+              element.label = element.libelle_district;
+              element.value = element.code_district;
+              newArray.push(element);
+            }
+            setDistrictList(newArray);
+          } else if (district) {
+            for (let index = 0; index < data.data.result.length; index++) {
+              const element = data.data.result[index];
+              element.label = element.libelle_commune;
+              element.value = element.code_commune;
+              newArray.push(element);
+            }
+            setCommuneList(newArray);
+          } else if (commune) {
+            for (let index = 0; index < data.data.result.length; index++) {
+              const element = data.data.result[index];
+              element.label = element.libelle_fokontany;
+              element.value = element.code_fokontany;
+              newArray.push(element);
+            }
+            setFokontanyList(newArray);
+          } else {
+            for (let index = 0; index < data.data.result.length; index++) {
+              const element = data.data.result[index];
+              element.label = element.libelle_region;
+              element.value = element.code_region;
+              newArray.push(element);
+            }
+            setRegionList(newArray);
           }
-          setFokontanyList(newArray);
-        } else setFokontanyList(null);
+        } else {
+          if (region) setDistrictList([]);
+          else if (district) setCommuneList([]);
+          else if (commune) setFokontanyList([]);
+          else setRegionList([]);
+        }
       })
       .catch((err) => {
         console.log("err", err);
       });
+  };
+
+  const onRegionChange = (e) => {
+    getRegions(e.value);
+  };
+
+  const onDistrictChange = (e) => {
+    getRegions("", e.value);
+  };
+
+  const onCommuneChange = (e) => {
+    getRegions("", "", e.value);
   };
 
   return (
@@ -417,6 +475,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
           <input
             type="date"
             style={{ marginRight: ".5em" }}
+            value={start}
             className={
               start == ""
                 ? "list__filters__input__empty"
@@ -427,6 +486,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
           <input
             type="date"
             style={{ marginRight: ".5em" }}
+            value={end}
             className={
               end == ""
                 ? "list__filters__input__end__empty"
@@ -434,9 +494,27 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
             }
             onChange={(e) => setEnd(e.currentTarget.value)}
           />
-          <Select placeholder="Region" background="white" widthProp="180px" />
-          <Select placeholder="District" background="white" widthProp="180px" />
-          <Select placeholder="Commune" background="white" widthProp="180px" />
+          <Select
+            placeholder="Region"
+            background="white"
+            widthProp="180px"
+            options={regionList}
+            onChange={onRegionChange}
+          />
+          <Select
+            placeholder="District"
+            background="white"
+            widthProp="180px"
+            options={districtList}
+            onChange={onDistrictChange}
+          />
+          <Select
+            placeholder="Commune"
+            background="white"
+            widthProp="180px"
+            options={communeList}
+            onChange={onCommuneChange}
+          />
           <Select
             placeholder="Fokontany"
             background="white"

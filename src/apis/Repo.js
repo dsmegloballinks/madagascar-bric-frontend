@@ -64,7 +64,7 @@ export const fokontanyGetCall = async (
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-fokontany"),
     {
-      // params,
+      params,
       headers: {
         "Content-Type": "application/json",
       },

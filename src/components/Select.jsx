@@ -6,6 +6,7 @@ export default function Select({
   widthProp,
   getOptionLabel,
   defaultValue,
+  onChange,
 }) {
   return (
     <div className="list__container__top__select" style={{ width: widthProp }}>
@@ -14,6 +15,7 @@ export default function Select({
         placeholder={placeholder}
         getOptionLabel={getOptionLabel}
         defaultValue={defaultValue}
+        onChange={onChange}
         theme={(theme) => ({
           ...theme,
           borderRadius: 0,

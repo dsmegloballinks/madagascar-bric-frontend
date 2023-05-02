@@ -952,7 +952,6 @@ export default function RegistrationDetail() {
                   </div>
                 </div>
               </div>
-
               <div className="details__Info__wrapper__section">
                 <div className="details__Info__wrapper__section__title">
                   Declarant Information
@@ -1158,13 +1157,63 @@ export default function RegistrationDetail() {
                     )}
                   </div>
                 </div>
-                <div className="details__Info__wrapper__section__information">
+                {/* <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
                     Address
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {setFormValues(
                       state.registrationData.declarant.region_of_birth
+                    )}
+                  </div>
+                </div> */}
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title"></div>
+                  <div
+                    className="details__Info__wrapper__section__information__content__wrapper"
+                    style={{ fontSize: "16px", fontWeight: "600" }}
+                  >
+                    Place of Birth
+                  </div>
+                </div>
+
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Region
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues(
+                      state.registrationData.declarant.region_of_birth
+                    )}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    District
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues(
+                      state.registrationData.declarant.district_of_birth
+                    )}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Commune
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues(
+                      state.registrationData.declarant.commune_of_birth
+                    )}
+                  </div>
+                </div>
+                <div className="details__Info__wrapper__section__information">
+                  <div className="details__Info__wrapper__section__information__title">
+                    Fokontany
+                  </div>
+                  <div className="details__Info__wrapper__section__information__content__wrapper">
+                    {setFormValues(
+                      state.registrationData.declarant.fokontany_of_birth
                     )}
                   </div>
                 </div>
@@ -1216,6 +1265,35 @@ export default function RegistrationDetail() {
                     {setFormValues(
                       state.registrationData.declarant.fokontany_of_birth
                     )}
+                  </div>
+                </div>
+              </div>
+              <div className="details__info__signatures_container">
+                <div className="details__info__signatures_container__item__wrapper">
+                  <div className="details__info__content">A</div>
+                  <div className="details__info__content__line"></div>
+                </div>
+                <div className="details__info__signatures_container__item__wrapper">
+                  <div className="details__info__content">Le</div>
+                  <div className="details__info__content__line"></div>
+                </div>
+              </div>
+              <div
+                className="details__info__signatures_container"
+                style={{
+                  justifyContent: "space-around",
+                  marginTop: ".5em",
+                  marginLeft: "9em",
+                }}
+              >
+                <div className="details__info__signatures_container__item__wrapper">
+                  <div className="details__info__content">
+                    Signature of the declarant
+                  </div>
+                </div>
+                <div className="details__info__signatures_container__item__wrapper">
+                  <div className="details__info__content">
+                    Signature of civil status officer
                   </div>
                 </div>
               </div>
