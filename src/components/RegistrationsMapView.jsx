@@ -1,6 +1,6 @@
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
-import { useRef } from "react";
-// import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+// import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
+import { useRef, useCallback, useState } from "react";
+import { GoogleMap, Marker } from "@react-google-maps/api";
 
 const markers = [
   {
@@ -23,10 +23,42 @@ const markers = [
 function RegistrationsMapView(props) {
   const mapRef = useRef(null);
 
+  const center = { lat: -19.002846, lng: 46.460938 };
+  const [map, setMap] = useState(null);
+
+  const onLoad = useCallback(function callback(map) {
+    // This is just an example of getting and using the map instance!!! don't just blindly copy!
+    const bounds = new window.google.maps.LatLngBounds(center);
+    map.fitBounds(bounds);
+
+    setMap(map);
+  }, []);
+
+  const onUnmount = useCallback(function callback(map) {
+    setMap(null);
+  }, []);
+
   return (
     <div>
       <div style={{ fontSize: "18px", fontWeight: "600", marginTop: "1em" }}>Field Activites</div>
-      <Map
+      <GoogleMap
+        // mapContainerStyle={"map-container"}
+        mapContainerClassName="map-container"
+        center={center}
+        zoom={5.2}
+        // onLoad={onLoad}
+        onUnmount={onUnmount}
+      >
+        {/* Child components, such as markers, info windows, etc. */}
+        {markers.map((item, index) => (
+          <Marker
+            id={index + 1}
+            name={item.name}
+            position={{ lat: item.coordinates[0], lng: item.coordinates[1] }}
+          />
+        ))}
+      </GoogleMap>
+      {/* <Map
         ref={mapRef}
         id="map"
         google={props.google}
@@ -52,15 +84,15 @@ function RegistrationsMapView(props) {
             <h1>{"this.state.selectedPlace.name"}</h1>
           </div>
         </InfoWindow>
-      </Map>
+      </Map> */}
     </div>
   );
 }
-// export default RegistrationsMapView;
+export default RegistrationsMapView;
 
-const LoadingContainer = (props) => <div>Fancy loading container!</div>;
+// const LoadingContainer = (props) => <div>Fancy loading container!</div>;
 
-export default GoogleApiWrapper({
-  apiKey: "AIzaSyBch80KN8P7agyjoq_R92ApjKohp-1txiQ",
-  LoadingContainer: LoadingContainer,
-})(RegistrationsMapView);
+// export default GoogleApiWrapper({
+//   apiKey: "AIzaSyBch80KN8P7agyjoq_R92ApjKohp-1txiQ",
+//   LoadingContainer: LoadingContainer,
+// })(RegistrationsMapView);
