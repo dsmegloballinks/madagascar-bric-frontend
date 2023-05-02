@@ -3,7 +3,12 @@ import BarChartGraph from "./BarChartGraph";
 import PieChartGraph from "./PieChartGraph";
 import AreaChartGraph from "./AreaChartGraph";
 
-export default function GraphView() {
+export default function GraphView({
+  genderGraphData,
+  graphAnalytics,
+  yearsData,
+  totalRegistrations,
+}) {
   return (
     <>
       <div className="graph__container">
@@ -14,20 +19,22 @@ export default function GraphView() {
           >
             Last 7 Days
           </div>
-          <BarChartGraph />
+          <BarChartGraph graphAnalytics={graphAnalytics} />
         </div>
         <div className="pie__graphr__container">
           <div className="bar__graphr__container__heading">
             Gender Segregation
           </div>
           {/* <div className="bar__graphr__container__info">Males or Females</div> */}
-          <PieChartGraph />
+          <PieChartGraph genderGraphData={genderGraphData} />
         </div>
       </div>
       <div className="area__graphr__container">
         <div className="bar__graphr__container__heading">This Year</div>
-        <div className="area__graphr__container__heading">32,234,45</div>
-        <AreaChartGraph />
+        <div className="area__graphr__container__heading">
+          {totalRegistrations}
+        </div>
+        <AreaChartGraph graphAnalytics={yearsData} />
       </div>
     </>
   );

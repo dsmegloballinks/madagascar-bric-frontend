@@ -11,10 +11,12 @@ import {
   analyticsGetCall,
   filePostCall,
   fokontanyGetCall,
+  genderAnalyticsGetCall,
   registrationsGetCall,
 } from "../../apis/Repo";
 import { PopupContext } from "../../context/PopupContext";
 import moment from "moment";
+import { graphAnalyticsGetCall } from "../../apis/Repo";
 
 export default function dashboard() {
   const navigate = useNavigate();
@@ -22,8 +24,8 @@ export default function dashboard() {
   const { setAlertPopupVisibility } = useContext(PopupContext);
   const [selectedFilter, setSelectedFilter] = useState("Graph");
   const filters = ["Graph", "Map", "List"];
-  const [start, setStart] = useState("");
-  const [end, setEnd] = useState("");
+  let [start, setStart] = useState("");
+  let [end, setEnd] = useState("");
   const [dataList, setDataList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
   const [page, setPage] = useState(1);
@@ -35,15 +37,29 @@ export default function dashboard() {
   const [districtList, setDistrictList] = useState([]);
   const [communeList, setCommuneList] = useState([]);
   const [fokontanyList, setFokontanyList] = useState([]);
+  const [genderGraphData, setGenderGraphData] = useState([]);
+  const [graphAnalytics, setGraphAnalytics] = useState([]);
+  const [yearsData, setYearsData] = useState([]);
+  const [totalRegistrations, setTotalRegistrations] = useState("");
+  const [region, setRegion] = useState("");
+  const [district, setDistrict] = useState("");
+  const [commune, setCommune] = useState("");
+  const [fokontany, setFokontany] = useState("");
+  let [sevenDayStartDate, setSevenDayStartDate] = useState("");
+  let [sevenDayEndDate, setSevenDayEndDate] = useState("");
+  let [yearStartDate, setYearStartDate] = useState("");
+  let [yearEndDate, setYearEndDate] = useState("");
 
   useEffect(() => {
     getRegistrations();
   }, [page]);
 
   useEffect(() => {
+    setDefatulDates();
+    setYearGraphDefaultDates();
     getAnalytics();
     getRegions();
-    setDefatulDates();
+    getGenderAnalytics();
   }, []);
 
   useEffect(() => {
@@ -64,8 +80,24 @@ export default function dashboard() {
 
     let endDate = moment(new Date()).format("YYYY-MM-DD h:mm:ss");
 
-    setStart(moment(startDate).format("YYYY-MM-DD"));
-    setEnd(moment(endDate).format("YYYY-MM-DD"));
+    setSevenDayStartDate(
+      (sevenDayStartDate = moment(startDate).format("YYYY-MM-DD"))
+    );
+    setSevenDayEndDate(
+      (sevenDayEndDate = moment(endDate).format("YYYY-MM-DD"))
+    );
+
+    getGraphAnalytics(sevenDayStartDate, sevenDayEndDate, 7);
+  };
+
+  const setYearGraphDefaultDates = () => {
+    setYearStartDate(
+      (yearStartDate = moment(new Date()).format("YYYY") + "-01-01")
+    );
+    setYearEndDate(
+      (yearEndDate = moment(new Date()).format("YYYY") + "-12-31")
+    );
+    getGraphAnalytics(yearStartDate, yearEndDate, 12);
   };
 
   const getRegistrations = () => {
@@ -233,10 +265,64 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
   ];
 
   const getAnalytics = () => {
-    analyticsGetCall()
+    let date = moment(new Date()).format("YYYY-MM-DD");
+    analyticsGetCall(date)
       .then(({ data }) => {
-        if (data.data) setAnalytics(data.data);
+        if (data.success) setAnalytics(data.result);
         else setAnalytics(null);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
+
+  const getGenderAnalytics = () => {
+    let newArray = [];
+    let date = moment(new Date()).format("YYYY-MM-DD");
+    genderAnalyticsGetCall()
+      .then(({ data }) => {
+        if (data.data.success) {
+          for (let index = 0; index < data.data.result.length; index++) {
+            const element = data.data.result[index];
+            let obj = {
+              name: element.gender == "masculin" ? "Male" : "Female",
+              value: parseInt(element.avg),
+            };
+            newArray.push(obj);
+          }
+          setGenderGraphData(newArray);
+        } else setGenderGraphData([]);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
+
+  const getGraphAnalytics = (sDate, eDate, candle, rg, dst, comun, fokonty) => {
+    let newArray = [];
+    graphAnalyticsGetCall(sDate, eDate, candle, rg, dst, comun, fokonty)
+      .then(({ data }) => {
+        if (data.success) {
+          for (let index = 0; index < data.result.data_list.length; index++) {
+            const element = data.result.data_list[index];
+            let obj = {
+              name: candle == 7 ? element.day : element.month,
+              value: element.count,
+            };
+            newArray.push(obj);
+          }
+          if (candle == 7) setGraphAnalytics(newArray);
+          else {
+            setYearsData(newArray);
+            setTotalRegistrations(data.result.total_count);
+          }
+        } else {
+          if (candle == 7) setGraphAnalytics([]);
+          else {
+            setYearsData([]);
+            setTotalRegistrations(0);
+          }
+        }
       })
       .catch((err) => {
         console.log("err", err);
@@ -295,14 +381,51 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
 
   const onRegionChange = (e) => {
     getRegions(e.value);
+    setRegion(e);
   };
 
   const onDistrictChange = (e) => {
     getRegions("", e.value);
+    setDistrict(e);
   };
 
   const onCommuneChange = (e) => {
     getRegions("", "", e.value);
+    setCommune(e);
+  };
+
+  const onSearch = () => {
+    if (selectedFilter == "Graph") {
+      getGraphAnalytics(
+        yearStartDate,
+        yearEndDate,
+        12,
+        region,
+        district,
+        commune,
+        fokontany
+      );
+      getGraphAnalytics(
+        sevenDayStartDate,
+        sevenDayEndDate,
+        7,
+        region,
+        district,
+        commune,
+        fokontany
+      );
+    }
+  };
+
+  const onReset = () => {
+    setRegion("");
+    setDistrict("");
+    setCommune("");
+    setFokontany("");
+    if (selectedFilter == "Graph") {
+      getGraphAnalytics(yearStartDate, yearEndDate, 12);
+      getGraphAnalytics(sevenDayStartDate, sevenDayEndDate, 7);
+    }
   };
 
   return (
@@ -405,7 +528,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
             </div>
             <div className="dashboard__analytics__container__top">
               <div className="dashboard__analytics__container__top__number">
-                {analytics?.count}
+                {analytics?.over_all_count}
               </div>
               <div>Total Registered Child</div>
             </div>
@@ -425,7 +548,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
               style={{ borderBottomColor: "#E2E2E2" }}
             >
               <div className="dashboard__analytics__container__top__number">
-                {analytics?.lastWeekCount}
+                {analytics?.last_seven_days_count}
               </div>
               <div>Last Week Registered Child</div>
             </div>
@@ -445,7 +568,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
               style={{ borderBottomColor: "#E2E2E2" }}
             >
               <div className="dashboard__analytics__container__top__number">
-                {analytics?.lastMonthCount}
+                {analytics?.month_count}
               </div>
               <div>Last Month Registered Child</div>
             </div>
@@ -465,7 +588,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
               style={{ borderBottomColor: "#E2E2E2" }}
             >
               <div className="dashboard__analytics__container__top__number">
-                {analytics?.lastYearCount}
+                {analytics?.year_count}
               </div>
               <div>Last Year Registered Child</div>
             </div>
@@ -499,6 +622,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
             background="white"
             widthProp="180px"
             options={regionList}
+            value={region}
             onChange={onRegionChange}
           />
           <Select
@@ -506,6 +630,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
             background="white"
             widthProp="180px"
             options={districtList}
+            value={district}
             onChange={onDistrictChange}
           />
           <Select
@@ -513,6 +638,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
             background="white"
             widthProp="180px"
             options={communeList}
+            value={commune}
             onChange={onCommuneChange}
           />
           <Select
@@ -520,24 +646,33 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
             background="white"
             widthProp="180px"
             options={fokontanyList}
+            value={fokontany}
+            onChange={(e) => setFokontany(e)}
           />
 
           <button
             className="list__filter__button"
             style={{ marginRight: "1em" }}
+            onClick={onSearch}
           >
             Filter
           </button>
           <button
             className="list__filter__button__reset"
             style={{ marginRight: "1em" }}
+            onClick={onReset}
           >
             Reset
           </button>
         </div>
 
         {selectedFilter == "Graph" ? (
-          <GraphView />
+          <GraphView
+            genderGraphData={genderGraphData}
+            graphAnalytics={graphAnalytics}
+            yearsData={yearsData}
+            totalRegistrations={totalRegistrations}
+          />
         ) : selectedFilter == "List" ? (
           <Registerations
             dataList={dataList}

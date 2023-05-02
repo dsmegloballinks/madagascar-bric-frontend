@@ -6,6 +6,7 @@ export default function Select({
   widthProp,
   getOptionLabel,
   defaultValue,
+  value,
   onChange,
 }) {
   return (
@@ -15,6 +16,7 @@ export default function Select({
         placeholder={placeholder}
         getOptionLabel={getOptionLabel}
         defaultValue={defaultValue}
+        value={value}
         onChange={onChange}
         theme={(theme) => ({
           ...theme,

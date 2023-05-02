@@ -1,10 +1,7 @@
 import React from "react";
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
 
-const data = [
-  { name: "Male", value: 45 },
-  { name: "Female", value: 55 },
-];
+var data = [];
 
 const COLORS = ["#0ACF66", "#FF6161"];
 
@@ -18,7 +15,7 @@ const renderCustomizedLabel = ({
   percent,
   index,
 }) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.19;
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.001;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
@@ -35,19 +32,18 @@ const renderCustomizedLabel = ({
   );
 };
 
-export default function PieChartGraph() {
-  var demoUrl =
-    "https://codesandbox.io/s/pie-chart-with-customized-label-dlhhj";
+export default function PieChartGraph({ genderGraphData }) {
+  console.log("genderGraphData", genderGraphData);
+  data = genderGraphData;
 
   return (
-    // <ResponsiveContainer width="400" height="400">
     <PieChart
-      width={200}
-      height={400}
-      margin={{ top: 10, right: 0, left: 0, bottom: 0 }}
+      width={300}
+      height={300}
+      margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
     >
       <Pie
-        data={data}
+        data={genderGraphData}
         cx="50%"
         cy="50%"
         labelLine={false}
@@ -61,96 +57,5 @@ export default function PieChartGraph() {
         ))}
       </Pie>
     </PieChart>
-    // </ResponsiveContainer>
   );
 }
-
-// import {
-//   RadialBarChart,
-//   RadialBar,
-//   Tooltip,
-//   PieChart,
-//   Pie,
-//   Label,
-// } from "recharts";
-// import { Chart } from "react-google-charts";
-
-// export const data = [
-//   // ["Task", "Hours per Day"],
-//   ["Work", 11],
-//   ["Eat", 2],
-//   ["Commute", 2],
-//   ["Watch TV", 2],
-//   ["Sleep", 7],
-// ];
-
-// export const options = {
-//   title: "My Daily Activities",
-// };
-
-// export default function PieChartGraph() {
-//   // const data = [
-//   //   {
-//   //     name: "Male",
-//   //     value: 400,
-//   //     fill: "#FF6161",
-//   //   },
-//   //   {
-//   //     name: "Female",
-//   //     value: 300,
-//   //     fill: "#0ACF66",
-//   //   },
-//   // ];
-
-//   return (
-//     <Chart
-//       chartType="PieChart"
-//       data={data}
-//       options={options}
-//       width={"100%"}
-//       height={"400px"}
-//     />
-//     // <PieChart width={220} height={250}>
-//     //   <Pie
-//     //     data={data}
-//     //     dataKey="value"
-//     //     nameKey="name"
-//     //     cx="50%"
-//     //     cy="50%"
-//     //     innerRadius={60}
-//     //     outerRadius={80}
-//     //     // fill="#82ca9d"
-//     //     label={({
-//     //       cx,
-//     //       cy,
-//     //       midAngle,
-//     //       innerRadius,
-//     //       outerRadius,
-//     //       value,
-//     //       index,
-//     //     }) => {
-//     //       console.log("handling label?");
-//     //       const RADIAN = Math.PI / 180;
-//     //       // eslint-disable-next-line
-//     //       const radius = 25 + innerRadius + (outerRadius - innerRadius);
-//     //       // eslint-disable-next-line
-//     //       const x = cx + radius * Math.cos(-midAngle * RADIAN);
-//     //       // eslint-disable-next-line
-//     //       const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-//     //       return (
-//     //         <text
-//     //           x={x}
-//     //           y={y}
-//     //           fill={data[index].fill}
-//     //           textAnchor={x > cx ? "start" : "end"}
-//     //           dominantBaseline="central"
-//     //         >
-//     //           {data[index].name} {value}
-//     //         </text>
-//     //       );
-//     //     }}
-//     //   />
-//     // </PieChart>
-//   );
-// }

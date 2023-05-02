@@ -7,7 +7,7 @@ import {
   Area,
 } from "recharts";
 
-export default function AreaChartGraph() {
+export default function AreaChartGraph({ graphAnalytics }) {
   const data = [
     {
       name: "Jan",
@@ -86,7 +86,7 @@ export default function AreaChartGraph() {
     <AreaChart
       width={930}
       height={250}
-      data={data}
+      data={graphAnalytics}
       margin={{ top: 10, right: 0, left: 0, bottom: 0 }}
     >
       <defs>
@@ -112,7 +112,7 @@ export default function AreaChartGraph() {
       /> */}
       <Area
         type="monotone"
-        dataKey="pv"
+        dataKey="value"
         stroke="#0ACF66"
         fillOpacity={1}
         fill="url(#colorPv)"

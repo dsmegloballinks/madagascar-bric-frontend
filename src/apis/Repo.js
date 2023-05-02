@@ -33,8 +33,9 @@ export const filePostCall = async (data) => {
   );
 };
 
-export const analyticsGetCall = async () => {
+export const analyticsGetCall = async (date) => {
   let params = {};
+  if (date) params.date = date;
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-child-count"),
     {
@@ -63,6 +64,57 @@ export const fokontanyGetCall = async (
 
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-fokontany"),
+    {
+      params,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
+export const genderAnalyticsGetCall = async () => {
+  let params = {};
+
+  return await axios.get(
+    import.meta.env.VITE_BASE_URL.concat("api/civil_register/dashboard"),
+    {
+      params,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
+export const graphAnalyticsGetCall = async (
+  s_start_date,
+  s_end_date,
+  i_candle,
+  region,
+  district,
+  commune,
+  fokonatny
+) => {
+  let params = {};
+  if (s_start_date) params.s_start_date = s_start_date;
+  if (s_end_date) params.s_end_date = s_end_date;
+  if (i_candle) params.i_candle = i_candle;
+  if (region) params.region = region.value;
+  if (district) params.district = district.value;
+  if (commune) params.commune = commune.value;
+  if (fokonatny) params.fokonatny = fokonatny.value;
+
+  return await axios.get(
+    import.meta.env.VITE_BASE_URL.concat(
+      "api/civil_register/get-seven-day-graph"
+    ),
     {
       params,
       headers: {
