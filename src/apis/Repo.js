@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const loginCall = async (data) => {
   return await axios.post(
-    import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-all"),
+    import.meta.env.VITE_BASE_URL.concat("api/civil_register/login"),
     data,
     {
       headers: {

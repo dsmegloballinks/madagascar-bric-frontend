@@ -35,8 +35,8 @@ export default function Index() {
   const login = () => {
     if (isViewValid()) {
       let object = {
-        email: email,
-        passowrd: passowrd,
+        user_name: email,
+        password: passowrd,
       };
       setIsLoading(true);
       loginCall(object)
@@ -70,8 +70,7 @@ export default function Index() {
             Madagascar <br /> Birth Registration{" "}
           </div>
           <div className="login__container__content__text">
-            Get the process started in less than 10 minutes. Let us handle the
-            rest.
+            Get the process started in less than 10 minutes. Let us handle the rest.
           </div>
           <LoginInput
             src={contact}
@@ -95,9 +94,7 @@ export default function Index() {
             }}
             error={passowrdErrorMessage}
           />
-          <div className="login__container__content__bottom__text">
-            Forgot your password?
-          </div>
+          <div className="login__container__content__bottom__text">Forgot your password?</div>
           <div className="login__button__container">
             <div
               className="login__button"
@@ -105,9 +102,7 @@ export default function Index() {
                 if (!isLoading) login();
               }}
             >
-              <div className="login__button__text">
-                {isLoading ? "Processing..." : "Login"}
-              </div>
+              <div className="login__button__text">{isLoading ? "Processing..." : "Login"}</div>
               {isLoading ? (
                 <Loader size={30} className="login__button__icon" />
               ) : (
