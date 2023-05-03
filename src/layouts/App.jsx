@@ -11,10 +11,11 @@ export default function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user === null && location.pathname.toLowerCase().includes("/dashboard")) {
+    let id = localStorage.getItem("id");
+    if (id === null && location.pathname.toLowerCase().includes("/dashboard")) {
       navigate("/", { replace: true });
     }
-    if (user !== null && location.pathname.toLowerCase() === "/") {
+    if (id !== null && location.pathname.toLowerCase() === "/") {
       navigate("/dashboard", { replace: true });
     }
   }, [location]);

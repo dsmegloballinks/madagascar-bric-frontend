@@ -22,7 +22,7 @@ export default function Index() {
 
   useEffect(() => {
     let id = localStorage.getItem("id");
-    if (isNullOrEmpty(id)) navigate("/", { replace: true });
+    if (id) navigate("/dashboard", { replace: true });
   }, []);
 
   const isViewValid = () => {
@@ -43,7 +43,11 @@ export default function Index() {
         .then(({ data }) => {
           setIsLoading(false);
           if (data.data.success) {
-            setUser(data.data.result.id);
+            let user = {
+              id: data.data.result.user_id,
+            };
+            setUser(user);
+            localStorage.setItem("id", data.data.result.user_id);
             navigate("/dashboard", { replace: true });
           } else {
             setAlertPopupVisibility(true);
@@ -70,7 +74,8 @@ export default function Index() {
             Madagascar <br /> Birth Registration{" "}
           </div>
           <div className="login__container__content__text">
-            Get the process started in less than 10 minutes. Let us handle the rest.
+            Get the process started in less than 10 minutes. Let us handle the
+            rest.
           </div>
           <LoginInput
             src={contact}
@@ -94,7 +99,9 @@ export default function Index() {
             }}
             error={passowrdErrorMessage}
           />
-          <div className="login__container__content__bottom__text">Forgot your password?</div>
+          <div className="login__container__content__bottom__text">
+            Forgot your password?
+          </div>
           <div className="login__button__container">
             <div
               className="login__button"
@@ -102,7 +109,9 @@ export default function Index() {
                 if (!isLoading) login();
               }}
             >
-              <div className="login__button__text">{isLoading ? "Processing..." : "Login"}</div>
+              <div className="login__button__text">
+                {isLoading ? "Processing..." : "Login"}
+              </div>
               {isLoading ? (
                 <Loader size={30} className="login__button__icon" />
               ) : (

@@ -4,15 +4,22 @@ import { sidebarCategories, sidebarEnteries, userAtom } from "../global/index";
 import { Fragment } from "react";
 import { X, LogOut } from "react-feather";
 import { logo } from "@assets";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAtom } from "jotai";
 import { useNavigate } from "react-router-dom";
+import { isNullOrEmpty } from "../utils/isNullOrEmpty";
 
 export default function Sidebar({ setSidebarOpen }) {
   const [isHover, setIsHover] = useState(false);
   const navigate = useNavigate();
 
   const [user, setUser] = useAtom(userAtom);
+
+  useEffect(() => {
+    let id = localStorage.getItem("id");
+    if (!isNullOrEmpty(id)) navigate("/dashboard", { replace: true });
+    else navigate("/", { replace: true });
+  }, []);
   return (
     <>
       {isHover ? (
@@ -76,16 +83,13 @@ export default function Sidebar({ setSidebarOpen }) {
               cursor: "pointer",
               borderRadius: "0",
             }}
+            onClick={() => {
+              setUser(null);
+              localStorage.removeItem("id");
+              navigate("/");
+            }}
           >
-            <LogOut
-              size={18}
-              style={{ marginRight: "1em" }}
-              onClick={() => {
-                setUser(null);
-                localStorage.removeItem("id");
-                navigate("/");
-              }}
-            />
+            <LogOut size={18} style={{ marginRight: "1em" }} />
             Logout
           </div>
         </div>

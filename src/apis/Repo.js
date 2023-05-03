@@ -156,3 +156,20 @@ export const testPostCall = async (data) => {
     }
   );
 };
+
+export const testGetCall = async () => {
+  let params = {};
+
+  return await axios.get(
+    "https://private-anon-6c0ab5a863-odkcentral.apiary-mock.com/v1/projects/20230422",
+    {
+      params,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};

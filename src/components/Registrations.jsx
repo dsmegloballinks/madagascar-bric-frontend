@@ -8,7 +8,7 @@ import Pagination from "react-js-pagination";
 import { useState, useRef, useEffect } from "react";
 import { logo } from "@assets";
 import ViewFiles from "./ViewFiles";
-import { testPostCall } from "../apis/Repo";
+import { testGetCall, testPostCall } from "../apis/Repo";
 
 export default function Registerations({
   dataList,
@@ -25,11 +25,7 @@ export default function Registerations({
   }, []);
 
   const testCall = () => {
-    let object = {
-      email: " odkmgbirthstats@saadaan.com",
-      password: "tues444day",
-    };
-    testPostCall(object)
+    testGetCall()
       .then((res) => {
         console.log("res", res);
       })
@@ -177,7 +173,10 @@ function TableEntry({ item, setFileViewVisibility }) {
       <TableEntryText>
         {moment(item.cr.date_of_birth).format("DD MMM, YYYY")}
       </TableEntryText>
-      <div className="container__main__content__listing__table__content__list__entry">
+      <div
+        className="container__main__content__listing__table__content__list__entry"
+        // style={{ flexDirection: "column", display: "flex" }}
+      >
         <TableEntryText className="container__main__content__listing__table__content__list__entry__hover">
           {item.foko.commune_name}
         </TableEntryText>
