@@ -8,6 +8,7 @@ import Pagination from "react-js-pagination";
 import { useState, useRef, useEffect } from "react";
 import { logo } from "@assets";
 import ViewFiles from "./ViewFiles";
+import { testPostCall } from "../apis/Repo";
 
 export default function Registerations({
   dataList,
@@ -18,6 +19,25 @@ export default function Registerations({
 }) {
   const options = [{ label: "Last Week", value: "Last Week" }];
   const [fileViewVisibility, setFileViewVisibility] = useState(false);
+
+  useEffect(() => {
+    testCall();
+  }, []);
+
+  const testCall = () => {
+    let object = {
+      email: " odkmgbirthstats@saadaan.com",
+      password: "tues444day",
+    };
+    testPostCall(object)
+      .then((res) => {
+        console.log("res", res);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
+
   return (
     <>
       <div className="list__container">

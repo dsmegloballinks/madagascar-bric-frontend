@@ -91,12 +91,16 @@ export default function dashboard() {
   };
 
   const setYearGraphDefaultDates = () => {
-    setYearStartDate(
-      (yearStartDate = moment(new Date()).format("YYYY") + "-01-01")
-    );
-    setYearEndDate(
-      (yearEndDate = moment(new Date()).format("YYYY") + "-12-31")
-    );
+    var makeDate = new Date();
+
+    makeDate.setDate(makeDate.getDate() - 365);
+
+    let startDate = moment(makeDate).format("YYYY-MM-DD h:mm:ss");
+
+    let endDate = moment(new Date()).format("YYYY-MM-DD h:mm:ss");
+
+    setYearStartDate((yearStartDate = moment(startDate).format("YYYY-MM-DD")));
+    setYearEndDate((yearEndDate = moment(endDate).format("YYYY-MM-DD")));
     getGraphAnalytics(yearStartDate, yearEndDate, 12);
   };
 
@@ -285,8 +289,9 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
           for (let index = 0; index < data.data.result.length; index++) {
             const element = data.data.result[index];
             let obj = {
-              name: element.gender == "masculin" ? "Male" : "Female",
+              title: element.gender == "masculin" ? "Male" : "Female",
               value: parseInt(element.avg),
+              color: element.gender == "masculin" ? "#0acf66" : "#ff6161",
             };
             newArray.push(obj);
           }

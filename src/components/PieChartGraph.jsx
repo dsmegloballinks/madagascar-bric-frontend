@@ -1,5 +1,6 @@
 import React from "react";
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
+// import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
+import { PieChart } from "react-minimal-pie-chart";
 
 var data = [];
 
@@ -15,7 +16,7 @@ const renderCustomizedLabel = ({
   percent,
   index,
 }) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.001;
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.05;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
@@ -38,24 +39,45 @@ export default function PieChartGraph({ genderGraphData }) {
 
   return (
     <PieChart
-      width={300}
-      height={300}
-      margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
-    >
-      <Pie
-        data={genderGraphData}
-        cx="50%"
-        cy="50%"
-        labelLine={false}
-        label={renderCustomizedLabel}
-        outerRadius={100}
-        fill="#8884d8"
-        dataKey="value"
-      >
-        {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
-    </PieChart>
+      data={genderGraphData}
+      labelPosition={65}
+      radius={35}
+      animate
+      animationDuration={500}
+      animationEasing="ease-out"
+      paddingAngle={0}
+      viewBoxSize={[100, 100]}
+      label={(genderGraphData) =>
+        genderGraphData.dataEntry.title +
+        " " +
+        genderGraphData.dataEntry.value +
+        " %"
+      }
+      labelStyle={{
+        fontSize: "5px",
+        color: "#ffffff",
+        fontWeight: "600",
+      }}
+    />
+    // <PieChart
+    //   width={300}
+    //   height={300}
+    //   margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+    // >
+    //   <Pie
+    //     data={genderGraphData}
+    //     cx="50%"
+    //     cy="50%"
+    //     labelLine={false}
+    //     label={renderCustomizedLabel}
+    //     outerRadius={100}
+    //     fill="#8884d8"
+    //     dataKey="value"
+    //   >
+    //     {data.map((entry, index) => (
+    //       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+    //     ))}
+    //   </Pie>
+    // </PieChart>
   );
 }

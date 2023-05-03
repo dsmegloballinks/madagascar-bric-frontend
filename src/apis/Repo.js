@@ -126,3 +126,18 @@ export const graphAnalyticsGetCall = async (
     }
   );
 };
+
+export const testPostCall = async (data) => {
+  return await axios.post(
+    "https://private-anon-6c0ab5a863-odkcentral.apiary-mock.com/v1/sessions",
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
