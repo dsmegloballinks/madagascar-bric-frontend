@@ -1,18 +1,29 @@
 import { loginBg, logo, contact, lock } from "@assets";
 import LoginInput from "@components/LoginInput";
-import { useState } from "react";
-import { ArrowRight } from "react-feather";
+import { useState, useContext, useEffect } from "react";
+import { ArrowRight, Loader } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import { isNullOrEmpty } from "../utils/isNullOrEmpty";
+import { loginCall } from "../apis/Repo";
+import { PopupContext } from "../context/PopupContext";
 // import { logo } from "src/assets";
+import { useAtom } from "jotai";
+import { userAtom } from "../global";
 
 export default function Index() {
+  const [, setUser] = useAtom(userAtom);
+  const { setAlertPopupVisibility } = useContext(PopupContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [passowrd, setPassword] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [passowrdErrorMessage, setPasswordErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    let id = localStorage.getItem("id");
+    if (isNullOrEmpty(id)) navigate("/", { replace: true });
+  }, []);
 
   const isViewValid = () => {
     if (isNullOrEmpty(email)) setEmailErrorMessage("Enter Email");
@@ -23,6 +34,26 @@ export default function Index() {
 
   const login = () => {
     if (isViewValid()) {
+      let object = {
+        email: email,
+        passowrd: passowrd,
+      };
+      setIsLoading(true);
+      loginCall(object)
+        .then(({ data }) => {
+          setIsLoading(false);
+          if (data.data.success) {
+            setUser(data.data.result.id);
+            navigate("/dashboard", { replace: true });
+          } else {
+            setAlertPopupVisibility(true);
+          }
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          console.log("err", err);
+          setAlertPopupVisibility(true);
+        });
     }
   };
 
@@ -71,11 +102,17 @@ export default function Index() {
             <div
               className="login__button"
               onClick={() => {
-                navigate("/dashboard");
+                if (!isLoading) login();
               }}
             >
-              <div className="login__button__text">Login</div>
-              <ArrowRight size={30} className="login__button__icon" />
+              <div className="login__button__text">
+                {isLoading ? "Processing..." : "Login"}
+              </div>
+              {isLoading ? (
+                <Loader size={30} className="login__button__icon" />
+              ) : (
+                <ArrowRight size={30} className="login__button__icon" />
+              )}
             </div>
           </div>
         </form>

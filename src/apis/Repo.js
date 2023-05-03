@@ -1,5 +1,20 @@
 import axios from "axios";
 
+export const loginCall = async (data) => {
+  return await axios.post(
+    import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-all"),
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
 export const registrationsGetCall = async (page, limit) => {
   let params = {};
   if (page) params.page = page;

@@ -179,10 +179,10 @@ function TableEntry({ item, setFileViewVisibility }) {
       </TableEntryText>
       <div className="container__main__content__listing__table__content__list__entry">
         <TableEntryText className="container__main__content__listing__table__content__list__entry__hover">
-          {item.mother.commune_of_birth}
+          {item.foko.commune_name}
         </TableEntryText>
         <TableEntryText className="container__main__content__listing__table__content__list__entry__hover">
-          {item.mother.fokontany_of_birth}
+          {item.foko.fokontonay_name}
         </TableEntryText>
       </div>
       <TableEntryText>address</TableEntryText>

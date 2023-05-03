@@ -1,13 +1,18 @@
 import { Link, NavLink } from "@router";
-import { sidebarCategories, sidebarEnteries } from "../global/index";
+import { sidebarCategories, sidebarEnteries, userAtom } from "../global/index";
 
 import { Fragment } from "react";
 import { X, LogOut } from "react-feather";
 import { logo } from "@assets";
 import { useState } from "react";
+import { useAtom } from "jotai";
+import { useNavigate } from "react-router-dom";
 
 export default function Sidebar({ setSidebarOpen }) {
   const [isHover, setIsHover] = useState(false);
+  const navigate = useNavigate();
+
+  const [user, setUser] = useAtom(userAtom);
   return (
     <>
       {isHover ? (
@@ -72,7 +77,15 @@ export default function Sidebar({ setSidebarOpen }) {
               borderRadius: "0",
             }}
           >
-            <LogOut size={18} style={{ marginRight: "1em" }} />
+            <LogOut
+              size={18}
+              style={{ marginRight: "1em" }}
+              onClick={() => {
+                setUser(null);
+                localStorage.removeItem("id");
+                navigate("/");
+              }}
+            />
             Logout
           </div>
         </div>
@@ -141,7 +154,14 @@ export default function Sidebar({ setSidebarOpen }) {
               justifyContent: "center",
             }}
           >
-            <LogOut size={18} />
+            <LogOut
+              size={18}
+              onClick={() => {
+                setUser(null);
+                localStorage.removeItem("id");
+                navigate("/");
+              }}
+            />
             {/* Logout */}
           </div>
         </div>
