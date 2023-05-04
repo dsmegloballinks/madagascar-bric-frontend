@@ -41,10 +41,10 @@ export default function dashboard() {
   const [graphAnalytics, setGraphAnalytics] = useState([]);
   const [yearsData, setYearsData] = useState([]);
   const [totalRegistrations, setTotalRegistrations] = useState("");
-  const [region, setRegion] = useState("");
-  const [district, setDistrict] = useState("");
-  const [commune, setCommune] = useState("");
-  const [fokontany, setFokontany] = useState("");
+  let [region, setRegion] = useState("");
+  let [district, setDistrict] = useState("");
+  let [commune, setCommune] = useState("");
+  let [fokontany, setFokontany] = useState("");
   let [sevenDayStartDate, setSevenDayStartDate] = useState("");
   let [sevenDayEndDate, setSevenDayEndDate] = useState("");
   let [yearStartDate, setYearStartDate] = useState("");
@@ -104,12 +104,25 @@ export default function dashboard() {
     getGraphAnalytics(yearStartDate, yearEndDate, 12);
   };
 
-  const getRegistrations = () => {
-    registrationsGetCall(page, limit)
+  const getRegistrations = (sDate, eDate, candle, rg, dst, comun, fokonty) => {
+    registrationsGetCall(
+      page,
+      limit,
+      sDate,
+      eDate,
+      candle,
+      rg,
+      dst,
+      comun,
+      fokonty
+    )
       .then(({ data }) => {
         if (data.data.success) {
           setDataList(data.data.result);
           setTotalRecords(data.data.total_records);
+        } else {
+          setDataList([]);
+          setTotalRecords(0);
         }
       })
       .catch((err) => {
@@ -282,8 +295,8 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
 
   const getGenderAnalytics = () => {
     let newArray = [];
-    let date = moment(new Date()).format("YYYY-MM-DD");
-    genderAnalyticsGetCall()
+    let date = start ? start : moment(new Date()).format("YYYY-MM-DD");
+    genderAnalyticsGetCall(date, end, region, district, commune, fokontany)
       .then(({ data }) => {
         if (data.data.success) {
           for (let index = 0; index < data.data.result.length; index++) {
@@ -419,17 +432,25 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
         commune,
         fokontany
       );
+      getGenderAnalytics();
+    } else if (selectedFilter == "List") {
+      getRegistrations(start, end, region, district, commune, fokontany);
     }
   };
 
   const onReset = () => {
-    setRegion("");
-    setDistrict("");
-    setCommune("");
-    setFokontany("");
+    setStart((start = ""));
+    setEnd((end = ""));
+    setRegion((region = ""));
+    setDistrict((district = ""));
+    setCommune((commune = ""));
+    setFokontany((fokontany = ""));
     if (selectedFilter == "Graph") {
       getGraphAnalytics(yearStartDate, yearEndDate, 12);
       getGraphAnalytics(sevenDayStartDate, sevenDayEndDate, 7);
+      getGenderAnalytics();
+    } else if (selectedFilter == "List") {
+      getRegistrations();
     }
   };
 

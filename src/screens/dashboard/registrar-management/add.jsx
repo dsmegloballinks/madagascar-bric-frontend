@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { ArrowLeft } from "react-feather";
 import { useNavigate } from "react-router-dom";
+import Select from "@components/Select";
 
 export default function AddRegistrarManagement() {
   const navigate = useNavigate();
+  const [number, setNumber] = useState("");
   return (
     <div className="dashboard__container">
       <div className="dashboard__container__top__bar dashboard__bg">
@@ -26,6 +28,14 @@ export default function AddRegistrarManagement() {
       </div>
       <div className="form__container">
         <div className="form__wrapper">
+          <div className="form__bottom">
+            <div className="form__bottom__content">Civil Register ID</div>
+            <Select
+              placeholder="Select"
+              widthProp={"1050px"}
+              background={"#ededfa"}
+            />
+          </div>
           <div className="form__bottom">
             <div className="form__bottom__content">Last Name</div>
             <input placeholder="" />

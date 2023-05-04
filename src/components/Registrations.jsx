@@ -169,9 +169,13 @@ function TableEntry({ item, setFileViewVisibility }) {
         {item.cr.uin}
       </TableEntryText>
       <TableEntryText>{item.cr.given_name}</TableEntryText>
-      <TableEntryText>{item.mother.given_name}</TableEntryText>
       <TableEntryText>
-        {moment(item.cr.date_of_birth).format("DD MMM, YYYY")}
+        {item.mother.first_name + " " + item.mother.last_name}
+      </TableEntryText>
+      <TableEntryText>
+        {moment(item.cr.date_of_birth)
+          .subtract(1, "day")
+          .format("DD MMM, YYYY")}
       </TableEntryText>
       <div
         className="container__main__content__listing__table__content__list__entry"

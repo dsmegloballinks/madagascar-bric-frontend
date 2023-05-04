@@ -216,7 +216,7 @@ export default function RegistrationDetail() {
                     Last Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.cr.given_name)}
+                    {setFormValues(state.registrationData.cr.last_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -224,7 +224,7 @@ export default function RegistrationDetail() {
                     First Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.cr.given_name)}
+                    {setFormValues(state.registrationData.cr.first_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -567,7 +567,7 @@ export default function RegistrationDetail() {
                     Last Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.mother.given_name)}
+                    {setFormValues(state.registrationData.mother.last_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -575,7 +575,7 @@ export default function RegistrationDetail() {
                     First Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.mother.given_name)}
+                    {setFormValues(state.registrationData.mother.first_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -769,10 +769,14 @@ export default function RegistrationDetail() {
                       >
                         (To specify)
                       </div>
-                      {setFormValues(
-                        state.registrationData.mother.nationality_name,
-                        10
-                      )}
+                      {state.registrationData.mother.is_other_nationality &&
+                      state.registrationData.mother.is_other_nationality.toLowerCase() ==
+                        "oui".toLowerCase()
+                        ? setFormValues(
+                            state.registrationData.mother.nationality_name,
+                            10
+                          )
+                        : setFormValues("            ", 10)}
                     </div>
                   </div>
                 </div>
@@ -797,7 +801,7 @@ export default function RegistrationDetail() {
                     Last Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.father.given_name)}
+                    {setFormValues(state.registrationData.father.last_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -805,7 +809,7 @@ export default function RegistrationDetail() {
                     First Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.father.given_name)}
+                    {setFormValues(state.registrationData.father.first_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1108,7 +1112,7 @@ export default function RegistrationDetail() {
                     Last Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.declarant.given_name)}
+                    {setFormValues(state.registrationData.declarant.last_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1116,7 +1120,7 @@ export default function RegistrationDetail() {
                     First Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.declarant.given_name)}
+                    {setFormValues(state.registrationData.declarant.first_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1232,9 +1236,7 @@ export default function RegistrationDetail() {
                     Region
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.declarant.region_of_birth
-                    )}
+                    {setFormValues("")}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1242,9 +1244,7 @@ export default function RegistrationDetail() {
                     District
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.declarant.district_of_birth
-                    )}
+                    {setFormValues("")}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1252,9 +1252,7 @@ export default function RegistrationDetail() {
                     Commune
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.declarant.commune_of_birth
-                    )}
+                    {setFormValues("")}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1262,9 +1260,7 @@ export default function RegistrationDetail() {
                     Fokontany
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.declarant.fokontany_of_birth
-                    )}
+                    {setFormValues("")}
                   </div>
                 </div>
               </div>

@@ -15,10 +15,25 @@ export const loginCall = async (data) => {
   );
 };
 
-export const registrationsGetCall = async (page, limit) => {
+export const registrationsGetCall = async (
+  page,
+  limit,
+  s_start_date,
+  s_end_date,
+  region,
+  district,
+  commune,
+  fokonatny
+) => {
   let params = {};
   if (page) params.page = page;
   if (limit) params.limit = limit;
+  if (s_start_date) params.s_start_date = s_start_date;
+  if (s_end_date) params.s_end_date = s_end_date;
+  if (region) params.code_region = region.value;
+  if (district) params.code_district = district.value;
+  if (commune) params.code_commune = commune.value;
+  if (fokonatny) params.code_fokonatany = fokonatny.value;
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-all"),
     {
@@ -91,8 +106,21 @@ export const fokontanyGetCall = async (
   );
 };
 
-export const genderAnalyticsGetCall = async () => {
+export const genderAnalyticsGetCall = async (
+  s_start_date,
+  s_end_date,
+  region,
+  district,
+  commune,
+  fokonatny
+) => {
   let params = {};
+  if (s_start_date) params.s_start_date = s_start_date;
+  if (s_end_date) params.s_end_date = s_end_date;
+  if (region) params.code_region = region.value;
+  if (district) params.code_district = district.value;
+  if (commune) params.code_commune = commune.value;
+  if (fokonatny) params.code_fokonatany = fokonatny.value;
 
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/dashboard"),
@@ -121,10 +149,10 @@ export const graphAnalyticsGetCall = async (
   if (s_start_date) params.s_start_date = s_start_date;
   if (s_end_date) params.s_end_date = s_end_date;
   if (i_candle) params.i_candle = i_candle;
-  if (region) params.region = region.value;
-  if (district) params.district = district.value;
-  if (commune) params.commune = commune.value;
-  if (fokonatny) params.fokonatny = fokonatny.value;
+  if (region) params.code_region = region.value;
+  if (district) params.code_district = district.value;
+  if (commune) params.code_commune = commune.value;
+  if (fokonatny) params.code_fokonatany = fokonatny.value;
 
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat(
@@ -159,9 +187,10 @@ export const testPostCall = async (data) => {
 
 export const testGetCall = async () => {
   let params = {};
+  params.id = 20230422;
 
   return await axios.get(
-    "https://private-anon-6c0ab5a863-odkcentral.apiary-mock.com/v1/projects/20230422",
+    "https://private-anon-6c0ab5a863-odkcentral.apiary-mock.com/v1/projects",
     {
       params,
       headers: {

@@ -1,5 +1,5 @@
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 // import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 
 const markers = [
@@ -22,6 +22,18 @@ const markers = [
 
 function RegistrationsMapView(props) {
   const mapRef = useRef(null);
+  const [hoverLocation, setHoverLocation] = useState(null);
+
+  const onMarkerClick = (props, marker, e) => {
+    setHoverLocation({
+      selectedPlace: props,
+      activeMarker: marker,
+      showingInfoWindow: true,
+    });
+    console.log("props", props);
+    console.log("marker", marker);
+    console.log("e", e);
+  };
 
   return (
     <div>
@@ -46,14 +58,19 @@ function RegistrationsMapView(props) {
             id={index + 1}
             name={item.name}
             position={{ lat: item.coordinates[0], lng: item.coordinates[1] }}
+            // onMouseover={() => setHoverLocation(item)}
+            onClick={onMarkerClick}
           />
         ))}
 
-        {/* <InfoWindow>
+        <InfoWindow
+          marker={hoverLocation && hoverLocation.activeMarker}
+          visible={hoverLocation && hoverLocation.showingInfoWindow}
+        >
           <div>
-            <h1>{"this.state.selectedPlace.name"}</h1>
+            <h1>{hoverLocation && hoverLocation.selectedPlace.name}</h1>
           </div>
-        </InfoWindow> */}
+        </InfoWindow>
       </Map>
     </div>
   );

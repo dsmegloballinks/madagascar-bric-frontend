@@ -31,6 +31,10 @@ export default function AddUserManagement() {
             <input placeholder="" />
           </div>
           <div className="form__bottom">
+            <div className="form__bottom__content">Email</div>
+            <input placeholder="" />
+          </div>
+          <div className="form__bottom">
             <div className="form__bottom__content">Password</div>
             <input placeholder="" />
           </div>

@@ -27,11 +27,11 @@ export default function UserManagement() {
       <div className="details__container">
         <div className="container__main__content__listing__table">
           <div className="container__main__content__listing__table__header">
-            {/* <div className="container__main__content__listing__table__header__entry">
-              No
-            </div> */}
             <div className="container__main__content__listing__table__header__entry">
               User Name
+            </div>
+            <div className="container__main__content__listing__table__header__entry">
+              Email
             </div>
 
             <div className="container__main__content__listing__table__header__entry">
@@ -58,6 +58,7 @@ export default function UserManagement() {
 function TableEntry() {
   return (
     <div className="container__main__content__listing__table__content__list">
+      <TableEntryText>xyz</TableEntryText>
       <TableEntryText>xyz</TableEntryText>
       <TableEntryText>xyz</TableEntryText>
     </div>
