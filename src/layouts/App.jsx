@@ -5,6 +5,7 @@ import { useAtom } from "jotai";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { userAtom } from "../global";
+import { LoadScript } from "@react-google-maps/api";
 
 export default function App() {
   const [user] = useAtom(userAtom);
@@ -33,7 +34,14 @@ export default function App() {
       ) : (
         <Dashboard />
       )} */}
-      <Outlet />
+      <LoadScript
+        id="google-map-script-loader"
+        googleMapsApiKey={"AIzaSyBch80KN8P7agyjoq_R92ApjKohp-1txiQ"}
+        libraries={["places"]}
+        loadingElement={<></>}
+      >
+        <Outlet />
+      </LoadScript>
     </>
   );
 }
