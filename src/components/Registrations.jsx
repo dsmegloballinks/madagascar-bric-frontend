@@ -16,6 +16,7 @@ export default function Registerations({
   limit,
   totalRecords,
   handlePageChange,
+  onAddressViewClick,
 }) {
   const options = [{ label: "Last Week", value: "Last Week" }];
   const [fileViewVisibility, setFileViewVisibility] = useState(false);
@@ -104,6 +105,7 @@ export default function Registerations({
               <TableEntry
                 item={item}
                 setFileViewVisibility={setFileViewVisibility}
+                onAddressViewClick={onAddressViewClick}
               />
             ))}
           </div>
@@ -127,7 +129,7 @@ export default function Registerations({
   );
 }
 
-function TableEntry({ item, setFileViewVisibility }) {
+function TableEntry({ item, setFileViewVisibility, onAddressViewClick }) {
   const navigate = useNavigate();
   const ref = useRef(null);
   const [isFileActionHover, setIsFileActionHover] = useState(false);
@@ -168,9 +170,11 @@ function TableEntry({ item, setFileViewVisibility }) {
       >
         {item.cr.uin}
       </TableEntryText>
-      <TableEntryText>{item.cr.given_name}</TableEntryText>
       <TableEntryText>
-        {item.mother.first_name + " " + item.mother.last_name}
+        {item.cr.first_name + " " + item.cr.last_name}
+      </TableEntryText>
+      <TableEntryText>
+        {item.mother.given_name + " " + item.mother.last_name}
       </TableEntryText>
       <TableEntryText>
         {moment(item.cr.date_of_birth)
@@ -188,7 +192,12 @@ function TableEntry({ item, setFileViewVisibility }) {
           {item.foko.fokontonay_name}
         </TableEntryText>
       </div>
-      <TableEntryText>address</TableEntryText>
+      <TableEntryText
+        className="container__main__content__listing__table__content__list__entry__hover"
+        onClick={() => onAddressViewClick(item.cr)}
+      >
+        view
+      </TableEntryText>
       <div
         className="container__main__content__listing__table__content__list__entry"
         style={{ position: "relative" }}

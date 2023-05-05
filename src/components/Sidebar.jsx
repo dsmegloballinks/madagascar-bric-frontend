@@ -14,6 +14,7 @@ export default function Sidebar({ setSidebarOpen }) {
   const navigate = useNavigate();
 
   const [user, setUser] = useAtom(userAtom);
+  const isSuperAdmin = localStorage.getItem("isAdmin");
 
   useEffect(() => {
     let id = localStorage.getItem("id");
@@ -52,24 +53,28 @@ export default function Sidebar({ setSidebarOpen }) {
             </button>
           </div>
           <div className="container__sidebar__content">
-            {sidebarEnteries.map((entry) => (
-              <NavLink
-                key={entry.path}
-                onClick={() => {
-                  if (window.innerWidth < 820) {
-                    setSidebarOpen(false);
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  }
-                }}
-                end
-                to={entry.path}
-                state={entry.link}
-                className="container__sidebar__entry__content__entry"
-              >
-                {entry.icon}
-                {entry.name}
-              </NavLink>
-            ))}
+            {sidebarEnteries.flatMap((entry) => {
+              return (
+                entry.isForSuperAdmin == isSuperAdmin && (
+                  <NavLink
+                    key={entry.path}
+                    onClick={() => {
+                      if (window.innerWidth < 820) {
+                        setSidebarOpen(false);
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }
+                    }}
+                    end
+                    to={entry.path}
+                    state={entry.link}
+                    className="container__sidebar__entry__content__entry"
+                  >
+                    {entry.icon}
+                    {entry.name}
+                  </NavLink>
+                )
+              );
+            })}
           </div>
           <div
             className="container__sidebar__entry"
@@ -121,28 +126,32 @@ export default function Sidebar({ setSidebarOpen }) {
               alignItems: "center",
             }}
           >
-            {sidebarEnteries.map((entry) => (
-              <NavLink
-                key={entry.path}
-                onClick={() => {
-                  if (window.innerWidth < 820) {
-                    setSidebarOpen(false);
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  }
-                }}
-                end
-                to={entry.path}
-                className="container__sidebar__entry__content__entry"
-                style={{
-                  width: "40px",
-                  padding: 0,
-                  justifyContent: "center",
-                  paddingLeft: "1em",
-                }}
-              >
-                {entry.icon}
-              </NavLink>
-            ))}
+            {sidebarEnteries.flatMap((entry) => {
+              return (
+                entry.isForSuperAdmin == isSuperAdmin && (
+                  <NavLink
+                    key={entry.path}
+                    onClick={() => {
+                      if (window.innerWidth < 820) {
+                        setSidebarOpen(false);
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }
+                    }}
+                    end
+                    to={entry.path}
+                    className="container__sidebar__entry__content__entry"
+                    style={{
+                      width: "40px",
+                      padding: 0,
+                      justifyContent: "center",
+                      paddingLeft: "1em",
+                    }}
+                  >
+                    {entry.icon}
+                  </NavLink>
+                )
+              );
+            })}
           </div>
           <div
             className="container__sidebar__entry"

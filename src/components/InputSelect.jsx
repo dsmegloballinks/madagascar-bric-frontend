@@ -1,9 +1,8 @@
 import ReactSelect from "react-select";
 import { useState } from "react";
-export default function Select({
+export default function InputSelect({
   options,
   placeholder,
-  backgroundProp,
   widthProp,
   getOptionLabel,
   defaultValue,
@@ -35,11 +34,11 @@ export default function Select({
           control: (base, state) => ({
             ...base,
             "&:hover": { borderColor: "#F2F2FF" }, // border style on hover
-            border: "1px solid #afafaf", // default border color
+            border: "1px solid transparent", // default border color
             boxShadow: "none", // no box-shadow
             borderRadius: "20px",
             marginRight: "0.5em",
-            background: { backgroundProp },
+            background: "#ededfa",
             width: { widthProp },
             fontSize: "12px",
             color: "black",

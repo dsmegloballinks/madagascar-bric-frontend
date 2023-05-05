@@ -594,6 +594,11 @@ body {
   background-color: var(--backgroundColor);
   border-color: transparent !important;
   height: 40px;
+  text-align: start !important;
+}
+
+.list__container__top__select .css-b62m3t-container{
+  text-align: left;
 }
 
 .container__main__content__listing__table {
@@ -683,6 +688,63 @@ body {
   text-align: center;
   position: relative;
   margin-right: 1em;
+}
+
+.container__main__content__listing__table__content__list__entry__action__view {
+  text-decoration: none;
+  color: white;
+  background-color: var(--colorLight);
+  border-radius: 50px;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .6em;
+}
+
+.container__main__content__listing__table__content__list__entry__action__view:hover {
+  cursor: pointer;
+  background: var(--color);
+  // color: var(--tertiary);
+}
+
+.container__main__content__listing__table__content__list__entry__action__edit{
+  text-decoration: none;
+  color: white;
+  background-color: var(--primary);
+  border-radius: 50px;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .6em;
+
+}
+
+.container__main__content__listing__table__content__list__entry__action__edit:hover{
+  cursor: pointer;
+  background: var(--primaryDark);
+}
+
+.container__main__content__listing__table__content__list__entry__action__delete {
+  text-decoration: none;
+  color: white;
+  background-color: var(--color);
+  border-radius: 50px;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .6em;
+}
+
+.container__main__content__listing__table__content__list__entry__action__delete:hover {
+  cursor: pointer;
+  background: var(--color);
+  color: var(--tertiary);
 }
 
 .graph__container {
@@ -1030,6 +1092,18 @@ body {
   outline: none;
   padding-top: 0.8em;
   color: #929292;
+  border: 1px solid #afafaf;
+}
+
+.list__filters__input:hover{
+  border: none;
+}
+
+.list__filters__input__end__empty:hover {
+  border: none;
+}
+.list__filters__input__empty:hover {
+  border: none;
 }
 
 .list__filters__input__empty {
@@ -1040,6 +1114,7 @@ body {
   width: 15%;
   outline: none;
   padding-top: 0.8em;
+  border: 1px solid #afafaf;
 }
 
 .list__filters__input__empty:before {
@@ -1060,6 +1135,7 @@ body {
   width: 15%;
   padding-top: 0.8em;
   outline: none;
+  border: 1px solid #afafaf;
 }
 
 .list__filters__input__end__empty:before {
@@ -1110,6 +1186,8 @@ body {
   border: none;
   text-decoration: none;
   font-size: 13px;
+  display: flex;
+  align-items: center;
 }
 
 .details__header {
@@ -1129,7 +1207,8 @@ body {
   border-radius: 50px;
   height: 30px;
   width: 30px;
-  background: var(--colorLight);
+  background: #d9d7d7;
+  // background: var(--colorLight);
   margin-right: 1em;
   // color: white;
   padding: 0.2em;
@@ -1317,6 +1396,9 @@ body {
 .certificate__wrapper__container {
   margin-top: 3em;
   margin-right: 6em;
+  height: fit-content;
+  max-height: 400px;
+  overflow: auto;
 }
 
 .certificate__wrapper__container__content {
@@ -1358,6 +1440,7 @@ body {
   background-color: var(--backgroundDarkColor);
   border-radius: 8px;
   position: relative;
+  // overflow: auto;
 }
 
 .popup__overlay__card__close {
@@ -1644,4 +1727,69 @@ body {
 .details__info__content__line{
   border-bottom: 1px solid black;
   width: 200px;
+}
+
+.list__search__wrapper{
+  display: flex;
+  border-radius: 20px;
+  border: 1px solid var(--colorLight);
+  margin-right: .5em;
+  align-items: center;
+}
+
+.list__search__wrapper input{
+  border: none;
+  outline: none;
+  padding: .5em 1em;
+  border-radius: 20px;
+}
+
+.list__search__wrapper__icon{
+  color: var(--colorLight);
+  margin-right: .5em;
+  cursor: pointer;
+}
+
+.form__text{
+  font-weight: 600;
+  margin-top: 2em;
+}
+
+.error__types__container{
+  display: flex;
+  font-size: 12px;
+  margin-right: 1.5em;
+  margin-bottom: 1em;
+}
+
+.error__types__container__wrapper{
+  display: flex;
+}
+
+.simple__popup__content{
+  width: 100%;
+  text-align: center;
+  margin: .5em 0em;
+  font-weight: 500;
+}
+
+.dashboard__view{
+  height: 600px;
+  background: var(--colorReverse);
+  border-radius: 20px;
+  padding: 1em;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.dashboard__view__container{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dashboard__view__title{
+  // font-weight: 600;
 }

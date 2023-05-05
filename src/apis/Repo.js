@@ -170,6 +170,35 @@ export const graphAnalyticsGetCall = async (
   );
 };
 
+export const getMapsLatLng = async (
+  s_start_date,
+  s_end_date,
+  region,
+  district,
+  commune,
+  fokonatny
+) => {
+  let params = {};
+  if (s_start_date) params.s_start_date = s_start_date;
+  if (s_end_date) params.s_end_date = s_end_date;
+  if (region) params.code_region = region.value;
+  if (district) params.code_district = district.value;
+  if (commune) params.code_commune = commune.value;
+  if (fokonatny) params.code_fokonatany = fokonatny.value;
+  return await axios.get(
+    import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-lat-long"),
+    {
+      params,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
 export const testPostCall = async (data) => {
   return await axios.post(
     "https://private-anon-6c0ab5a863-odkcentral.apiary-mock.com/v1/sessions",

@@ -1,4 +1,9 @@
-export default function TableEntryText({ children, className, ...props }) {
+export default function TableEntryText({
+  children,
+  className,
+  colorBox,
+  ...props
+}) {
   return (
     <div
       className={
@@ -8,6 +13,16 @@ export default function TableEntryText({ children, className, ...props }) {
       }
       {...props}
     >
+      {colorBox ? (
+        <div
+          style={{
+            background: colorBox,
+            width: "13px",
+            height: "13px",
+            marginRight: ".5em",
+          }}
+        ></div>
+      ) : null}
       {children}
     </div>
   );

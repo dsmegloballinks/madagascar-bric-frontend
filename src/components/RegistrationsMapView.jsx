@@ -8,47 +8,26 @@ const markers = [
     name: "Buenos Aires",
     coordinates: [-19.002846, 46.460938],
   },
-  // { markerOffset: -15, name: "La Paz", coordinates: [18.7669, 46.8691] },
   { markerOffset: 25, name: "Brasilia", coordinates: [-13.203681, 49.662342] },
   { markerOffset: 25, name: "Santiago", coordinates: [-21.0, 48.150002] },
   { markerOffset: 25, name: "Bogota", coordinates: [-16.916668, 47.716667] },
-  // { markerOffset: -15, name: "Georgetown", coordinates: [-58.1551, 6.8013] },
-  // { markerOffset: -15, name: "Asuncion", coordinates: [-57.5759, -25.2637] },
-  // { markerOffset: 25, name: "Paramaribo", coordinates: [-55.2038, 5.852] },
-  // { markerOffset: 25, name: "Montevideo", coordinates: [-56.1645, -34.9011] },
-  // { markerOffset: -15, name: "Caracas", coordinates: [-66.9036, 10.4806] },
-  // { markerOffset: -15, name: "Lima", coordinates: [-77.0428, -12.0464] },
 ];
 
-function RegistrationsMapView(props) {
+function RegistrationsMapView({ mapList }) {
   const mapRef = useRef(null);
-  const [hoverLocation, setHoverLocation] = useState(null);
 
-  const onMarkerClick = (props, marker, e) => {
-    setHoverLocation({
-      selectedPlace: props,
-      activeMarker: marker,
-      showingInfoWindow: true,
-    });
-    console.log("props", props);
-    console.log("marker", marker);
-    console.log("e", e);
-  };
+  const lat =
+    mapList.length > 0 ? parseFloat(mapList[0].lattitude) : -19.002846;
+  const lng = mapList.length > 0 ? parseFloat(mapList[0].longitude) : 46.460938;
+  const center = { lat, lng };
 
-  const center = { lat: -19.002846, lng: 46.460938 };
   const [map, setMap] = useState(null);
-
-  const onLoad = useCallback(function callback(map) {
-    // This is just an example of getting and using the map instance!!! don't just blindly copy!
-    const bounds = new window.google.maps.LatLngBounds(center);
-    map.fitBounds(bounds);
-
-    setMap(map);
-  }, []);
 
   const onUnmount = useCallback(function callback(map) {
     setMap(null);
   }, []);
+
+  console.log("mapList", mapList);
 
   return (
     <div>
@@ -64,13 +43,20 @@ function RegistrationsMapView(props) {
         onUnmount={onUnmount}
       >
         {/* Child components, such as markers, info windows, etc. */}
-        {markers.map((item, index) => (
-          <Marker
-            id={index + 1}
-            name={item.name}
-            position={{ lat: item.coordinates[0], lng: item.coordinates[1] }}
-          />
-        ))}
+        {mapList.map((item, index) => {
+          return (
+            <Marker
+              id={index + 1}
+              name={item.given_name}
+              position={{
+                lat: parseFloat(item.lattitude),
+                lng: parseFloat(item.longitude),
+              }}
+              // name={item.name}
+              // position={{ lat: item.coordinates[0], lng: item.coordinates[1] }}
+            />
+          );
+        })}
       </GoogleMap>
       {/* <Map
         ref={mapRef}

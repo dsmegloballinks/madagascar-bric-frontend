@@ -1,66 +1,128 @@
-import React from "react";
-import { ArrowLeft, ChevronRight } from "react-feather";
+import React, { useState } from "react";
+import { Delete, Edit2, RefreshCcw, Search, Trash2 } from "react-feather";
 import { Link } from "react-router-dom";
 import TableEntryText from "@components/TableEntryText";
+import ConfirmationPopup from "@components/ConfirmationPopup";
+import TableEntryUpdateStatus from "@components/TableEntryUpdateStatus";
+import SimpleConfirmationPopup from "@components/SimpleConfirmationPopup";
 
 export default function UserManagement() {
-  return (
-    <div className="dashboard__container">
-      <div className="main__container__top__bar">
-        <div className="details__header">
-          <svg
-            width="16"
-            height="20"
-            viewBox="0 0 16 20"
-            fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M9.0233 0.0274309C9.41992 0.109725 9.81653 0.137157 10.1848 0.246883C12.7628 1.01496 14.3209 2.66084 14.8592 5.21196C15.0292 6.0349 15.0292 6.88527 14.9442 7.73564C14.8592 8.53115 14.0943 9.16207 13.2727 9.16207C12.8761 9.16207 12.4512 9.16207 12.0262 9.16207C12.0262 8.77803 12.0262 8.42143 12.0262 8.03739C11.9696 8.03739 11.9412 8.00996 11.9129 8.00996C10.7797 8.00996 9.64656 8.00996 8.51337 8.00996C8.23008 8.00996 7.97511 8.20198 7.91845 8.47629C7.86179 8.72317 8.00345 8.97006 8.25841 9.07978C8.37173 9.13465 8.48504 9.13464 8.62669 9.13464C9.67488 9.13464 10.7231 9.13464 11.7713 9.13464C11.8279 9.13464 11.9129 9.13464 11.9979 9.13464C11.8563 10.3416 10.7231 11.8229 8.825 11.9875C6.78528 12.1521 5.0855 10.6708 4.94385 8.72317C4.77388 9.16208 4.40559 9.16207 4.06564 9.16207C3.61237 9.16207 3.18742 9.13464 2.81914 8.88776C2.33754 8.58601 2.05425 8.14712 2.02592 7.57106C1.99759 6.66582 1.94093 5.73315 2.1959 4.85535C2.8758 2.3591 4.51891 0.795509 7.0969 0.164588C7.38019 0.0822937 7.69182 0.0548627 7.97512 0C8.31507 0.0274314 8.65502 0.0274309 9.0233 0.0274309ZM13.7543 5.78802C13.4994 3.12718 11.0914 1.09726 8.3434 1.17955C5.31214 1.28927 3.3574 3.64837 3.21575 5.78802C3.49905 5.76059 3.78234 5.76058 4.09397 5.73315C4.43392 5.70572 4.77388 5.76058 4.94385 6.14462C5.0855 4.25186 6.6153 2.93516 8.3434 2.88029C9.3066 2.82543 10.1565 3.12717 10.8647 3.7581C11.573 4.38902 11.9696 5.18453 12.0546 6.17206C12.2245 5.78802 12.4795 5.70572 12.8195 5.73315C13.1028 5.76058 13.4427 5.76059 13.7543 5.78802Z" />
-            <path d="M11.9397 19.9394C9.26909 19.9394 6.62577 19.9394 3.98246 19.9394C3.98246 19.8485 3.98246 19.7576 3.98246 19.697C3.98246 18.7576 3.98246 17.8182 3.98246 16.8788C3.98246 16.4848 3.76446 16.2121 3.4647 16.2121C3.13769 16.2121 2.89244 16.4545 2.86519 16.8182C2.86519 17.3939 2.86519 17.9697 2.86519 18.5455C2.86519 19.0303 2.86519 19.4849 2.86519 19.9697C2.78344 19.9697 2.72893 19.9697 2.67443 19.9697C1.99317 19.9697 1.3119 19.9697 0.630632 19.9697C0.249123 19.9697 0.0311213 19.697 0.00387067 19.303C-0.02338 18.2121 0.085616 17.1212 0.576128 16.1515C1.4754 14.3333 2.83794 13.2727 4.71823 13.0606C4.85448 13.0303 4.99074 13.0303 5.12699 13.0303C5.15424 13.2727 5.18149 13.5152 5.23599 13.7576C5.5085 14.9697 6.18976 15.7273 7.27979 16.0909C7.38879 16.1212 7.4433 16.1818 7.4433 16.303C7.4433 16.6667 7.4433 17.0303 7.4433 17.4242C7.4433 17.8182 7.68855 18.0909 8.01556 18.0909C8.31532 18.0909 8.58783 17.7879 8.58783 17.4242C8.58783 17 8.58783 16.5758 8.58783 16.1515C10.0049 15.697 10.7679 14.6667 10.8769 13C11.2311 13.0606 11.5854 13.0606 11.9397 13.1515C14.0652 13.6667 15.6457 15.5455 15.9455 17.9697C16 18.4242 16 18.9091 16 19.3939C16 19.697 15.7547 19.9697 15.4822 20C14.7192 20 13.9562 20 13.1932 20C13.1932 20 13.1659 20 13.1387 19.9697C13.1387 19.9091 13.1387 19.8182 13.1387 19.7273C13.1387 18.7576 13.1387 17.7879 13.1387 16.8182C13.1387 16.4848 12.9207 16.2424 12.6754 16.2121C12.4029 16.1818 12.1304 16.3333 12.0487 16.6364C12.0214 16.7576 12.0214 16.8788 12.0214 17C12.0214 17.9091 12.0214 18.8182 12.0214 19.7576C11.9397 19.7576 11.9397 19.8485 11.9397 19.9394Z" />
-          </svg>
-          User Management
-        </div>
-        <Link className="details__print" to={"/dashboard/user-management/add"}>
-          Add User
-        </Link>
-      </div>
-      <div className="details__container">
-        <div className="container__main__content__listing__table">
-          <div className="container__main__content__listing__table__header">
-            <div className="container__main__content__listing__table__header__entry">
-              User Name
-            </div>
-            <div className="container__main__content__listing__table__header__entry">
-              Email
-            </div>
+  const [deletePopupVisibility, setDeletePopupVisibility] = useState(false);
+  const [resetPasswordConfirmationPopup, setResetPasswordConfirmationPopup] =
+    useState(false);
 
-            <div className="container__main__content__listing__table__header__entry">
-              Password
-            </div>
+  const onDelete = () => {};
+
+  return (
+    <>
+      <div className="dashboard__container">
+        <div className="main__container__top__bar">
+          <div className="details__header">
+            <svg
+              width="18"
+              height="17"
+              viewBox="0 0 18 17"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M17.9994 16.5073C17.8725 16.8119 17.644 16.9135 17.314 16.8881C15.9684 16.8881 14.6228 16.8881 13.3027 16.8881C12.9218 16.8881 12.6934 16.685 12.6934 16.3042C12.6934 14.9332 12.6934 13.5877 12.6934 12.2167C12.6934 11.8359 12.8965 11.6328 13.3027 11.6328C14.6482 11.6328 15.9938 11.6328 17.3393 11.6328C17.6694 11.6328 17.8725 11.7344 17.9994 12.0136C17.9994 13.5115 17.9994 15.0094 17.9994 16.5073Z" />
+              <path d="M0 14.2458C0 13.5603 0 12.8749 0 12.2148C0 11.834 0.203104 11.6055 0.583922 11.6055C1.95487 11.6055 3.32581 11.6055 4.72215 11.6055C5.10296 11.6055 5.30606 11.8086 5.30606 12.2148C5.30606 13.5857 5.30606 14.9313 5.30606 16.3022C5.30606 16.7084 5.10296 16.9115 4.69676 16.9115C3.32581 16.9115 1.98025 16.9115 0.609309 16.9115C0.203103 16.9115 0 16.7084 0 16.3022C0 15.5914 0 14.9313 0 14.2458Z" />
+              <path d="M8.98799 11.6055C9.67346 11.6055 10.3589 11.6055 11.0444 11.6055C11.4252 11.6055 11.6283 11.8086 11.6283 12.1894C11.6283 13.5603 11.6283 14.9059 11.6283 16.2768C11.6283 16.6577 11.4252 16.8608 11.019 16.8608C9.64808 16.8608 8.30252 16.8608 6.93158 16.8608C6.52537 16.8608 6.32227 16.6577 6.32227 16.2514C6.32227 14.8805 6.32227 13.5349 6.32227 12.164C6.32227 11.7832 6.52537 11.5801 6.93158 11.5801C7.61705 11.6055 8.30252 11.6055 8.98799 11.6055Z" />
+              <path d="M9.26579 3.15175C9.49428 3.20253 9.67199 3.2533 9.84971 3.30408C10.916 3.65951 11.6269 4.67502 11.6269 5.7667C11.6269 6.09674 11.3984 6.32523 11.0683 6.32523C9.67199 6.32523 8.27566 6.32523 6.87933 6.32523C6.54929 6.32523 6.34618 6.09675 6.34618 5.79209C6.32079 4.54808 7.31092 3.40563 8.52954 3.20253C8.58031 3.20253 8.63109 3.17714 8.68186 3.15175C8.25027 3.0502 7.89484 2.82171 7.64096 2.44089C7.38708 2.06007 7.33631 1.62848 7.43786 1.19688C7.61558 0.435248 8.32643 -0.047121 9.11346 0.00365474C9.82432 0.0544305 10.4844 0.689127 10.5352 1.42538C10.6367 2.16162 10.2051 2.94865 9.26579 3.15175Z" />
+              <path d="M14.8014 9.49782C13.0242 9.49782 11.2978 9.49782 9.52068 9.49782C9.52068 9.67554 9.52068 9.82786 9.52068 10.0056C9.52068 10.3102 9.29219 10.5387 8.98753 10.5387C8.68288 10.5387 8.47978 10.3102 8.45439 10.0056C8.45439 9.85325 8.45439 9.67554 8.45439 9.49782C6.70263 9.49782 4.95086 9.49782 3.17371 9.49782C3.17371 9.67554 3.17371 9.82786 3.17371 10.0056C3.17371 10.3102 2.94522 10.5387 2.64057 10.5387C2.33591 10.5387 2.10742 10.3102 2.10742 10.0056C2.10742 9.67554 2.10742 9.34549 2.10742 9.01545C2.10742 8.66002 2.31052 8.45692 2.66595 8.45692C4.51927 8.45692 6.3472 8.45692 8.20051 8.45692C8.27667 8.45692 8.32745 8.45692 8.429 8.45692C8.429 8.2792 8.429 8.10149 8.429 7.94916C8.429 7.64451 8.65749 7.41602 8.96215 7.41602C9.2668 7.41602 9.4699 7.64451 9.49529 7.94916C9.49529 8.10149 9.49529 8.2792 9.49529 8.45692C9.57145 8.45692 9.64762 8.45692 9.69839 8.45692C11.5263 8.45692 13.3542 8.45692 15.2076 8.45692C15.6138 8.45692 15.8169 8.66002 15.8169 9.06623C15.8169 9.37088 15.8169 9.70092 15.8169 10.0056C15.8169 10.3356 15.5884 10.5641 15.2837 10.5641C14.9791 10.5641 14.776 10.3356 14.7506 10.031C14.776 9.85325 14.8014 9.67554 14.8014 9.49782Z" />
+            </svg>
+            User Management
           </div>
-          <div className="container__main__content__listing__table__content">
-            <TableEntry />
-            <TableEntry />
-            <TableEntry />
-            <TableEntry />
-            <TableEntry />
-            <TableEntry />
-            <TableEntry />
-            <TableEntry />
-            <TableEntry />
+          <div style={{ display: "flex" }}>
+            <div className="list__search__wrapper">
+              <input type="text" placeholder="Search" />
+              <Search size={19} className="list__search__wrapper__icon" />
+            </div>
+            <Link
+              className="details__print"
+              to={"/dashboard/user-management/add"}
+            >
+              Add User
+            </Link>
+          </div>
+        </div>
+        <div className="details__container">
+          <div className="container__main__content__listing__table">
+            <div className="container__main__content__listing__table__header">
+              <div className="container__main__content__listing__table__header__entry">
+                Action
+              </div>
+              <div className="container__main__content__listing__table__header__entry">
+                User Name
+              </div>
+              <div className="container__main__content__listing__table__header__entry">
+                Email
+              </div>
+              <div className="container__main__content__listing__table__header__entry">
+                Status
+              </div>
+            </div>
+            <div className="container__main__content__listing__table__content">
+              <TableEntry
+                onClickDelete={() => setDeletePopupVisibility(true)}
+                onClickReset={() => setResetPasswordConfirmationPopup(true)}
+              />
+              <TableEntry />
+              <TableEntry />
+              <TableEntry />
+              <TableEntry />
+              <TableEntry />
+              <TableEntry />
+              <TableEntry />
+              <TableEntry />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      {deletePopupVisibility && (
+        <ConfirmationPopup
+          onClose={() => setDeletePopupVisibility(false)}
+          onDelete={onDelete}
+        />
+      )}
+      {resetPasswordConfirmationPopup && (
+        <SimpleConfirmationPopup
+          onClose={() => setResetPasswordConfirmationPopup(false)}
+          text={"Are you sure, you want to reset the password?"}
+        />
+      )}
+    </>
   );
 }
 
-function TableEntry() {
+function TableEntry({ onClickDelete, onClickReset }) {
   return (
     <div className="container__main__content__listing__table__content__list">
-      <TableEntryText>xyz</TableEntryText>
-      <TableEntryText>xyz</TableEntryText>
-      <TableEntryText>xyz</TableEntryText>
+      <div className="container__main__content__listing__table__content__list__entry">
+        <div
+          className="container__main__content__listing__table__content__list__entry__action__edit"
+          style={{ marginRight: ".5em" }}
+          onClick={onClickReset}
+        >
+          <RefreshCcw size={18} />
+        </div>
+        <Link
+          className="container__main__content__listing__table__content__list__entry__action__edit"
+          style={{ marginRight: ".5em" }}
+          to={"/dashboard/user-management/edit"}
+        >
+          <Edit2 size={18} />
+        </Link>
+        <div
+          className="container__main__content__listing__table__content__list__entry__action__delete"
+          onClick={onClickDelete}
+        >
+          <Trash2 size={18} />
+        </div>
+      </div>
+      <TableEntryText>Hassan Ali</TableEntryText>
+      <TableEntryText>hassan@gmail.com</TableEntryText>
+      <TableEntryUpdateStatus />
     </div>
   );
 }

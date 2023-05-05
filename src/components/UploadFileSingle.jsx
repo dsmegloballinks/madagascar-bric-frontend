@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { X, Plus } from "react-feather";
 import { logo } from "@assets";
 
-export default function UploadFileSingle({ onClose, onAdd }) {
+export default function UploadFileSingle({ onClose, onAdd, isLoading }) {
   const [certificate, setCertificate] = useState(null);
   return (
     <div className="popup">
@@ -115,9 +115,10 @@ export default function UploadFileSingle({ onClose, onAdd }) {
             </button>
             <button
               className="list__filter__button"
+              disabled={isLoading}
               onClick={() => onAdd(certificate)}
             >
-              Add
+              {isLoading ? "Processing..." : "Add"}
             </button>
           </div>
         </div>

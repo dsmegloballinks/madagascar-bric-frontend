@@ -5,6 +5,7 @@ import { logo, certificateLogo, orgLogo } from "@assets";
 
 import { PDFExport } from "@progress/kendo-react-pdf";
 import moment from "moment";
+import { isNullOrEmpty } from "../../../utils/isNullOrEmpty";
 
 export default function RegistrationDetail() {
   const { state } = useLocation();
@@ -28,7 +29,7 @@ export default function RegistrationDetail() {
     var cut = id ? id : 26;
 
     var newData = "";
-    if (data && data.length < 22) {
+    if (data && data.length < 50) {
       let count = 22 - data.length;
       let test = data.padEnd(count + 50, " ");
       newData = test.substring(0, cut);
@@ -45,7 +46,7 @@ export default function RegistrationDetail() {
   const setDateValues = (data, id) => {
     if (data) {
       var newData = "";
-      if (data.length < 22) {
+      if (data.length < 50) {
         let count = 22 - data.length;
         let test = data.padEnd(count + 50, " ");
         newData = test.substring(0, id);
@@ -128,9 +129,9 @@ export default function RegistrationDetail() {
                     })} */}
                     <div className="details__dob__sections">Day</div>
                     {setDateValues(
-                      moment(state.registrationData.cr.date_of_birth).format(
-                        "DD"
-                      ),
+                      moment(state.registrationData.cr.dec_date)
+                        .subtract(1, "day")
+                        .format("DD"),
                       10
                     )}
                     <div
@@ -140,9 +141,7 @@ export default function RegistrationDetail() {
                       Month
                     </div>
                     {setDateValues(
-                      moment(state.registrationData.cr.date_of_birth).format(
-                        "MM"
-                      ),
+                      moment(state.registrationData.cr.dec_date).format("MM"),
                       10
                     )}
                     <div
@@ -152,9 +151,7 @@ export default function RegistrationDetail() {
                       Year
                     </div>
                     {setDateValues(
-                      moment(state.registrationData.cr.date_of_birth).format(
-                        "YYYY"
-                      ),
+                      moment(state.registrationData.cr.dec_date).format("YYYY"),
                       5
                     )}
                   </div>
@@ -166,9 +163,9 @@ export default function RegistrationDetail() {
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     <div className="details__dob__sections">Day</div>
                     {setDateValues(
-                      moment(state.registrationData.cr.date_of_birth).format(
-                        "DD"
-                      ),
+                      moment(state.registrationData.cr.transcription_date)
+                        .subtract(1, "day")
+                        .format("DD"),
                       10
                     )}
                     <div
@@ -178,9 +175,9 @@ export default function RegistrationDetail() {
                       Month
                     </div>
                     {setDateValues(
-                      moment(state.registrationData.cr.date_of_birth).format(
-                        "MM"
-                      ),
+                      moment(
+                        state.registrationData.cr.transcription_date
+                      ).format("MM"),
                       10
                     )}
                     <div
@@ -190,9 +187,9 @@ export default function RegistrationDetail() {
                       Year
                     </div>
                     {setDateValues(
-                      moment(state.registrationData.cr.date_of_birth).format(
-                        "YYYY"
-                      ),
+                      moment(
+                        state.registrationData.cr.transcription_date
+                      ).format("YYYY"),
                       5
                     )}
                   </div>
@@ -234,9 +231,9 @@ export default function RegistrationDetail() {
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     <div className="details__dob__sections">Day</div>
                     {setDateValues(
-                      moment(state.registrationData.cr.date_of_birth).format(
-                        "DD"
-                      ),
+                      moment(state.registrationData.cr.date_of_birth)
+                        .subtract(1, "day")
+                        .format("DD"),
                       10
                     )}
                     <div
@@ -315,7 +312,7 @@ export default function RegistrationDetail() {
                     Region
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.cr.region_of_birth)}
+                    {setFormValues(state.registrationData.cr.region_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -323,7 +320,7 @@ export default function RegistrationDetail() {
                     District
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.cr.district_of_birth)}
+                    {setFormValues(state.registrationData.cr.district_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -331,7 +328,7 @@ export default function RegistrationDetail() {
                     Commune
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.cr.commune_of_birth)}
+                    {setFormValues(state.registrationData.cr.commune_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -339,9 +336,7 @@ export default function RegistrationDetail() {
                     Fokontany
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.cr.fokontany_of_birth
-                    )}
+                    {setFormValues(state.registrationData.cr.fokontonay_name)}
                   </div>
                 </div>
 
@@ -473,8 +468,7 @@ export default function RegistrationDetail() {
                           type="radio"
                           style={{ width: 0 }}
                           checked={
-                            state.registrationData.cr.is_birth_in_hc.toLowerCase() ==
-                            "oui".toLowerCase()
+                            state.registrationData.cr.is_birth_in_hc == 1
                           }
                         />
                         <label for="radio-7" class="radio-label">
@@ -489,8 +483,7 @@ export default function RegistrationDetail() {
                           type="radio"
                           style={{ width: 0 }}
                           checked={
-                            state.registrationData.cr.is_birth_in_hc.toLowerCase() ==
-                            "non".toLowerCase()
+                            state.registrationData.cr.is_birth_in_hc == null
                           }
                         />
                         <label for="radio-8" class="radio-label">
@@ -513,8 +506,9 @@ export default function RegistrationDetail() {
                           type="radio"
                           style={{ width: 0 }}
                           checked={
-                            state.registrationData.cr.is_assisted_by_how.toLowerCase() ==
-                            "oui".toLowerCase()
+                            !isNullOrEmpty(
+                              state.registrationData.cr.is_assisted_by_how
+                            )
                           }
                         />
                         <label for="radio-9" class="radio-label">
@@ -529,8 +523,7 @@ export default function RegistrationDetail() {
                           type="radio"
                           style={{ width: 0 }}
                           checked={
-                            state.registrationData.cr.is_assisted_by_how.toLowerCase() ==
-                            "non".toLowerCase()
+                            state.registrationData.cr.is_assisted_by_how == null
                           }
                         />
                         <label for="radio-10" class="radio-label">
@@ -575,7 +568,7 @@ export default function RegistrationDetail() {
                     First Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.mother.first_name)}
+                    {setFormValues(state.registrationData.mother.given_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -585,9 +578,9 @@ export default function RegistrationDetail() {
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     <div className="details__dob__sections">Day</div>
                     {setDateValues(
-                      moment(
-                        state.registrationData.mother.date_of_birth
-                      ).format("DD"),
+                      moment(state.registrationData.mother.date_of_birth)
+                        .subtract(1, "day")
+                        .format("DD"),
                       10
                     )}
                     <div
@@ -631,9 +624,7 @@ export default function RegistrationDetail() {
                     Region
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.mother.region_of_birth
-                    )}
+                    {setFormValues(state.registrationData.mother.region_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -641,9 +632,7 @@ export default function RegistrationDetail() {
                     District
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.mother.district_of_birth
-                    )}
+                    {setFormValues(state.registrationData.mother.district_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -651,9 +640,7 @@ export default function RegistrationDetail() {
                     Commune
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.mother.commune_of_birth
-                    )}
+                    {setFormValues(state.registrationData.mother.commune_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -662,7 +649,7 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {setFormValues(
-                      state.registrationData.mother.fokontany_of_birth
+                      state.registrationData.mother.fokontonay_name
                     )}
                   </div>
                 </div>
@@ -809,7 +796,7 @@ export default function RegistrationDetail() {
                     First Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.father.first_name)}
+                    {setFormValues(state.registrationData.father.given_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -819,9 +806,9 @@ export default function RegistrationDetail() {
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     <div className="details__dob__sections">Day</div>
                     {setDateValues(
-                      moment(
-                        state.registrationData.father.date_of_birth
-                      ).format("DD"),
+                      moment(state.registrationData.father.date_of_birth)
+                        .subtract(1, "day")
+                        .format("DD"),
                       10
                     )}
                     <div
@@ -866,9 +853,7 @@ export default function RegistrationDetail() {
                     Region
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.father.region_of_birth
-                    )}
+                    {setFormValues(state.registrationData.father.region_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -876,9 +861,7 @@ export default function RegistrationDetail() {
                     District
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.father.district_of_birth
-                    )}
+                    {setFormValues(state.registrationData.father.district_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -886,9 +869,7 @@ export default function RegistrationDetail() {
                     Commune
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.father.commune_of_birth
-                    )}
+                    {setFormValues(state.registrationData.father.commune_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -897,7 +878,7 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {setFormValues(
-                      state.registrationData.father.fokontany_of_birth
+                      state.registrationData.father.fokontonay_name
                     )}
                   </div>
                 </div>
@@ -973,11 +954,11 @@ export default function RegistrationDetail() {
                           name="radio-13"
                           type="radio"
                           style={{ width: 0 }}
-                          // checked={
-                          //   state.registrationData.father.is_residence_same &&
-                          //   state.registrationData.father.is_residence_same.toLowerCase() ==
-                          //     "oui".toLowerCase()
-                          // }
+                          checked={
+                            state.registrationData.father.is_residence_same &&
+                            state.registrationData.father.is_residence_same.toLowerCase() ==
+                              "Père".toLowerCase()
+                          }
                         />
                         <label for="radio-13" class="radio-label">
                           Father
@@ -990,11 +971,11 @@ export default function RegistrationDetail() {
                           name="radio-13"
                           type="radio"
                           style={{ width: 0 }}
-                          // checked={
-                          //   state.registrationData.father.is_residence_same &&
-                          //   state.registrationData.father.is_residence_same.toLowerCase() ==
-                          //     "non".toLowerCase()
-                          // }
+                          checked={
+                            state.registrationData.father.is_residence_same &&
+                            state.registrationData.father.is_residence_same.toLowerCase() ==
+                              "Mère".toLowerCase()
+                          }
                         />
                         <label for="radio-14" class="radio-label">
                           Mother
@@ -1006,11 +987,11 @@ export default function RegistrationDetail() {
                           name="radio-13"
                           type="radio"
                           style={{ width: 0 }}
-                          // checked={
-                          //   state.registrationData.father.is_residence_same &&
-                          //   state.registrationData.father.is_residence_same.toLowerCase() ==
-                          //     "non".toLowerCase()
-                          // }
+                          checked={
+                            state.registrationData.cr.dec_relation &&
+                            state.registrationData.cr.dec_relation.toLowerCase() ==
+                              "Famille".toLowerCase()
+                          }
                         />
                         <label for="radio-15" class="radio-label">
                           Family
@@ -1022,11 +1003,11 @@ export default function RegistrationDetail() {
                           name="radio-13"
                           type="radio"
                           style={{ width: 0 }}
-                          // checked={
-                          //   state.registrationData.father.is_residence_same &&
-                          //   state.registrationData.father.is_residence_same.toLowerCase() ==
-                          //     "non".toLowerCase()
-                          // }
+                          checked={
+                            state.registrationData.cr.dec_relation &&
+                            state.registrationData.cr.dec_relation.toLowerCase() ==
+                              "agent_sante".toLowerCase()
+                          }
                         />
                         <label for="radio-16" class="radio-label">
                           Health worker
@@ -1038,11 +1019,11 @@ export default function RegistrationDetail() {
                           name="radio-13"
                           type="radio"
                           style={{ width: 0 }}
-                          // checked={
-                          //   state.registrationData.father.is_residence_same &&
-                          //   state.registrationData.father.is_residence_same.toLowerCase() ==
-                          //     "non".toLowerCase()
-                          // }
+                          checked={
+                            state.registrationData.cr.dec_relation &&
+                            state.registrationData.cr.dec_relation.toLowerCase() ==
+                              "Matronne".toLowerCase()
+                          }
                         />
                         <label for="radio-19" class="radio-label">
                           Matron
@@ -1054,11 +1035,11 @@ export default function RegistrationDetail() {
                           name="radio-13"
                           type="radio"
                           style={{ width: 0 }}
-                          // checked={
-                          //   state.registrationData.father.is_residence_same &&
-                          //   state.registrationData.father.is_residence_same.toLowerCase() ==
-                          //     "non".toLowerCase()
-                          // }
+                          checked={
+                            state.registrationData.cr.dec_relation &&
+                            state.registrationData.cr.dec_relation.toLowerCase() ==
+                              "agent_sante".toLowerCase()
+                          }
                         />
                         <label for="radio-20" class="radio-label">
                           Matron
@@ -1070,11 +1051,11 @@ export default function RegistrationDetail() {
                           name="radio-13"
                           type="radio"
                           style={{ width: 0 }}
-                          // checked={
-                          //   state.registrationData.father.is_residence_same &&
-                          //   state.registrationData.father.is_residence_same.toLowerCase() ==
-                          //     "non".toLowerCase()
-                          // }
+                          checked={
+                            state.registrationData.cr.dec_relation &&
+                            state.registrationData.cr.dec_relation.toLowerCase() ==
+                              "AC".toLowerCase()
+                          }
                         />
                         <label for="radio-21" class="radio-label">
                           AC
@@ -1086,11 +1067,11 @@ export default function RegistrationDetail() {
                           name="radio-13"
                           type="radio"
                           style={{ width: 0 }}
-                          // checked={
-                          //   state.registrationData.father.is_residence_same &&
-                          //   state.registrationData.father.is_residence_same.toLowerCase() ==
-                          //     "non".toLowerCase()
-                          // }
+                          checked={
+                            state.registrationData.cr.dec_relation &&
+                            state.registrationData.cr.dec_relation.toLowerCase() ==
+                              "Autre".toLowerCase()
+                          }
                         />
                         <label for="radio-22" class="radio-label">
                           Other
@@ -1120,7 +1101,7 @@ export default function RegistrationDetail() {
                     First Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.declarant.first_name)}
+                    {setFormValues(state.registrationData.declarant.given_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1130,9 +1111,9 @@ export default function RegistrationDetail() {
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     <div className="details__dob__sections">Day</div>
                     {setDateValues(
-                      moment(
-                        state.registrationData.declarant.date_of_birth
-                      ).format("DD"),
+                      moment(state.registrationData.declarant.date_of_birth)
+                        .subtract(1, "day")
+                        .format("DD"),
                       10
                     )}
                     <div
@@ -1186,9 +1167,7 @@ export default function RegistrationDetail() {
                     Region
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.declarant.region_of_birth
-                    )}
+                    {setFormValues(state.registrationData.foko.region_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1196,9 +1175,7 @@ export default function RegistrationDetail() {
                     District
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.declarant.district_of_birth
-                    )}
+                    {setFormValues(state.registrationData.foko.district_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1206,9 +1183,7 @@ export default function RegistrationDetail() {
                     Commune
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.declarant.commune_of_birth
-                    )}
+                    {setFormValues(state.registrationData.foko.commune_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1216,9 +1191,7 @@ export default function RegistrationDetail() {
                     Fokontany
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.declarant.fokontany_of_birth
-                    )}
+                    {setFormValues(state.registrationData.foko.fokontonay_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">

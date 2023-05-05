@@ -48,6 +48,11 @@ export default function Index() {
             };
             setUser(user);
             localStorage.setItem("id", data.data.result.user_id);
+            debugger;
+            localStorage.setItem(
+              "isAdmin",
+              data.data.result.is_user_admin == 1 ? true : false
+            );
             navigate("/dashboard", { replace: true });
           } else {
             setAlertPopupVisibility(true);
