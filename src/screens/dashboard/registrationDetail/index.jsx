@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ChevronRight } from "react-feather";
 import { useLocation, useNavigate } from "react-router-dom";
 import { logo, certificateLogo, orgLogo } from "@assets";
@@ -13,6 +13,13 @@ export default function RegistrationDetail() {
   const pdfExportComponent = useRef(null);
   console.log("state", state);
 
+  const [gender, setGender] = useState(
+    state.registrationData.cr.gender.toLowerCase() == "masculin".toLowerCase()
+  );
+  const [gender2, setGender2] = useState(
+    state.registrationData.cr.gender.toLowerCase() != "masculin".toLowerCase()
+  );
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -23,7 +30,6 @@ export default function RegistrationDetail() {
   const generatePDFFile = (event) => {
     pdfExportComponent.current.save();
   };
-  var name = "The FormGroup ref will  be";
 
   const setFormValues = (data, id) => {
     var cut = id ? id : 26;
@@ -353,8 +359,9 @@ export default function RegistrationDetail() {
                           type="radio"
                           style={{ width: 0 }}
                           checked={
-                            state.registrationData.cr.gender.toLowerCase() ==
-                            "masculin".toLowerCase()
+                            gender
+                            // state.registrationData.cr.gender.toLowerCase() ==
+                            // "masculin".toLowerCase()
                           }
                         />
                         <label for="radio-1" class="radio-label">
@@ -369,8 +376,9 @@ export default function RegistrationDetail() {
                           type="radio"
                           style={{ width: 0 }}
                           checked={
-                            state.registrationData.cr.gender.toLowerCase() !=
-                            "masculin".toLowerCase()
+                            gender2
+                            // state.registrationData.cr.gender.toLowerCase() !=
+                            // "masculin".toLowerCase()
                           }
                         />
                         <label for="radio-2" class="radio-label">

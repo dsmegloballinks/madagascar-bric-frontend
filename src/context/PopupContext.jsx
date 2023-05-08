@@ -17,7 +17,10 @@ export default function PopupContextProvider({ children }) {
     >
       {children}
       {alertPopupVisibility && (
-        <AlertPopup onClose={() => setAlertPopupVisibility(false)} />
+        <AlertPopup
+          onClose={() => setAlertPopupVisibility(false)}
+          alertPopupMessage={alertPopupMessage}
+        />
       )}
     </PopupContext.Provider>
   );

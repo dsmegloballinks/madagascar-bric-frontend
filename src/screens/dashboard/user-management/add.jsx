@@ -1,9 +1,72 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { ArrowLeft } from "react-feather";
 import { Link, useNavigate } from "react-router-dom";
+import { isNullOrEmpty } from "../../../utils/isNullOrEmpty";
+import { PopupContext } from "../../../context/PopupContext";
+import { isInvalidEmail } from "../../../utils/validations";
+import { userPostCall } from "../../../apis/Repo";
 
 export default function AddUserManagement() {
+  const { setAlertPopupVisibility, setAlertPopupMessage } =
+    useContext(PopupContext);
   const navigate = useNavigate();
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const setErrorMessageAndVisibility = (text, visibility) => {
+    setAlertPopupMessage(text);
+    setAlertPopupVisibility(visibility);
+  };
+
+  const isViewValid = () => {
+    if (isNullOrEmpty(userName))
+      setErrorMessageAndVisibility("Enter user name", true);
+    else if (isNullOrEmpty(email))
+      setErrorMessageAndVisibility("Enter email address", true);
+    else if (isInvalidEmail(email))
+      setErrorMessageAndVisibility("Enter valid email address", true);
+    else if (isNullOrEmpty(password))
+      setErrorMessageAndVisibility("Enter password", true);
+    else if (password.length < 8)
+      setErrorMessageAndVisibility("Password must contain 8 characters", true);
+    else if (isNullOrEmpty(confirmPassword))
+      setErrorMessageAndVisibility("Enter confirm password", true);
+    else if (password != confirmPassword)
+      setErrorMessageAndVisibility(
+        "Password and confirm password doesn't match",
+        true
+      );
+    else return true;
+    return false;
+  };
+
+  const onSave = () => {
+    if (isViewValid()) {
+      let object = {
+        user_name: userName,
+        email: email,
+        password: password,
+      };
+      userPostCall(object)
+        .then(({ data }) => {
+          if (data.data.success) {
+            navigate(-1);
+          } else {
+            setErrorMessageAndVisibility(data.data.message, true);
+          }
+        })
+        .catch((err) => {
+          console.log("err", err);
+          setErrorMessageAndVisibility(
+            "Some error occurred, please try later",
+            true
+          );
+        });
+    }
+  };
+
   return (
     <div className="dashboard__container">
       <div
@@ -32,23 +95,45 @@ export default function AddUserManagement() {
           </svg>
           Add User
         </div>
-        <Link className="details__print" to={"/dashboard/user-management"}>
+        <div className="details__print" onClick={onSave}>
           Save
-        </Link>
+        </div>
       </div>
       <div className="form__container">
         <div className="form__wrapper">
           <div className="form__bottom">
             <div className="form__bottom__content">User Name</div>
-            <input placeholder="" />
+            <input
+              placeholder=""
+              value={userName}
+              onChange={(e) => setUserName(e.currentTarget.value)}
+            />
           </div>
           <div className="form__bottom">
             <div className="form__bottom__content">Email</div>
-            <input placeholder="" />
+            <input
+              placeholder=""
+              value={email}
+              onChange={(e) => setEmail(e.currentTarget.value)}
+            />
           </div>
           <div className="form__bottom">
             <div className="form__bottom__content">Password</div>
-            <input placeholder="" />
+            <input
+              placeholder=""
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.currentTarget.value)}
+            />
+          </div>
+          <div className="form__bottom">
+            <div className="form__bottom__content">Confirm Password</div>
+            <input
+              placeholder=""
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.currentTarget.value)}
+            />
           </div>
         </div>
       </div>

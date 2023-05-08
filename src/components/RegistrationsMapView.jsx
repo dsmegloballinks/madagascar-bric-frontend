@@ -17,8 +17,8 @@ function RegistrationsMapView({ mapList }) {
   const mapRef = useRef(null);
 
   const lat =
-    mapList.length > 0 ? parseFloat(mapList[0].lattitude) : -19.002846;
-  const lng = mapList.length > 0 ? parseFloat(mapList[0].longitude) : 46.460938;
+    mapList.length > 0 ? parseFloat(mapList[0].longitude) : -19.002846;
+  const lng = mapList.length > 0 ? parseFloat(mapList[0].lattitude) : 46.460938;
   const center = { lat, lng };
 
   const [map, setMap] = useState(null);
@@ -44,13 +44,14 @@ function RegistrationsMapView({ mapList }) {
       >
         {/* Child components, such as markers, info windows, etc. */}
         {mapList.map((item, index) => {
+          console.log("i", parseFloat(item.longitude));
           return (
             <Marker
               id={index + 1}
               name={item.given_name}
               position={{
-                lat: parseFloat(item.lattitude),
-                lng: parseFloat(item.longitude),
+                lat: parseFloat(item.longitude),
+                lng: parseFloat(item.lattitude),
               }}
               // name={item.name}
               // position={{ lat: item.coordinates[0], lng: item.coordinates[1] }}

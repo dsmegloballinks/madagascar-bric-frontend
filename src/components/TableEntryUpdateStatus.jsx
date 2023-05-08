@@ -10,6 +10,11 @@ export default function TableEntryUpdateStatus({ children, ...props }) {
         placeholder="Active"
         backgroundProp="red"
         widthProp="180px"
+        value={
+          children == 1
+            ? { value: 1, label: "Active" }
+            : { value: 0, label: "Revoke" }
+        }
         options={[
           { value: 1, label: "Active" },
           { value: 2, label: "Revoke" },

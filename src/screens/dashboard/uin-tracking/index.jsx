@@ -86,20 +86,35 @@ export default function UINTracking() {
               <div className="container__main__content__listing__table__header__entry">
                 Error Type
               </div>
+              <div className="container__main__content__listing__table__header__entry">
+                Error Reported Date
+              </div>
+              <div className="container__main__content__listing__table__header__entry">
+                Error Corrected Date
+              </div>
             </div>
             <div className="container__main__content__listing__table__content">
-              <TableEntry color="red" />
-              <TableEntry color="green" />
-              <TableEntry color="yellow" />
-              <TableEntry color="orange" />
-              <TableEntry color="red" />
-              <TableEntry color="green" />
-              <TableEntry color="yellow" />
-              <TableEntry color="orange" />
-              <TableEntry color="red" />
-              <TableEntry color="green" />
-              <TableEntry color="Yellow" />
-              <TableEntry color="orange" />
+              <TableEntry color="red" text={"Wrong UIN Number"} />
+              <TableEntry
+                color="green"
+                text={"Wrong UIN Location Allocation"}
+              />
+              <TableEntry color="yellow" text={"Duplicate UIN Number"} />
+              <TableEntry color="orange" text={"UIN Number doesn't exist"} />
+              <TableEntry color="red" text={"Wrong UIN Number"} />
+              <TableEntry
+                color="green"
+                text={"Wrong UIN Location Allocation"}
+              />
+              <TableEntry color="yellow" text={"Duplicate UIN Number"} />
+              <TableEntry color="orange" text={"UIN Number doesn't exist"} />
+              <TableEntry color="red" text={"Wrong UIN Number"} />
+              <TableEntry
+                color="green"
+                text={"Wrong UIN Location Allocation"}
+              />
+              <TableEntry color="Yellow" text={"Duplicate UIN Number"} />
+              <TableEntry color="orange" text={"UIN Number doesn't exist"} />
             </div>
           </div>
         </div>
@@ -108,13 +123,13 @@ export default function UINTracking() {
   );
 }
 
-function TableEntry({ color }) {
+function TableEntry({ color, text }) {
   return (
     <div className="container__main__content__listing__table__content__list">
       <div className="container__main__content__listing__table__content__list__entry">
         <Link
           className="container__main__content__listing__table__content__list__entry__action__edit"
-          // to={"/dashboard/registrar-management/edit"}
+          to={"/dashboard/uin-tracking/edit"}
         >
           <Edit2 size={18} />
         </Link>
@@ -123,7 +138,9 @@ function TableEntry({ color }) {
       <TableEntryText>Ali raza</TableEntryText>
       <TableEntryText>madagascar</TableEntryText>
       <TableEntryText>madagascar</TableEntryText>
-      <TableEntryText colorBox={color}>error</TableEntryText>
+      <TableEntryText colorBox={color}>{text}</TableEntryText>
+      <TableEntryText>12/22/22</TableEntryText>
+      <TableEntryText>Pending</TableEntryText>
     </div>
   );
 }

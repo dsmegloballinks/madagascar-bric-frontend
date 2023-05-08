@@ -90,7 +90,7 @@ export default function Sidebar({ setSidebarOpen }) {
             }}
             onClick={() => {
               setUser(null);
-              localStorage.removeItem("id");
+              localStorage.clear();
               navigate("/");
             }}
           >
@@ -171,7 +171,7 @@ export default function Sidebar({ setSidebarOpen }) {
               size={18}
               onClick={() => {
                 setUser(null);
-                localStorage.removeItem("id");
+                localStorage.clear();
                 navigate("/");
               }}
             />

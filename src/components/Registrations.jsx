@@ -9,6 +9,7 @@ import { useState, useRef, useEffect } from "react";
 import { logo } from "@assets";
 import ViewFiles from "./ViewFiles";
 import { testGetCall, testPostCall } from "../apis/Repo";
+import Loader from "./Loader";
 
 export default function Registerations({
   dataList,
@@ -17,6 +18,7 @@ export default function Registerations({
   totalRecords,
   handlePageChange,
   onAddressViewClick,
+  isLoading,
 }) {
   const options = [{ label: "Last Week", value: "Last Week" }];
   const [fileViewVisibility, setFileViewVisibility] = useState(false);
@@ -101,13 +103,17 @@ export default function Registerations({
           </div> */}
           </div>
           <div className="container__main__content__listing__table__content">
-            {dataList.map((item) => (
-              <TableEntry
-                item={item}
-                setFileViewVisibility={setFileViewVisibility}
-                onAddressViewClick={onAddressViewClick}
-              />
-            ))}
+            {isLoading ? (
+              <Loader />
+            ) : (
+              dataList.map((item) => (
+                <TableEntry
+                  item={item}
+                  setFileViewVisibility={setFileViewVisibility}
+                  onAddressViewClick={onAddressViewClick}
+                />
+              ))
+            )}
           </div>
           {dataList.length > 0 && (
             <div className="list__container__pagination">

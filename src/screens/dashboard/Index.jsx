@@ -23,7 +23,8 @@ import { logo } from "@assets";
 
 export default function dashboard() {
   const { state } = useLocation();
-  const { setAlertPopupVisibility } = useContext(PopupContext);
+  const { setAlertPopupVisibility, setAlertPopupMessage } =
+    useContext(PopupContext);
   const [selectedFilter, setSelectedFilter] = useState("Graph");
   const filters = ["Graph", "Map", "List"];
   let [start, setStart] = useState("");
@@ -51,12 +52,14 @@ export default function dashboard() {
   let [yearStartDate, setYearStartDate] = useState("");
   let [yearEndDate, setYearEndDate] = useState("");
   let [mapList, setMapList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const isSuperAdmin = localStorage.getItem("isAdmin");
+  const userName = localStorage.getItem("user_name");
 
   useEffect(() => {
     if (selectedFilter == "List") getRegistrations();
-  }, [page, selectedFilter]);
+  }, [page]);
 
   useEffect(() => {
     setDefatulDates();
@@ -67,8 +70,9 @@ export default function dashboard() {
   }, []);
 
   useEffect(() => {
-    if (selectedFilter == "Map") getMapsList();
-  }, [selectedFilter]);
+    // if (selectedFilter == "Map")
+    getMapsList();
+  }, []);
 
   useEffect(() => {
     if (state == "List") setSelectedFilter("List");
@@ -113,6 +117,9 @@ export default function dashboard() {
   };
 
   const getRegistrations = (sDate, eDate, candle, rg, dst, comun, fokonty) => {
+    // setDataList([]);
+    setTotalRecords(0);
+    setIsLoading(true);
     registrationsGetCall(
       page,
       limit,
@@ -125,6 +132,7 @@ export default function dashboard() {
       fokonty
     )
       .then(({ data }) => {
+        setIsLoading(false);
         if (data.data.success) {
           setDataList(data.data.result);
           setTotalRecords(data.data.total_records);
@@ -134,6 +142,7 @@ export default function dashboard() {
         }
       })
       .catch((err) => {
+        setIsLoading(false);
         console.log("err", err);
       });
   };
@@ -148,11 +157,13 @@ export default function dashboard() {
           getRegistrations();
         } else {
           setAlertPopupVisibility(true);
+          setAlertPopupMessage(data.message);
         }
       })
       .catch((err) => {
         console.log("err", err);
         setAlertPopupVisibility(true);
+        setAlertPopupMessage("Some error occurred, please try later");
       });
   };
 
@@ -405,11 +416,10 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
       });
   };
 
-  const getMapsList = (sDate, eDate, candle, rg, dst, comun, fokonty) => {
+  const getMapsList = (sDate, eDate, candle, rg, dst, comun, fokonty, item) => {
     getMapsLatLng(sDate, eDate, candle, rg, dst, comun, fokonty)
       .then(({ data }) => {
         if (data.data.error_code == 3) {
-          console.log("data", data);
           setMapList(data.data.result);
         } else setMapList([]);
       })
@@ -560,7 +570,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
             </div>
             <div className="dashboard__banner__contianer">
               <div className="dashboard__banner__content">
-                <h2>Welcome Anna!</h2>
+                <h2>Welcome {userName}!</h2>
                 {/* <p>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
@@ -756,8 +766,9 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
                 handlePageChange={handlePageChange}
                 onAddressViewClick={(item) => {
                   debugger;
-                  setMapList([]);
                   setSelectedFilter("Map");
+                  setMapList([]);
+                  // getMapsList("", "", "", "", "", "", "", item);
                   setMapList(
                     (mapList = [
                       {
@@ -768,6 +779,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
                     ])
                   );
                 }}
+                isLoading={isLoading}
               />
             ) : (
               <RegistrationsMapView mapList={mapList} />

@@ -1,17 +1,80 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Delete, Edit2, RefreshCcw, Search, Trash2 } from "react-feather";
 import { Link } from "react-router-dom";
 import TableEntryText from "@components/TableEntryText";
 import ConfirmationPopup from "@components/ConfirmationPopup";
 import TableEntryUpdateStatus from "@components/TableEntryUpdateStatus";
 import SimpleConfirmationPopup from "@components/SimpleConfirmationPopup";
+import { deleteUser, usersGetCall } from "../../../apis/Repo";
+import { PopupContext } from "../../../context/PopupContext";
+import Loader from "@components/Loader";
+import Pagination from "react-js-pagination";
 
 export default function UserManagement() {
+  const { setAlertPopupVisibility, setAlertPopupMessage } =
+    useContext(PopupContext);
   const [deletePopupVisibility, setDeletePopupVisibility] = useState(false);
   const [resetPasswordConfirmationPopup, setResetPasswordConfirmationPopup] =
     useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [list, setList] = useState([]);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [page, setPage] = useState(1);
+  const limit = 10;
 
-  const onDelete = () => {};
+  useEffect(() => {
+    getUsers();
+  }, [page]);
+
+  const getUsers = () => {
+    setIsLoading(true);
+    usersGetCall(page, limit)
+      .then(({ data }) => {
+        setIsLoading(false);
+        if (data.success) {
+          setList(data.result);
+          setTotalRecords(data.total_records);
+        } else {
+          setList([]);
+          setTotalRecords(0);
+        }
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log("err", err);
+      });
+  };
+
+  const handlePageChange = (value) => {
+    setPage(value);
+  };
+
+  const onDelete = () => {
+    let object = {
+      user_id: selectedItem.user_id,
+    };
+    deleteUser(object)
+      .then(({ data }) => {
+        if (data.data.success) {
+          let newArray = [...list];
+          newArray = newArray.filter(
+            (element) => element.user_id !== selectedItem.user_id
+          );
+          setList(newArray);
+          setSelectedItem(null);
+          setDeletePopupVisibility(false);
+        } else {
+          setAlertPopupMessage("Some error occurred, please try again");
+          setAlertPopupVisibility(true);
+        }
+      })
+      .catch((err) => {
+        console.log("err", err);
+        setAlertPopupMessage("Some error occurred, please try again");
+        setAlertPopupVisibility(true);
+      });
+  };
 
   return (
     <>
@@ -63,19 +126,32 @@ export default function UserManagement() {
               </div>
             </div>
             <div className="container__main__content__listing__table__content">
-              <TableEntry
-                onClickDelete={() => setDeletePopupVisibility(true)}
-                onClickReset={() => setResetPasswordConfirmationPopup(true)}
-              />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
+              {isLoading ? (
+                <Loader />
+              ) : list.length > 0 ? (
+                list.map((item) => (
+                  <TableEntry
+                    item={item}
+                    onClickDelete={() => {
+                      setSelectedItem(item);
+                      setDeletePopupVisibility(true);
+                    }}
+                    onClickReset={() => setResetPasswordConfirmationPopup(true)}
+                  />
+                ))
+              ) : null}
             </div>
+            {list.length > 0 && (
+              <div className="list__container__pagination">
+                <Pagination
+                  activePage={page}
+                  itemsCountPerPage={limit}
+                  totalItemsCount={totalRecords}
+                  pageRangeDisplayed={5}
+                  onChange={handlePageChange}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -95,13 +171,13 @@ export default function UserManagement() {
   );
 }
 
-function TableEntry({ onClickDelete, onClickReset }) {
+function TableEntry({ item, onClickDelete, onClickReset }) {
   return (
     <div className="container__main__content__listing__table__content__list">
       <div className="container__main__content__listing__table__content__list__entry">
         <div
           className="container__main__content__listing__table__content__list__entry__action__edit"
-          style={{ marginRight: ".5em" }}
+          style={{ marginRight: ".5em", background: "#f5b916" }}
           onClick={onClickReset}
         >
           <RefreshCcw size={18} />
@@ -110,6 +186,7 @@ function TableEntry({ onClickDelete, onClickReset }) {
           className="container__main__content__listing__table__content__list__entry__action__edit"
           style={{ marginRight: ".5em" }}
           to={"/dashboard/user-management/edit"}
+          state={item}
         >
           <Edit2 size={18} />
         </Link>
@@ -120,9 +197,9 @@ function TableEntry({ onClickDelete, onClickReset }) {
           <Trash2 size={18} />
         </div>
       </div>
-      <TableEntryText>Hassan Ali</TableEntryText>
-      <TableEntryText>hassan@gmail.com</TableEntryText>
-      <TableEntryUpdateStatus />
+      <TableEntryText>{item.user_name}</TableEntryText>
+      <TableEntryText>{item.email}</TableEntryText>
+      <TableEntryUpdateStatus children={item.status} />
     </div>
   );
 }

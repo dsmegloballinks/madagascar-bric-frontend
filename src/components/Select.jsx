@@ -26,8 +26,8 @@ export default function Select({
           colors: {
             ...theme.colors,
             primary75: "#0ACF66",
-            primary25: "#0ACF66e",
-            primary50: "#0ACF66e",
+            primary25: "#0ACF66",
+            primary50: "#0ACF66",
             primary: "#0ACF66",
           },
         })}

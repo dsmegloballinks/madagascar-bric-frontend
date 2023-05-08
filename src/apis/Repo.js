@@ -199,6 +199,69 @@ export const getMapsLatLng = async (
   );
 };
 
+export const usersGetCall = async (page, limit) => {
+  let params = {};
+  if (page) params.page = page;
+  if (limit) params.limit = limit;
+  return await axios.get(
+    import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-all-users"),
+    {
+      params,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
+export const userPostCall = async (data) => {
+  return await axios.post(
+    import.meta.env.VITE_BASE_URL.concat("api/civil_register/sign-up"),
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
+export const updateUserPostCall = async (data) => {
+  return await axios.patch(
+    import.meta.env.VITE_BASE_URL.concat("api/civil_register/update-user"),
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
+export const deleteUser = async (data) => {
+  return await axios.post(
+    import.meta.env.VITE_BASE_URL.concat("api/civil_register/delete"),
+    {
+      data,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
 export const testPostCall = async (data) => {
   return await axios.post(
     "https://private-anon-6c0ab5a863-odkcentral.apiary-mock.com/v1/sessions",

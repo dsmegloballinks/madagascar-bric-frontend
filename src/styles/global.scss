@@ -1793,3 +1793,11 @@ body {
 .dashboard__view__title{
   // font-weight: 600;
 }
+
+.loader__container__wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 8em 0em;
+  height: 200px;
+  width: 100%;
+}

@@ -12,7 +12,8 @@ import { userAtom } from "../global";
 
 export default function Index() {
   const [, setUser] = useAtom(userAtom);
-  const { setAlertPopupVisibility } = useContext(PopupContext);
+  const { setAlertPopupVisibility, setAlertPopupMessage } =
+    useContext(PopupContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [passowrd, setPassword] = useState("");
@@ -48,19 +49,23 @@ export default function Index() {
             };
             setUser(user);
             localStorage.setItem("id", data.data.result.user_id);
-            debugger;
             localStorage.setItem(
               "isAdmin",
               data.data.result.is_user_admin == 1 ? true : false
             );
+            const name = data.data.result.user_name.split(".");
+            localStorage.setItem("user_name", name[0]);
+
             navigate("/dashboard", { replace: true });
           } else {
+            setAlertPopupMessage(data.data.message);
             setAlertPopupVisibility(true);
           }
         })
         .catch((err) => {
           setIsLoading(false);
           console.log("err", err);
+          setAlertPopupMessage("Some error occurred, please try later");
           setAlertPopupVisibility(true);
         });
     }
