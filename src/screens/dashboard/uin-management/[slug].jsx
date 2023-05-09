@@ -126,7 +126,7 @@ function TableEntry({ item }) {
     <div className="container__main__content__listing__table__content__list">
       <TableEntryText>{name[3]}</TableEntryText>
       <TableEntryText>
-        {moment(item.time_created).format("DD MMM, YYYY")}
+        {moment(item.date_created).format("DD MMM, YYYY")}
       </TableEntryText>
       <TableEntryText>
         {moment(item.time_created).subtract(6, "hour").format("hh:mm")}

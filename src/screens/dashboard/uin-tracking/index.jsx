@@ -3,14 +3,14 @@ import { ArrowLeft, Edit2, Search } from "react-feather";
 import { Link, useNavigate } from "react-router-dom";
 import TableEntryText from "@components/TableEntryText";
 import EditUinTracking from "@components/EditUinTracking";
+import Select from "@components/Select";
 
 export default function UINTracking() {
   const navigate = useNavigate();
   const errorTypeOptions = [
-    { title: "Wrong UIN Number", color: "red" },
-    { title: "Wrong UIN Location Allocation", color: "orange" },
-    { title: "Duplicate UIN Number", color: "yellow" },
-    // { title: "UIN Number doesn't exist", color: "orange" },
+    { label: "Wrong NIU Number", color: "red", value: 1 },
+    { label: "Wrong NIU Location Allocation", color: "orange", value: 2 },
+    { label: "Duplicate NIU Number", color: "yellow", value: 3 },
   ];
   const [isEdit, setIsEdit] = useState(false);
   return (
@@ -43,7 +43,7 @@ export default function UINTracking() {
               <path d="M1.7975 14.8682C1.37454 14.8682 0.951582 14.8682 0.486328 14.8682C0.930434 14.3133 1.3534 13.7815 1.7975 13.2266C1.7975 13.7815 1.7975 14.3133 1.7975 14.8682Z" />
               <path d="M10.9546 1.04102C12.1178 1.04102 13.0694 2.0815 13.0694 3.3532C13.0694 4.6249 12.1178 5.66538 10.9546 5.66538C9.7915 5.66538 8.83984 4.6249 8.83984 3.3532C8.83984 2.05838 9.77035 1.04102 10.9546 1.04102ZM10.722 4.6249C10.722 4.80988 10.722 4.97173 10.722 5.13358C10.8912 5.13358 11.0392 5.13358 11.1873 5.13358C11.1873 4.97173 11.1873 4.80988 11.1873 4.64802C11.2296 4.64802 11.2296 4.64802 11.2507 4.6249C11.6525 4.53241 11.9063 4.18559 11.8851 3.79252C11.8428 3.3532 11.5468 3.09886 11.1238 3.07574C10.9969 3.07574 10.8489 3.07574 10.722 3.07574C10.5951 3.07574 10.5105 2.98325 10.5105 2.84452C10.4894 2.70579 10.574 2.59018 10.6797 2.56706C10.9335 2.54394 11.1873 2.56706 11.441 2.56706C11.441 2.65955 11.441 2.72891 11.4622 2.79828C11.6314 2.79828 11.7794 2.79828 11.9063 2.79828C11.9063 2.54394 11.9063 2.2896 11.9063 2.03526C11.6737 2.03526 11.441 2.03526 11.2084 2.03526C11.2084 1.85028 11.2084 1.68843 11.2084 1.5497C11.0392 1.5497 10.8912 1.5497 10.7432 1.5497C10.7432 1.71155 10.7432 1.8734 10.7432 2.03526C10.722 2.03526 10.7009 2.03526 10.6797 2.05838C10.2779 2.15086 10.003 2.47457 10.0453 2.86764C10.0876 3.30696 10.3836 3.58442 10.8277 3.58442C10.9546 3.58442 11.1027 3.58442 11.2296 3.58442C11.3564 3.58442 11.441 3.70003 11.441 3.83876C11.441 3.97749 11.3564 4.0931 11.2507 4.0931C11.0181 4.0931 10.7643 4.0931 10.5105 4.0931C10.5105 4.00061 10.5105 3.93125 10.4894 3.83876C10.3202 3.83876 10.1933 3.83876 10.0453 3.83876C10.0453 4.0931 10.0453 4.34744 10.0453 4.60178C10.2567 4.6249 10.4682 4.6249 10.722 4.6249Z" />
             </svg>
-            UIN Tracking
+            NIU Tracking
           </div>
           <div style={{ display: "flex" }}>
             <div className="list__search__wrapper">
@@ -60,27 +60,33 @@ export default function UINTracking() {
         </div>
         <div className="details__container">
           <div className="error__types__container__wrapper">
-            {errorTypeOptions.map((item) => (
-              <div className="error__types__container">
-                <div
-                  style={{
-                    background: item.color,
-                    width: "15px",
-                    height: "15px",
-                    marginRight: ".5em",
-                  }}
-                ></div>
-                {item.title}
-              </div>
-            ))}
+            <div style={{ display: "flex" }}>
+              {errorTypeOptions.map((item) => (
+                <div className="error__types__container">
+                  <div
+                    style={{
+                      background: item.color,
+                      width: "15px",
+                      height: "15px",
+                      marginRight: ".5em",
+                    }}
+                  ></div>
+                  {item.label}
+                </div>
+              ))}
+            </div>
+            <div>
+              <Select
+                widthProp={"180px"}
+                placeholder={"Error type"}
+                options={errorTypeOptions}
+              />
+            </div>
           </div>
           <div className="container__main__content__listing__table">
             <div className="container__main__content__listing__table__header">
               <div className="container__main__content__listing__table__header__entry">
-                Action
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Record ID
+                NIU
               </div>
               <div className="container__main__content__listing__table__header__entry">
                 Child Name
@@ -100,30 +106,33 @@ export default function UINTracking() {
               <div className="container__main__content__listing__table__header__entry">
                 Error Corrected Date
               </div>
+              <div className="container__main__content__listing__table__header__entry">
+                Action
+              </div>
             </div>
             <div className="container__main__content__listing__table__content">
               <TableEntry
                 color="red"
-                text={"Wrong UIN Number"}
+                text={"Wrong NIU Number"}
                 onEdit={() => setIsEdit(true)}
               />
               <TableEntry
                 color="orange"
-                text={"Wrong UIN Location Allocation"}
+                text={"Wrong NIU Location Allocation"}
               />
-              <TableEntry color="yellow" text={"Duplicate UIN Number"} />
-              <TableEntry color="red" text={"Wrong UIN Number"} />
+              <TableEntry color="yellow" text={"Duplicate NIU Number"} />
+              <TableEntry color="red" text={"Wrong NIU Number"} />
               <TableEntry
                 color="orange"
-                text={"Wrong UIN Location Allocation"}
+                text={"Wrong NIU Location Allocation"}
               />
-              <TableEntry color="yellow" text={"Duplicate UIN Number"} />
-              <TableEntry color="red" text={"Wrong UIN Number"} />
+              <TableEntry color="yellow" text={"Duplicate NIU Number"} />
+              <TableEntry color="red" text={"Wrong NIU Number"} />
               <TableEntry
                 color="orange"
-                text={"Wrong UIN Location Allocation"}
+                text={"Wrong NIU Location Allocation"}
               />
-              <TableEntry color="Yellow" text={"Duplicate UIN Number"} />
+              <TableEntry color="Yellow" text={"Duplicate NIU Number"} />
             </div>
           </div>
         </div>
@@ -136,6 +145,13 @@ export default function UINTracking() {
 function TableEntry({ color, text, onEdit }) {
   return (
     <div className="container__main__content__listing__table__content__list">
+      <TableEntryText>45678</TableEntryText>
+      <TableEntryText>Ali raza</TableEntryText>
+      <TableEntryText>madagascar</TableEntryText>
+      <TableEntryText>madagascar</TableEntryText>
+      <TableEntryText colorBox={color}>{text}</TableEntryText>
+      <TableEntryText>12/22/22</TableEntryText>
+      <TableEntryText>Pending</TableEntryText>
       <div className="container__main__content__listing__table__content__list__entry">
         <Link
           className="container__main__content__listing__table__content__list__entry__action__edit"
@@ -144,13 +160,6 @@ function TableEntry({ color, text, onEdit }) {
           <Edit2 size={18} />
         </Link>
       </div>
-      <TableEntryText>45678</TableEntryText>
-      <TableEntryText>Ali raza</TableEntryText>
-      <TableEntryText>madagascar</TableEntryText>
-      <TableEntryText>madagascar</TableEntryText>
-      <TableEntryText colorBox={color}>{text}</TableEntryText>
-      <TableEntryText>12/22/22</TableEntryText>
-      <TableEntryText>Pending</TableEntryText>
     </div>
   );
 }

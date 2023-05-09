@@ -16,7 +16,7 @@ export default function EditUinTracking({ onClose }) {
           </button>
 
           <div className="certificate__wrapper__container__content">
-            Update UIN Number
+            Update NIU Number
           </div>
           <div
             className="certificate__wrapper__container "
@@ -24,7 +24,7 @@ export default function EditUinTracking({ onClose }) {
           >
             <div className="form__bottom">
               <div className="form__bottom__content" style={{ width: "30%" }}>
-                UIN Number
+                NIU Number
               </div>
               <input placeholder="" />
             </div>

@@ -149,7 +149,7 @@ export const sidebarEnteries = [
         <path d="M15.5352 13.1707C15.5352 12.9557 15.7233 12.7676 15.9383 12.7676C16.1533 12.7676 16.3683 12.9557 16.3683 13.1707C16.3683 13.3857 16.1802 13.5738 15.9652 13.5738C15.7233 13.5738 15.5352 13.4126 15.5352 13.1707Z" />
       </svg>
     ),
-    name: "UIN Management",
+    name: "NIU Management",
     path: "/dashboard/uin-management",
     isForSuperAdmin: "true",
   },

@@ -144,9 +144,6 @@ export default function UserManagement() {
           <div className="container__main__content__listing__table">
             <div className="container__main__content__listing__table__header">
               <div className="container__main__content__listing__table__header__entry">
-                Action
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
                 User Name
               </div>
               <div className="container__main__content__listing__table__header__entry">
@@ -154,6 +151,9 @@ export default function UserManagement() {
               </div>
               <div className="container__main__content__listing__table__header__entry">
                 Status
+              </div>
+              <div className="container__main__content__listing__table__header__entry">
+                Action
               </div>
             </div>
             <div className="container__main__content__listing__table__content">
@@ -213,6 +213,13 @@ function TableEntry({
 }) {
   return (
     <div className="container__main__content__listing__table__content__list">
+      <TableEntryText>{item.user_name}</TableEntryText>
+      <TableEntryText>{item.email}</TableEntryText>
+      <TableEntryUpdateStatus
+        children={item.status}
+        onChangeStatus={(data) => updateStatus(data, item)}
+        statusUpdated={statusUpdated}
+      />
       <div className="container__main__content__listing__table__content__list__entry">
         <div
           className="container__main__content__listing__table__content__list__entry__action__edit"
@@ -236,13 +243,6 @@ function TableEntry({
           <Trash2 size={18} />
         </div> */}
       </div>
-      <TableEntryText>{item.user_name}</TableEntryText>
-      <TableEntryText>{item.email}</TableEntryText>
-      <TableEntryUpdateStatus
-        children={item.status}
-        onChangeStatus={(data) => updateStatus(data, item)}
-        statusUpdated={statusUpdated}
-      />
     </div>
   );
 }

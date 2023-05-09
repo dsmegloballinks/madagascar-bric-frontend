@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Bell, Eye, Plus, Search } from "react-feather";
+import { Bell, Check, Eye, Plus, Search } from "react-feather";
 import { Link } from "react-router-dom";
 import TableEntryText from "@components/TableEntryText";
 import { PopupContext } from "../../../context/PopupContext";
@@ -7,6 +7,7 @@ import { fileLogGetCall, uinFilePostCall } from "../../../apis/Repo";
 import UploadFileSingle from "@components/UploadFileSingle";
 import Loader from "@components/Loader";
 import Pagination from "react-js-pagination";
+import Select from "@components/Select";
 
 export default function UINManagement() {
   const { setAlertPopupVisibility, setAlertPopupMessage } =
@@ -18,6 +19,13 @@ export default function UINManagement() {
   const [isDataLoading, setIsDataLoading] = useState(false);
   const [page, setPage] = useState(1);
   const limit = 10;
+  const [selectedTab, setSelectedTab] = useState("All");
+
+  const tabs = [
+    { label: "All", value: 1 },
+    { label: "Allocated", value: 2 },
+    { label: "Not Allocated", value: 0 },
+  ];
 
   // useEffect(() => {
   //   getLog();
@@ -28,13 +36,13 @@ export default function UINManagement() {
     bodyFormData.append("file", file);
     bodyFormData.append("input_type", "file");
     bodyFormData.append("module_type", "UIN");
+    bodyFormData.append("number_records", "50");
     setIsLoading(true);
     uinFilePostCall(bodyFormData)
       .then(({ data }) => {
         setIsLoading(false);
         if (data.message == "File uploaded successfully") {
           setIsUploadFilePopupOpen(false);
-          getLog();
         } else {
           setAlertPopupMessage("Some error occurred, please try later");
           setAlertPopupVisibility(true);
@@ -97,7 +105,7 @@ export default function UINManagement() {
               <path d="M13.5999 9.94336C13.8418 9.94336 14.0031 10.1046 14.0031 10.3196C14.0031 10.5615 13.8418 10.7496 13.5999 10.7496C13.3849 10.7496 13.1699 10.5615 13.1699 10.3465C13.1968 10.1315 13.358 9.94336 13.5999 9.94336Z" />
               <path d="M15.5352 13.1707C15.5352 12.9557 15.7233 12.7676 15.9383 12.7676C16.1533 12.7676 16.3683 12.9557 16.3683 13.1707C16.3683 13.3857 16.1802 13.5738 15.9652 13.5738C15.7233 13.5738 15.5352 13.4126 15.5352 13.1707Z" />
             </svg>
-            UIN Management
+            NIU Management
           </div>
           <div style={{ display: "flex", alignItems: "center" }}>
             <div className="list__search__wrapper">
@@ -127,16 +135,41 @@ export default function UINManagement() {
           </div>
         </div>
         <div className="details__container">
+          <div className="error__types__container__wrapper">
+            <div style={{ display: "flex" }}>
+              {tabs.map((item) => (
+                <div
+                  className={
+                    selectedTab == item.label
+                      ? "tab__content__active"
+                      : "tab__content"
+                  }
+                  onClick={() => setSelectedTab(item.label)}
+                >
+                  {item.label}
+                </div>
+              ))}
+            </div>
+            <div>
+              <Select widthProp={"180px"} placeholder={"Commune"} />
+            </div>
+          </div>
           <div className="container__main__content__listing__table">
             <div className="container__main__content__listing__table__header">
               <div className="container__main__content__listing__table__header__entry">
-                UIN
+                NIU
               </div>
               <div className="container__main__content__listing__table__header__entry">
                 Allocated Commune
               </div>
               <div className="container__main__content__listing__table__header__entry">
-                UIN Status
+                Allocation Date
+              </div>
+              <div className="container__main__content__listing__table__header__entry">
+                Allocation Time
+              </div>
+              <div className="container__main__content__listing__table__header__entry">
+                NIU Status
               </div>
             </div>
             <div className="container__main__content__listing__table__content">
@@ -181,7 +214,11 @@ function TableEntry({ item }) {
     <div className="container__main__content__listing__table__content__list">
       <TableEntryText>76543236</TableEntryText>
       <TableEntryText>Madagascar</TableEntryText>
-      <TableEntryText>Active</TableEntryText>
+      <TableEntryText>12/22/22</TableEntryText>
+      <TableEntryText>12:23</TableEntryText>
+      <TableEntryText>
+        <Check color="#0acf66" />
+      </TableEntryText>
     </div>
   );
 }

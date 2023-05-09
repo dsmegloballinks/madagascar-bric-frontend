@@ -55,9 +55,6 @@ export default function RegistrarManagement() {
           <div className="container__main__content__listing__table">
             <div className="container__main__content__listing__table__header">
               <div className="container__main__content__listing__table__header__entry">
-                Action
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
                 Last Name
               </div>
               <div className="container__main__content__listing__table__header__entry">
@@ -77,6 +74,9 @@ export default function RegistrarManagement() {
               </div>
               <div className="container__main__content__listing__table__header__entry">
                 Appointment Status
+              </div>
+              <div className="container__main__content__listing__table__header__entry">
+                Action
               </div>
               {/* <div className="container__main__content__listing__table__header__entry">
                 Appointment Status
@@ -134,6 +134,22 @@ export default function RegistrarManagement() {
 function TableEntry({ onClickDelete, onClickUpdate }) {
   return (
     <div className="container__main__content__listing__table__content__list">
+      <TableEntryText>Khan</TableEntryText>
+      <TableEntryText>Saleem</TableEntryText>
+      <TableEntryText>saleem@yahoo.com</TableEntryText>
+      <TableEntryText>Madagascar</TableEntryText>
+      <TableEntryText>HR</TableEntryText>
+      <TableEntryText>065-3567-754</TableEntryText>
+      <div className="container__main__content__listing__table__content__list__entry">
+        <button
+          className="container__main__content__listing__table__content__list__entry__action__update"
+          onClick={onClickUpdate}
+          style={{ padding: "0.6em 2em" }}
+        >
+          <Edit size={14} color="white" style={{ marginRight: ".5em" }} />
+          Update
+        </button>
+      </div>
       <div className="container__main__content__listing__table__content__list__entry">
         <Link
           className="container__main__content__listing__table__content__list__entry__action__view"
@@ -156,22 +172,6 @@ function TableEntry({ onClickDelete, onClickUpdate }) {
           {" "}
           <Trash2 size={18} />{" "}
         </Link>
-      </div>
-      <TableEntryText>Khan</TableEntryText>
-      <TableEntryText>Saleem</TableEntryText>
-      <TableEntryText>saleem@yahoo.com</TableEntryText>
-      <TableEntryText>Madagascar</TableEntryText>
-      <TableEntryText>HR</TableEntryText>
-      <TableEntryText>065-3567-754</TableEntryText>
-      <div className="container__main__content__listing__table__content__list__entry">
-        <button
-          className="container__main__content__listing__table__content__list__entry__action__update"
-          onClick={onClickUpdate}
-          style={{ padding: "0.6em 2em" }}
-        >
-          <Edit size={14} color="white" style={{ marginRight: ".5em" }} />
-          Update
-        </button>
       </div>
     </div>
   );
