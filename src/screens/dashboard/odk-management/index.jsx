@@ -1,38 +1,85 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Plus, Search } from "react-feather";
 import { Link } from "react-router-dom";
 import TableEntryText from "@components/TableEntryText";
 import { PopupContext } from "../../../context/PopupContext";
-import { filePostCall } from "../../../apis/Repo";
+import {
+  fileLogGetCall,
+  filePostCall,
+  uinFilePostCall,
+} from "../../../apis/Repo";
 import UploadFileSingle from "@components/UploadFileSingle";
 import SimpleConfirmationPopup from "@components/SimpleConfirmationPopup";
+import Loader from "@components/Loader";
+import Pagination from "react-js-pagination";
+import moment from "moment";
 
 export default function OdkManagement() {
-  const { setAlertPopupVisibility } = useContext(PopupContext);
+  const { setAlertPopupVisibility, setAlertPopupMessage } =
+    useContext(PopupContext);
   const [isUploadFilePopupOpen, setIsUploadFilePopupOpen] = useState(false);
   const [resetPasswordConfirmationPopup, setResetPasswordConfirmationPopup] =
     useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [list, setList] = useState([]);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [isDataLoading, setIsDataLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const limit = 10;
+
+  useEffect(() => {
+    getLog();
+  }, [page]);
 
   const uploadFile = (file) => {
-    //   var bodyFormData = new FormData();
-    //   bodyFormData.append("file", file);
-    //   setIsLoading(true);
-    //   filePostCall(bodyFormData)
-    //     .then(({ data }) => {
-    //       setIsLoading(false);
-    //       if (data.error_code == 0) {
-    //         setIsUploadFilePopupOpen(false);
-    //       } else {
-    //         setAlertPopupVisibility(true);
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       setIsLoading(false);
-    //       console.log("err", err);
-    //       setAlertPopupVisibility(true);
-    //     });
+    var bodyFormData = new FormData();
+    bodyFormData.append("file", file);
+    bodyFormData.append("input_type", "file");
+    bodyFormData.append("module_type", "ODK");
+    bodyFormData.append("number_records", "50");
+    setIsLoading(true);
+    uinFilePostCall(bodyFormData)
+      .then(({ data }) => {
+        setIsLoading(false);
+        if (data.message == "File uploaded successfully") {
+          setIsUploadFilePopupOpen(false);
+          getLog("msg");
+        } else {
+          setAlertPopupMessage("Some error occurred, please try later");
+          setAlertPopupVisibility(true);
+        }
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log("err", err);
+        setAlertPopupMessage("Some error occurred, please try later");
+        setAlertPopupVisibility(true);
+      });
   };
+
+  const getLog = (msg) => {
+    if (!msg) setIsDataLoading(true);
+    fileLogGetCall(page, limit, "O")
+      .then(({ data }) => {
+        setIsDataLoading(false);
+        if (data.success) {
+          setList(data.result);
+          setTotalRecords(data.total_records);
+        } else {
+          setList([]);
+          setTotalRecords(0);
+        }
+      })
+      .catch((err) => {
+        setIsDataLoading(false);
+        console.log("err", err);
+      });
+  };
+
+  const handlePageChange = (value) => {
+    setPage(value);
+  };
+
   return (
     <>
       <div className="dashboard__container">
@@ -75,7 +122,7 @@ export default function OdkManagement() {
               className="details__print"
               onClick={() => setIsUploadFilePopupOpen(true)}
             >
-              <Plus size={15} />
+              <Plus size={15} color="white" style={{ marginRight: ".5em" }} />
               Upload File
             </button>
           </div>
@@ -100,20 +147,23 @@ export default function OdkManagement() {
               </div>
             </div>
             <div className="container__main__content__listing__table__content">
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
+              {isDataLoading ? (
+                <Loader />
+              ) : list.length > 0 ? (
+                list.map((item) => <TableEntry item={item} />)
+              ) : null}
             </div>
+            {list.length > 0 && (
+              <div className="list__container__pagination">
+                <Pagination
+                  activePage={page}
+                  itemsCountPerPage={limit}
+                  totalItemsCount={totalRecords}
+                  pageRangeDisplayed={5}
+                  onChange={handlePageChange}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -134,14 +184,19 @@ export default function OdkManagement() {
   );
 }
 
-function TableEntry() {
+function TableEntry({ item }) {
+  let name = item.file.split("_");
   return (
     <div className="container__main__content__listing__table__content__list">
-      <TableEntryText>fiche_declaration</TableEntryText>
-      <TableEntryText>01/03/2023</TableEntryText>
-      <TableEntryText>12:30</TableEntryText>
-      <TableEntryText>30</TableEntryText>
-      <TableEntryText>Via File</TableEntryText>
+      <TableEntryText>{name[3]}</TableEntryText>
+      <TableEntryText>
+        {moment(item.time_created).format("DD MMM, YYYY")}
+      </TableEntryText>
+      <TableEntryText>
+        {moment(item.time_created).subtract(6, "hour").format("hh:mm")}
+      </TableEntryText>
+      <TableEntryText>{item.number_record}</TableEntryText>
+      <TableEntryText>Via {item.input_type}</TableEntryText>
     </div>
   );
 }

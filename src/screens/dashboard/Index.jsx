@@ -547,10 +547,10 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
                 className="dashboard__banner__button__wrapper"
                 style={{ width: "25%", justifyContent: "space-between" }}
               >
-                <button onClick={() => setIsUploadFilePopupOpen(true)}>
+                {/* <button onClick={() => setIsUploadFilePopupOpen(true)}>
                   {" "}
                   <Plus size={15} /> Upload File
-                </button>
+                </button> */}
                 <div>
                   <Select
                     placeholder="English"

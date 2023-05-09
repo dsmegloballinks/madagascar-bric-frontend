@@ -5,6 +5,7 @@ import { isNullOrEmpty } from "../../../utils/isNullOrEmpty";
 import { PopupContext } from "../../../context/PopupContext";
 import { isInvalidEmail } from "../../../utils/validations";
 import { updateUserPostCall } from "../../../apis/Repo";
+import InputSelect from "@components/InputSelect";
 
 export default function EditUserManagement() {
   const { setAlertPopupVisibility, setAlertPopupMessage } =
@@ -13,6 +14,9 @@ export default function EditUserManagement() {
   const navigate = useNavigate();
   const [userName, setUserName] = useState(state && state.user_name);
   const [email, setEmail] = useState(state && state.email);
+  const [status, setStatus] = useState(
+    state.status == 1 ? { value: 1, label: "Active" } : ""
+  );
 
   const setErrorMessageAndVisibility = (text, visibility) => {
     setAlertPopupMessage(text);
@@ -37,6 +41,7 @@ export default function EditUserManagement() {
         user_name: userName,
         email: email,
         password: state.password,
+        status: status.value,
       };
       updateUserPostCall(object)
         .then(({ data }) => {
@@ -104,6 +109,26 @@ export default function EditUserManagement() {
               value={email}
               onChange={(e) => setEmail(e.currentTarget.value)}
             />
+          </div>
+          <div className="form__bottom">
+            <div className="form__bottom__content">Status</div>
+            <InputSelect
+              widthProp={"90%"}
+              placeholder="Select"
+              options={[
+                { value: 1, label: "Active" },
+                { value: 2, label: "Revoke" },
+              ]}
+              value={status}
+              onChange={(e) => {
+                setStatus(e);
+              }}
+            />
+            {/* <input
+              placeholder=""
+              value={email}
+              onChange={(e) => setEmail(e.currentTarget.value)}
+            /> */}
           </div>
           {/* <div className="form__text">Reset Passowrd</div>
           <div className="form__bottom">

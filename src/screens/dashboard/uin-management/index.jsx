@@ -1,35 +1,76 @@
-import React, { useState, useContext } from "react";
-import { Plus, Search } from "react-feather";
+import React, { useState, useContext, useEffect } from "react";
+import { Bell, Eye, Plus, Search } from "react-feather";
 import { Link } from "react-router-dom";
 import TableEntryText from "@components/TableEntryText";
 import { PopupContext } from "../../../context/PopupContext";
-import { filePostCall } from "../../../apis/Repo";
+import { fileLogGetCall, uinFilePostCall } from "../../../apis/Repo";
 import UploadFileSingle from "@components/UploadFileSingle";
+import Loader from "@components/Loader";
+import Pagination from "react-js-pagination";
 
 export default function UINManagement() {
-  const { setAlertPopupVisibility } = useContext(PopupContext);
+  const { setAlertPopupVisibility, setAlertPopupMessage } =
+    useContext(PopupContext);
   const [isUploadFilePopupOpen, setIsUploadFilePopupOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [list, setList] = useState([]);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [isDataLoading, setIsDataLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const limit = 10;
+
+  // useEffect(() => {
+  //   getLog();
+  // }, [page]);
 
   const uploadFile = (file) => {
     var bodyFormData = new FormData();
     bodyFormData.append("file", file);
+    bodyFormData.append("input_type", "file");
+    bodyFormData.append("module_type", "UIN");
     setIsLoading(true);
-    filePostCall(bodyFormData)
+    uinFilePostCall(bodyFormData)
       .then(({ data }) => {
         setIsLoading(false);
-        if (data.error_code == 0) {
+        if (data.message == "File uploaded successfully") {
           setIsUploadFilePopupOpen(false);
+          getLog();
         } else {
+          setAlertPopupMessage("Some error occurred, please try later");
           setAlertPopupVisibility(true);
         }
       })
       .catch((err) => {
         setIsLoading(false);
         console.log("err", err);
+        setAlertPopupMessage("Some error occurred, please try later");
         setAlertPopupVisibility(true);
       });
   };
+
+  // const getLog = () => {
+  //   setIsDataLoading(true);
+  //   fileLogGetCall(page, limit, "U")
+  //     .then(({ data }) => {
+  //       setIsDataLoading(false);
+  //       if (data.success) {
+  //         setList(data.result);
+  //         setTotalRecords(data.total_records);
+  //       } else {
+  //         setList([]);
+  //         setTotalRecords(0);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       setIsDataLoading(false);
+  //       console.log("err", err);
+  //     });
+  // };
+
+  // const handlePageChange = (value) => {
+  //   setPage(value);
+  // };
+
   return (
     <>
       <div className="dashboard__container">
@@ -58,7 +99,7 @@ export default function UINManagement() {
             </svg>
             UIN Management
           </div>
-          <div style={{ display: "flex" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <div className="list__search__wrapper">
               <input type="text" placeholder="Search" />
               <Search size={19} className="list__search__wrapper__icon" />
@@ -68,14 +109,20 @@ export default function UINManagement() {
               onClick={() => setIsUploadFilePopupOpen(true)}
               style={{ marginRight: ".5em" }}
             >
-              <Plus size={15} />
+              <Plus size={15} color="white" style={{ marginRight: ".5em" }} />
               Upload file
             </button>
             <Link
               className="details__print"
               to={"/dashboard/uin-management/detail"}
+              style={{ background: "var(--update)" }}
             >
+              <Eye size={15} color="white" style={{ marginRight: ".5em" }} />
               View Records
+            </Link>
+            <Link className="bell__wrapper" to={"/dashboard/uin-tracking"}>
+              <div className="bell__wrapper__count">1</div>
+              <Bell style={{ marginLeft: ".5em" }} />
             </Link>
           </div>
         </div>
@@ -93,20 +140,28 @@ export default function UINManagement() {
               </div>
             </div>
             <div className="container__main__content__listing__table__content">
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
+              {/* {isDataLoading ? (
+                <Loader />
+              ) : list.length > 0 ? (
+                list.map((item) => <TableEntry item={item} />)
+              ) : null} */}
               <TableEntry />
               <TableEntry />
               <TableEntry />
               <TableEntry />
               <TableEntry />
             </div>
+            {list.length > 0 && (
+              <div className="list__container__pagination">
+                <Pagination
+                  activePage={page}
+                  itemsCountPerPage={limit}
+                  totalItemsCount={totalRecords}
+                  pageRangeDisplayed={5}
+                  onChange={handlePageChange}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -121,7 +176,7 @@ export default function UINManagement() {
   );
 }
 
-function TableEntry() {
+function TableEntry({ item }) {
   return (
     <div className="container__main__content__listing__table__content__list">
       <TableEntryText>76543236</TableEntryText>

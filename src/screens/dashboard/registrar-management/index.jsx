@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import {
   ArrowLeft,
   ChevronRight,
+  Edit,
   Edit2,
   Eye,
+  Plus,
   Search,
   Trash2,
 } from "react-feather";
@@ -44,6 +46,7 @@ export default function RegistrarManagement() {
               className="details__print"
               to={"/dashboard/registrar-management/add"}
             >
+              <Plus size={18} color="white" style={{ marginRight: ".5em" }} />
               Add Registrar
             </Link>
           </div>
@@ -161,7 +164,12 @@ function TableEntry({ onClickDelete, onClickUpdate }) {
       <TableEntryText>HR</TableEntryText>
       <TableEntryText>065-3567-754</TableEntryText>
       <div className="container__main__content__listing__table__content__list__entry">
-        <button className="details__print" onClick={onClickUpdate}>
+        <button
+          className="container__main__content__listing__table__content__list__entry__action__update"
+          onClick={onClickUpdate}
+          style={{ padding: "0.6em 2em" }}
+        >
+          <Edit size={14} color="white" style={{ marginRight: ".5em" }} />
           Update
         </button>
       </div>

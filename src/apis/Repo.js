@@ -63,6 +63,40 @@ export const filePostCall = async (data) => {
   );
 };
 
+export const uinFilePostCall = async (data) => {
+  return await axios.post(
+    import.meta.env.VITE_BASE_URL.concat("api/excel_upload_log/upload-file"),
+    data,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
+export const fileLogGetCall = async (page, limit, type) => {
+  let params = {};
+  if (page) params.page = page;
+  if (limit) params.limit = limit;
+  if (type) params.moduleType = type;
+  return await axios.get(
+    import.meta.env.VITE_BASE_URL.concat("api/excel_upload_log/get-all-logs"),
+    {
+      params,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
 export const analyticsGetCall = async (date) => {
   let params = {};
   if (date) params.date = date;
@@ -235,6 +269,23 @@ export const userPostCall = async (data) => {
 export const updateUserPostCall = async (data) => {
   return await axios.patch(
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/update-user"),
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
+export const updateUserStatusPostCall = async (data) => {
+  return await axios.patch(
+    import.meta.env.VITE_BASE_URL.concat(
+      "api/civil_register/update-user-status"
+    ),
     data,
     {
       headers: {

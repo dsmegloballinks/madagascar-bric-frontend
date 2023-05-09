@@ -1,20 +1,28 @@
 import React, { useState } from "react";
-import { Edit2, Search } from "react-feather";
-import { Link } from "react-router-dom";
+import { ArrowLeft, Edit2, Search } from "react-feather";
+import { Link, useNavigate } from "react-router-dom";
 import TableEntryText from "@components/TableEntryText";
+import EditUinTracking from "@components/EditUinTracking";
 
 export default function UINTracking() {
+  const navigate = useNavigate();
   const errorTypeOptions = [
     { title: "Wrong UIN Number", color: "red" },
-    { title: "Wrong UIN Location Allocation", color: "green" },
+    { title: "Wrong UIN Location Allocation", color: "orange" },
     { title: "Duplicate UIN Number", color: "yellow" },
-    { title: "UIN Number doesn't exist", color: "orange" },
+    // { title: "UIN Number doesn't exist", color: "orange" },
   ];
+  const [isEdit, setIsEdit] = useState(false);
   return (
     <>
       <div className="dashboard__container">
         <div className="main__container__top__bar">
           <div className="details__header">
+            <ArrowLeft
+              className="details__header__back"
+              size={18}
+              onClick={() => navigate(-1)}
+            />
             <svg
               width="14"
               height="15"
@@ -94,42 +102,44 @@ export default function UINTracking() {
               </div>
             </div>
             <div className="container__main__content__listing__table__content">
-              <TableEntry color="red" text={"Wrong UIN Number"} />
               <TableEntry
-                color="green"
+                color="red"
+                text={"Wrong UIN Number"}
+                onEdit={() => setIsEdit(true)}
+              />
+              <TableEntry
+                color="orange"
                 text={"Wrong UIN Location Allocation"}
               />
               <TableEntry color="yellow" text={"Duplicate UIN Number"} />
-              <TableEntry color="orange" text={"UIN Number doesn't exist"} />
               <TableEntry color="red" text={"Wrong UIN Number"} />
               <TableEntry
-                color="green"
+                color="orange"
                 text={"Wrong UIN Location Allocation"}
               />
               <TableEntry color="yellow" text={"Duplicate UIN Number"} />
-              <TableEntry color="orange" text={"UIN Number doesn't exist"} />
               <TableEntry color="red" text={"Wrong UIN Number"} />
               <TableEntry
-                color="green"
+                color="orange"
                 text={"Wrong UIN Location Allocation"}
               />
               <TableEntry color="Yellow" text={"Duplicate UIN Number"} />
-              <TableEntry color="orange" text={"UIN Number doesn't exist"} />
             </div>
           </div>
         </div>
       </div>
+      {isEdit && <EditUinTracking onClose={() => setIsEdit(false)} />}
     </>
   );
 }
 
-function TableEntry({ color, text }) {
+function TableEntry({ color, text, onEdit }) {
   return (
     <div className="container__main__content__listing__table__content__list">
       <div className="container__main__content__listing__table__content__list__entry">
         <Link
           className="container__main__content__listing__table__content__list__entry__action__edit"
-          to={"/dashboard/uin-tracking/edit"}
+          onClick={onEdit}
         >
           <Edit2 size={18} />
         </Link>

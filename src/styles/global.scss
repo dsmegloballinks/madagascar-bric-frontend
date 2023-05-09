@@ -27,6 +27,11 @@ html[data-theme="dark"] {
   --secondary: #f7e5e9;
   --secondaryDark: #f5b916;
   --tertiary: #ff6161;
+  --tertiaryDark: #e85a5a;
+  --edit: #4b53a3;
+  --editDark: #4b3e9c;
+  --update: #807b7a;
+  --updateDark: #5c5958;
 }
 *,
 *::after,
@@ -712,7 +717,7 @@ body {
 .container__main__content__listing__table__content__list__entry__action__edit{
   text-decoration: none;
   color: white;
-  background-color: var(--primary);
+  background-color: var(--edit);
   border-radius: 50px;
   height: 30px;
   width: 30px;
@@ -725,13 +730,13 @@ body {
 
 .container__main__content__listing__table__content__list__entry__action__edit:hover{
   cursor: pointer;
-  background: var(--primaryDark);
+  background: var(--editDark);
 }
 
 .container__main__content__listing__table__content__list__entry__action__delete {
   text-decoration: none;
   color: white;
-  background-color: var(--color);
+  background-color: var(--tertiary);
   border-radius: 50px;
   height: 30px;
   width: 30px;
@@ -743,8 +748,7 @@ body {
 
 .container__main__content__listing__table__content__list__entry__action__delete:hover {
   cursor: pointer;
-  background: var(--color);
-  color: var(--tertiary);
+  background: var(--tertiaryDark);
 }
 
 .graph__container {
@@ -1178,9 +1182,22 @@ body {
 }
 
 .details__print {
-  padding: 0.8em 2.5em;
+  padding: 0.7em 1.5em;
   color: white;
   background: var(--primary);
+  border-radius: 50px;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+}
+
+.container__main__content__listing__table__content__list__entry__action__update {
+  padding: 0.8em 2em;
+  color: white;
+  background: #807b7a;
   border-radius: 50px;
   cursor: pointer;
   border: none;
@@ -1740,7 +1757,7 @@ body {
 .list__search__wrapper input{
   border: none;
   outline: none;
-  padding: .5em 1em;
+  padding: .7em 1em;
   border-radius: 20px;
 }
 
@@ -1800,4 +1817,20 @@ body {
   padding: 8em 0em;
   height: 200px;
   width: 100%;
+}
+
+.bell__wrapper{
+  position: relative;
+}
+
+.bell__wrapper__count{
+  position: absolute;
+  right: 0;
+  top: -5px;
+  border-radius: 50px;
+  height: 17px;
+  width: 17px;
+  background: red;
+  color: white;
+  text-align: center;
 }

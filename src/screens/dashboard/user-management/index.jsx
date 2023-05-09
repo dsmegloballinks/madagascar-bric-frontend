@@ -1,14 +1,19 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Delete, Edit2, RefreshCcw, Search, Trash2 } from "react-feather";
+import { Edit2, Plus, Search, Trash2 } from "react-feather";
 import { Link } from "react-router-dom";
 import TableEntryText from "@components/TableEntryText";
 import ConfirmationPopup from "@components/ConfirmationPopup";
 import TableEntryUpdateStatus from "@components/TableEntryUpdateStatus";
 import SimpleConfirmationPopup from "@components/SimpleConfirmationPopup";
-import { deleteUser, usersGetCall } from "../../../apis/Repo";
+import {
+  deleteUser,
+  updateUserStatusPostCall,
+  usersGetCall,
+} from "../../../apis/Repo";
 import { PopupContext } from "../../../context/PopupContext";
 import Loader from "@components/Loader";
 import Pagination from "react-js-pagination";
+import { passLock } from "../../../assets/index";
 
 export default function UserManagement() {
   const { setAlertPopupVisibility, setAlertPopupMessage } =
@@ -22,6 +27,7 @@ export default function UserManagement() {
   const [totalRecords, setTotalRecords] = useState(0);
   const [page, setPage] = useState(1);
   const limit = 10;
+  const [statusUpdated, setStatusUpdated] = useState(false);
 
   useEffect(() => {
     getUsers();
@@ -76,6 +82,30 @@ export default function UserManagement() {
       });
   };
 
+  const updateStatus = (status, item) => {
+    let object = {
+      status: status.value,
+      user_id: item.user_id,
+    };
+    updateUserStatusPostCall(object)
+      .then(({ data }) => {
+        if (data.success) {
+          setAlertPopupMessage("Information updated successfully");
+          setAlertPopupVisibility(true);
+        } else {
+          setStatusUpdated(!statusUpdated);
+          setAlertPopupMessage("Some error occurred, please try again");
+          setAlertPopupVisibility(true);
+        }
+      })
+      .catch((err) => {
+        console.log("err", err);
+        setStatusUpdated(!statusUpdated);
+        setAlertPopupMessage("Some error occurred, please try again");
+        setAlertPopupVisibility(true);
+      });
+  };
+
   return (
     <>
       <div className="dashboard__container">
@@ -105,6 +135,7 @@ export default function UserManagement() {
               className="details__print"
               to={"/dashboard/user-management/add"}
             >
+              <Plus size={18} color="white" style={{ marginRight: ".5em" }} />
               Add User
             </Link>
           </div>
@@ -137,6 +168,8 @@ export default function UserManagement() {
                       setDeletePopupVisibility(true);
                     }}
                     onClickReset={() => setResetPasswordConfirmationPopup(true)}
+                    updateStatus={updateStatus}
+                    statusUpdated={statusUpdated}
                   />
                 ))
               ) : null}
@@ -171,16 +204,22 @@ export default function UserManagement() {
   );
 }
 
-function TableEntry({ item, onClickDelete, onClickReset }) {
+function TableEntry({
+  item,
+  onClickDelete,
+  onClickReset,
+  updateStatus,
+  statusUpdated,
+}) {
   return (
     <div className="container__main__content__listing__table__content__list">
       <div className="container__main__content__listing__table__content__list__entry">
         <div
           className="container__main__content__listing__table__content__list__entry__action__edit"
-          style={{ marginRight: ".5em", background: "#f5b916" }}
+          style={{ marginRight: ".5em", background: "#de8f21" }}
           onClick={onClickReset}
         >
-          <RefreshCcw size={18} />
+          <img src={passLock} width={"120%"} />
         </div>
         <Link
           className="container__main__content__listing__table__content__list__entry__action__edit"
@@ -190,16 +229,20 @@ function TableEntry({ item, onClickDelete, onClickReset }) {
         >
           <Edit2 size={18} />
         </Link>
-        <div
+        {/* <div
           className="container__main__content__listing__table__content__list__entry__action__delete"
           onClick={onClickDelete}
         >
           <Trash2 size={18} />
-        </div>
+        </div> */}
       </div>
       <TableEntryText>{item.user_name}</TableEntryText>
       <TableEntryText>{item.email}</TableEntryText>
-      <TableEntryUpdateStatus children={item.status} />
+      <TableEntryUpdateStatus
+        children={item.status}
+        onChangeStatus={(data) => updateStatus(data, item)}
+        statusUpdated={statusUpdated}
+      />
     </div>
   );
 }

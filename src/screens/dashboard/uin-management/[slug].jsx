@@ -1,10 +1,46 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ArrowLeft, Plus } from "react-feather";
 import { Link, useNavigate } from "react-router-dom";
 import TableEntryText from "@components/TableEntryText";
+import { fileLogGetCall } from "../../../apis/Repo";
+import Loader from "@components/Loader";
+import Pagination from "react-js-pagination";
+import moment from "moment";
 
 export default function UINManagementDetails() {
   const navigate = useNavigate();
+  const [list, setList] = useState([]);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [isDataLoading, setIsDataLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const limit = 10;
+
+  useEffect(() => {
+    getLog();
+  }, [page]);
+
+  const getLog = () => {
+    setIsDataLoading(true);
+    fileLogGetCall(page, limit, "U")
+      .then(({ data }) => {
+        setIsDataLoading(false);
+        if (data.success) {
+          setList(data.result);
+          setTotalRecords(data.total_records);
+        } else {
+          setList([]);
+          setTotalRecords(0);
+        }
+      })
+      .catch((err) => {
+        setIsDataLoading(false);
+        console.log("err", err);
+      });
+  };
+
+  const handlePageChange = (value) => {
+    setPage(value);
+  };
 
   return (
     <>
@@ -60,20 +96,23 @@ export default function UINManagementDetails() {
               </div>
             </div>
             <div className="container__main__content__listing__table__content">
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
+              {isDataLoading ? (
+                <Loader />
+              ) : list.length > 0 ? (
+                list.map((item) => <TableEntry item={item} />)
+              ) : null}
             </div>
+            {list.length > 0 && (
+              <div className="list__container__pagination">
+                <Pagination
+                  activePage={page}
+                  itemsCountPerPage={limit}
+                  totalItemsCount={totalRecords}
+                  pageRangeDisplayed={5}
+                  onChange={handlePageChange}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -81,13 +120,18 @@ export default function UINManagementDetails() {
   );
 }
 
-function TableEntry() {
+function TableEntry({ item }) {
+  let name = item.file.split("_");
   return (
     <div className="container__main__content__listing__table__content__list">
-      <TableEntryText>xyz</TableEntryText>
-      <TableEntryText>xyz</TableEntryText>
-      <TableEntryText>xyz</TableEntryText>
-      <TableEntryText>xyz</TableEntryText>
+      <TableEntryText>{name[3]}</TableEntryText>
+      <TableEntryText>
+        {moment(item.time_created).format("DD MMM, YYYY")}
+      </TableEntryText>
+      <TableEntryText>
+        {moment(item.time_created).subtract(6, "hour").format("hh:mm")}
+      </TableEntryText>
+      <TableEntryText>{item.number_record}</TableEntryText>
     </div>
   );
 }
