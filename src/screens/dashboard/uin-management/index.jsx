@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Bell, Check, Eye, Plus, Search } from "react-feather";
+import { Bell, Check, Eye, Plus, Search, Upload } from "react-feather";
 import { Link } from "react-router-dom";
 import TableEntryText from "@components/TableEntryText";
 import { PopupContext } from "../../../context/PopupContext";
@@ -8,6 +8,7 @@ import UploadFileSingle from "@components/UploadFileSingle";
 import Loader from "@components/Loader";
 import Pagination from "react-js-pagination";
 import Select from "@components/Select";
+import Tooltip from "@components/Tooltip";
 
 export default function UINManagement() {
   const { setAlertPopupVisibility, setAlertPopupMessage } =
@@ -106,32 +107,59 @@ export default function UINManagement() {
               <path d="M15.5352 13.1707C15.5352 12.9557 15.7233 12.7676 15.9383 12.7676C16.1533 12.7676 16.3683 12.9557 16.3683 13.1707C16.3683 13.3857 16.1802 13.5738 15.9652 13.5738C15.7233 13.5738 15.5352 13.4126 15.5352 13.1707Z" />
             </svg>
             NIU Management
+            <Tooltip text="View History">
+              <Link
+                className="action__buttons"
+                to={"/dashboard/uin-management/detail"}
+                style={{ background: "var(--update)" }}
+              >
+                <Eye size={15} color="white" style={{ marginRight: "0em" }} />
+              </Link>
+            </Tooltip>
+            <Tooltip text="Upload File">
+              <button
+                className="action__buttons"
+                onClick={() => setIsUploadFilePopupOpen(true)}
+              >
+                <Upload
+                  size={15}
+                  color="white"
+                  style={{ marginRight: "0em" }}
+                />
+              </button>
+            </Tooltip>
+            <Tooltip text="NIU Tracking">
+              <Link className="bell__wrapper" to={"/dashboard/uin-tracking"}>
+                <div className="bell__wrapper__count">1</div>
+                <Bell style={{ marginLeft: ".5em" }} />
+              </Link>
+            </Tooltip>
           </div>
           <div style={{ display: "flex", alignItems: "center" }}>
             <div className="list__search__wrapper">
               <input type="text" placeholder="Search" />
-              <Search size={19} className="list__search__wrapper__icon" />
+              <Search size={22} className="list__search__wrapper__icon" />
             </div>
-            <button
+            {/* <button
               className="details__print"
               onClick={() => setIsUploadFilePopupOpen(true)}
               style={{ marginRight: ".5em" }}
             >
               <Plus size={15} color="white" style={{ marginRight: ".5em" }} />
               Upload file
-            </button>
-            <Link
+            </button> */}
+            {/* <Link
               className="details__print"
               to={"/dashboard/uin-management/detail"}
               style={{ background: "var(--update)" }}
             >
               <Eye size={15} color="white" style={{ marginRight: ".5em" }} />
               View Records
-            </Link>
-            <Link className="bell__wrapper" to={"/dashboard/uin-tracking"}>
+            </Link> */}
+            {/* <Link className="bell__wrapper" to={"/dashboard/uin-tracking"}>
               <div className="bell__wrapper__count">1</div>
               <Bell style={{ marginLeft: ".5em" }} />
-            </Link>
+            </Link> */}
           </div>
         </div>
         <div className="details__container">

@@ -1,25 +1,80 @@
-import React, { useState } from "react";
-import {
-  ArrowLeft,
-  ChevronRight,
-  Edit,
-  Edit2,
-  Eye,
-  Plus,
-  Search,
-  Trash2,
-} from "react-feather";
+import React, { useState, useEffect, useContext } from "react";
+import { Edit, Edit2, Eye, Plus, Search, Trash2 } from "react-feather";
 import { Link } from "react-router-dom";
 import TableEntryText from "@components/TableEntryText";
 import ConfirmationPopup from "@components/ConfirmationPopup";
 import AppointmentStatusPopup from "@components/AppointmentStatusPopup";
+import { deleteRegistrar, registrarGetCall } from "../../../apis/Repo";
+import Loader from "@components/Loader";
+import Pagination from "react-js-pagination";
+import { PopupContext } from "../../../context/PopupContext";
+import Tooltip from "@components/Tooltip";
 
 export default function RegistrarManagement() {
+  const { setAlertPopupVisibility, setAlertPopupMessage } =
+    useContext(PopupContext);
   const [deletePopupVisibility, setDeletePopupVisibility] = useState(false);
-  const [updateStatusPopupVisibility, setUpdatePopupVisibility] =
-    useState(false);
+  // const [updateStatusPopupVisibility, setUpdatePopupVisibility] =
+  //   useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [list, setList] = useState([]);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [page, setPage] = useState(1);
+  const limit = 10;
 
-  const onDelete = () => {};
+  useEffect(() => {
+    getRegistrars();
+  }, [page]);
+
+  const getRegistrars = () => {
+    setIsLoading(true);
+    registrarGetCall(page, limit)
+      .then(({ data }) => {
+        setIsLoading(false);
+        if (data.success) {
+          setList(data.result);
+          setTotalRecords(data.total_records);
+        } else {
+          setList([]);
+          setTotalRecords(0);
+        }
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log("err", err);
+      });
+  };
+
+  const handlePageChange = (value) => {
+    setPage(value);
+  };
+
+  const onDelete = () => {
+    let object = {
+      id: selectedItem.id,
+    };
+    deleteRegistrar(object)
+      .then(({ data }) => {
+        if (data.success) {
+          let newArray = [...list];
+          newArray = newArray.filter(
+            (element) => element.id != selectedItem.id
+          );
+          setList(newArray);
+          setSelectedItem(null);
+          setDeletePopupVisibility(false);
+        } else {
+          setAlertPopupMessage("Some error occurred, please try again");
+          setAlertPopupVisibility(true);
+        }
+      })
+      .catch((err) => {
+        console.log("err", err);
+        setAlertPopupMessage("Some error occurred, please try again");
+        setAlertPopupVisibility(true);
+      });
+  };
   return (
     <>
       <div className="dashboard__container">
@@ -36,19 +91,20 @@ export default function RegistrarManagement() {
               <path d="M11.9397 19.9394C9.26909 19.9394 6.62577 19.9394 3.98246 19.9394C3.98246 19.8485 3.98246 19.7576 3.98246 19.697C3.98246 18.7576 3.98246 17.8182 3.98246 16.8788C3.98246 16.4848 3.76446 16.2121 3.4647 16.2121C3.13769 16.2121 2.89244 16.4545 2.86519 16.8182C2.86519 17.3939 2.86519 17.9697 2.86519 18.5455C2.86519 19.0303 2.86519 19.4849 2.86519 19.9697C2.78344 19.9697 2.72893 19.9697 2.67443 19.9697C1.99317 19.9697 1.3119 19.9697 0.630632 19.9697C0.249123 19.9697 0.0311213 19.697 0.00387067 19.303C-0.02338 18.2121 0.085616 17.1212 0.576128 16.1515C1.4754 14.3333 2.83794 13.2727 4.71823 13.0606C4.85448 13.0303 4.99074 13.0303 5.12699 13.0303C5.15424 13.2727 5.18149 13.5152 5.23599 13.7576C5.5085 14.9697 6.18976 15.7273 7.27979 16.0909C7.38879 16.1212 7.4433 16.1818 7.4433 16.303C7.4433 16.6667 7.4433 17.0303 7.4433 17.4242C7.4433 17.8182 7.68855 18.0909 8.01556 18.0909C8.31532 18.0909 8.58783 17.7879 8.58783 17.4242C8.58783 17 8.58783 16.5758 8.58783 16.1515C10.0049 15.697 10.7679 14.6667 10.8769 13C11.2311 13.0606 11.5854 13.0606 11.9397 13.1515C14.0652 13.6667 15.6457 15.5455 15.9455 17.9697C16 18.4242 16 18.9091 16 19.3939C16 19.697 15.7547 19.9697 15.4822 20C14.7192 20 13.9562 20 13.1932 20C13.1932 20 13.1659 20 13.1387 19.9697C13.1387 19.9091 13.1387 19.8182 13.1387 19.7273C13.1387 18.7576 13.1387 17.7879 13.1387 16.8182C13.1387 16.4848 12.9207 16.2424 12.6754 16.2121C12.4029 16.1818 12.1304 16.3333 12.0487 16.6364C12.0214 16.7576 12.0214 16.8788 12.0214 17C12.0214 17.9091 12.0214 18.8182 12.0214 19.7576C11.9397 19.7576 11.9397 19.8485 11.9397 19.9394Z" />
             </svg>
             Registrar Management
+            <Tooltip text="Add Registrar">
+              <Link
+                className="action__buttons"
+                to={"/dashboard/registrar-management/add"}
+              >
+                <Plus size={18} color="white" style={{ marginRight: "0em" }} />
+              </Link>
+            </Tooltip>
           </div>
           <div style={{ display: "flex" }}>
             <div className="list__search__wrapper">
               <input type="text" placeholder="Search" />
               <Search size={19} className="list__search__wrapper__icon" />
             </div>
-            <Link
-              className="details__print"
-              to={"/dashboard/registrar-management/add"}
-            >
-              <Plus size={18} color="white" style={{ marginRight: ".5em" }} />
-              Add Registrar
-            </Link>
           </div>
         </div>
         <div className="details__container">
@@ -63,55 +119,48 @@ export default function RegistrarManagement() {
               <div className="container__main__content__listing__table__header__entry">
                 Email
               </div>
-              <div className="container__main__content__listing__table__header__entry">
+              {/* <div className="container__main__content__listing__table__header__entry">
                 Location
-              </div>
+              </div> */}
               <div className="container__main__content__listing__table__header__entry">
                 Department
               </div>
               <div className="container__main__content__listing__table__header__entry">
                 Official Contact
               </div>
-              <div className="container__main__content__listing__table__header__entry">
+              {/* <div className="container__main__content__listing__table__header__entry">
                 Appointment Status
-              </div>
+              </div> */}
               <div className="container__main__content__listing__table__header__entry">
                 Action
               </div>
-              {/* <div className="container__main__content__listing__table__header__entry">
-                Appointment Status
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Appointment Date
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Appointment Time
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Appointed By
-              </div> */}
             </div>
             <div className="container__main__content__listing__table__content">
-              <TableEntry
-                onClickDelete={() => setDeletePopupVisibility(true)}
-                onClickUpdate={() => setUpdatePopupVisibility(true)}
-              />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
+              {isLoading ? (
+                <Loader />
+              ) : list.length > 0 ? (
+                list.map((item) => (
+                  <TableEntry
+                    item={item}
+                    onClickDelete={() => {
+                      setSelectedItem(item);
+                      setDeletePopupVisibility(true);
+                    }}
+                  />
+                ))
+              ) : null}
             </div>
+            {list.length > 0 && (
+              <div className="list__container__pagination">
+                <Pagination
+                  activePage={page}
+                  itemsCountPerPage={limit}
+                  totalItemsCount={totalRecords}
+                  pageRangeDisplayed={5}
+                  onChange={handlePageChange}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -122,25 +171,25 @@ export default function RegistrarManagement() {
           onDelete={onDelete}
         />
       )}
-      {updateStatusPopupVisibility && (
+      {/* {updateStatusPopupVisibility && (
         <AppointmentStatusPopup
           onClose={() => setUpdatePopupVisibility(false)}
         />
-      )}
+      )} */}
     </>
   );
 }
 
-function TableEntry({ onClickDelete, onClickUpdate }) {
+function TableEntry({ item, onClickDelete }) {
   return (
     <div className="container__main__content__listing__table__content__list">
-      <TableEntryText>Khan</TableEntryText>
-      <TableEntryText>Saleem</TableEntryText>
-      <TableEntryText>saleem@yahoo.com</TableEntryText>
-      <TableEntryText>Madagascar</TableEntryText>
-      <TableEntryText>HR</TableEntryText>
-      <TableEntryText>065-3567-754</TableEntryText>
-      <div className="container__main__content__listing__table__content__list__entry">
+      <TableEntryText>{item.last_name}</TableEntryText>
+      <TableEntryText>{item.first_name}</TableEntryText>
+      <TableEntryText>{item.office_email}</TableEntryText>
+      {/* <TableEntryText>Madagascar</TableEntryText> */}
+      <TableEntryText>{item.department_name}</TableEntryText>
+      <TableEntryText>{item.office_contact}</TableEntryText>
+      {/* <div className="container__main__content__listing__table__content__list__entry">
         <button
           className="container__main__content__listing__table__content__list__entry__action__update"
           onClick={onClickUpdate}
@@ -149,29 +198,37 @@ function TableEntry({ onClickDelete, onClickUpdate }) {
           <Edit size={14} color="white" style={{ marginRight: ".5em" }} />
           Update
         </button>
-      </div>
+      </div> */}
       <div className="container__main__content__listing__table__content__list__entry">
-        <Link
-          className="container__main__content__listing__table__content__list__entry__action__view"
-          style={{ marginRight: ".5em" }}
-          to={"/dashboard/registrar-management/detail"}
-        >
-          <Eye size={18} />
-        </Link>
-        <Link
-          className="container__main__content__listing__table__content__list__entry__action__edit"
-          style={{ marginRight: ".5em" }}
-          to={"/dashboard/registrar-management/edit"}
-        >
-          <Edit2 size={18} />
-        </Link>
-        <Link
-          className="container__main__content__listing__table__content__list__entry__action__delete"
-          onClick={onClickDelete}
-        >
-          {" "}
-          <Trash2 size={18} />{" "}
-        </Link>
+        <Tooltip text={"View Appointments"}>
+          <Link
+            className="container__main__content__listing__table__content__list__entry__action__view"
+            style={{ marginRight: ".5em" }}
+            to={"/dashboard/registrar-management/detail"}
+            state={item}
+          >
+            <Eye size={18} />
+          </Link>
+        </Tooltip>
+        <Tooltip text={"Edit Registrar"}>
+          <Link
+            className="container__main__content__listing__table__content__list__entry__action__edit"
+            style={{ marginRight: ".5em" }}
+            to={"/dashboard/registrar-management/edit"}
+            state={item}
+          >
+            <Edit2 size={18} />
+          </Link>
+        </Tooltip>
+        <Tooltip text="Delete Registrar">
+          <Link
+            className="container__main__content__listing__table__content__list__entry__action__delete"
+            onClick={onClickDelete}
+          >
+            {" "}
+            <Trash2 size={18} />{" "}
+          </Link>
+        </Tooltip>
       </div>
     </div>
   );

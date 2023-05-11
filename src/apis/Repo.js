@@ -301,8 +301,130 @@ export const updateUserStatusPostCall = async (data) => {
 export const deleteUser = async (data) => {
   return await axios.post(
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/delete"),
+    data,
     {
-      data,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
+export const registrarGetCall = async (page, limit) => {
+  let params = {};
+  if (page) params.page = page;
+  if (limit) params.limit = limit;
+  return await axios.get(
+    import.meta.env.VITE_BASE_URL.concat("api/registrar_register/get-all"),
+    {
+      params,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
+export const registrarAppointmentsGetByIdCall = async (page, limit, id) => {
+  let params = {};
+  if (page) params.page = page;
+  if (limit) params.limit = limit;
+  if (id) params.id = id;
+  return await axios.get(
+    import.meta.env.VITE_BASE_URL.concat(
+      "api/registrar_register/get-appointment-by-registrar-id"
+    ),
+    {
+      params,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
+export const registrarPostCall = async (data) => {
+  return await axios.post(
+    import.meta.env.VITE_BASE_URL.concat("api/registrar_register/create"),
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
+export const updateRegistrarPostCall = async (data) => {
+  return await axios.patch(
+    import.meta.env.VITE_BASE_URL.concat(
+      "api/registrar_register/update-registrar"
+    ),
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
+export const registrarAppointmentPostCall = async (data) => {
+  return await axios.post(
+    import.meta.env.VITE_BASE_URL.concat(
+      "api/registrar_register/create-appointment"
+    ),
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
+export const registrarUpdateAppointmentPostCall = async (data) => {
+  return await axios.patch(
+    import.meta.env.VITE_BASE_URL.concat(
+      "api/registrar_register/update-appointment"
+    ),
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
+export const deleteRegistrar = async (data) => {
+  return await axios.post(
+    import.meta.env.VITE_BASE_URL.concat(
+      "api/registrar_register/delete?id=" + data.id
+    ),
+    // data,
+    {
       headers: {
         "Content-Type": "application/json",
       },

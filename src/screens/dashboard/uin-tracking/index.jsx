@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import TableEntryText from "@components/TableEntryText";
 import EditUinTracking from "@components/EditUinTracking";
 import Select from "@components/Select";
+import Tooltip from "@components/Tooltip";
 
 export default function UINTracking() {
   const navigate = useNavigate();
@@ -153,12 +154,14 @@ function TableEntry({ color, text, onEdit }) {
       <TableEntryText>12/22/22</TableEntryText>
       <TableEntryText>Pending</TableEntryText>
       <div className="container__main__content__listing__table__content__list__entry">
-        <Link
-          className="container__main__content__listing__table__content__list__entry__action__edit"
-          onClick={onEdit}
-        >
-          <Edit2 size={18} />
-        </Link>
+        <Tooltip text="Edit NIU">
+          <Link
+            className="container__main__content__listing__table__content__list__entry__action__edit"
+            onClick={onEdit}
+          >
+            <Edit2 size={18} />
+          </Link>
+        </Tooltip>
       </div>
     </div>
   );

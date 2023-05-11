@@ -22,8 +22,8 @@ export default function Index() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    let id = localStorage.getItem("id");
-    if (id) navigate("/dashboard", { replace: true });
+    // let id = localStorage.getItem("id");
+    // if (id) navigate("/dashboard", { replace: true });
   }, []);
 
   const isViewValid = () => {
@@ -53,10 +53,12 @@ export default function Index() {
               "isAdmin",
               data.data.result.is_user_admin == 1 ? true : false
             );
+            debugger;
             const name = data.data.result.user_name.split(".");
             localStorage.setItem("user_name", name[0]);
-
-            navigate("/dashboard", { replace: true });
+            if (data.data.result.is_user_admin == 1)
+              navigate("/dashboard/user-management", { replace: true });
+            else navigate("/dashboard", { replace: true });
           } else {
             setAlertPopupMessage(data.data.message);
             setAlertPopupVisibility(true);

@@ -16,11 +16,11 @@ export default function Sidebar({ setSidebarOpen }) {
   const [user, setUser] = useAtom(userAtom);
   const isSuperAdmin = localStorage.getItem("isAdmin");
 
-  useEffect(() => {
-    let id = localStorage.getItem("id");
-    if (!isNullOrEmpty(id)) navigate("/dashboard", { replace: true });
-    else navigate("/", { replace: true });
-  }, []);
+  // useEffect(() => {
+  //   let id = localStorage.getItem("id");
+  //   if (!isNullOrEmpty(id)) navigate("/dashboard", { replace: true });
+  //   else navigate("/", { replace: true });
+  // }, []);
   return (
     <>
       {isHover ? (

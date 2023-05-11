@@ -1,12 +1,31 @@
-import React, { useState } from "react";
-import { ArrowLeft } from "react-feather";
-import { Link, useNavigate } from "react-router-dom";
-import InputSelect from "@components/InputSelect";
+import React, { useState, useContext } from "react";
+import { ArrowLeft, Save } from "react-feather";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { isNullOrEmpty } from "../../../utils/isNullOrEmpty";
+import { PopupContext } from "../../../context/PopupContext";
+import { updateRegistrarPostCall } from "../../../apis/Repo";
+import { isInvalidEmail } from "../../../utils/validations";
+import Tooltip from "@components/Tooltip";
 
 export default function EditRegistrarManagement() {
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const { setAlertPopupVisibility, setAlertPopupMessage } =
+    useContext(PopupContext);
   const [civilRegisterId, setCivilRegisterId] = useState("");
+  const [lastName, setLastName] = useState(state && state.last_name);
+  const [firstName, setFirstName] = useState(state && state.first_name);
+  const [email, setEmail] = useState(state && state.office_email);
+  const [department, setDepartment] = useState(state && state.department_name);
+  const [contactNumber, setContactNumber] = useState(
+    state && state.office_contact
+  );
+  const [isLoading, setIsLoading] = useState(false);
+
+  const setErrorMessageAndVisibility = (text, visibility) => {
+    setAlertPopupMessage(text);
+    setAlertPopupVisibility(visibility);
+  };
 
   const options = [
     { value: 1, label: "registrar id 1" },
@@ -20,6 +39,53 @@ export default function EditRegistrarManagement() {
     { value: 2, label: "Trasferred" },
     { value: 3, label: "Posting awaited" },
   ];
+
+  const isViewValid = () => {
+    if (isNullOrEmpty(lastName))
+      setErrorMessageAndVisibility("Enter last name", true);
+    else if (isNullOrEmpty(firstName))
+      setErrorMessageAndVisibility("Enter first name", true);
+    else if (isNullOrEmpty(email))
+      setErrorMessageAndVisibility("Enter email address", true);
+    else if (isInvalidEmail(email))
+      setErrorMessageAndVisibility("Enter valid email address", true);
+    else if (isNullOrEmpty(department))
+      setErrorMessageAndVisibility("Enter department", true);
+    else if (isNullOrEmpty(contactNumber))
+      setErrorMessageAndVisibility("Enter contact number", true);
+    else return true;
+    return false;
+  };
+
+  const postRegistrar = () => {
+    if (isViewValid()) {
+      let object = {
+        id: state.id,
+        first_name: firstName,
+        last_name: lastName,
+        office_email: email,
+        department_name: department,
+        office_contact: contactNumber,
+      };
+      setIsLoading(true);
+      updateRegistrarPostCall(object)
+        .then(({ data }) => {
+          setIsLoading(false);
+          if (data.data.success) {
+            navigate(-1);
+          } else
+            setErrorMessageAndVisibility(
+              "Some error occurred, please try later",
+              true
+            );
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          console.log("err", err);
+        });
+    }
+  };
+
   return (
     <div className="dashboard__container">
       {/* <div className="dashboard__container__top__bar dashboard__bg">
@@ -65,39 +131,68 @@ export default function EditRegistrarManagement() {
             <path d="M11.9397 19.9394C9.26909 19.9394 6.62577 19.9394 3.98246 19.9394C3.98246 19.8485 3.98246 19.7576 3.98246 19.697C3.98246 18.7576 3.98246 17.8182 3.98246 16.8788C3.98246 16.4848 3.76446 16.2121 3.4647 16.2121C3.13769 16.2121 2.89244 16.4545 2.86519 16.8182C2.86519 17.3939 2.86519 17.9697 2.86519 18.5455C2.86519 19.0303 2.86519 19.4849 2.86519 19.9697C2.78344 19.9697 2.72893 19.9697 2.67443 19.9697C1.99317 19.9697 1.3119 19.9697 0.630632 19.9697C0.249123 19.9697 0.0311213 19.697 0.00387067 19.303C-0.02338 18.2121 0.085616 17.1212 0.576128 16.1515C1.4754 14.3333 2.83794 13.2727 4.71823 13.0606C4.85448 13.0303 4.99074 13.0303 5.12699 13.0303C5.15424 13.2727 5.18149 13.5152 5.23599 13.7576C5.5085 14.9697 6.18976 15.7273 7.27979 16.0909C7.38879 16.1212 7.4433 16.1818 7.4433 16.303C7.4433 16.6667 7.4433 17.0303 7.4433 17.4242C7.4433 17.8182 7.68855 18.0909 8.01556 18.0909C8.31532 18.0909 8.58783 17.7879 8.58783 17.4242C8.58783 17 8.58783 16.5758 8.58783 16.1515C10.0049 15.697 10.7679 14.6667 10.8769 13C11.2311 13.0606 11.5854 13.0606 11.9397 13.1515C14.0652 13.6667 15.6457 15.5455 15.9455 17.9697C16 18.4242 16 18.9091 16 19.3939C16 19.697 15.7547 19.9697 15.4822 20C14.7192 20 13.9562 20 13.1932 20C13.1932 20 13.1659 20 13.1387 19.9697C13.1387 19.9091 13.1387 19.8182 13.1387 19.7273C13.1387 18.7576 13.1387 17.7879 13.1387 16.8182C13.1387 16.4848 12.9207 16.2424 12.6754 16.2121C12.4029 16.1818 12.1304 16.3333 12.0487 16.6364C12.0214 16.7576 12.0214 16.8788 12.0214 17C12.0214 17.9091 12.0214 18.8182 12.0214 19.7576C11.9397 19.7576 11.9397 19.8485 11.9397 19.9394Z" />
           </svg>
           Edit Registrar
+          <Tooltip text="Save Registrar">
+            <div className="action__buttons" onClick={postRegistrar}>
+              <Save size={15} color="white" style={{ marginRight: "0em" }} />
+            </div>
+          </Tooltip>
         </div>
-        <Link className="details__print" to={"/dashboard/registrar-management"}>
-          Save
-        </Link>
+        {/* <button
+          className="details__print"
+          disabled={isLoading}
+          onClick={postRegistrar}
+        >
+          {isLoading ? "Processing..." : "Save"}
+        </button> */}
       </div>
       <div className="form__container">
         <div className="form__wrapper">
-          <div className="form__bottom">
+          {/* <div className="form__bottom">
             <div className="form__bottom__content">Civil Register ID</div>
             <input placeholder="" />
-          </div>
+          </div> */}
 
           <div className="form__bottom">
             <div className="form__bottom__content">Last Name</div>
-            <input placeholder="" />
+            <input
+              placeholder=""
+              value={lastName}
+              onChange={(e) => setLastName(e.currentTarget.value)}
+            />
           </div>
           <div className="form__bottom">
             <div className="form__bottom__content">First Name</div>
-            <input placeholder="" />
+            <input
+              placeholder=""
+              value={firstName}
+              onChange={(e) => setFirstName(e.currentTarget.value)}
+            />
           </div>
           <div className="form__bottom">
             <div className="form__bottom__content">Email</div>
-            <input placeholder="" />
+            <input
+              placeholder=""
+              value={email}
+              onChange={(e) => setEmail(e.currentTarget.value)}
+            />
           </div>
           <div className="form__bottom">
             <div className="form__bottom__content">Department</div>
-            <input placeholder="" />
+            <input
+              placeholder=""
+              value={department}
+              onChange={(e) => setDepartment(e.currentTarget.value)}
+            />
           </div>
           <div className="form__bottom">
             <div className="form__bottom__content">Official Contact Number</div>
-            <input placeholder="" />
+            <input
+              placeholder=""
+              value={contactNumber}
+              onChange={(e) => setContactNumber(e.currentTarget.value)}
+            />
           </div>
-          <div className="form__bottom">
+          {/* <div className="form__bottom">
             <div className="form__bottom__content">Appointment Address</div>
             <input placeholder="" />
           </div>
@@ -120,7 +215,7 @@ export default function EditRegistrarManagement() {
           <div className="form__bottom">
             <div className="form__bottom__content">Appointed By</div>
             <input placeholder="" />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

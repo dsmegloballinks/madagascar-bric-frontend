@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Plus, Search } from "react-feather";
+import { Download, Plus, Search, Upload } from "react-feather";
 import { Link } from "react-router-dom";
 import TableEntryText from "@components/TableEntryText";
 import { PopupContext } from "../../../context/PopupContext";
@@ -13,6 +13,7 @@ import SimpleConfirmationPopup from "@components/SimpleConfirmationPopup";
 import Loader from "@components/Loader";
 import Pagination from "react-js-pagination";
 import moment from "moment";
+import Tooltip from "@components/Tooltip";
 
 export default function OdkManagement() {
   const { setAlertPopupVisibility, setAlertPopupMessage } =
@@ -105,26 +106,51 @@ export default function OdkManagement() {
               </defs>
             </svg>
             ODK Record Management
+            <Tooltip text="Upload File">
+              <button
+                className="action__buttons"
+                onClick={() => setIsUploadFilePopupOpen(true)}
+              >
+                <Upload
+                  size={15}
+                  color="white"
+                  style={{ marginRight: "0em" }}
+                />
+              </button>
+            </Tooltip>
+            <Tooltip text="Fetch Records">
+              <button
+                className="action__buttons"
+                style={{ marginRight: ".5em", background: "#333333" }}
+                onClick={() => setResetPasswordConfirmationPopup(true)}
+              >
+                <Download
+                  size={15}
+                  color="white"
+                  style={{ marginRight: "0em" }}
+                />
+              </button>
+            </Tooltip>
           </div>
           <div style={{ display: "flex" }}>
             <div className="list__search__wrapper">
               <input type="text" placeholder="Search" />
               <Search size={19} className="list__search__wrapper__icon" />
             </div>
-            <button
+            {/* <button
               className="details__print"
               style={{ marginRight: ".5em", background: "#333333" }}
               onClick={() => setResetPasswordConfirmationPopup(true)}
             >
               Fetch Records
-            </button>
-            <button
+            </button> */}
+            {/* <button
               className="details__print"
               onClick={() => setIsUploadFilePopupOpen(true)}
             >
               <Plus size={15} color="white" style={{ marginRight: ".5em" }} />
               Upload File
-            </button>
+            </button> */}
           </div>
         </div>
         <div className="details__container">
