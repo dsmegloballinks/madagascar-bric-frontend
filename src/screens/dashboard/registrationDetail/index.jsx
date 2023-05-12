@@ -50,21 +50,22 @@ export default function RegistrationDetail() {
   };
 
   const setDateValues = (data, id) => {
-    if (data) {
-      var newData = "";
-      if (data.length < 50) {
-        let count = 22 - data.length;
-        let test = data.padEnd(count + 50, " ");
-        newData = test.substring(0, id);
-      } else newData = "                              ";
-      return data.split("").map((character) => {
-        return (
-          <div className="details__Info__wrapper__section__information__content">
-            {character}
-          </div>
-        );
-      });
-    }
+    // if (data) {
+    var newData = "";
+    // if (data.length < 50) {
+    let count = 22 - data.length;
+    let test = data.padEnd(count + 50, " ");
+    newData = test.substring(0, id);
+    // }
+    // else newData = "                              ";
+    return newData.split("").map((character) => {
+      return (
+        <div className="details__Info__wrapper__section__information__content">
+          {character}
+        </div>
+      );
+    });
+    // }
   };
 
   return (
@@ -109,7 +110,8 @@ export default function RegistrationDetail() {
                     Number
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.cr.uin, 10)}
+                    {state.registrationData.cr &&
+                      setFormValues(state.registrationData.cr.uin, 10)}
                     {/* {state.registrationData.cr.uin
                       .split("")
                       .map((character) => {
@@ -134,22 +136,24 @@ export default function RegistrationDetail() {
                       );
                     })} */}
                     <div className="details__dob__sections">Day</div>
-                    {setDateValues(
-                      moment(state.registrationData.cr.dec_date)
-                        .subtract(1, "day")
-                        .format("DD"),
-                      10
-                    )}
+                    {state.registrationData.cr &&
+                      setDateValues(
+                        moment(state.registrationData.cr.dec_date)
+                          .subtract(1, "day")
+                          .format("DD"),
+                        2
+                      )}
                     <div
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
                       Month
                     </div>
-                    {setDateValues(
-                      moment(state.registrationData.cr.dec_date).format("MM"),
-                      10
-                    )}
+                    {state.registrationData.cr &&
+                      setDateValues(
+                        moment(state.registrationData.cr.dec_date).format("MM"),
+                        2
+                      )}
                     <div
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
@@ -158,7 +162,7 @@ export default function RegistrationDetail() {
                     </div>
                     {setDateValues(
                       moment(state.registrationData.cr.dec_date).format("YYYY"),
-                      5
+                      4
                     )}
                   </div>
                 </div>
@@ -168,36 +172,39 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     <div className="details__dob__sections">Day</div>
-                    {setDateValues(
-                      moment(state.registrationData.cr.transcription_date)
-                        .subtract(1, "day")
-                        .format("DD"),
-                      10
-                    )}
+                    {state.registrationData.cr &&
+                      setDateValues(
+                        moment(state.registrationData.cr.transcription_date)
+                          .subtract(1, "day")
+                          .format("DD"),
+                        2
+                      )}
                     <div
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
                       Month
                     </div>
-                    {setDateValues(
-                      moment(
-                        state.registrationData.cr.transcription_date
-                      ).format("MM"),
-                      10
-                    )}
+                    {state.registrationData.cr &&
+                      setDateValues(
+                        moment(
+                          state.registrationData.cr.transcription_date
+                        ).format("MM"),
+                        2
+                      )}
                     <div
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
                       Year
                     </div>
-                    {setDateValues(
-                      moment(
-                        state.registrationData.cr.transcription_date
-                      ).format("YYYY"),
-                      5
-                    )}
+                    {state.registrationData.cr &&
+                      setDateValues(
+                        moment(
+                          state.registrationData.cr.transcription_date
+                        ).format("YYYY"),
+                        4
+                      )}
                   </div>
                 </div>
               </div>
@@ -211,7 +218,8 @@ export default function RegistrationDetail() {
                     NIU
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.cr.uin, 10)}
+                    {state.registrationData.cr &&
+                      setFormValues(state.registrationData.cr.uin, 10)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -219,7 +227,8 @@ export default function RegistrationDetail() {
                     Last Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.cr.last_name)}
+                    {state.registrationData.cr &&
+                      setFormValues(state.registrationData.cr.last_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -227,7 +236,8 @@ export default function RegistrationDetail() {
                     First Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.cr.first_name)}
+                    {state.registrationData.cr &&
+                      setFormValues(state.registrationData.cr.first_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -236,60 +246,65 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     <div className="details__dob__sections">Day</div>
-                    {setDateValues(
-                      moment(state.registrationData.cr.date_of_birth)
-                        .subtract(1, "day")
-                        .format("DD"),
-                      10
-                    )}
+                    {state.registrationData.cr &&
+                      setDateValues(
+                        moment(state.registrationData.cr.date_of_birth)
+                          .subtract(1, "day")
+                          .format("DD"),
+                        2
+                      )}
                     <div
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
                       Month
                     </div>
-                    {setDateValues(
-                      moment(state.registrationData.cr.date_of_birth).format(
-                        "MM"
-                      ),
-                      10
-                    )}
+                    {state.registrationData.cr &&
+                      setDateValues(
+                        moment(state.registrationData.cr.date_of_birth).format(
+                          "MM"
+                        ),
+                        2
+                      )}
                     <div
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
                       Year
                     </div>
-                    {setDateValues(
-                      moment(state.registrationData.cr.date_of_birth).format(
-                        "YYYY"
-                      ),
-                      5
-                    )}
+                    {state.registrationData.cr &&
+                      setDateValues(
+                        moment(state.registrationData.cr.date_of_birth).format(
+                          "YYYY"
+                        ),
+                        4
+                      )}
                     <div
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
                       Hour
                     </div>
-                    {setDateValues(
-                      moment(state.registrationData.cr.date_of_birth).format(
-                        "HH"
-                      ),
-                      5
-                    )}
+                    {state.registrationData.cr &&
+                      setDateValues(
+                        moment(state.registrationData.cr.date_of_birth).format(
+                          "HH"
+                        ),
+                        2
+                      )}
                     <div
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
                       h
                     </div>
-                    {setDateValues(
-                      moment(state.registrationData.cr.date_of_birth).format(
-                        "mm"
-                      ),
-                      5
-                    )}
+                    {state.registrationData.cr &&
+                      setDateValues(
+                        moment(state.registrationData.cr.date_of_birth).format(
+                          "mm"
+                        ),
+                        2
+                      )}
                   </div>
                   <div
                     className="details__dob__sections"
@@ -318,7 +333,8 @@ export default function RegistrationDetail() {
                     Region
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.cr.region_name)}
+                    {state.registrationData.cr &&
+                      setFormValues(state.registrationData.cr.region_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -326,7 +342,8 @@ export default function RegistrationDetail() {
                     District
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.cr.district_name)}
+                    {state.registrationData.cr &&
+                      setFormValues(state.registrationData.cr.district_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -334,7 +351,8 @@ export default function RegistrationDetail() {
                     Commune
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.cr.commune_name)}
+                    {state.registrationData.cr &&
+                      setFormValues(state.registrationData.cr.commune_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -342,7 +360,8 @@ export default function RegistrationDetail() {
                     Fokontany
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.cr.fokontonay_name)}
+                    {state.registrationData.cr &&
+                      setFormValues(state.registrationData.cr.fokontonay_name)}
                   </div>
                 </div>
 
@@ -546,7 +565,8 @@ export default function RegistrationDetail() {
                     Birth Place Address
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.cr.place_of_birth)}
+                    {state.registrationData.cr &&
+                      setFormValues(state.registrationData.cr.place_of_birth)}
                   </div>
                 </div>
               </div>
@@ -560,7 +580,8 @@ export default function RegistrationDetail() {
                     NIU
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.mother.uin, 10)}
+                    {state.registrationData.mother &&
+                      setFormValues(state.registrationData.mother.uin, 10)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -568,7 +589,8 @@ export default function RegistrationDetail() {
                     Last Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.mother.last_name)}
+                    {state.registrationData.mother &&
+                      setFormValues(state.registrationData.mother.last_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -576,7 +598,8 @@ export default function RegistrationDetail() {
                     First Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.mother.given_name)}
+                    {state.registrationData.mother &&
+                      setFormValues(state.registrationData.mother.given_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -585,36 +608,39 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     <div className="details__dob__sections">Day</div>
-                    {setDateValues(
-                      moment(state.registrationData.mother.date_of_birth)
-                        .subtract(1, "day")
-                        .format("DD"),
-                      10
-                    )}
+                    {state.registrationData.mother &&
+                      setDateValues(
+                        moment(state.registrationData.mother.date_of_birth)
+                          .subtract(1, "day")
+                          .format("DD"),
+                        2
+                      )}
                     <div
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
                       Month
                     </div>
-                    {setDateValues(
-                      moment(
-                        state.registrationData.mother.date_of_birth
-                      ).format("MM"),
-                      10
-                    )}
+                    {state.registrationData.mother &&
+                      setDateValues(
+                        moment(
+                          state.registrationData.mother.date_of_birth
+                        ).format("MM"),
+                        2
+                      )}
                     <div
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
                       Year
                     </div>
-                    {setDateValues(
-                      moment(
-                        state.registrationData.mother.date_of_birth
-                      ).format("YYYY"),
-                      5
-                    )}
+                    {state.registrationData.mother &&
+                      setDateValues(
+                        moment(
+                          state.registrationData.mother.date_of_birth
+                        ).format("YYYY"),
+                        4
+                      )}
                   </div>
                 </div>
 
@@ -632,7 +658,8 @@ export default function RegistrationDetail() {
                     Region
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.mother.region_name)}
+                    {state.registrationData.mother &&
+                      setFormValues(state.registrationData.mother.region_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -640,7 +667,10 @@ export default function RegistrationDetail() {
                     District
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.mother.district_name)}
+                    {state.registrationData.mother &&
+                      setFormValues(
+                        state.registrationData.mother.district_name
+                      )}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -648,7 +678,8 @@ export default function RegistrationDetail() {
                     Commune
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.mother.commune_name)}
+                    {state.registrationData.mother &&
+                      setFormValues(state.registrationData.mother.commune_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -656,9 +687,10 @@ export default function RegistrationDetail() {
                     Fokontany
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.mother.fokontonay_name
-                    )}
+                    {state.registrationData.mother &&
+                      setFormValues(
+                        state.registrationData.mother.fokontonay_name
+                      )}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -708,10 +740,11 @@ export default function RegistrationDetail() {
                     Profession
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.mother.cr_profession,
-                      22
-                    )}
+                    {state.registrationData.mother &&
+                      setFormValues(
+                        state.registrationData.mother.cr_profession,
+                        22
+                      )}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -788,7 +821,8 @@ export default function RegistrationDetail() {
                     NIU
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.father.uin, 10)}
+                    {state.registrationData.father &&
+                      setFormValues(state.registrationData.father.uin, 10)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -796,7 +830,8 @@ export default function RegistrationDetail() {
                     Last Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.father.last_name)}
+                    {state.registrationData.father &&
+                      setFormValues(state.registrationData.father.last_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -804,7 +839,8 @@ export default function RegistrationDetail() {
                     First Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.father.given_name)}
+                    {state.registrationData.father &&
+                      setFormValues(state.registrationData.father.given_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -813,36 +849,39 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     <div className="details__dob__sections">Day</div>
-                    {setDateValues(
-                      moment(state.registrationData.father.date_of_birth)
-                        .subtract(1, "day")
-                        .format("DD"),
-                      10
-                    )}
+                    {state.registrationData.father &&
+                      setDateValues(
+                        moment(state.registrationData.father.date_of_birth)
+                          .subtract(1, "day")
+                          .format("DD"),
+                        2
+                      )}
                     <div
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
                       Month
                     </div>
-                    {setDateValues(
-                      moment(
-                        state.registrationData.father.date_of_birth
-                      ).format("MM"),
-                      10
-                    )}
+                    {state.registrationData.father &&
+                      setDateValues(
+                        moment(
+                          state.registrationData.father.date_of_birth
+                        ).format("MM"),
+                        2
+                      )}
                     <div
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
                       Year
                     </div>
-                    {setDateValues(
-                      moment(
-                        state.registrationData.father.date_of_birth
-                      ).format("YYYY"),
-                      5
-                    )}
+                    {state.registrationData.father &&
+                      setDateValues(
+                        moment(
+                          state.registrationData.father.date_of_birth
+                        ).format("YYYY"),
+                        4
+                      )}
                   </div>
                 </div>
 
@@ -861,7 +900,8 @@ export default function RegistrationDetail() {
                     Region
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.father.region_name)}
+                    {state.registrationData.father &&
+                      setFormValues(state.registrationData.father.region_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -869,7 +909,10 @@ export default function RegistrationDetail() {
                     District
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.father.district_name)}
+                    {state.registrationData.father &&
+                      setFormValues(
+                        state.registrationData.father.district_name
+                      )}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -877,7 +920,8 @@ export default function RegistrationDetail() {
                     Commune
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.father.commune_name)}
+                    {state.registrationData.father &&
+                      setFormValues(state.registrationData.father.commune_name)}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -885,9 +929,10 @@ export default function RegistrationDetail() {
                     Fokontany
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.father.fokontonay_name
-                    )}
+                    {state.registrationData.father &&
+                      setFormValues(
+                        state.registrationData.father.fokontonay_name
+                      )}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -938,10 +983,11 @@ export default function RegistrationDetail() {
                     Profession
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(
-                      state.registrationData.father.cr_profession,
-                      22
-                    )}
+                    {state.registrationData.father &&
+                      setFormValues(
+                        state.registrationData.father.cr_profession,
+                        22
+                      )}
                   </div>
                 </div>
               </div>
@@ -1093,7 +1139,9 @@ export default function RegistrationDetail() {
                     NIU
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.declarant.uin, 10)}
+                    {state.registrationData.declarant
+                      ? setFormValues(state.registrationData.declarant.uin, 10)
+                      : setFormValues("")}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1101,7 +1149,11 @@ export default function RegistrationDetail() {
                     Last Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.declarant.last_name)}
+                    {state.registrationData.declarant
+                      ? setFormValues(
+                          state.registrationData.declarant.last_name
+                        )
+                      : setFormValues("")}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1109,7 +1161,11 @@ export default function RegistrationDetail() {
                     First Name
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.declarant.given_name)}
+                    {state.registrationData.declarant
+                      ? setFormValues(
+                          state.registrationData.declarant.given_name
+                        )
+                      : setFormValues("")}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1118,36 +1174,42 @@ export default function RegistrationDetail() {
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     <div className="details__dob__sections">Day</div>
-                    {setDateValues(
-                      moment(state.registrationData.declarant.date_of_birth)
-                        .subtract(1, "day")
-                        .format("DD"),
-                      10
-                    )}
+                    {state.registrationData.declarant
+                      ? setDateValues(
+                          moment(state.registrationData.declarant.date_of_birth)
+                            .subtract(1, "day")
+                            .format("DD"),
+                          2
+                        )
+                      : setDateValues("", 2)}
                     <div
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
                       Month
                     </div>
-                    {setDateValues(
-                      moment(
-                        state.registrationData.declarant.date_of_birth
-                      ).format("MM"),
-                      10
-                    )}
+                    {state.registrationData.declarant
+                      ? setDateValues(
+                          moment(
+                            state.registrationData.declarant.date_of_birth
+                          ).format("MM"),
+                          2
+                        )
+                      : setDateValues("", 2)}
                     <div
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
                       Year
                     </div>
-                    {setDateValues(
-                      moment(
-                        state.registrationData.declarant.date_of_birth
-                      ).format("YYYY"),
-                      5
-                    )}
+                    {state.registrationData.declarant
+                      ? setDateValues(
+                          moment(
+                            state.registrationData.declarant.date_of_birth
+                          ).format("YYYY"),
+                          4
+                        )
+                      : setDateValues("", 4)}
                   </div>
                 </div>
                 {/* <div className="details__Info__wrapper__section__information">
@@ -1175,7 +1237,9 @@ export default function RegistrationDetail() {
                     Region
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.foko.region_name)}
+                    {state.registrationData.foko
+                      ? setFormValues(state.registrationData.foko.region_name)
+                      : setFormValues("")}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1183,7 +1247,9 @@ export default function RegistrationDetail() {
                     District
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.foko.district_name)}
+                    {state.registrationData.foko
+                      ? setFormValues(state.registrationData.foko.district_name)
+                      : setFormValues("")}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1191,7 +1257,9 @@ export default function RegistrationDetail() {
                     Commune
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.foko.commune_name)}
+                    {state.registrationData.foko
+                      ? setFormValues(state.registrationData.foko.commune_name)
+                      : setFormValues("")}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
@@ -1199,7 +1267,11 @@ export default function RegistrationDetail() {
                     Fokontany
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    {setFormValues(state.registrationData.foko.fokontonay_name)}
+                    {state.registrationData.foko
+                      ? setFormValues(
+                          state.registrationData.foko.fokontonay_name
+                        )
+                      : setFormValues("")}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">

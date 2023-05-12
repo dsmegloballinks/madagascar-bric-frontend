@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { X, Plus } from "react-feather";
 import { logo } from "@assets";
 
-export default function ViewFiles({ onClose }) {
+export default function ViewFiles({ onClose, selectedUser }) {
   return (
     <div className="popup">
       <div className="popup__overlay">
@@ -40,13 +40,23 @@ export default function ViewFiles({ onClose }) {
                 <div className="certificate__wrapper__container__content">
                   Registry
                 </div>
-                <img src={logo} className="files__container__wrapper__img" />
+                <img
+                  src={import.meta.env.VITE_BASE_URL.concat(
+                    selectedUser.cr.picture_register
+                  )}
+                  className="files__container__wrapper__img"
+                />
               </div>
               <div className="files__container__wrapper">
                 <div className="certificate__wrapper__container__content">
                   Birth Certificate
                 </div>
-                <img src={logo} className="files__container__wrapper__img" />
+                <img
+                  src={import.meta.env.VITE_BASE_URL.concat(
+                    selectedUser.cr.pic_certificate
+                  )}
+                  className="files__container__wrapper__img"
+                />
               </div>
             </div>
           </div>

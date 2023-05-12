@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import TableEntryText from "@components/TableEntryText";
 import { PopupContext } from "../../../context/PopupContext";
 import {
+  fetchOdkRecordsGetCall,
   fileLogGetCall,
   filePostCall,
   uinFilePostCall,
@@ -79,6 +80,16 @@ export default function OdkManagement() {
 
   const handlePageChange = (value) => {
     setPage(value);
+  };
+
+  const fetchRecords = () => {
+    fetchOdkRecordsGetCall()
+      .then(({ data }) => {
+        console.log("data", data);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
   };
 
   return (
@@ -204,6 +215,7 @@ export default function OdkManagement() {
         <SimpleConfirmationPopup
           onClose={() => setResetPasswordConfirmationPopup(false)}
           text={"Are you sure, you want to fetch records?"}
+          onYes={fetchRecords}
         />
       )}
     </>

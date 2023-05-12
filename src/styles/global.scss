@@ -1428,6 +1428,7 @@ body {
 
 .files__container__wrapper__img {
   width: 100%;
+  border-radius: 10px;
 }
 
 .certificate__wrapper__container {
@@ -1723,7 +1724,7 @@ body {
   border-radius: 10px;
   padding: 0.5em;
   position: absolute;
-  left: 6em;
+  left: 3em;
   margin-bottom: 1em;
   z-index: 10;
 }

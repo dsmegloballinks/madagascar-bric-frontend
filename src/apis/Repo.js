@@ -435,6 +435,22 @@ export const deleteRegistrar = async (data) => {
   );
 };
 
+export const fetchOdkRecordsGetCall = async () => {
+  let params = {};
+
+  return await axios.get(
+    import.meta.env.VITE_BASE_URL.concat("api/civil_register/fetch-file"),
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
 export const testPostCall = async (data) => {
   return await axios.post(
     "https://private-anon-6c0ab5a863-odkcentral.apiary-mock.com/v1/sessions",

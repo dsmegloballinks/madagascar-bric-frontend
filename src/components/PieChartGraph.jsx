@@ -40,7 +40,7 @@ export default function PieChartGraph({ genderGraphData }) {
   return (
     <PieChart
       data={genderGraphData}
-      labelPosition={65}
+      labelPosition={60}
       radius={35}
       animate
       animationDuration={500}
@@ -51,12 +51,13 @@ export default function PieChartGraph({ genderGraphData }) {
         genderGraphData.dataEntry.title +
         " " +
         genderGraphData.dataEntry.value +
-        " %"
+        "%"
       }
       labelStyle={{
         fontSize: "5px",
-        color: "#ffffff",
+        color: "#ffff",
         fontWeight: "600",
+        marginLeft: ".3em",
       }}
     />
     // <PieChart

@@ -8,7 +8,6 @@ import Pagination from "react-js-pagination";
 import { useState, useRef, useEffect } from "react";
 import { logo } from "@assets";
 import ViewFiles from "./ViewFiles";
-import { testGetCall, testPostCall } from "../apis/Repo";
 import Loader from "./Loader";
 
 export default function Registerations({
@@ -22,20 +21,7 @@ export default function Registerations({
 }) {
   const options = [{ label: "Last Week", value: "Last Week" }];
   const [fileViewVisibility, setFileViewVisibility] = useState(false);
-
-  useEffect(() => {
-    testCall();
-  }, []);
-
-  const testCall = () => {
-    testGetCall()
-      .then((res) => {
-        console.log("res", res);
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
-  };
+  const [selectedUser, setSelectedUser] = useState(null);
 
   return (
     <>
@@ -111,6 +97,7 @@ export default function Registerations({
                   item={item}
                   setFileViewVisibility={setFileViewVisibility}
                   onAddressViewClick={onAddressViewClick}
+                  setSelectedUser={setSelectedUser}
                 />
               ))
             )}
@@ -129,21 +116,27 @@ export default function Registerations({
         </div>
       </div>
       {fileViewVisibility && (
-        <ViewFiles onClose={() => setFileViewVisibility(false)} />
+        <ViewFiles
+          onClose={() => setFileViewVisibility(false)}
+          selectedUser={selectedUser}
+        />
       )}
     </>
   );
 }
 
-function TableEntry({ item, setFileViewVisibility, onAddressViewClick }) {
+function TableEntry({
+  item,
+  setFileViewVisibility,
+  onAddressViewClick,
+  setSelectedUser,
+}) {
   const navigate = useNavigate();
   const ref = useRef(null);
   const [isFileActionHover, setIsFileActionHover] = useState(false);
+
   const viewFiles = (files) => {
-    window.open(
-      "https://docs.google.com/gview?embedded=true&url=" +
-        import.meta.env.VITE_BASE_URL.concat(files)
-    );
+    window.open(import.meta.env.VITE_BASE_URL.concat(files));
   };
 
   const onClickOutside = () => {
@@ -161,6 +154,7 @@ function TableEntry({ item, setFileViewVisibility, onAddressViewClick }) {
       document.removeEventListener("click", handleClickOutside, true);
     };
   }, [onClickOutside]);
+
   return (
     <div className="container__main__content__listing__table__content__list">
       <TableEntryText
@@ -215,16 +209,35 @@ function TableEntry({ item, setFileViewVisibility, onAddressViewClick }) {
       >
         <MoreVertical
           style={{ cursor: "pointer" }}
-          onClick={() => setFileViewVisibility(true)}
+          onClick={() => {
+            setSelectedUser(item);
+            setFileViewVisibility(true);
+          }}
         />
         {isFileActionHover && (
           <div className="action__wrapper">
-            <div className="action__wrapper__item">
-              <img src={logo} className="action__wrapper__img" />
+            <div
+              className="action__wrapper__item"
+              onClick={() => viewFiles(item.cr.picture_register)}
+            >
+              <img
+                src={import.meta.env.VITE_BASE_URL.concat(
+                  item.cr.picture_register
+                )}
+                className="action__wrapper__img"
+              />
               <div className="action__wrapper__content">Registered Picture</div>
             </div>
-            <div className="action__wrapper__item">
-              <img src={logo} className="action__wrapper__img" />
+            <div
+              className="action__wrapper__item"
+              onClick={() => viewFiles(item.cr.pic_certificate)}
+            >
+              <img
+                src={import.meta.env.VITE_BASE_URL.concat(
+                  item.cr.pic_certificate
+                )}
+                className="action__wrapper__img"
+              />
               <div className="action__wrapper__content">Birth Certificate</div>
             </div>
           </div>

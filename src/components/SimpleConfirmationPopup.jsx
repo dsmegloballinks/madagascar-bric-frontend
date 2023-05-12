@@ -3,7 +3,7 @@ import { logo } from "@assets";
 import { AlertCircle, X } from "react-feather";
 import InputSelect from "./InputSelect";
 
-export default function SimpleConfirmationPopup({ onClose, text }) {
+export default function SimpleConfirmationPopup({ onClose, text, onYes }) {
   return (
     <div className="popup">
       <div className="popup__overlay">
@@ -38,7 +38,7 @@ export default function SimpleConfirmationPopup({ onClose, text }) {
             >
               No
             </button>
-            <button className="list__filter__button" onClick={() => onAdd()}>
+            <button className="list__filter__button" onClick={() => onYes()}>
               Yes
             </button>
           </div>
