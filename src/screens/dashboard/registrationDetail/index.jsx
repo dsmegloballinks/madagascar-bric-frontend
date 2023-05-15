@@ -760,10 +760,9 @@ export default function RegistrationDetail() {
                           type="radio"
                           style={{ width: 0 }}
                           checked={
-                            state.registrationData.mother
-                              .is_other_nationality &&
-                            state.registrationData.mother.is_other_nationality.toLowerCase() ==
-                              "non".toLowerCase()
+                            state.registrationData.mother &&
+                            state.registrationData.mother.nationality_name.toLowerCase() ==
+                              "malagasy".toLowerCase()
                           }
                         />
                         <label for="radio-17" class="radio-label">
@@ -778,10 +777,9 @@ export default function RegistrationDetail() {
                           type="radio"
                           style={{ width: 0 }}
                           checked={
-                            state.registrationData.mother
-                              .is_other_nationality &&
-                            state.registrationData.mother.is_other_nationality.toLowerCase() ==
-                              "oui".toLowerCase()
+                            state.registrationData.mother &&
+                            state.registrationData.mother.nationality_name.toLowerCase() !=
+                              "malagasy".toLowerCase()
                           }
                         />
                         <label for="radio-18" class="radio-label">
@@ -797,9 +795,9 @@ export default function RegistrationDetail() {
                       >
                         (To specify)
                       </div>
-                      {state.registrationData.mother.is_other_nationality &&
-                      state.registrationData.mother.is_other_nationality.toLowerCase() ==
-                        "oui".toLowerCase()
+                      {state.registrationData.mother.nationality_name &&
+                      state.registrationData.mother.nationality_name.toLowerCase() !=
+                        "malagasy".toLowerCase()
                         ? setFormValues(
                             state.registrationData.mother.nationality_name,
                             10
@@ -1009,9 +1007,9 @@ export default function RegistrationDetail() {
                           type="radio"
                           style={{ width: 0 }}
                           checked={
-                            state.registrationData.father.is_residence_same &&
-                            state.registrationData.father.is_residence_same.toLowerCase() ==
-                              "Père".toLowerCase()
+                            state.registrationData.cr.dec_relation &&
+                            state.registrationData.cr.dec_relation.toLowerCase() ==
+                              "Pere".toLowerCase()
                           }
                         />
                         <label for="radio-13" class="radio-label">
@@ -1026,9 +1024,9 @@ export default function RegistrationDetail() {
                           type="radio"
                           style={{ width: 0 }}
                           checked={
-                            state.registrationData.father.is_residence_same &&
-                            state.registrationData.father.is_residence_same.toLowerCase() ==
-                              "Mère".toLowerCase()
+                            state.registrationData.cr.dec_relation &&
+                            state.registrationData.cr.dec_relation.toLowerCase() ==
+                              "Mere".toLowerCase()
                           }
                         />
                         <label for="radio-14" class="radio-label">

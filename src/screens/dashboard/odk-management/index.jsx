@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Download, Plus, Search, Upload } from "react-feather";
+import { Download, Plus, RefreshCcw, Search, Upload } from "react-feather";
 import { Link } from "react-router-dom";
 import TableEntryText from "@components/TableEntryText";
 import { PopupContext } from "../../../context/PopupContext";
@@ -135,7 +135,7 @@ export default function OdkManagement() {
                 style={{ marginRight: ".5em", background: "#333333" }}
                 onClick={() => setResetPasswordConfirmationPopup(true)}
               >
-                <Download
+                <RefreshCcw
                   size={15}
                   color="white"
                   style={{ marginRight: "0em" }}

@@ -466,6 +466,7 @@ body {
 
 .dashboard__banner__content h2 {
   color: var(--tertiary);
+  text-transform: capitalize;
 }
 
 .dashboard__banner__content {
@@ -1897,4 +1898,23 @@ body {
   // max-width: fit-content;
   top: -18px;
   z-index: 10;
+}
+
+.location__info__container{
+  display: flex;
+  flex-direction: column;
+}
+
+.location__info__wrapper{
+  display: flex;
+  font-size: 13px;
+}
+
+.location__info__title{
+  font-weight: 600;
+  width: 15%;
+}
+
+.location__info__content{
+
 }

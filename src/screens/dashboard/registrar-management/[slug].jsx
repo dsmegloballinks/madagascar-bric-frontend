@@ -165,16 +165,25 @@ export default function RegistrarManagementDetails() {
               </div>
 
               <div className="container__main__content__listing__table__header__entry">
-                Appointment Date
+                Appointment Starting Date
               </div>
               <div className="container__main__content__listing__table__header__entry">
-                Appointment Time
+                Appointment Starting Time
+              </div>
+              <div className="container__main__content__listing__table__header__entry">
+                Appointment Ending Date
+              </div>
+              <div className="container__main__content__listing__table__header__entry">
+                Appointment Ending Time
               </div>
               <div className="container__main__content__listing__table__header__entry">
                 Appointment Status
               </div>
               <div className="container__main__content__listing__table__header__entry">
                 Appointed By
+              </div>
+              <div className="container__main__content__listing__table__header__entry">
+                Actions
               </div>
             </div>
             <div className="container__main__content__listing__table__content">
@@ -231,9 +240,20 @@ function TableEntry({ item, index, onEdit, list }) {
         {moment(item.appointment_date).format("DD MMM, YYYY")}
       </TableEntryText>
       <TableEntryText>{item.appointment_time}</TableEntryText>
+      <TableEntryText>
+        {list[index + 1] != undefined
+          ? moment(list[index + 1].appointment_date).format("DD MMM, YYYY")
+          : "-----"}
+      </TableEntryText>
+      <TableEntryText>
+        {list[index + 1] != undefined
+          ? list[index + 1].appointment_time
+          : "-----"}
+      </TableEntryText>
       <TableEntryText>{item.appointment_status}</TableEntryText>
       <TableEntryText>{item.appointed_by}</TableEntryText>
-      {list && index == list.length - 1 ? (
+      {index ==
+      list.findLastIndex((e) => e.appointment_status == "Appointed") ? (
         <div className="container__main__content__listing__table__content__list__entry">
           <Tooltip text="Edit Appointment">
             <div

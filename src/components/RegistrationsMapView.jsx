@@ -2,20 +2,7 @@
 import { useRef, useCallback, useState } from "react";
 import { GoogleMap, Marker } from "@react-google-maps/api";
 
-const markers = [
-  {
-    markerOffset: -15,
-    name: "Buenos Aires",
-    coordinates: [-19.002846, 46.460938],
-  },
-  { markerOffset: 25, name: "Brasilia", coordinates: [-13.203681, 49.662342] },
-  { markerOffset: 25, name: "Santiago", coordinates: [-21.0, 48.150002] },
-  { markerOffset: 25, name: "Bogota", coordinates: [-16.916668, 47.716667] },
-];
-
 function RegistrationsMapView({ mapList }) {
-  const mapRef = useRef(null);
-
   const lat =
     mapList.length > 0 ? parseFloat(mapList[0].longitude) : -19.002846;
   const lng = mapList.length > 0 ? parseFloat(mapList[0].lattitude) : 46.460938;

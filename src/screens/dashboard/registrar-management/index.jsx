@@ -9,6 +9,7 @@ import Loader from "@components/Loader";
 import Pagination from "react-js-pagination";
 import { PopupContext } from "../../../context/PopupContext";
 import Tooltip from "@components/Tooltip";
+import { file } from "../../../assets";
 
 export default function RegistrarManagement() {
   const { setAlertPopupVisibility, setAlertPopupMessage } =
@@ -207,7 +208,8 @@ function TableEntry({ item, onClickDelete }) {
             to={"/dashboard/registrar-management/detail"}
             state={item}
           >
-            <Eye size={18} />
+            {/* <Eye size={18} /> */}
+            <img src={file} width={"110%"} />
           </Link>
         </Tooltip>
         <Tooltip text={"Edit Registrar"}>

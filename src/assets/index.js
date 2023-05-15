@@ -6,3 +6,4 @@ export { default as register } from "./total_register.svg";
 export { default as certificateLogo } from "./carificate-logo1.png";
 export { default as orgLogo } from "./certificate-logo2.png";
 export { default as passLock } from "./rotation-lock.png";
+export { default as file } from "./file.png";

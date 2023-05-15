@@ -20,6 +20,7 @@ import { PopupContext } from "../../context/PopupContext";
 import moment from "moment";
 
 import { logo } from "@assets";
+import LocationPopup from "@components/LocationPopup";
 
 export default function dashboard() {
   const { state } = useLocation();
@@ -53,6 +54,8 @@ export default function dashboard() {
   let [yearEndDate, setYearEndDate] = useState("");
   let [mapList, setMapList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [locationPopupVisibility, setLocationPopupVisibility] = useState(false);
+  let [locationData, setLocationData] = useState([]);
 
   const isSuperAdmin = localStorage.getItem("isAdmin");
   const userName = localStorage.getItem("user_name");
@@ -766,18 +769,29 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
                 handlePageChange={handlePageChange}
                 onAddressViewClick={(item) => {
                   debugger;
-                  setSelectedFilter("Map");
-                  setMapList([]);
-                  // getMapsList("", "", "", "", "", "", "", item);
-                  setMapList(
-                    (mapList = [
+                  setLocationData(
+                    (locationData = [
                       {
+                        childData: item,
                         name: item.last_name,
                         lattitude: item.lattitude,
                         longitude: item.longitude,
                       },
                     ])
                   );
+                  setLocationPopupVisibility(true);
+                  // setSelectedFilter("Map");
+                  // setMapList([]);
+                  // // getMapsList("", "", "", "", "", "", "", item);
+                  // setMapList(
+                  //   (mapList = [
+                  //     {
+                  //       name: item.last_name,
+                  //       lattitude: item.lattitude,
+                  //       longitude: item.longitude,
+                  //     },
+                  //   ])
+                  // );
                 }}
                 isLoading={isLoading}
               />
@@ -793,6 +807,12 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
             />
           ) : null}
         </>
+      )}
+      {locationPopupVisibility && (
+        <LocationPopup
+          onClose={() => setLocationPopupVisibility(false)}
+          locationData={locationData}
+        />
       )}
     </>
   );

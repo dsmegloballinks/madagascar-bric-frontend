@@ -9,6 +9,7 @@ import Loader from "@components/Loader";
 import Pagination from "react-js-pagination";
 import Select from "@components/Select";
 import Tooltip from "@components/Tooltip";
+import { file } from "../../../assets";
 
 export default function UINManagement() {
   const { setAlertPopupVisibility, setAlertPopupMessage } =
@@ -113,7 +114,8 @@ export default function UINManagement() {
                 to={"/dashboard/uin-management/detail"}
                 style={{ background: "var(--update)" }}
               >
-                <Eye size={15} color="white" style={{ marginRight: "0em" }} />
+                {/* <Eye size={15} color="white" style={{ marginRight: "0em" }} /> */}
+                <img src={file} width={"60%"} />
               </Link>
             </Tooltip>
             <Tooltip text="Upload File">
