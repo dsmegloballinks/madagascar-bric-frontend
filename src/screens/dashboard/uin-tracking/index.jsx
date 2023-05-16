@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { ArrowLeft, Edit2, Search } from "react-feather";
 import { Link, useNavigate } from "react-router-dom";
 import TableEntryText from "@components/TableEntryText";
 import EditUinTracking from "@components/EditUinTracking";
 import Select from "@components/Select";
 import Tooltip from "@components/Tooltip";
+import DataTable from "react-data-table-component";
+import Loader from "@components/Loader";
 
 export default function UINTracking() {
+  const isSuperAdmin = localStorage.getItem("isAdmin");
   const navigate = useNavigate();
   const errorTypeOptions = [
     { label: "Wrong NIU Number", color: "red", value: 1 },
@@ -14,9 +17,117 @@ export default function UINTracking() {
     { label: "Duplicate NIU Number", color: "yellow", value: 3 },
   ];
   const [isEdit, setIsEdit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [list, setList] = useState([]);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  const [filterText, setFilterText] = useState("");
+
+  const filteredItems = list.filter(
+    (item) =>
+      item.user_name &&
+      item.user_name.toLowerCase().includes(filterText.toLowerCase())
+  );
+
+  const subHeaderComponentMemo = useMemo(() => {
+    return (
+      <div style={{ display: "flex" }}>
+        <div className="list__search__wrapper">
+          <input
+            type="text"
+            placeholder="Search"
+            onChange={(e) => setFilterText(e.target.value)}
+            value={filterText}
+          />
+          <Search size={19} className="list__search__wrapper__icon" />
+        </div>
+      </div>
+    );
+  }, [filterText]);
+
+  const columns = [
+    {
+      name: "NIU",
+      selector: (row) => row.user_name,
+      sortable: true,
+    },
+    {
+      name: "Child Name",
+      selector: (row) => row.email,
+      sortable: true,
+    },
+    {
+      name: "Commune",
+      selector: (row) => row.status,
+      sortable: true,
+    },
+    {
+      name: "Fokontany",
+      selector: (row) => row.status,
+      sortable: true,
+    },
+    {
+      name: "Error Type",
+      selector: (row) => row.status,
+      cell: (row) => (
+        <TableEntryText colorBox={"red"}>{"error"}</TableEntryText>
+      ),
+      sortable: true,
+    },
+    {
+      name: "Error Reported Date",
+      selector: (row) => row.status,
+      sortable: true,
+    },
+    {
+      name: "Error Corrected Date",
+      selector: (row) => row.status,
+      sortable: true,
+    },
+    {
+      name: "Action",
+      selector: (row) => row.year,
+      cell: (row) => (
+        <div
+          className="container__main__content__listing__table__content__list__entry"
+          id={row.id}
+        >
+          <Tooltip text="Edit NIU">
+            <Link
+              className="container__main__content__listing__table__content__list__entry__action__edit"
+              onClick={() => setIsEdit(true)}
+            >
+              <Edit2 size={18} />
+            </Link>
+          </Tooltip>
+        </div>
+      ),
+    },
+  ];
+
+  const customStyles = {
+    headCells: {
+      style: {
+        fontSize: "14px",
+        fontWeight: "bold",
+      },
+    },
+  };
+
+  const handlePageChange = (value) => {
+    setPage(value);
+  };
+
   return (
     <>
-      <div className="dashboard__container">
+      <div
+        className={
+          isSuperAdmin == "true"
+            ? "superAdmin__dashboard__container"
+            : "dashboard__container"
+        }
+      >
         <div className="main__container__top__bar">
           <div className="details__header">
             <ArrowLeft
@@ -47,10 +158,10 @@ export default function UINTracking() {
             NIU Tracking
           </div>
           <div style={{ display: "flex" }}>
-            <div className="list__search__wrapper">
+            {/* <div className="list__search__wrapper">
               <input type="text" placeholder="Search" />
               <Search size={19} className="list__search__wrapper__icon" />
-            </div>
+            </div> */}
             {/* <Link
               className="details__print"
               to={"/dashboard/uin-management/detail"}
@@ -85,7 +196,7 @@ export default function UINTracking() {
             </div>
           </div>
           <div className="container__main__content__listing__table">
-            <div className="container__main__content__listing__table__header">
+            {/* <div className="container__main__content__listing__table__header">
               <div className="container__main__content__listing__table__header__entry">
                 NIU
               </div>
@@ -110,9 +221,23 @@ export default function UINTracking() {
               <div className="container__main__content__listing__table__header__entry">
                 Action
               </div>
-            </div>
+            </div> */}
             <div className="container__main__content__listing__table__content">
-              <TableEntry
+              <DataTable
+                columns={columns}
+                data={filteredItems}
+                progressPending={isLoading}
+                progressComponent={<Loader />}
+                pagination
+                paginationServer
+                paginationTotalRows={totalRecords}
+                onChangePage={handlePageChange}
+                subHeader
+                subHeaderComponent={subHeaderComponentMemo}
+                persistTableHead
+                customStyles={customStyles}
+              />
+              {/* <TableEntry
                 color="red"
                 text={"Wrong NIU Number"}
                 onEdit={() => setIsEdit(true)}
@@ -133,7 +258,7 @@ export default function UINTracking() {
                 color="orange"
                 text={"Wrong NIU Location Allocation"}
               />
-              <TableEntry color="Yellow" text={"Duplicate NIU Number"} />
+              <TableEntry color="Yellow" text={"Duplicate NIU Number"} /> */}
             </div>
           </div>
         </div>

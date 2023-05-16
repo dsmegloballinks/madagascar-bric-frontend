@@ -8,6 +8,7 @@ import { isInvalidEmail } from "../../../utils/validations";
 import Tooltip from "@components/Tooltip";
 
 export default function EditRegistrarManagement() {
+  const isSuperAdmin = localStorage.getItem("isAdmin");
   const navigate = useNavigate();
   const { state } = useLocation();
   const { setAlertPopupVisibility, setAlertPopupMessage } =
@@ -87,7 +88,13 @@ export default function EditRegistrarManagement() {
   };
 
   return (
-    <div className="dashboard__container">
+    <div
+      className={
+        isSuperAdmin == "true"
+          ? "superAdmin__dashboard__container"
+          : "dashboard__container"
+      }
+    >
       {/* <div className="dashboard__container__top__bar dashboard__bg">
         <ArrowLeft
           className="details__header__back"

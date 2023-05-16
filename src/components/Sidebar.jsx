@@ -10,11 +10,12 @@ import { useNavigate } from "react-router-dom";
 import { isNullOrEmpty } from "../utils/isNullOrEmpty";
 
 export default function Sidebar({ setSidebarOpen }) {
-  const [isHover, setIsHover] = useState(false);
   const navigate = useNavigate();
 
   const [user, setUser] = useAtom(userAtom);
   const isSuperAdmin = localStorage.getItem("isAdmin");
+  const [isHover, setIsHover] = useState(isSuperAdmin == "true" ? true : false);
+  console.log("isHover", isHover);
 
   // useEffect(() => {
   //   let id = localStorage.getItem("id");
@@ -27,12 +28,12 @@ export default function Sidebar({ setSidebarOpen }) {
         <div
           className="container__sidebar animate"
           onMouseOver={() => {
-            setIsHover(true);
+            if (isSuperAdmin != "true") setIsHover(true);
           }}
           onMouseOut={() => {
-            setIsHover(false);
+            if (isSuperAdmin != "true") setIsHover(false);
           }}
-          // style={{ transition: "opacity 2s", opacity: 1 }}
+          style={isSuperAdmin == "true" ? { position: "relative" } : null}
         >
           <div className="container__sidebar__header">
             <Link to="/dashboard" className="container__sidebar__logo">

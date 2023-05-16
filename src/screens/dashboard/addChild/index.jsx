@@ -8,6 +8,7 @@ import ReportingInformation from "@components/ReportingInformation";
 import RegistrationCertificates from "@components/RegisterationCertificates";
 
 export default function addChild() {
+  const isSuperAdmin = localStorage.getItem("isAdmin");
   let [activeStep, setActiveStep] = useState(0);
   const [number, setNumber] = useState("");
   const [dateOfDeclaration, setDateOfDeclaration] = useState("");
@@ -84,7 +85,13 @@ export default function addChild() {
   };
 
   return (
-    <div className="dashboard__container">
+    <div
+      className={
+        isSuperAdmin == "true"
+          ? "superAdmin__dashboard__container"
+          : "dashboard__container"
+      }
+    >
       <div className="dashboard__container__top__bar">
         <svg
           width="17"

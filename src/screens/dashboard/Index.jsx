@@ -491,7 +491,13 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
   return (
     <>
       {isSuperAdmin == "true" ? (
-        <div className="dashboard__container">
+        <div
+          className={
+            isSuperAdmin == "true"
+              ? "superAdmin__dashboard__container"
+              : "dashboard__container"
+          }
+        >
           <div className="dashboard__view">
             <div className="dashboard__view__container">
               <img
@@ -516,7 +522,13 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
         </div>
       ) : (
         <>
-          <div className="dashboard__container">
+          <div
+            className={
+              isSuperAdmin == "true"
+                ? "superAdmin__dashboard__container"
+                : "dashboard__container"
+            }
+          >
             <div
               style={{
                 display: "flex",

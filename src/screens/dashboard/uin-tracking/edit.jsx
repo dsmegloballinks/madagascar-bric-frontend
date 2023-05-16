@@ -6,9 +6,16 @@ import { isNullOrEmpty } from "../../../utils/isNullOrEmpty";
 
 export default function EditUinTracking() {
   const navigate = useNavigate();
+  const isSuperAdmin = localStorage.getItem("isAdmin");
 
   return (
-    <div className="dashboard__container">
+    <div
+      className={
+        isSuperAdmin == "true"
+          ? "superAdmin__dashboard__container"
+          : "dashboard__container"
+      }
+    >
       <div
         style={{
           width: "100%",

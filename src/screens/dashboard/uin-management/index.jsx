@@ -11,6 +11,7 @@ import { file } from "../../../assets";
 import DataTable from "react-data-table-component";
 
 export default function UINManagement() {
+  const isSuperAdmin = localStorage.getItem("isAdmin");
   const { setAlertPopupVisibility, setAlertPopupMessage } =
     useContext(PopupContext);
   const [isUploadFilePopupOpen, setIsUploadFilePopupOpen] = useState(false);
@@ -146,7 +147,13 @@ export default function UINManagement() {
 
   return (
     <>
-      <div className="dashboard__container">
+      <div
+        className={
+          isSuperAdmin == "true"
+            ? "superAdmin__dashboard__container"
+            : "dashboard__container"
+        }
+      >
         <div className="main__container__top__bar">
           <div className="details__header">
             <svg

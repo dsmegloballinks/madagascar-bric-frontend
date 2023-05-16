@@ -14,6 +14,7 @@ import Tooltip from "@components/Tooltip";
 import DataTable from "react-data-table-component";
 
 export default function OdkManagement() {
+  const isSuperAdmin = localStorage.getItem("isAdmin");
   const { setAlertPopupVisibility, setAlertPopupMessage } =
     useContext(PopupContext);
   const [isUploadFilePopupOpen, setIsUploadFilePopupOpen] = useState(false);
@@ -151,7 +152,13 @@ export default function OdkManagement() {
 
   return (
     <>
-      <div className="dashboard__container">
+      <div
+        className={
+          isSuperAdmin == "true"
+            ? "superAdmin__dashboard__container"
+            : "dashboard__container"
+        }
+      >
         <div className="main__container__top__bar">
           <div className="details__header">
             <svg

@@ -7,6 +7,7 @@ import moment from "moment";
 import DataTable from "react-data-table-component";
 
 export default function UINManagementDetails() {
+  const isSuperAdmin = localStorage.getItem("isAdmin");
   const navigate = useNavigate();
   const [list, setList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -99,7 +100,13 @@ export default function UINManagementDetails() {
 
   return (
     <>
-      <div className="dashboard__container">
+      <div
+        className={
+          isSuperAdmin == "true"
+            ? "superAdmin__dashboard__container"
+            : "dashboard__container"
+        }
+      >
         <div
           style={{
             width: "100%",

@@ -1,8 +1,8 @@
 import TableEntryText from "./TableEntryText";
-import { MoreVertical } from "react-feather";
+import { MoreVertical, Search } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import ViewFiles from "./ViewFiles";
 import Loader from "./Loader";
 import DataTable from "react-data-table-component";
@@ -21,6 +21,28 @@ export default function Registerations({
 
   const ref = useRef(null);
   const [isFileActionHover, setIsFileActionHover] = useState(false);
+  const [filterText, setFilterText] = useState("");
+  const filteredItems = dataList.filter(
+    (item) =>
+      item.cr.first_name &&
+      item.cr.first_name.toLowerCase().includes(filterText.toLowerCase())
+  );
+
+  const subHeaderComponentMemo = useMemo(() => {
+    return (
+      <div style={{ display: "flex" }}>
+        <div className="list__search__wrapper">
+          <input
+            type="text"
+            placeholder="Search"
+            onChange={(e) => setFilterText(e.target.value)}
+            value={filterText}
+          />
+          <Search size={19} className="list__search__wrapper__icon" />
+        </div>
+      </div>
+    );
+  }, [filterText]);
 
   const viewFiles = (files) => {
     window.open(import.meta.env.VITE_BASE_URL.concat(files));
@@ -194,13 +216,16 @@ export default function Registerations({
           <div className="container__main__content__listing__table__content">
             <DataTable
               columns={columns}
-              data={dataList}
+              data={filteredItems}
               progressPending={isLoading}
               progressComponent={<Loader />}
               pagination
               paginationServer
               paginationTotalRows={totalRecords}
               onChangePage={handlePageChange}
+              subHeader
+              subHeaderComponent={subHeaderComponentMemo}
+              persistTableHead
               customStyles={customStyles}
             />
           </div>

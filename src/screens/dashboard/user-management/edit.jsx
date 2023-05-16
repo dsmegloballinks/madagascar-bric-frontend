@@ -9,6 +9,7 @@ import InputSelect from "@components/InputSelect";
 import Tooltip from "@components/Tooltip";
 
 export default function EditUserManagement() {
+  const isSuperAdmin = localStorage.getItem("isAdmin");
   const { setAlertPopupVisibility, setAlertPopupMessage } =
     useContext(PopupContext);
   const { state } = useLocation();
@@ -62,7 +63,13 @@ export default function EditUserManagement() {
     }
   };
   return (
-    <div className="dashboard__container">
+    <div
+      className={
+        isSuperAdmin == "true"
+          ? "superAdmin__dashboard__container"
+          : "dashboard__container"
+      }
+    >
       <div
         style={{
           width: "100%",

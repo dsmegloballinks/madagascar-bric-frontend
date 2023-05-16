@@ -435,6 +435,14 @@ body {
   padding-left: 9em;
 }
 
+.superAdmin__dashboard__container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-right: 2em;
+  padding-left: 0em;
+}
+
 .dashboard__container__top__bar {
   display: flex;
   align-items: center;

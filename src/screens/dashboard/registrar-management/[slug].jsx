@@ -14,6 +14,7 @@ import Tooltip from "@components/Tooltip";
 import DataTable from "react-data-table-component";
 
 export default function RegistrarManagementDetails() {
+  const isSuperAdmin = localStorage.getItem("isAdmin");
   const { setAlertPopupVisibility, setAlertPopupMessage } =
     useContext(PopupContext);
   const [updateStatusPopupVisibility, setUpdatePopupVisibility] =
@@ -229,7 +230,13 @@ export default function RegistrarManagementDetails() {
 
   return (
     <>
-      <div className="dashboard__container">
+      <div
+        className={
+          isSuperAdmin == "true"
+            ? "superAdmin__dashboard__container"
+            : "dashboard__container"
+        }
+      >
         <div className="dashboard__container__top__bar dashboard__bg">
           <ArrowLeft
             className="details__header__back"
