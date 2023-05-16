@@ -1,28 +1,123 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Edit, Edit2, Eye, Plus, Search, Trash2 } from "react-feather";
+import { useState, useEffect, useContext, useMemo } from "react";
+import { Edit2, Plus, Search, Trash2 } from "react-feather";
 import { Link } from "react-router-dom";
-import TableEntryText from "@components/TableEntryText";
 import ConfirmationPopup from "@components/ConfirmationPopup";
-import AppointmentStatusPopup from "@components/AppointmentStatusPopup";
 import { deleteRegistrar, registrarGetCall } from "../../../apis/Repo";
 import Loader from "@components/Loader";
-import Pagination from "react-js-pagination";
 import { PopupContext } from "../../../context/PopupContext";
 import Tooltip from "@components/Tooltip";
 import { file } from "../../../assets";
+import DataTable from "react-data-table-component";
 
 export default function RegistrarManagement() {
   const { setAlertPopupVisibility, setAlertPopupMessage } =
     useContext(PopupContext);
   const [deletePopupVisibility, setDeletePopupVisibility] = useState(false);
-  // const [updateStatusPopupVisibility, setUpdatePopupVisibility] =
-  //   useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [list, setList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
   const [page, setPage] = useState(1);
   const limit = 10;
+  const [filterText, setFilterText] = useState("");
+
+  const filteredItems = list.filter(
+    (item) =>
+      item.last_name &&
+      item.last_name.toLowerCase().includes(filterText.toLowerCase())
+  );
+
+  const subHeaderComponentMemo = useMemo(() => {
+    return (
+      <div style={{ display: "flex" }}>
+        <div className="list__search__wrapper">
+          <input
+            type="text"
+            placeholder="Search"
+            onChange={(e) => setFilterText(e.target.value)}
+            value={filterText}
+          />
+          <Search size={19} className="list__search__wrapper__icon" />
+        </div>
+      </div>
+    );
+  }, [filterText]);
+
+  const columns = [
+    {
+      name: "Last Name",
+      selector: (row) => row.last_name,
+      sortable: true,
+    },
+    {
+      name: "First Name",
+      selector: (row) => row.first_name,
+      sortable: true,
+    },
+    {
+      name: "Email",
+      selector: (row) => row.office_email,
+    },
+    {
+      name: "Department",
+      selector: (row) => row.department_name,
+    },
+    {
+      name: "Official Contact",
+      selector: (row) => row.office_contact,
+    },
+    {
+      name: "Action",
+      selector: (row) => row.year,
+      cell: (row) => (
+        <div
+          className="container__main__content__listing__table__content__list__entry"
+          id={row.id}
+        >
+          <Tooltip text={"View Appointments"}>
+            <Link
+              className="container__main__content__listing__table__content__list__entry__action__view"
+              style={{ marginRight: ".5em" }}
+              to={"/dashboard/registrar-management/detail"}
+              state={row}
+            >
+              <img src={file} width={"110%"} />
+            </Link>
+          </Tooltip>
+          <Tooltip text={"Edit Registrar"}>
+            <Link
+              className="container__main__content__listing__table__content__list__entry__action__edit"
+              style={{ marginRight: ".5em" }}
+              to={"/dashboard/registrar-management/edit"}
+              state={row}
+            >
+              <Edit2 size={18} />
+            </Link>
+          </Tooltip>
+          <Tooltip text="Delete Registrar">
+            <Link
+              className="container__main__content__listing__table__content__list__entry__action__delete"
+              onClick={() => {
+                setSelectedItem(row);
+                setDeletePopupVisibility(true);
+              }}
+            >
+              <Trash2 size={18} />
+            </Link>
+          </Tooltip>
+        </div>
+      ),
+    },
+  ];
+
+  const customStyles = {
+    headCells: {
+      style: {
+        fontSize: "14px",
+        fontWeight: "bold",
+      },
+    },
+  };
 
   useEffect(() => {
     getRegistrars();
@@ -101,67 +196,25 @@ export default function RegistrarManagement() {
               </Link>
             </Tooltip>
           </div>
-          <div style={{ display: "flex" }}>
-            <div className="list__search__wrapper">
-              <input type="text" placeholder="Search" />
-              <Search size={19} className="list__search__wrapper__icon" />
-            </div>
-          </div>
         </div>
         <div className="details__container">
           <div className="container__main__content__listing__table">
-            <div className="container__main__content__listing__table__header">
-              <div className="container__main__content__listing__table__header__entry">
-                Last Name
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                First Name
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Email
-              </div>
-              {/* <div className="container__main__content__listing__table__header__entry">
-                Location
-              </div> */}
-              <div className="container__main__content__listing__table__header__entry">
-                Department
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Official Contact
-              </div>
-              {/* <div className="container__main__content__listing__table__header__entry">
-                Appointment Status
-              </div> */}
-              <div className="container__main__content__listing__table__header__entry">
-                Action
-              </div>
-            </div>
             <div className="container__main__content__listing__table__content">
-              {isLoading ? (
-                <Loader />
-              ) : list.length > 0 ? (
-                list.map((item) => (
-                  <TableEntry
-                    item={item}
-                    onClickDelete={() => {
-                      setSelectedItem(item);
-                      setDeletePopupVisibility(true);
-                    }}
-                  />
-                ))
-              ) : null}
+              <DataTable
+                columns={columns}
+                data={filteredItems}
+                progressPending={isLoading}
+                progressComponent={<Loader />}
+                pagination
+                paginationServer
+                paginationTotalRows={totalRecords}
+                onChangePage={handlePageChange}
+                subHeader
+                subHeaderComponent={subHeaderComponentMemo}
+                persistTableHead
+                customStyles={customStyles}
+              />
             </div>
-            {list.length > 0 && (
-              <div className="list__container__pagination">
-                <Pagination
-                  activePage={page}
-                  itemsCountPerPage={limit}
-                  totalItemsCount={totalRecords}
-                  pageRangeDisplayed={5}
-                  onChange={handlePageChange}
-                />
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -172,66 +225,6 @@ export default function RegistrarManagement() {
           onDelete={onDelete}
         />
       )}
-      {/* {updateStatusPopupVisibility && (
-        <AppointmentStatusPopup
-          onClose={() => setUpdatePopupVisibility(false)}
-        />
-      )} */}
     </>
-  );
-}
-
-function TableEntry({ item, onClickDelete }) {
-  return (
-    <div className="container__main__content__listing__table__content__list">
-      <TableEntryText>{item.last_name}</TableEntryText>
-      <TableEntryText>{item.first_name}</TableEntryText>
-      <TableEntryText>{item.office_email}</TableEntryText>
-      {/* <TableEntryText>Madagascar</TableEntryText> */}
-      <TableEntryText>{item.department_name}</TableEntryText>
-      <TableEntryText>{item.office_contact}</TableEntryText>
-      {/* <div className="container__main__content__listing__table__content__list__entry">
-        <button
-          className="container__main__content__listing__table__content__list__entry__action__update"
-          onClick={onClickUpdate}
-          style={{ padding: "0.6em 2em" }}
-        >
-          <Edit size={14} color="white" style={{ marginRight: ".5em" }} />
-          Update
-        </button>
-      </div> */}
-      <div className="container__main__content__listing__table__content__list__entry">
-        <Tooltip text={"View Appointments"}>
-          <Link
-            className="container__main__content__listing__table__content__list__entry__action__view"
-            style={{ marginRight: ".5em" }}
-            to={"/dashboard/registrar-management/detail"}
-            state={item}
-          >
-            {/* <Eye size={18} /> */}
-            <img src={file} width={"110%"} />
-          </Link>
-        </Tooltip>
-        <Tooltip text={"Edit Registrar"}>
-          <Link
-            className="container__main__content__listing__table__content__list__entry__action__edit"
-            style={{ marginRight: ".5em" }}
-            to={"/dashboard/registrar-management/edit"}
-            state={item}
-          >
-            <Edit2 size={18} />
-          </Link>
-        </Tooltip>
-        <Tooltip text="Delete Registrar">
-          <Link
-            className="container__main__content__listing__table__content__list__entry__action__delete"
-            onClick={onClickDelete}
-          >
-            {" "}
-            <Trash2 size={18} />{" "}
-          </Link>
-        </Tooltip>
-      </div>
-    </div>
   );
 }

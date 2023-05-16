@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import { ArrowLeft, ChevronRight, Edit2, Plus } from "react-feather";
+import { useState, useEffect, useContext, useMemo } from "react";
+import { ArrowLeft, ChevronRight, Edit2, Plus, Search } from "react-feather";
 import { useLocation, useNavigate, Link } from "react-router-dom";
-import TableEntryText from "@components/TableEntryText";
 import {
   registrarAppointmentPostCall,
   registrarAppointmentsGetByIdCall,
@@ -9,10 +8,10 @@ import {
 } from "../../../apis/Repo";
 import { PopupContext } from "../../../context/PopupContext";
 import Loader from "@components/Loader";
-import Pagination from "react-js-pagination";
 import AppointmentStatusPopup from "@components/AppointmentStatusPopup";
 import moment from "moment";
 import Tooltip from "@components/Tooltip";
+import DataTable from "react-data-table-component";
 
 export default function RegistrarManagementDetails() {
   const { setAlertPopupVisibility, setAlertPopupMessage } =
@@ -29,13 +28,115 @@ export default function RegistrarManagementDetails() {
   const limit = 10;
   const [isPostCallLoading, setIsPostCallLoading] = useState(false);
 
+  const [filterText, setFilterText] = useState("");
+
+  const filteredItems = list.filter(
+    (item) =>
+      item.location &&
+      item.location.toLowerCase().includes(filterText.toLowerCase())
+  );
+
+  const subHeaderComponentMemo = useMemo(() => {
+    return (
+      <div style={{ display: "flex" }}>
+        <div className="list__search__wrapper">
+          <input
+            type="text"
+            placeholder="Search"
+            onChange={(e) => setFilterText(e.target.value)}
+            value={filterText}
+          />
+          <Search size={19} className="list__search__wrapper__icon" />
+        </div>
+      </div>
+    );
+  }, [filterText]);
+
+  const columns = [
+    {
+      name: "Location",
+      selector: (row) => row.location,
+      sortable: true,
+    },
+    {
+      name: "Appointment Date",
+      selector: (row) => row.appointment_date,
+      format: (row) => moment(row.appointment_date).format("DD MMM, YYYY"),
+      sortable: true,
+    },
+    {
+      name: "Appointment Time",
+      selector: (row) => row.appointment_time,
+    },
+    {
+      name: "Appointment End Date",
+      selector: (row) => row.appointment_date,
+      format: (row, index) =>
+        list[index + 1] != undefined
+          ? moment(list[index + 1].appointment_date).format("DD MMM, YYYY")
+          : "-----",
+    },
+    {
+      name: "Appointment End Time",
+      selector: (row, index) =>
+        list[index + 1] != undefined
+          ? list[index + 1].appointment_time
+          : "-----",
+    },
+    {
+      name: "Appointment Status",
+      selector: (row) => row.appointment_status,
+    },
+    {
+      name: "Appointed By",
+      selector: (row) => row.appointed_by,
+    },
+    {
+      name: "Action",
+      selector: (row) => row.year,
+      cell: (row, index) => (
+        <>
+          {index ==
+          list.findLastIndex((e) => e.appointment_status == "Appointed") ? (
+            <div
+              className="container__main__content__listing__table__content__list__entry"
+              id={row.id}
+            >
+              <Tooltip text="Edit Appointment">
+                <div
+                  className="container__main__content__listing__table__content__list__entry__action__edit"
+                  style={{ marginRight: ".5em" }}
+                  onClick={(row) => {
+                    setSelectedItem(row);
+                    setUpdatePopupVisibility(true);
+                  }}
+                >
+                  <Edit2 size={18} />
+                </div>
+              </Tooltip>
+            </div>
+          ) : null}
+        </>
+      ),
+    },
+  ];
+
+  const customStyles = {
+    headCells: {
+      style: {
+        fontSize: "14px",
+        fontWeight: "bold",
+      },
+    },
+  };
+
   useEffect(() => {
     if (state) getDetail();
-  }, []);
+  }, [page]);
 
   const getDetail = (msg) => {
     if (!msg) setIsLoading(true);
-    registrarAppointmentsGetByIdCall(1, 10, state.id)
+    registrarAppointmentsGetByIdCall(page, limit, state.id)
       .then(({ data }) => {
         setIsLoading(false);
         if (data.success) {
@@ -106,7 +207,8 @@ export default function RegistrarManagementDetails() {
         .then(({ data }) => {
           setIsPostCallLoading(false);
           if (data.data.success) {
-            list.push(data.data.result.appointment_registrar);
+            // list.push(data.data.result.appointment_registrar);
+            getDetail("msg");
             setUpdatePopupVisibility(false);
           } else
             setErrorMessageAndVisibility(
@@ -129,7 +231,6 @@ export default function RegistrarManagementDetails() {
     <>
       <div className="dashboard__container">
         <div className="dashboard__container__top__bar dashboard__bg">
-          {/* <div> */}
           <ArrowLeft
             className="details__header__back"
             size={18}
@@ -147,7 +248,6 @@ export default function RegistrarManagementDetails() {
           </svg>
           Appointments <ChevronRight size={24} />{" "}
           {state && state.last_name + " " + state.first_name}
-          {/* </div> */}
           <Tooltip text={"Add Appointment"}>
             <div
               className="action__buttons"
@@ -159,61 +259,22 @@ export default function RegistrarManagementDetails() {
         </div>
         <div className="details__container">
           <div className="container__main__content__listing__table">
-            <div className="container__main__content__listing__table__header">
-              <div className="container__main__content__listing__table__header__entry">
-                Location
-              </div>
-
-              <div className="container__main__content__listing__table__header__entry">
-                Appointment Starting Date
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Appointment Starting Time
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Appointment Ending Date
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Appointment Ending Time
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Appointment Status
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Appointed By
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Actions
-              </div>
-            </div>
             <div className="container__main__content__listing__table__content">
-              {isLoading ? (
-                <Loader />
-              ) : list.length > 0 ? (
-                list.map((item, i) => (
-                  <TableEntry
-                    item={item}
-                    index={i}
-                    onEdit={(data) => {
-                      setSelectedItem(data);
-                      setUpdatePopupVisibility(true);
-                    }}
-                    list={list}
-                  />
-                ))
-              ) : null}
+              <DataTable
+                columns={columns}
+                data={filteredItems}
+                progressPending={isLoading}
+                progressComponent={<Loader />}
+                pagination
+                paginationServer
+                paginationTotalRows={totalRecords}
+                onChangePage={handlePageChange}
+                subHeader
+                subHeaderComponent={subHeaderComponentMemo}
+                persistTableHead
+                customStyles={customStyles}
+              />
             </div>
-            {list.length > 0 && (
-              <div className="list__container__pagination">
-                <Pagination
-                  activePage={page}
-                  itemsCountPerPage={limit}
-                  totalItemsCount={totalRecords}
-                  pageRangeDisplayed={5}
-                  onChange={handlePageChange}
-                />
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -229,43 +290,5 @@ export default function RegistrarManagementDetails() {
         />
       )}
     </>
-  );
-}
-
-function TableEntry({ item, index, onEdit, list }) {
-  return (
-    <div className="container__main__content__listing__table__content__list">
-      <TableEntryText>{item.location}</TableEntryText>
-      <TableEntryText>
-        {moment(item.appointment_date).format("DD MMM, YYYY")}
-      </TableEntryText>
-      <TableEntryText>{item.appointment_time}</TableEntryText>
-      <TableEntryText>
-        {list[index + 1] != undefined
-          ? moment(list[index + 1].appointment_date).format("DD MMM, YYYY")
-          : "-----"}
-      </TableEntryText>
-      <TableEntryText>
-        {list[index + 1] != undefined
-          ? list[index + 1].appointment_time
-          : "-----"}
-      </TableEntryText>
-      <TableEntryText>{item.appointment_status}</TableEntryText>
-      <TableEntryText>{item.appointed_by}</TableEntryText>
-      {index ==
-      list.findLastIndex((e) => e.appointment_status == "Appointed") ? (
-        <div className="container__main__content__listing__table__content__list__entry">
-          <Tooltip text="Edit Appointment">
-            <div
-              className="container__main__content__listing__table__content__list__entry__action__edit"
-              style={{ marginRight: ".5em" }}
-              onClick={() => onEdit(item)}
-            >
-              <Edit2 size={18} />
-            </div>
-          </Tooltip>
-        </div>
-      ) : null}
-    </div>
   );
 }

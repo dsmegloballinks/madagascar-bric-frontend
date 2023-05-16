@@ -1,137 +1,24 @@
-import ReactSelect from "react-select";
 import TableEntryText from "./TableEntryText";
-import TableEntryStatus from "./TableEntryStatus";
-import { MoreVertical, FileText } from "react-feather";
+import { MoreVertical } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
-import Pagination from "react-js-pagination";
 import { useState, useRef, useEffect } from "react";
-import { logo } from "@assets";
 import ViewFiles from "./ViewFiles";
 import Loader from "./Loader";
+import DataTable from "react-data-table-component";
 
 export default function Registerations({
   dataList,
-  page,
-  limit,
   totalRecords,
   handlePageChange,
   onAddressViewClick,
   isLoading,
 }) {
-  const options = [{ label: "Last Week", value: "Last Week" }];
+  const navigate = useNavigate();
   const [fileViewVisibility, setFileViewVisibility] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  let [hoveredItem, setHoveredItem] = useState("");
 
-  return (
-    <>
-      <div className="list__container">
-        <div className="list__container__top">
-          <div style={{ fontSize: "18px", fontWeight: "600" }}>
-            Form Submission
-          </div>
-          {/* <div className="list__container__top__select">
-          <ReactSelect
-            options={options}
-            placeholder="Last Week"
-            theme={(theme) => ({
-              ...theme,
-              borderRadius: 0,
-              colors: {
-                ...theme.colors,
-                primary75: "#0ACF66",
-                primary25: "#0ACF66e",
-                primary50: "#0ACF66e",
-                primary: "#0ACF66",
-              },
-            })}
-            styles={{
-              control: (base, state) => ({
-                ...base,
-                "&:hover": { borderColor: "#0ACF66" }, // border style on hover
-                border: "1px solid transparent", // default border color
-                boxShadow: "none", // no box-shadow
-                borderRadius: "20px",
-                marginRight: "0.5em",
-                background: "var(--backgroundColor)",
-                width: "150px",
-                fontSize: "12px",
-              }),
-            }}
-          />
-        </div> */}
-        </div>
-        <div className="container__main__content__listing__table">
-          <div className="container__main__content__listing__table__header">
-            <div className="container__main__content__listing__table__header__entry">
-              No
-            </div>
-            <div className="container__main__content__listing__table__header__entry">
-              Child Name
-            </div>
-            <div className="container__main__content__listing__table__header__entry">
-              Mother Name
-            </div>
-            <div className="container__main__content__listing__table__header__entry">
-              DOB
-            </div>
-            <div className="container__main__content__listing__table__header__entry">
-              Coummune, Fokontany
-            </div>
-            <div className="container__main__content__listing__table__header__entry">
-              Office Location
-            </div>
-            <div className="container__main__content__listing__table__header__entry">
-              Attached Files
-            </div>
-            {/* <div className="container__main__content__listing__table__header__entry">
-            Status
-          </div> */}
-          </div>
-          <div className="container__main__content__listing__table__content">
-            {isLoading ? (
-              <Loader />
-            ) : (
-              dataList.map((item) => (
-                <TableEntry
-                  item={item}
-                  setFileViewVisibility={setFileViewVisibility}
-                  onAddressViewClick={onAddressViewClick}
-                  setSelectedUser={setSelectedUser}
-                />
-              ))
-            )}
-          </div>
-          {dataList.length > 0 && (
-            <div className="list__container__pagination">
-              <Pagination
-                activePage={page}
-                itemsCountPerPage={limit}
-                totalItemsCount={totalRecords}
-                pageRangeDisplayed={5}
-                onChange={handlePageChange}
-              />
-            </div>
-          )}
-        </div>
-      </div>
-      {fileViewVisibility && (
-        <ViewFiles
-          onClose={() => setFileViewVisibility(false)}
-          selectedUser={selectedUser}
-        />
-      )}
-    </>
-  );
-}
-
-function TableEntry({
-  item,
-  setFileViewVisibility,
-  onAddressViewClick,
-  setSelectedUser,
-}) {
-  const navigate = useNavigate();
   const ref = useRef(null);
   const [isFileActionHover, setIsFileActionHover] = useState(false);
 
@@ -155,105 +42,176 @@ function TableEntry({
     };
   }, [onClickOutside]);
 
-  return (
-    <div className="container__main__content__listing__table__content__list">
-      <TableEntryText
-        onClick={() =>
-          navigate("/dashboard/registrationdetail", {
-            state: {
-              registrationData: item,
-            },
-          })
-        }
-        style={{ cursor: "pointer" }}
-        className="container__main__content__listing__table__content__list__entry__hover"
-      >
-        {item.cr.uin}
-      </TableEntryText>
-      <TableEntryText>
-        {item.cr.first_name + " " + item.cr.last_name}
-      </TableEntryText>
-      <TableEntryText>
-        {item.mother.given_name + " " + item.mother.last_name}
-      </TableEntryText>
-      <TableEntryText>
-        {moment(item.cr.date_of_birth)
-          .subtract(1, "day")
-          .format("DD MMM, YYYY")}
-      </TableEntryText>
-      <div
-        className="container__main__content__listing__table__content__list__entry"
-        // style={{ flexDirection: "column", display: "flex" }}
-      >
-        <TableEntryText className="container__main__content__listing__table__content__list__entry__hover">
-          {item.foko.commune_name}
-        </TableEntryText>
-        <TableEntryText className="container__main__content__listing__table__content__list__entry__hover">
-          {item.foko.fokontonay_name}
-        </TableEntryText>
-      </div>
-      <TableEntryText
-        className="container__main__content__listing__table__content__list__entry__hover"
-        onClick={() => onAddressViewClick(item.cr)}
-      >
-        view
-      </TableEntryText>
-      <div
-        className="container__main__content__listing__table__content__list__entry"
-        style={{ position: "relative" }}
-        ref={ref}
-        onMouseOut={() => setIsFileActionHover(false)}
-        onMouseOver={() => {
-          setIsFileActionHover(true);
-        }}
-      >
-        <MoreVertical
+  const columns = [
+    {
+      name: "NIU",
+      selector: (row) => row.file.split("_")[3],
+      cell: (row) => (
+        <div
+          className="container__main__content__listing__table__content__list__entry__hover"
+          id={row.id}
+          onClick={() =>
+            navigate("/dashboard/registrationdetail", {
+              state: {
+                registrationData: row,
+              },
+            })
+          }
           style={{ cursor: "pointer" }}
-          onClick={() => {
-            setSelectedUser(item);
-            setFileViewVisibility(true);
+        >
+          {row.cr.uin}
+        </div>
+      ),
+      sortable: true,
+    },
+    {
+      name: "Child Name",
+      selector: (row) => row.cr.first_name,
+      format: (row) => row.cr.first_name + " " + row.cr.last_name,
+      sortable: true,
+    },
+    {
+      name: "Mother Name",
+      selector: (row) => row.mother.given_name,
+      format: (row) => row.mother.given_name + " " + row.mother.last_name,
+    },
+    {
+      name: "DOB",
+      selector: (row) => row.cr.date_of_birth,
+      format: (row) =>
+        moment(row.cr.date_of_birth).subtract(1, "day").format("DD MMM, YYYY"),
+    },
+    {
+      name: "Commune, Fokontany",
+      selector: (row) => row.foko.commune_name,
+      cell: (row) => (
+        <div
+          className="container__main__content__listing__table__content__list__entry"
+          id={row.id}
+        >
+          <TableEntryText className="container__main__content__listing__table__content__list__entry__hover">
+            {row.foko.commune_name}
+          </TableEntryText>
+          <TableEntryText className="container__main__content__listing__table__content__list__entry__hover">
+            {row.foko.fokontonay_name}
+          </TableEntryText>
+        </div>
+      ),
+    },
+    {
+      name: "Office Address",
+      selector: (row) => row.input_type,
+      cell: (row) => (
+        <TableEntryText
+          className="container__main__content__listing__table__content__list__entry__hover"
+          onClick={() => onAddressViewClick(row.cr)}
+          id={row.id}
+        >
+          view
+        </TableEntryText>
+      ),
+    },
+    {
+      name: "Attached Files",
+      selector: (row) => row.input_type,
+      cell: (row, index) => (
+        <div
+          className="container__main__content__listing__table__content__list__entry"
+          id={row.id}
+          style={{ position: "relative" }}
+          ref={ref}
+          onMouseOut={() => {
+            setHoveredItem((hoveredItem = ""));
+            setIsFileActionHover(false);
           }}
-        />
-        {isFileActionHover && (
-          <div className="action__wrapper">
-            <div
-              className="action__wrapper__item"
-              onClick={() => viewFiles(item.cr.picture_register)}
-            >
-              <img
-                src={import.meta.env.VITE_BASE_URL.concat(
-                  item.cr.picture_register
-                )}
-                className="action__wrapper__img"
-              />
-              <div className="action__wrapper__content">Registered Picture</div>
+          onMouseOver={() => {
+            setHoveredItem((hoveredItem = index));
+            setIsFileActionHover(true);
+          }}
+        >
+          <MoreVertical
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              setSelectedUser(row);
+              setFileViewVisibility(true);
+            }}
+          />
+          {isFileActionHover && hoveredItem == index && (
+            <div className="action__wrapper">
+              <div
+                className="action__wrapper__item"
+                onClick={() => viewFiles(row.cr.picture_register)}
+              >
+                <img
+                  src={import.meta.env.VITE_BASE_URL.concat(
+                    row.cr.picture_register
+                  )}
+                  className="action__wrapper__img"
+                />
+                <div className="action__wrapper__content">
+                  Registered Picture
+                </div>
+              </div>
+              <div
+                className="action__wrapper__item"
+                onClick={() => viewFiles(row.cr.pic_certificate)}
+              >
+                <img
+                  src={import.meta.env.VITE_BASE_URL.concat(
+                    row.cr.pic_certificate
+                  )}
+                  className="action__wrapper__img"
+                />
+                <div className="action__wrapper__content">
+                  Birth Certificate
+                </div>
+              </div>
             </div>
-            <div
-              className="action__wrapper__item"
-              onClick={() => viewFiles(item.cr.pic_certificate)}
-            >
-              <img
-                src={import.meta.env.VITE_BASE_URL.concat(
-                  item.cr.pic_certificate
-                )}
-                className="action__wrapper__img"
-              />
-              <div className="action__wrapper__content">Birth Certificate</div>
-            </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      ),
+    },
+  ];
 
-      {/* <div className="container__main__content__listing__table__content__list__entry">
-        <FileText
-          size={15}
-          style={{ cursor: "pointer" }}
-          // onClick={() => viewFiles()}
+  const customStyles = {
+    headCells: {
+      style: {
+        fontSize: "14px",
+        fontWeight: "bold",
+      },
+    },
+  };
+
+  return (
+    <>
+      <div className="list__container">
+        <div className="list__container__top">
+          <div style={{ fontSize: "18px", fontWeight: "600" }}>
+            Form Submission
+          </div>
+        </div>
+        <div className="container__main__content__listing__table">
+          <div className="container__main__content__listing__table__content">
+            <DataTable
+              columns={columns}
+              data={dataList}
+              progressPending={isLoading}
+              progressComponent={<Loader />}
+              pagination
+              paginationServer
+              paginationTotalRows={totalRecords}
+              onChangePage={handlePageChange}
+              customStyles={customStyles}
+            />
+          </div>
+        </div>
+      </div>
+      {fileViewVisibility && (
+        <ViewFiles
+          onClose={() => setFileViewVisibility(false)}
+          selectedUser={selectedUser}
         />
-      </div> */}
-      {/* <TableEntryStatus>
-        {item.status == 0 ? "Unverified" : "Verified"}
-      </TableEntryStatus> */}
-    </div>
+      )}
+    </>
   );
 }

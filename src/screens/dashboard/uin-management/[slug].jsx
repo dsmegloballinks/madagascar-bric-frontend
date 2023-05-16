@@ -1,11 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
-import { ArrowLeft, Plus } from "react-feather";
-import { Link, useNavigate } from "react-router-dom";
-import TableEntryText from "@components/TableEntryText";
+import { useState, useEffect, useMemo } from "react";
+import { ArrowLeft, Search } from "react-feather";
+import { useNavigate } from "react-router-dom";
 import { fileLogGetCall } from "../../../apis/Repo";
 import Loader from "@components/Loader";
-import Pagination from "react-js-pagination";
 import moment from "moment";
+import DataTable from "react-data-table-component";
 
 export default function UINManagementDetails() {
   const navigate = useNavigate();
@@ -14,6 +13,62 @@ export default function UINManagementDetails() {
   const [isDataLoading, setIsDataLoading] = useState(false);
   const [page, setPage] = useState(1);
   const limit = 10;
+
+  const [filterText, setFilterText] = useState("");
+
+  const filteredItems = list.filter(
+    (item) =>
+      item.file && item.file.toLowerCase().includes(filterText.toLowerCase())
+  );
+
+  const subHeaderComponentMemo = useMemo(() => {
+    return (
+      <div style={{ display: "flex" }}>
+        <div className="list__search__wrapper">
+          <input
+            type="text"
+            placeholder="Search"
+            onChange={(e) => setFilterText(e.target.value)}
+            value={filterText}
+          />
+          <Search size={19} className="list__search__wrapper__icon" />
+        </div>
+      </div>
+    );
+  }, [filterText]);
+
+  const columns = [
+    {
+      name: "File Name",
+      selector: (row) => row.file.split("_")[3],
+      sortable: true,
+    },
+    {
+      name: "Date of Import",
+      selector: (row) => row.date_created,
+      format: (row) => moment(row.date_created).format("DD MMM, YYYY"),
+      sortable: true,
+    },
+    {
+      name: "Time of Import",
+      selector: (row) => row.time_created,
+      format: (row) =>
+        moment(row.time_created).subtract(6, "hour").format("hh:mm"),
+    },
+    {
+      name: "No. of Records",
+      selector: (row) => row.number_record,
+    },
+  ];
+
+  const customStyles = {
+    headCells: {
+      style: {
+        fontSize: "14px",
+        fontWeight: "bold",
+      },
+    },
+  };
 
   useEffect(() => {
     getLog();
@@ -71,67 +126,28 @@ export default function UINManagementDetails() {
             </svg>
             Import History
           </div>
-          {/* <button
-            className="details__print"
-            onClick={() => setIsUploadFilePopupOpen(true)}
-          >
-            <Plus size={15} />
-            Upload file
-          </button> */}
         </div>
         <div className="details__container">
           <div className="container__main__content__listing__table">
-            <div className="container__main__content__listing__table__header">
-              <div className="container__main__content__listing__table__header__entry">
-                File Name
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Date of Import
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Time of Import
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                No. of Records
-              </div>
-            </div>
             <div className="container__main__content__listing__table__content">
-              {isDataLoading ? (
-                <Loader />
-              ) : list.length > 0 ? (
-                list.map((item) => <TableEntry item={item} />)
-              ) : null}
+              <DataTable
+                columns={columns}
+                data={filteredItems}
+                progressPending={isDataLoading}
+                progressComponent={<Loader />}
+                pagination
+                paginationServer
+                paginationTotalRows={totalRecords}
+                onChangePage={handlePageChange}
+                subHeader
+                subHeaderComponent={subHeaderComponentMemo}
+                persistTableHead
+                customStyles={customStyles}
+              />
             </div>
-            {list.length > 0 && (
-              <div className="list__container__pagination">
-                <Pagination
-                  activePage={page}
-                  itemsCountPerPage={limit}
-                  totalItemsCount={totalRecords}
-                  pageRangeDisplayed={5}
-                  onChange={handlePageChange}
-                />
-              </div>
-            )}
           </div>
         </div>
       </div>
     </>
-  );
-}
-
-function TableEntry({ item }) {
-  let name = item.file.split("_");
-  return (
-    <div className="container__main__content__listing__table__content__list">
-      <TableEntryText>{name[3]}</TableEntryText>
-      <TableEntryText>
-        {moment(item.date_created).format("DD MMM, YYYY")}
-      </TableEntryText>
-      <TableEntryText>
-        {moment(item.time_created).subtract(6, "hour").format("hh:mm")}
-      </TableEntryText>
-      <TableEntryText>{item.number_record}</TableEntryText>
-    </div>
   );
 }

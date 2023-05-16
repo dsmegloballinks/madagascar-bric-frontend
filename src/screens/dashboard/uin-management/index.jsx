@@ -1,15 +1,14 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Bell, Check, Eye, Plus, Search, Upload } from "react-feather";
+import { useState, useContext, useEffect, useMemo } from "react";
+import { Bell, Search, Upload } from "react-feather";
 import { Link } from "react-router-dom";
-import TableEntryText from "@components/TableEntryText";
 import { PopupContext } from "../../../context/PopupContext";
-import { fileLogGetCall, uinFilePostCall } from "../../../apis/Repo";
+import { uinFilePostCall } from "../../../apis/Repo";
 import UploadFileSingle from "@components/UploadFileSingle";
 import Loader from "@components/Loader";
-import Pagination from "react-js-pagination";
 import Select from "@components/Select";
 import Tooltip from "@components/Tooltip";
 import { file } from "../../../assets";
+import DataTable from "react-data-table-component";
 
 export default function UINManagement() {
   const { setAlertPopupVisibility, setAlertPopupMessage } =
@@ -32,6 +31,66 @@ export default function UINManagement() {
   // useEffect(() => {
   //   getLog();
   // }, [page]);
+
+  const [filterText, setFilterText] = useState("");
+
+  const filteredItems = list.filter(
+    (item) =>
+      item.file && item.file.toLowerCase().includes(filterText.toLowerCase())
+  );
+
+  const subHeaderComponentMemo = useMemo(() => {
+    return (
+      <div style={{ display: "flex" }}>
+        <div className="list__search__wrapper">
+          <input
+            type="text"
+            placeholder="Search"
+            onChange={(e) => setFilterText(e.target.value)}
+            value={filterText}
+          />
+          <Search size={19} className="list__search__wrapper__icon" />
+        </div>
+      </div>
+    );
+  }, [filterText]);
+
+  const columns = [
+    {
+      name: "NIU",
+      selector: (row) => row.file.split("_")[3],
+      sortable: true,
+    },
+    {
+      name: "Allocated Commune",
+      selector: (row) => row.date_created,
+      format: (row) => moment(row.date_created).format("DD MMM, YYYY"),
+      sortable: true,
+    },
+    {
+      name: "Allocation Date",
+      selector: (row) => row.time_created,
+      format: (row) =>
+        moment(row.time_created).subtract(6, "hour").format("hh:mm"),
+    },
+    {
+      name: "Allocation Time",
+      selector: (row) => row.number_record,
+    },
+    {
+      name: "NIU Status",
+      selector: (row) => row.input_type,
+    },
+  ];
+
+  const customStyles = {
+    headCells: {
+      style: {
+        fontSize: "14px",
+        fontWeight: "bold",
+      },
+    },
+  };
 
   const uploadFile = (file) => {
     var bodyFormData = new FormData();
@@ -56,6 +115,10 @@ export default function UINManagement() {
         setAlertPopupMessage("Some error occurred, please try later");
         setAlertPopupVisibility(true);
       });
+  };
+
+  const handlePageChange = (value) => {
+    setPage(value);
   };
 
   // const getLog = () => {
@@ -114,7 +177,6 @@ export default function UINManagement() {
                 to={"/dashboard/uin-management/detail"}
                 style={{ background: "var(--update)" }}
               >
-                {/* <Eye size={15} color="white" style={{ marginRight: "0em" }} /> */}
                 <img src={file} width={"60%"} />
               </Link>
             </Tooltip>
@@ -137,12 +199,12 @@ export default function UINManagement() {
               </Link>
             </Tooltip>
           </div>
-          <div style={{ display: "flex", alignItems: "center" }}>
+          {/* <div style={{ display: "flex", alignItems: "center" }}>
             <div className="list__search__wrapper">
               <input type="text" placeholder="Search" />
               <Search size={22} className="list__search__wrapper__icon" />
-            </div>
-            {/* <button
+            </div> */}
+          {/* <button
               className="details__print"
               onClick={() => setIsUploadFilePopupOpen(true)}
               style={{ marginRight: ".5em" }}
@@ -150,7 +212,7 @@ export default function UINManagement() {
               <Plus size={15} color="white" style={{ marginRight: ".5em" }} />
               Upload file
             </button> */}
-            {/* <Link
+          {/* <Link
               className="details__print"
               to={"/dashboard/uin-management/detail"}
               style={{ background: "var(--update)" }}
@@ -158,11 +220,11 @@ export default function UINManagement() {
               <Eye size={15} color="white" style={{ marginRight: ".5em" }} />
               View Records
             </Link> */}
-            {/* <Link className="bell__wrapper" to={"/dashboard/uin-tracking"}>
+          {/* <Link className="bell__wrapper" to={"/dashboard/uin-tracking"}>
               <div className="bell__wrapper__count">1</div>
               <Bell style={{ marginLeft: ".5em" }} />
             </Link> */}
-          </div>
+          {/* </div> */}
         </div>
         <div className="details__container">
           <div className="error__types__container__wrapper">
@@ -185,46 +247,22 @@ export default function UINManagement() {
             </div>
           </div>
           <div className="container__main__content__listing__table">
-            <div className="container__main__content__listing__table__header">
-              <div className="container__main__content__listing__table__header__entry">
-                NIU
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Allocated Commune
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Allocation Date
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Allocation Time
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                NIU Status
-              </div>
-            </div>
             <div className="container__main__content__listing__table__content">
-              {/* {isDataLoading ? (
-                <Loader />
-              ) : list.length > 0 ? (
-                list.map((item) => <TableEntry item={item} />)
-              ) : null} */}
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
-              <TableEntry />
+              <DataTable
+                columns={columns}
+                data={filteredItems}
+                progressPending={isDataLoading}
+                progressComponent={<Loader />}
+                pagination
+                paginationServer
+                paginationTotalRows={totalRecords}
+                onChangePage={handlePageChange}
+                subHeader
+                subHeaderComponent={subHeaderComponentMemo}
+                persistTableHead
+                customStyles={customStyles}
+              />
             </div>
-            {list.length > 0 && (
-              <div className="list__container__pagination">
-                <Pagination
-                  activePage={page}
-                  itemsCountPerPage={limit}
-                  totalItemsCount={totalRecords}
-                  pageRangeDisplayed={5}
-                  onChange={handlePageChange}
-                />
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -236,19 +274,5 @@ export default function UINManagement() {
         />
       )}
     </>
-  );
-}
-
-function TableEntry({ item }) {
-  return (
-    <div className="container__main__content__listing__table__content__list">
-      <TableEntryText>76543236</TableEntryText>
-      <TableEntryText>Madagascar</TableEntryText>
-      <TableEntryText>12/22/22</TableEntryText>
-      <TableEntryText>12:23</TableEntryText>
-      <TableEntryText>
-        <Check color="#0acf66" />
-      </TableEntryText>
-    </div>
   );
 }

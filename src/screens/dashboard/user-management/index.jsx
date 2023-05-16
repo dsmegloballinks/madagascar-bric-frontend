@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Edit2, Plus, Search, Trash2 } from "react-feather";
+import React, { useState, useEffect, useContext, useMemo } from "react";
+import { Edit2, Plus, Search } from "react-feather";
 import { Link } from "react-router-dom";
-import TableEntryText from "@components/TableEntryText";
 import ConfirmationPopup from "@components/ConfirmationPopup";
 import TableEntryUpdateStatus from "@components/TableEntryUpdateStatus";
 import SimpleConfirmationPopup from "@components/SimpleConfirmationPopup";
@@ -12,9 +11,9 @@ import {
 } from "../../../apis/Repo";
 import { PopupContext } from "../../../context/PopupContext";
 import Loader from "@components/Loader";
-import Pagination from "react-js-pagination";
 import { passLock } from "../../../assets/index";
 import Tooltip from "@components/Tooltip";
+import DataTable from "react-data-table-component";
 
 export default function UserManagement() {
   const { setAlertPopupVisibility, setAlertPopupMessage } =
@@ -29,6 +28,104 @@ export default function UserManagement() {
   const [page, setPage] = useState(1);
   const limit = 10;
   const [statusUpdated, setStatusUpdated] = useState(false);
+  const [filterText, setFilterText] = useState("");
+
+  const filteredItems = list.filter(
+    (item) =>
+      item.user_name &&
+      item.user_name.toLowerCase().includes(filterText.toLowerCase())
+  );
+
+  const subHeaderComponentMemo = useMemo(() => {
+    return (
+      <div style={{ display: "flex" }}>
+        <div className="list__search__wrapper">
+          <input
+            type="text"
+            placeholder="Search"
+            onChange={(e) => setFilterText(e.target.value)}
+            value={filterText}
+          />
+          <Search size={19} className="list__search__wrapper__icon" />
+        </div>
+      </div>
+    );
+  }, [filterText]);
+
+  const columns = [
+    {
+      name: "User Name",
+      selector: (row) => row.user_name,
+      sortable: true,
+    },
+    {
+      name: "Email",
+      selector: (row) => row.email,
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.status,
+      cell: (row) => (
+        <TableEntryUpdateStatus
+          id={row.id}
+          children={row.status}
+          onChangeStatus={(data) => updateStatus(data, row)}
+          statusUpdated={statusUpdated}
+        />
+      ),
+    },
+    {
+      name: "Action",
+      selector: (row) => row.year,
+      cell: (row) => (
+        <div
+          className="container__main__content__listing__table__content__list__entry"
+          id={row.id}
+        >
+          <Tooltip text="Reset Password">
+            <div
+              className="container__main__content__listing__table__content__list__entry__action__edit"
+              style={{ marginRight: ".5em", background: "#de8f21" }}
+              onClick={() => setResetPasswordConfirmationPopup(true)}
+            >
+              <img src={passLock} width={"120%"} />
+            </div>
+          </Tooltip>
+          <Tooltip text="Edit User">
+            <Link
+              className="container__main__content__listing__table__content__list__entry__action__edit"
+              style={{ marginRight: ".5em" }}
+              to={"/dashboard/user-management/edit"}
+              state={row}
+            >
+              <Edit2 size={18} />
+            </Link>
+          </Tooltip>
+        </div>
+      ),
+    },
+  ];
+
+  const customStyles = {
+    // rows: {
+    //   style: {
+    //     minHeight: "72px", // override the row height
+    //   },
+    // },
+    headCells: {
+      style: {
+        fontSize: "14px",
+        fontWeight: "bold",
+      },
+    },
+    // cells: {
+    //   style: {
+    //     paddingLeft: "8px", // override the cell padding for data cells
+    //     paddingRight: "8px",
+    //   },
+    // },
+  };
 
   useEffect(() => {
     getUsers();
@@ -135,59 +232,26 @@ export default function UserManagement() {
               </Link>
             </Tooltip>
           </div>
-          <div style={{ display: "flex" }}>
-            <div className="list__search__wrapper">
-              <input type="text" placeholder="Search" />
-              <Search size={19} className="list__search__wrapper__icon" />
-            </div>
-          </div>
         </div>
 
         <div className="details__container">
           <div className="container__main__content__listing__table">
-            <div className="container__main__content__listing__table__header">
-              <div className="container__main__content__listing__table__header__entry">
-                User Name
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Email
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Status
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Action
-              </div>
-            </div>
             <div className="container__main__content__listing__table__content">
-              {isLoading ? (
-                <Loader />
-              ) : list.length > 0 ? (
-                list.map((item) => (
-                  <TableEntry
-                    item={item}
-                    onClickDelete={() => {
-                      setSelectedItem(item);
-                      setDeletePopupVisibility(true);
-                    }}
-                    onClickReset={() => setResetPasswordConfirmationPopup(true)}
-                    updateStatus={updateStatus}
-                    statusUpdated={statusUpdated}
-                  />
-                ))
-              ) : null}
+              <DataTable
+                columns={columns}
+                data={filteredItems}
+                progressPending={isLoading}
+                progressComponent={<Loader />}
+                pagination
+                paginationServer
+                paginationTotalRows={totalRecords}
+                onChangePage={handlePageChange}
+                subHeader
+                subHeaderComponent={subHeaderComponentMemo}
+                persistTableHead
+                customStyles={customStyles}
+              />
             </div>
-            {list.length > 0 && (
-              <div className="list__container__pagination">
-                <Pagination
-                  activePage={page}
-                  itemsCountPerPage={limit}
-                  totalItemsCount={totalRecords}
-                  pageRangeDisplayed={5}
-                  onChange={handlePageChange}
-                />
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -204,52 +268,5 @@ export default function UserManagement() {
         />
       )}
     </>
-  );
-}
-
-function TableEntry({
-  item,
-  onClickDelete,
-  onClickReset,
-  updateStatus,
-  statusUpdated,
-}) {
-  return (
-    <div className="container__main__content__listing__table__content__list">
-      <TableEntryText>{item.user_name}</TableEntryText>
-      <TableEntryText>{item.email}</TableEntryText>
-      <TableEntryUpdateStatus
-        children={item.status}
-        onChangeStatus={(data) => updateStatus(data, item)}
-        statusUpdated={statusUpdated}
-      />
-      <div className="container__main__content__listing__table__content__list__entry">
-        <Tooltip text="Reset Password">
-          <div
-            className="container__main__content__listing__table__content__list__entry__action__edit"
-            style={{ marginRight: ".5em", background: "#de8f21" }}
-            onClick={onClickReset}
-          >
-            <img src={passLock} width={"120%"} />
-          </div>
-        </Tooltip>
-        <Tooltip text="Edit User">
-          <Link
-            className="container__main__content__listing__table__content__list__entry__action__edit"
-            style={{ marginRight: ".5em" }}
-            to={"/dashboard/user-management/edit"}
-            state={item}
-          >
-            <Edit2 size={18} />
-          </Link>
-        </Tooltip>
-        {/* <div
-          className="container__main__content__listing__table__content__list__entry__action__delete"
-          onClick={onClickDelete}
-        >
-          <Trash2 size={18} />
-        </div> */}
-      </div>
-    </div>
   );
 }
