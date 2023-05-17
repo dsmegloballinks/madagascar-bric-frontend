@@ -14,6 +14,7 @@ import Select from "@components/Select";
 import Tooltip from "@components/Tooltip";
 import { file } from "../../../assets";
 import DataTable from "react-data-table-component";
+import moment from "moment";
 
 export default function UINManagement() {
   const isSuperAdmin = localStorage.getItem("isAdmin");
@@ -34,9 +35,7 @@ export default function UINManagement() {
 
   useEffect(() => {
     setHoverStyle(
-      (hoverStyle = isSidebarHovered
-        ? "superAdmin__dashboard__container"
-        : "dashboard__container")
+      (hoverStyle = isSidebarHovered ? "superAdmin__dashboard__container" : "dashboard__container")
     );
   }, [isSidebarHovered]);
 
@@ -52,12 +51,13 @@ export default function UINManagement() {
   }, []);
 
   const getRegistrations = () => {
-    registrationsGetCall(1, 1, "", "", "", "", "", "", "")
+    registrationsGetCall(1, 1, "", "", "", "", "", "", 0)
       .then(({ data }) => {
-        debugger;
         if (data.data.success) {
+          setList(data.data.result);
           setTrackingRecords(data.data.total_records);
         } else {
+          setList([]);
           setTrackingRecords(0);
         }
       })
@@ -69,8 +69,7 @@ export default function UINManagement() {
   const [filterText, setFilterText] = useState("");
 
   const filteredItems = list.filter(
-    (item) =>
-      item.file && item.file.toLowerCase().includes(filterText.toLowerCase())
+    (item) => item.file && item.file.toLowerCase().includes(filterText.toLowerCase())
   );
 
   const subHeaderComponentMemo = useMemo(() => {
@@ -104,8 +103,7 @@ export default function UINManagement() {
     {
       name: "Allocation Date",
       selector: (row) => row.time_created,
-      format: (row) =>
-        moment(row.time_created).subtract(6, "hour").format("hh:mm"),
+      format: (row) => moment(row.time_created).subtract(6, "hour").format("hh:mm"),
       sortable: true,
     },
     {
@@ -239,15 +237,8 @@ export default function UINManagement() {
               </Link>
             </Tooltip>
             <Tooltip text="Upload File">
-              <button
-                className="action__buttons"
-                onClick={() => setIsUploadFilePopupOpen(true)}
-              >
-                <Upload
-                  size={15}
-                  color="white"
-                  style={{ marginRight: "0em" }}
-                />
+              <button className="action__buttons" onClick={() => setIsUploadFilePopupOpen(true)}>
+                <Upload size={15} color="white" style={{ marginRight: "0em" }} />
               </button>
             </Tooltip>
             <Tooltip text="NIU Tracking">
@@ -289,11 +280,7 @@ export default function UINManagement() {
             <div style={{ display: "flex" }}>
               {tabs.map((item) => (
                 <div
-                  className={
-                    selectedTab == item.label
-                      ? "tab__content__active"
-                      : "tab__content"
-                  }
+                  className={selectedTab == item.label ? "tab__content__active" : "tab__content"}
                   onClick={() => setSelectedTab(item.label)}
                 >
                   {item.label}
@@ -301,11 +288,7 @@ export default function UINManagement() {
               ))}
             </div>
             <div>
-              <Select
-                widthProp={"180px"}
-                placeholder={"Commune"}
-                options={communesList}
-              />
+              <Select widthProp={"180px"} placeholder={"Commune"} options={communesList} />
             </div>
           </div>
           <div className="container__main__content__listing__table">
