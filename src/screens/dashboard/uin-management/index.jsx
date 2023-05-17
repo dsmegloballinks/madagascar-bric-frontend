@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect, useMemo } from "react";
-import { Bell, Search, Upload } from "react-feather";
+import { Bell, Check, Search, Upload } from "react-feather";
 import { Link } from "react-router-dom";
 import { PopupContext } from "../../../context/PopupContext";
 import {
@@ -7,6 +7,7 @@ import {
   registrarGetCall,
   registrationsGetCall,
   uinFilePostCall,
+  uinManagmentGetCall,
 } from "../../../apis/Repo";
 import UploadFileSingle from "@components/UploadFileSingle";
 import Loader from "@components/Loader";
@@ -35,7 +36,9 @@ export default function UINManagement() {
 
   useEffect(() => {
     setHoverStyle(
-      (hoverStyle = isSidebarHovered ? "superAdmin__dashboard__container" : "dashboard__container")
+      (hoverStyle = isSidebarHovered
+        ? "superAdmin__dashboard__container"
+        : "dashboard__container")
     );
   }, [isSidebarHovered]);
 
@@ -48,16 +51,19 @@ export default function UINManagement() {
   useEffect(() => {
     getCommunes();
     getRegistrations();
+    getUINManagement();
   }, []);
+
+  useEffect(() => {
+    getUINManagement();
+  }, [page]);
 
   const getRegistrations = () => {
     registrationsGetCall(1, 1, "", "", "", "", "", "", 0)
       .then(({ data }) => {
         if (data.data.success) {
-          setList(data.data.result);
           setTrackingRecords(data.data.total_records);
         } else {
-          setList([]);
           setTrackingRecords(0);
         }
       })
@@ -66,10 +72,30 @@ export default function UINManagement() {
       });
   };
 
+  const getUINManagement = () => {
+    setIsDataLoading(true);
+    uinManagmentGetCall(page, limit)
+      .then(({ data }) => {
+        setIsDataLoading(false);
+        if (data.data.success) {
+          setList(data.data.result);
+          setTotalRecords(data.data.total_records);
+        } else {
+          setList([]);
+          setTotalRecords(0);
+        }
+      })
+      .catch((err) => {
+        setIsDataLoading(false);
+        console.log("err", err);
+      });
+  };
+
   const [filterText, setFilterText] = useState("");
 
   const filteredItems = list.filter(
-    (item) => item.file && item.file.toLowerCase().includes(filterText.toLowerCase())
+    (item) =>
+      item.uin && item.uin.toLowerCase().includes(filterText.toLowerCase())
   );
 
   const subHeaderComponentMemo = useMemo(() => {
@@ -91,29 +117,44 @@ export default function UINManagement() {
   const columns = [
     {
       name: "NIU",
-      selector: (row) => row.file.split("_")[3],
+      selector: (row) => row.uin,
       sortable: true,
     },
     {
       name: "Allocated Commune",
-      selector: (row) => row.date_created,
-      format: (row) => moment(row.date_created).format("DD MMM, YYYY"),
+      selector: (row) => row.code_commune,
+
       sortable: true,
     },
     {
       name: "Allocation Date",
-      selector: (row) => row.time_created,
-      format: (row) => moment(row.time_created).subtract(6, "hour").format("hh:mm"),
+      selector: (row) => row.date_created,
+      format: (row) =>
+        row.allocation_date
+          ? moment(row.date_created).format("DD MMM, YYYY")
+          : "---",
       sortable: true,
     },
     {
       name: "Allocation Time",
-      selector: (row) => row.number_record,
+      selector: (row) => row.allocation_time,
+      format: (row) =>
+        row.allocation_time
+          ? moment(row.allocation_time).subtract(6, "hour").format("hh:mm")
+          : "---",
       sortable: true,
     },
     {
       name: "NIU Status",
-      selector: (row) => row.input_type,
+      selector: (row) => row.niu_status,
+      cell: (row) => (
+        <div
+          className="container__main__content__listing__table__content__list__entry"
+          id={row.id}
+        >
+          {row.niu_status == 0 ? <Check color="#0acf66" /> : null}
+        </div>
+      ),
       sortable: true,
     },
   ];
@@ -177,29 +218,6 @@ export default function UINManagement() {
       });
   };
 
-  // const getLog = () => {
-  //   setIsDataLoading(true);
-  //   fileLogGetCall(page, limit, "U")
-  //     .then(({ data }) => {
-  //       setIsDataLoading(false);
-  //       if (data.success) {
-  //         setList(data.result);
-  //         setTotalRecords(data.total_records);
-  //       } else {
-  //         setList([]);
-  //         setTotalRecords(0);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       setIsDataLoading(false);
-  //       console.log("err", err);
-  //     });
-  // };
-
-  // const handlePageChange = (value) => {
-  //   setPage(value);
-  // };
-
   return (
     <>
       <div className={hoverStyle}>
@@ -237,8 +255,15 @@ export default function UINManagement() {
               </Link>
             </Tooltip>
             <Tooltip text="Upload File">
-              <button className="action__buttons" onClick={() => setIsUploadFilePopupOpen(true)}>
-                <Upload size={15} color="white" style={{ marginRight: "0em" }} />
+              <button
+                className="action__buttons"
+                onClick={() => setIsUploadFilePopupOpen(true)}
+              >
+                <Upload
+                  size={15}
+                  color="white"
+                  style={{ marginRight: "0em" }}
+                />
               </button>
             </Tooltip>
             <Tooltip text="NIU Tracking">
@@ -248,39 +273,17 @@ export default function UINManagement() {
               </Link>
             </Tooltip>
           </div>
-          {/* <div style={{ display: "flex", alignItems: "center" }}>
-            <div className="list__search__wrapper">
-              <input type="text" placeholder="Search" />
-              <Search size={22} className="list__search__wrapper__icon" />
-            </div> */}
-          {/* <button
-              className="details__print"
-              onClick={() => setIsUploadFilePopupOpen(true)}
-              style={{ marginRight: ".5em" }}
-            >
-              <Plus size={15} color="white" style={{ marginRight: ".5em" }} />
-              Upload file
-            </button> */}
-          {/* <Link
-              className="details__print"
-              to={"/dashboard/uin-management/detail"}
-              style={{ background: "var(--update)" }}
-            >
-              <Eye size={15} color="white" style={{ marginRight: ".5em" }} />
-              View Records
-            </Link> */}
-          {/* <Link className="bell__wrapper" to={"/dashboard/uin-tracking"}>
-              <div className="bell__wrapper__count">1</div>
-              <Bell style={{ marginLeft: ".5em" }} />
-            </Link> */}
-          {/* </div> */}
         </div>
         <div className="details__container">
           <div className="error__types__container__wrapper">
             <div style={{ display: "flex" }}>
               {tabs.map((item) => (
                 <div
-                  className={selectedTab == item.label ? "tab__content__active" : "tab__content"}
+                  className={
+                    selectedTab == item.label
+                      ? "tab__content__active"
+                      : "tab__content"
+                  }
                   onClick={() => setSelectedTab(item.label)}
                 >
                   {item.label}
@@ -288,7 +291,11 @@ export default function UINManagement() {
               ))}
             </div>
             <div>
-              <Select widthProp={"180px"} placeholder={"Commune"} options={communesList} />
+              <Select
+                widthProp={"180px"}
+                placeholder={"Commune"}
+                options={communesList}
+              />
             </div>
           </div>
           <div className="container__main__content__listing__table">

@@ -99,6 +99,25 @@ export const fileLogGetCall = async (page, limit, type) => {
   );
 };
 
+export const uinManagmentGetCall = async (page, limit, type) => {
+  let params = {};
+  if (page) params.page = page;
+  if (limit) params.limit = limit;
+  if (type) params.moduleType = type;
+  return await axios.get(
+    import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-uin"),
+    {
+      params,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
 export const analyticsGetCall = async (date) => {
   let params = {};
   if (date) params.date = date;
