@@ -152,7 +152,7 @@ export default function UINManagement() {
           className="container__main__content__listing__table__content__list__entry"
           id={row.id}
         >
-          {row.niu_status == 0 ? <Check color="#0acf66" /> : null}
+          {row.niu_status == 1 ? <Check color="#0acf66" /> : null}
         </div>
       ),
       sortable: true,
