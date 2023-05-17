@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { Plus } from "react-feather";
 import { register } from "@assets";
 import GraphView from "@components/GraphView";
@@ -24,7 +24,7 @@ import LocationPopup from "@components/LocationPopup";
 
 export default function dashboard() {
   const { state } = useLocation();
-  const { setAlertPopupVisibility, setAlertPopupMessage } =
+  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
     useContext(PopupContext);
   const [selectedFilter, setSelectedFilter] = useState("Graph");
   const filters = ["Graph", "Map", "List"];
@@ -59,6 +59,18 @@ export default function dashboard() {
 
   const isSuperAdmin = localStorage.getItem("isAdmin");
   const userName = localStorage.getItem("user_name");
+  const isHover = localStorage.getItem("isHover");
+  let [hoverStyle, setHoverStyle] = useState("");
+
+  useEffect(() => {
+    setHoverStyle(
+      (hoverStyle = isSidebarHovered
+        ? "superAdmin__dashboard__container"
+        : "dashboard__container")
+    );
+  }, [isSidebarHovered, isHover]);
+
+  console.log("isSidebarHvered", isSidebarHovered);
 
   useEffect(() => {
     if (selectedFilter == "List") getRegistrations();
@@ -491,13 +503,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
   return (
     <>
       {isSuperAdmin == "true" ? (
-        <div
-          className={
-            isSuperAdmin == "true"
-              ? "superAdmin__dashboard__container"
-              : "dashboard__container"
-          }
-        >
+        <div className={hoverStyle}>
           <div className="dashboard__view">
             <div className="dashboard__view__container">
               <img
@@ -524,9 +530,11 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
         <>
           <div
             className={
-              isSuperAdmin == "true"
-                ? "superAdmin__dashboard__container"
-                : "dashboard__container"
+              hoverStyle
+              // isSidebarHvered == true
+              // ?
+              // "superAdmin__dashboard__container"
+              // : "dashboard__container"
             }
           >
             <div
@@ -780,7 +788,6 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
                 totalRecords={totalRecords}
                 handlePageChange={handlePageChange}
                 onAddressViewClick={(item) => {
-                  debugger;
                   setLocationData(
                     (locationData = [
                       {

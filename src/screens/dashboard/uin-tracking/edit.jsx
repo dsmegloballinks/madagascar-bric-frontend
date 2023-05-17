@@ -1,21 +1,27 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ArrowLeft } from "react-feather";
 import { Link, useNavigate } from "react-router-dom";
 import InputSelect from "@components/InputSelect";
 import { isNullOrEmpty } from "../../../utils/isNullOrEmpty";
+import { PopupContext } from "../../../context/PopupContext";
 
 export default function EditUinTracking() {
   const navigate = useNavigate();
+  const { isSidebarHovered } = useContext(PopupContext);
   const isSuperAdmin = localStorage.getItem("isAdmin");
 
+  let [hoverStyle, setHoverStyle] = useState("");
+
+  useEffect(() => {
+    setHoverStyle(
+      (hoverStyle = isSidebarHovered
+        ? "superAdmin__dashboard__container"
+        : "dashboard__container")
+    );
+  }, [isSidebarHovered]);
+
   return (
-    <div
-      className={
-        isSuperAdmin == "true"
-          ? "superAdmin__dashboard__container"
-          : "dashboard__container"
-      }
-    >
+    <div className={hoverStyle}>
       <div
         style={{
           width: "100%",

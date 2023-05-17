@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ArrowLeft, Save } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import InputSelect from "@components/InputSelect";
@@ -11,7 +11,7 @@ import Tooltip from "@components/Tooltip";
 export default function AddRegistrarManagement() {
   const isSuperAdmin = localStorage.getItem("isAdmin");
   const navigate = useNavigate();
-  const { setAlertPopupVisibility, setAlertPopupMessage } =
+  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
     useContext(PopupContext);
   const [civilRegisterId, setCivilRegisterId] = useState("");
   const [lastName, setLastName] = useState("");
@@ -25,6 +25,15 @@ export default function AddRegistrarManagement() {
   const [appointmentTime, setAppointmentTime] = useState("");
   const [appointedBy, setAppointedBy] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  let [hoverStyle, setHoverStyle] = useState("");
+
+  useEffect(() => {
+    setHoverStyle(
+      (hoverStyle = isSidebarHovered
+        ? "superAdmin__dashboard__container"
+        : "dashboard__container")
+    );
+  }, [isSidebarHovered]);
 
   const setErrorMessageAndVisibility = (text, visibility) => {
     setAlertPopupMessage(text);
@@ -105,13 +114,7 @@ export default function AddRegistrarManagement() {
   };
 
   return (
-    <div
-      className={
-        isSuperAdmin == "true"
-          ? "superAdmin__dashboard__container"
-          : "dashboard__container"
-      }
-    >
+    <div className={hoverStyle}>
       <div
         style={{
           width: "100%",

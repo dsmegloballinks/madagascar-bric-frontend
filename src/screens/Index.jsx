@@ -12,7 +12,7 @@ import { userAtom } from "../global";
 
 export default function Index() {
   const [, setUser] = useAtom(userAtom);
-  const { setAlertPopupVisibility, setAlertPopupMessage } =
+  const { setAlertPopupVisibility, setAlertPopupMessage, setIsSidebarHovered } =
     useContext(PopupContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -53,9 +53,10 @@ export default function Index() {
               "isAdmin",
               data.data.result.is_user_admin == 1 ? true : false
             );
-            debugger;
+
             const name = data.data.result.user_name.split(".");
             localStorage.setItem("user_name", name[0]);
+            setIsSidebarHovered(false);
             if (data.data.result.is_user_admin == 1)
               navigate("/dashboard/user-management", { replace: true });
             else navigate("/dashboard", { replace: true });

@@ -11,7 +11,7 @@ import DataTable from "react-data-table-component";
 
 export default function RegistrarManagement() {
   const isSuperAdmin = localStorage.getItem("isAdmin");
-  const { setAlertPopupVisibility, setAlertPopupMessage } =
+  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
     useContext(PopupContext);
   const [deletePopupVisibility, setDeletePopupVisibility] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -21,6 +21,15 @@ export default function RegistrarManagement() {
   const [page, setPage] = useState(1);
   const limit = 10;
   const [filterText, setFilterText] = useState("");
+  let [hoverStyle, setHoverStyle] = useState("");
+
+  useEffect(() => {
+    setHoverStyle(
+      (hoverStyle = isSidebarHovered
+        ? "superAdmin__dashboard__container"
+        : "dashboard__container")
+    );
+  }, [isSidebarHovered]);
 
   const filteredItems = list.filter(
     (item) =>
@@ -58,14 +67,17 @@ export default function RegistrarManagement() {
     {
       name: "Email",
       selector: (row) => row.office_email,
+      sortable: true,
     },
     {
       name: "Department",
       selector: (row) => row.department_name,
+      sortable: true,
     },
     {
       name: "Official Contact",
       selector: (row) => row.office_contact,
+      sortable: true,
     },
     {
       name: "Action",
@@ -174,13 +186,7 @@ export default function RegistrarManagement() {
   };
   return (
     <>
-      <div
-        className={
-          isSuperAdmin == "true"
-            ? "superAdmin__dashboard__container"
-            : "dashboard__container"
-        }
-      >
+      <div className={hoverStyle}>
         <div className="main__container__top__bar">
           <div className="details__header">
             <svg

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import RegistrationStatuses from "@components/RegisterationStatueses";
 import ChildInformation from "@components/ChildInformation";
 import FatherInformation from "@components/FatherInformation";
@@ -6,8 +6,10 @@ import MotherInformation from "@components/MotherInformation";
 import DeclarantInformation from "@components/DeclarantInformation";
 import ReportingInformation from "@components/ReportingInformation";
 import RegistrationCertificates from "@components/RegisterationCertificates";
+import { PopupContext } from "../../../context/PopupContext";
 
 export default function addChild() {
+  const { isSidebarHovered } = useContext(PopupContext);
   const isSuperAdmin = localStorage.getItem("isAdmin");
   let [activeStep, setActiveStep] = useState(0);
   const [number, setNumber] = useState("");
@@ -70,6 +72,16 @@ export default function addChild() {
   const [registry, setRegistry] = useState(null);
   const [certificate, setCertificate] = useState(null);
 
+  let [hoverStyle, setHoverStyle] = useState("");
+
+  useEffect(() => {
+    setHoverStyle(
+      (hoverStyle = isSidebarHovered
+        ? "superAdmin__dashboard__container"
+        : "dashboard__container")
+    );
+  }, [isSidebarHovered]);
+
   const onNextClick = () => {
     if (activeStep != 5) {
       setActiveStep((activeStep = activeStep + 1));
@@ -85,13 +97,7 @@ export default function addChild() {
   };
 
   return (
-    <div
-      className={
-        isSuperAdmin == "true"
-          ? "superAdmin__dashboard__container"
-          : "dashboard__container"
-      }
-    >
+    <div className={hoverStyle}>
       <div className="dashboard__container__top__bar">
         <svg
           width="17"

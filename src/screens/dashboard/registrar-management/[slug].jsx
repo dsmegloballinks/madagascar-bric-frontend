@@ -15,7 +15,7 @@ import DataTable from "react-data-table-component";
 
 export default function RegistrarManagementDetails() {
   const isSuperAdmin = localStorage.getItem("isAdmin");
-  const { setAlertPopupVisibility, setAlertPopupMessage } =
+  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
     useContext(PopupContext);
   const [updateStatusPopupVisibility, setUpdatePopupVisibility] =
     useState(false);
@@ -36,6 +36,16 @@ export default function RegistrarManagementDetails() {
       item.location &&
       item.location.toLowerCase().includes(filterText.toLowerCase())
   );
+
+  let [hoverStyle, setHoverStyle] = useState("");
+
+  useEffect(() => {
+    setHoverStyle(
+      (hoverStyle = isSidebarHovered
+        ? "superAdmin__dashboard__container"
+        : "dashboard__container")
+    );
+  }, [isSidebarHovered]);
 
   const subHeaderComponentMemo = useMemo(() => {
     return (
@@ -68,6 +78,7 @@ export default function RegistrarManagementDetails() {
     {
       name: "Appointment Time",
       selector: (row) => row.appointment_time,
+      sortable: true,
     },
     {
       name: "Appointment End Date",
@@ -76,6 +87,7 @@ export default function RegistrarManagementDetails() {
         list[index + 1] != undefined
           ? moment(list[index + 1].appointment_date).format("DD MMM, YYYY")
           : "-----",
+      sortable: true,
     },
     {
       name: "Appointment End Time",
@@ -83,14 +95,17 @@ export default function RegistrarManagementDetails() {
         list[index + 1] != undefined
           ? list[index + 1].appointment_time
           : "-----",
+      sortable: true,
     },
     {
       name: "Appointment Status",
       selector: (row) => row.appointment_status,
+      sortable: true,
     },
     {
       name: "Appointed By",
       selector: (row) => row.appointed_by,
+      sortable: true,
     },
     {
       name: "Action",
@@ -230,13 +245,7 @@ export default function RegistrarManagementDetails() {
 
   return (
     <>
-      <div
-        className={
-          isSuperAdmin == "true"
-            ? "superAdmin__dashboard__container"
-            : "dashboard__container"
-        }
-      >
+      <div className={hoverStyle}>
         <div className="dashboard__container__top__bar dashboard__bg">
           <ArrowLeft
             className="details__header__back"

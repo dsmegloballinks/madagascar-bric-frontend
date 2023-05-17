@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ArrowLeft, Save } from "react-feather";
 import { Link, useNavigate } from "react-router-dom";
 import { isNullOrEmpty } from "../../../utils/isNullOrEmpty";
@@ -8,13 +8,22 @@ import { userPostCall } from "../../../apis/Repo";
 import Tooltip from "@components/Tooltip";
 
 export default function AddUserManagement() {
-  const { setAlertPopupVisibility, setAlertPopupMessage } =
+  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
     useContext(PopupContext);
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  let [hoverStyle, setHoverStyle] = useState("");
+
+  useEffect(() => {
+    setHoverStyle(
+      (hoverStyle = isSidebarHovered
+        ? "superAdmin__dashboard__container"
+        : "dashboard__container")
+    );
+  }, [isSidebarHovered]);
 
   const setErrorMessageAndVisibility = (text, visibility) => {
     setAlertPopupMessage(text);
@@ -69,7 +78,7 @@ export default function AddUserManagement() {
   };
 
   return (
-    <div className="dashboard__container">
+    <div className={hoverStyle}>
       <div
         style={{
           width: "100%",

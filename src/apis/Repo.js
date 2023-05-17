@@ -23,7 +23,8 @@ export const registrationsGetCall = async (
   region,
   district,
   commune,
-  fokonatny
+  fokonatny,
+  niuStatus
 ) => {
   let params = {};
   if (page) params.page = page;
@@ -34,6 +35,7 @@ export const registrationsGetCall = async (
   if (district) params.code_district = district.value;
   if (commune) params.code_commune = commune.value;
   if (fokonatny) params.code_fokonatany = fokonatny.value;
+  if (niuStatus) params.niuStatus = niuStatus;
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-all"),
     {
@@ -130,6 +132,20 @@ export const fokontanyGetCall = async (
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-fokontany"),
     {
       params,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
+export const communeGetCall = async () => {
+  return await axios.get(
+    import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-commune"),
+    {
       headers: {
         "Content-Type": "application/json",
       },
@@ -254,6 +270,21 @@ export const usersGetCall = async (page, limit) => {
 export const userPostCall = async (data) => {
   return await axios.post(
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/sign-up"),
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
+export const uinTrackingPostCall = async (data) => {
+  return await axios.patch(
+    import.meta.env.VITE_BASE_URL.concat("api/civil_register/update"),
     data,
     {
       headers: {
@@ -441,6 +472,41 @@ export const fetchOdkRecordsGetCall = async () => {
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/fetch-file"),
     {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
+export const niuTrackingGetCall = async (
+  page,
+  limit,
+  s_start_date,
+  s_end_date,
+  region,
+  district,
+  commune,
+  fokonatny,
+  niuStatus
+) => {
+  let params = {};
+  if (page) params.page = page;
+  if (limit) params.limit = limit;
+  if (s_start_date) params.s_start_date = s_start_date;
+  if (s_end_date) params.s_end_date = s_end_date;
+  if (region) params.code_region = region.value;
+  if (district) params.code_district = district.value;
+  if (commune) params.code_commune = commune.value;
+  if (fokonatny) params.code_fokonatany = fokonatny.value;
+  if (niuStatus) params.niuStatus = niuStatus.value;
+  return await axios.get(
+    import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-all"),
+    {
+      params,
       headers: {
         "Content-Type": "application/json",
       },

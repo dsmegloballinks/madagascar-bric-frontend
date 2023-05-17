@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { logo } from "@assets";
 import { AlertCircle, X } from "react-feather";
 import InputSelect from "./InputSelect";
 
-export default function EditUinTracking({ onClose }) {
+export default function EditUinTracking({ onClose, selectedRecord, onAdd }) {
+  const [number, setNumber] = useState(selectedRecord.cr.uin);
   return (
     <div className="popup">
       <div className="popup__overlay">
@@ -26,7 +27,11 @@ export default function EditUinTracking({ onClose }) {
               <div className="form__bottom__content" style={{ width: "30%" }}>
                 NIU Number
               </div>
-              <input placeholder="" />
+              <input
+                placeholder=""
+                value={number}
+                onChange={(e) => setNumber(e.currentTarget.value)}
+              />
             </div>
           </div>
           <div
@@ -45,7 +50,10 @@ export default function EditUinTracking({ onClose }) {
             >
               Cancel
             </button>
-            <button className="list__filter__button" onClick={() => onAdd()}>
+            <button
+              className="list__filter__button"
+              onClick={() => onAdd(number, selectedRecord)}
+            >
               Save
             </button>
           </div>

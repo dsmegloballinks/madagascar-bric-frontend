@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { ArrowLeft, Save } from "react-feather";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { isNullOrEmpty } from "../../../utils/isNullOrEmpty";
@@ -10,7 +10,7 @@ import Tooltip from "@components/Tooltip";
 
 export default function EditUserManagement() {
   const isSuperAdmin = localStorage.getItem("isAdmin");
-  const { setAlertPopupVisibility, setAlertPopupMessage } =
+  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
     useContext(PopupContext);
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -19,6 +19,15 @@ export default function EditUserManagement() {
   const [status, setStatus] = useState(
     state.status == 1 ? { value: 1, label: "Active" } : ""
   );
+  let [hoverStyle, setHoverStyle] = useState("");
+
+  useEffect(() => {
+    setHoverStyle(
+      (hoverStyle = isSidebarHovered
+        ? "superAdmin__dashboard__container"
+        : "dashboard__container")
+    );
+  }, [isSidebarHovered]);
 
   const setErrorMessageAndVisibility = (text, visibility) => {
     setAlertPopupMessage(text);
@@ -63,13 +72,7 @@ export default function EditUserManagement() {
     }
   };
   return (
-    <div
-      className={
-        isSuperAdmin == "true"
-          ? "superAdmin__dashboard__container"
-          : "dashboard__container"
-      }
-    >
+    <div className={hoverStyle}>
       <div
         style={{
           width: "100%",

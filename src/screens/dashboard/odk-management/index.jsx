@@ -15,7 +15,7 @@ import DataTable from "react-data-table-component";
 
 export default function OdkManagement() {
   const isSuperAdmin = localStorage.getItem("isAdmin");
-  const { setAlertPopupVisibility, setAlertPopupMessage } =
+  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
     useContext(PopupContext);
   const [isUploadFilePopupOpen, setIsUploadFilePopupOpen] = useState(false);
   const [resetPasswordConfirmationPopup, setResetPasswordConfirmationPopup] =
@@ -28,6 +28,16 @@ export default function OdkManagement() {
   const limit = 10;
 
   const [filterText, setFilterText] = useState("");
+
+  let [hoverStyle, setHoverStyle] = useState("");
+
+  useEffect(() => {
+    setHoverStyle(
+      (hoverStyle = isSidebarHovered
+        ? "superAdmin__dashboard__container"
+        : "dashboard__container")
+    );
+  }, [isSidebarHovered]);
 
   const filteredItems = list.filter(
     (item) =>
@@ -67,14 +77,17 @@ export default function OdkManagement() {
       selector: (row) => row.time_created,
       format: (row) =>
         moment(row.time_created).subtract(6, "hour").format("hh:mm"),
+      sortable: true,
     },
     {
       name: "No. of Records",
       selector: (row) => row.number_record,
+      sortable: true,
     },
     {
       name: "Import Type",
       selector: (row) => row.input_type,
+      sortable: true,
     },
   ];
 
@@ -152,13 +165,7 @@ export default function OdkManagement() {
 
   return (
     <>
-      <div
-        className={
-          isSuperAdmin == "true"
-            ? "superAdmin__dashboard__container"
-            : "dashboard__container"
-        }
-      >
+      <div className={hoverStyle}>
         <div className="main__container__top__bar">
           <div className="details__header">
             <svg

@@ -1,12 +1,14 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useContext } from "react";
 import { ArrowLeft, Search } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import { fileLogGetCall } from "../../../apis/Repo";
 import Loader from "@components/Loader";
 import moment from "moment";
 import DataTable from "react-data-table-component";
+import { PopupContext } from "../../../context/PopupContext";
 
 export default function UINManagementDetails() {
+  const { isSidebarHovered } = useContext(PopupContext);
   const isSuperAdmin = localStorage.getItem("isAdmin");
   const navigate = useNavigate();
   const [list, setList] = useState([]);
@@ -16,6 +18,15 @@ export default function UINManagementDetails() {
   const limit = 10;
 
   const [filterText, setFilterText] = useState("");
+  let [hoverStyle, setHoverStyle] = useState("");
+
+  useEffect(() => {
+    setHoverStyle(
+      (hoverStyle = isSidebarHovered
+        ? "superAdmin__dashboard__container"
+        : "dashboard__container")
+    );
+  }, [isSidebarHovered]);
 
   const filteredItems = list.filter(
     (item) =>
@@ -55,10 +66,12 @@ export default function UINManagementDetails() {
       selector: (row) => row.time_created,
       format: (row) =>
         moment(row.time_created).subtract(6, "hour").format("hh:mm"),
+      sortable: true,
     },
     {
       name: "No. of Records",
       selector: (row) => row.number_record,
+      sortable: true,
     },
   ];
 
@@ -100,13 +113,7 @@ export default function UINManagementDetails() {
 
   return (
     <>
-      <div
-        className={
-          isSuperAdmin == "true"
-            ? "superAdmin__dashboard__container"
-            : "dashboard__container"
-        }
-      >
+      <div className={hoverStyle}>
         <div
           style={{
             width: "100%",

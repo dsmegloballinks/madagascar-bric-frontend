@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { ArrowLeft, Edit2, Search } from "react-feather";
 import { Link, useNavigate } from "react-router-dom";
 import TableEntryText from "@components/TableEntryText";
@@ -7,14 +7,18 @@ import Select from "@components/Select";
 import Tooltip from "@components/Tooltip";
 import DataTable from "react-data-table-component";
 import Loader from "@components/Loader";
+import { registrationsGetCall, uinTrackingPostCall } from "../../../apis/Repo";
+import { PopupContext } from "../../../context/PopupContext";
+import moment from "moment";
 
 export default function UINTracking() {
-  const isSuperAdmin = localStorage.getItem("isAdmin");
+  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
+    useContext(PopupContext);
   const navigate = useNavigate();
   const errorTypeOptions = [
-    { label: "Wrong NIU Number", color: "red", value: 1 },
-    { label: "Wrong NIU Location Allocation", color: "orange", value: 2 },
-    { label: "Duplicate NIU Number", color: "yellow", value: 3 },
+    { label: "Wrong NIU Number", color: "red", value: 2 },
+    { label: "Wrong NIU Location Allocation", color: "orange", value: 3 },
+    { label: "Duplicate NIU Number", color: "yellow", value: 1 },
   ];
   const [isEdit, setIsEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,12 +27,27 @@ export default function UINTracking() {
   const [page, setPage] = useState(1);
   const limit = 10;
   const [filterText, setFilterText] = useState("");
+  const [selectedRecord, setSelectedRecord] = useState(null);
 
   const filteredItems = list.filter(
     (item) =>
-      item.user_name &&
-      item.user_name.toLowerCase().includes(filterText.toLowerCase())
+      item.cr.first_name &&
+      item.cr.first_name.toLowerCase().includes(filterText.toLowerCase())
   );
+
+  let [hoverStyle, setHoverStyle] = useState("");
+
+  useEffect(() => {
+    setHoverStyle(
+      (hoverStyle = isSidebarHovered
+        ? "superAdmin__dashboard__container"
+        : "dashboard__container")
+    );
+  }, [isSidebarHovered]);
+
+  useEffect(() => {
+    getRegistrations();
+  }, []);
 
   const subHeaderComponentMemo = useMemo(() => {
     return (
@@ -49,40 +68,65 @@ export default function UINTracking() {
   const columns = [
     {
       name: "NIU",
-      selector: (row) => row.user_name,
+      selector: (row) => row.cr.uin,
       sortable: true,
     },
     {
       name: "Child Name",
-      selector: (row) => row.email,
+      selector: (row) => row.cr.first_name,
+      format: (row) => row.cr.first_name + " " + row.cr.last_name,
       sortable: true,
     },
     {
       name: "Commune",
-      selector: (row) => row.status,
+      selector: (row) => row.foko.commune_name,
       sortable: true,
     },
     {
       name: "Fokontany",
-      selector: (row) => row.status,
+      selector: (row) => row.foko.fokontonay_name,
       sortable: true,
     },
     {
       name: "Error Type",
-      selector: (row) => row.status,
+      selector: (row) => row.cr.error_id,
       cell: (row) => (
-        <TableEntryText colorBox={"red"}>{"error"}</TableEntryText>
+        <TableEntryText
+          colorBox={
+            row.cr.error_id == 1
+              ? "Yellow"
+              : row.cr.error_id == 2
+              ? "red"
+              : row.cr.error_id == 3
+              ? "orange"
+              : "black"
+          }
+        >
+          {row.cr.error_id
+            ? row.cr.error_id == 1
+              ? "Duplicate NIU Number"
+              : row.cr.error_id == 2
+              ? "Wrong NIU Number"
+              : row.cr.error_id == 3
+              ? "Wrong NIU Location Allocation"
+              : row.cr.error_id
+            : "---"}
+        </TableEntryText>
       ),
       sortable: true,
     },
     {
       name: "Error Reported Date",
-      selector: (row) => row.status,
+      selector: (row) => row.cr.error_date,
+      format: (row) =>
+        row.cr.error_date
+          ? moment(row.cr.error_date).format("DD MMM, YYYY")
+          : "---",
       sortable: true,
     },
     {
       name: "Error Corrected Date",
-      selector: (row) => row.status,
+      selector: (row) => "pending",
       sortable: true,
     },
     {
@@ -96,7 +140,10 @@ export default function UINTracking() {
           <Tooltip text="Edit NIU">
             <Link
               className="container__main__content__listing__table__content__list__entry__action__edit"
-              onClick={() => setIsEdit(true)}
+              onClick={() => {
+                setSelectedRecord(row);
+                setIsEdit(true);
+              }}
             >
               <Edit2 size={18} />
             </Link>
@@ -115,19 +162,53 @@ export default function UINTracking() {
     },
   };
 
+  const getRegistrations = (errorType) => {
+    setIsLoading(true);
+    registrationsGetCall(page, limit, "", "", "", "", "", "", errorType)
+      .then(({ data }) => {
+        setIsLoading(false);
+        if (data.data.success) {
+          setList(data.data.result);
+          setTotalRecords(data.data.total_records);
+        } else {
+          setList([]);
+          setTotalRecords(0);
+        }
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log("err", err);
+      });
+  };
+
   const handlePageChange = (value) => {
     setPage(value);
   };
 
+  const onAdd = (number, item) => {
+    let object = {
+      uin: number,
+      cr_id: item.cr.id,
+    };
+    console.log("object", object);
+    uinTrackingPostCall(object)
+      .then(({ data }) => {
+        if (data.success) getRegistrations();
+        else {
+          setAlertPopupMessage("Some error occured, please try again");
+          setAlertPopupVisibility(true);
+        }
+      })
+      .catch((err) => {
+        console.log("err", err);
+        setAlertPopupMessage("Some error occured, please try again");
+        setAlertPopupVisibility(true);
+      });
+  };
+
   return (
     <>
-      <div
-        className={
-          isSuperAdmin == "true"
-            ? "superAdmin__dashboard__container"
-            : "dashboard__container"
-        }
-      >
+      <div className={hoverStyle}>
         <div className="main__container__top__bar">
           <div className="details__header">
             <ArrowLeft
@@ -157,18 +238,7 @@ export default function UINTracking() {
             </svg>
             NIU Tracking
           </div>
-          <div style={{ display: "flex" }}>
-            {/* <div className="list__search__wrapper">
-              <input type="text" placeholder="Search" />
-              <Search size={19} className="list__search__wrapper__icon" />
-            </div> */}
-            {/* <Link
-              className="details__print"
-              to={"/dashboard/uin-management/detail"}
-            >
-              Upload Records
-            </Link> */}
-          </div>
+          <div style={{ display: "flex" }}></div>
         </div>
         <div className="details__container">
           <div className="error__types__container__wrapper">
@@ -192,36 +262,13 @@ export default function UINTracking() {
                 widthProp={"180px"}
                 placeholder={"Error type"}
                 options={errorTypeOptions}
+                onChange={(e) => {
+                  getRegistrations(e.value);
+                }}
               />
             </div>
           </div>
           <div className="container__main__content__listing__table">
-            {/* <div className="container__main__content__listing__table__header">
-              <div className="container__main__content__listing__table__header__entry">
-                NIU
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Child Name
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Commune
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Fokonty
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Error Type
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Error Reported Date
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Error Corrected Date
-              </div>
-              <div className="container__main__content__listing__table__header__entry">
-                Action
-              </div>
-            </div> */}
             <div className="container__main__content__listing__table__content">
               <DataTable
                 columns={columns}
@@ -237,57 +284,17 @@ export default function UINTracking() {
                 persistTableHead
                 customStyles={customStyles}
               />
-              {/* <TableEntry
-                color="red"
-                text={"Wrong NIU Number"}
-                onEdit={() => setIsEdit(true)}
-              />
-              <TableEntry
-                color="orange"
-                text={"Wrong NIU Location Allocation"}
-              />
-              <TableEntry color="yellow" text={"Duplicate NIU Number"} />
-              <TableEntry color="red" text={"Wrong NIU Number"} />
-              <TableEntry
-                color="orange"
-                text={"Wrong NIU Location Allocation"}
-              />
-              <TableEntry color="yellow" text={"Duplicate NIU Number"} />
-              <TableEntry color="red" text={"Wrong NIU Number"} />
-              <TableEntry
-                color="orange"
-                text={"Wrong NIU Location Allocation"}
-              />
-              <TableEntry color="Yellow" text={"Duplicate NIU Number"} /> */}
             </div>
           </div>
         </div>
       </div>
-      {isEdit && <EditUinTracking onClose={() => setIsEdit(false)} />}
+      {isEdit && (
+        <EditUinTracking
+          onClose={() => setIsEdit(false)}
+          selectedRecord={selectedRecord}
+          onAdd={onAdd}
+        />
+      )}
     </>
-  );
-}
-
-function TableEntry({ color, text, onEdit }) {
-  return (
-    <div className="container__main__content__listing__table__content__list">
-      <TableEntryText>45678</TableEntryText>
-      <TableEntryText>Ali raza</TableEntryText>
-      <TableEntryText>madagascar</TableEntryText>
-      <TableEntryText>madagascar</TableEntryText>
-      <TableEntryText colorBox={color}>{text}</TableEntryText>
-      <TableEntryText>12/22/22</TableEntryText>
-      <TableEntryText>Pending</TableEntryText>
-      <div className="container__main__content__listing__table__content__list__entry">
-        <Tooltip text="Edit NIU">
-          <Link
-            className="container__main__content__listing__table__content__list__entry__action__edit"
-            onClick={onEdit}
-          >
-            <Edit2 size={18} />
-          </Link>
-        </Tooltip>
-      </div>
-    </div>
   );
 }

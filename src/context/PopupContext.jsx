@@ -6,6 +6,7 @@ export const PopupContext = createContext();
 export default function PopupContextProvider({ children }) {
   const [alertPopupVisibility, setAlertPopupVisibility] = useState(false);
   const [alertPopupMessage, setAlertPopupMessage] = useState("");
+  const [isSidebarHovered, setIsSidebarHovered] = useState(false);
   return (
     <PopupContext.Provider
       value={{
@@ -13,6 +14,8 @@ export default function PopupContextProvider({ children }) {
         setAlertPopupVisibility,
         alertPopupMessage,
         setAlertPopupMessage,
+        isSidebarHovered,
+        setIsSidebarHovered,
       }}
     >
       {children}

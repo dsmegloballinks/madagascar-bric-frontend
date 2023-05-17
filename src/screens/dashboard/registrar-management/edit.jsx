@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ArrowLeft, Save } from "react-feather";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { isNullOrEmpty } from "../../../utils/isNullOrEmpty";
@@ -11,7 +11,7 @@ export default function EditRegistrarManagement() {
   const isSuperAdmin = localStorage.getItem("isAdmin");
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { setAlertPopupVisibility, setAlertPopupMessage } =
+  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
     useContext(PopupContext);
   const [civilRegisterId, setCivilRegisterId] = useState("");
   const [lastName, setLastName] = useState(state && state.last_name);
@@ -22,6 +22,15 @@ export default function EditRegistrarManagement() {
     state && state.office_contact
   );
   const [isLoading, setIsLoading] = useState(false);
+  let [hoverStyle, setHoverStyle] = useState("");
+
+  useEffect(() => {
+    setHoverStyle(
+      (hoverStyle = isSidebarHovered
+        ? "superAdmin__dashboard__container"
+        : "dashboard__container")
+    );
+  }, [isSidebarHovered]);
 
   const setErrorMessageAndVisibility = (text, visibility) => {
     setAlertPopupMessage(text);
@@ -88,13 +97,7 @@ export default function EditRegistrarManagement() {
   };
 
   return (
-    <div
-      className={
-        isSuperAdmin == "true"
-          ? "superAdmin__dashboard__container"
-          : "dashboard__container"
-      }
-    >
+    <div className={hoverStyle}>
       {/* <div className="dashboard__container__top__bar dashboard__bg">
         <ArrowLeft
           className="details__header__back"

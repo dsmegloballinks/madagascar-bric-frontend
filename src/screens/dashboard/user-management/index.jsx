@@ -17,7 +17,7 @@ import DataTable from "react-data-table-component";
 
 export default function UserManagement() {
   const isSuperAdmin = localStorage.getItem("isAdmin");
-  const { setAlertPopupVisibility, setAlertPopupMessage } =
+  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
     useContext(PopupContext);
   const [deletePopupVisibility, setDeletePopupVisibility] = useState(false);
   const [resetPasswordConfirmationPopup, setResetPasswordConfirmationPopup] =
@@ -30,6 +30,15 @@ export default function UserManagement() {
   const limit = 10;
   const [statusUpdated, setStatusUpdated] = useState(false);
   const [filterText, setFilterText] = useState("");
+  let [hoverStyle, setHoverStyle] = useState("dashboard__container");
+
+  useEffect(() => {
+    setHoverStyle(
+      (hoverStyle = isSidebarHovered
+        ? "superAdmin__dashboard__container"
+        : "dashboard__container")
+    );
+  }, [isSidebarHovered]);
 
   const filteredItems = list.filter(
     (item) =>
@@ -75,6 +84,7 @@ export default function UserManagement() {
           statusUpdated={statusUpdated}
         />
       ),
+      sortable: true,
     },
     {
       name: "Action",
@@ -207,13 +217,7 @@ export default function UserManagement() {
 
   return (
     <>
-      <div
-        className={
-          isSuperAdmin == "true"
-            ? "superAdmin__dashboard__container"
-            : "dashboard__container"
-        }
-      >
+      <div className={hoverStyle}>
         <div className="main__container__top__bar">
           <div className="details__header">
             <svg

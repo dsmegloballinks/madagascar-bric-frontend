@@ -1,39 +1,43 @@
 import { Link, NavLink } from "@router";
 import { sidebarCategories, sidebarEnteries, userAtom } from "../global/index";
 
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import { X, LogOut } from "react-feather";
 import { logo } from "@assets";
 import { useState, useEffect } from "react";
 import { useAtom } from "jotai";
 import { useNavigate } from "react-router-dom";
 import { isNullOrEmpty } from "../utils/isNullOrEmpty";
+import { PopupContext } from "../context/PopupContext";
 
 export default function Sidebar({ setSidebarOpen }) {
   const navigate = useNavigate();
-
+  const { setIsSidebarHovered } = useContext(PopupContext);
   const [user, setUser] = useAtom(userAtom);
   const isSuperAdmin = localStorage.getItem("isAdmin");
-  const [isHover, setIsHover] = useState(isSuperAdmin == "true" ? true : false);
+  const [isHover, setIsHover] = useState(false);
+  // const [isHover, setIsHover] = useState(isSuperAdmin == "true" ? true : false);
   console.log("isHover", isHover);
 
-  // useEffect(() => {
-  //   let id = localStorage.getItem("id");
-  //   if (!isNullOrEmpty(id)) navigate("/dashboard", { replace: true });
-  //   else navigate("/", { replace: true });
-  // }, []);
   return (
     <>
       {isHover ? (
         <div
           className="container__sidebar animate"
           onMouseOver={() => {
-            if (isSuperAdmin != "true") setIsHover(true);
+            // if (isSuperAdmin != "true")
+            setIsHover(true);
+            setIsSidebarHovered(true);
+            localStorage.setItem("isHover", true);
           }}
           onMouseOut={() => {
-            if (isSuperAdmin != "true") setIsHover(false);
+            // if (isSuperAdmin != "true")
+            setIsHover(false);
+            setIsSidebarHovered(false);
+            localStorage.setItem("isHover", false);
           }}
-          style={isSuperAdmin == "true" ? { position: "relative" } : null}
+          style={{ position: "relative" }}
+          // style={isSuperAdmin == "true" ? { position: "relative" } : null}
         >
           <div className="container__sidebar__header">
             <Link to="/dashboard" className="container__sidebar__logo">
@@ -103,11 +107,12 @@ export default function Sidebar({ setSidebarOpen }) {
         <div
           className="container__sidebar__drawer"
           onMouseOver={() => {
-            console.log("mouse over");
+            setIsSidebarHovered(true);
             setIsHover(true);
           }}
           onMouseOut={() => {
             setIsHover(false);
+            setIsSidebarHovered(false);
           }}
         >
           <div className="container__sidebar__header">
@@ -172,6 +177,7 @@ export default function Sidebar({ setSidebarOpen }) {
               size={18}
               onClick={() => {
                 setUser(null);
+                setIsSidebarHovered(false);
                 localStorage.clear();
                 navigate("/");
               }}

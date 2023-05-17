@@ -438,9 +438,10 @@ body {
 .superAdmin__dashboard__container{
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 77%;
   padding-right: 2em;
   padding-left: 0em;
+  
 }
 
 .dashboard__container__top__bar {
@@ -1868,6 +1869,10 @@ body {
   background: red;
   color: white;
   text-align: center;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .tab__content{

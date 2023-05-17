@@ -2,7 +2,12 @@ import { useState, useContext, useEffect, useMemo } from "react";
 import { Bell, Search, Upload } from "react-feather";
 import { Link } from "react-router-dom";
 import { PopupContext } from "../../../context/PopupContext";
-import { uinFilePostCall } from "../../../apis/Repo";
+import {
+  communeGetCall,
+  registrarGetCall,
+  registrationsGetCall,
+  uinFilePostCall,
+} from "../../../apis/Repo";
 import UploadFileSingle from "@components/UploadFileSingle";
 import Loader from "@components/Loader";
 import Select from "@components/Select";
@@ -12,7 +17,7 @@ import DataTable from "react-data-table-component";
 
 export default function UINManagement() {
   const isSuperAdmin = localStorage.getItem("isAdmin");
-  const { setAlertPopupVisibility, setAlertPopupMessage } =
+  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
     useContext(PopupContext);
   const [isUploadFilePopupOpen, setIsUploadFilePopupOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,6 +27,18 @@ export default function UINManagement() {
   const [page, setPage] = useState(1);
   const limit = 10;
   const [selectedTab, setSelectedTab] = useState("All");
+  const [communesList, setCommuneList] = useState([]);
+  const [tackingRecords, setTrackingRecords] = useState(0);
+
+  let [hoverStyle, setHoverStyle] = useState("");
+
+  useEffect(() => {
+    setHoverStyle(
+      (hoverStyle = isSidebarHovered
+        ? "superAdmin__dashboard__container"
+        : "dashboard__container")
+    );
+  }, [isSidebarHovered]);
 
   const tabs = [
     { label: "All", value: 1 },
@@ -29,9 +46,25 @@ export default function UINManagement() {
     { label: "Not Allocated", value: 0 },
   ];
 
-  // useEffect(() => {
-  //   getLog();
-  // }, [page]);
+  useEffect(() => {
+    getCommunes();
+    getRegistrations();
+  }, []);
+
+  const getRegistrations = () => {
+    registrationsGetCall(1, 1, "", "", "", "", "", "", "")
+      .then(({ data }) => {
+        debugger;
+        if (data.data.success) {
+          setTrackingRecords(data.data.total_records);
+        } else {
+          setTrackingRecords(0);
+        }
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
 
   const [filterText, setFilterText] = useState("");
 
@@ -73,14 +106,17 @@ export default function UINManagement() {
       selector: (row) => row.time_created,
       format: (row) =>
         moment(row.time_created).subtract(6, "hour").format("hh:mm"),
+      sortable: true,
     },
     {
       name: "Allocation Time",
       selector: (row) => row.number_record,
+      sortable: true,
     },
     {
       name: "NIU Status",
       selector: (row) => row.input_type,
+      sortable: true,
     },
   ];
 
@@ -122,6 +158,27 @@ export default function UINManagement() {
     setPage(value);
   };
 
+  const getCommunes = () => {
+    let newArray = [];
+    communeGetCall()
+      .then(({ data }) => {
+        if (data.data.success) {
+          for (let index = 0; index < data.data.result.length; index++) {
+            const element = data.data.result[index];
+            let object = {
+              value: index + 1,
+              label: element,
+            };
+            newArray.push(object);
+          }
+          setCommuneList(newArray);
+        }
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
+
   // const getLog = () => {
   //   setIsDataLoading(true);
   //   fileLogGetCall(page, limit, "U")
@@ -147,13 +204,7 @@ export default function UINManagement() {
 
   return (
     <>
-      <div
-        className={
-          isSuperAdmin == "true"
-            ? "superAdmin__dashboard__container"
-            : "dashboard__container"
-        }
-      >
+      <div className={hoverStyle}>
         <div className="main__container__top__bar">
           <div className="details__header">
             <svg
@@ -201,7 +252,7 @@ export default function UINManagement() {
             </Tooltip>
             <Tooltip text="NIU Tracking">
               <Link className="bell__wrapper" to={"/dashboard/uin-tracking"}>
-                <div className="bell__wrapper__count">1</div>
+                <div className="bell__wrapper__count">{tackingRecords}</div>
                 <Bell style={{ marginLeft: ".5em" }} />
               </Link>
             </Tooltip>
@@ -250,7 +301,11 @@ export default function UINManagement() {
               ))}
             </div>
             <div>
-              <Select widthProp={"180px"} placeholder={"Commune"} />
+              <Select
+                widthProp={"180px"}
+                placeholder={"Commune"}
+                options={communesList}
+              />
             </div>
           </div>
           <div className="container__main__content__listing__table">
