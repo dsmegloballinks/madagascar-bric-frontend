@@ -30,6 +30,7 @@ export default function UINManagement() {
   const limit = 10;
   const [selectedTab, setSelectedTab] = useState("All");
   const [communesList, setCommuneList] = useState([]);
+  const [commune, setCommune] = useState("");
   const [tackingRecords, setTrackingRecords] = useState(0);
 
   let [hoverStyle, setHoverStyle] = useState("");
@@ -51,12 +52,11 @@ export default function UINManagement() {
   useEffect(() => {
     getCommunes();
     getRegistrations();
-    getUINManagement();
   }, []);
 
   useEffect(() => {
     getUINManagement();
-  }, [page]);
+  }, [page, commune]);
 
   const getRegistrations = () => {
     registrationsGetCall(1, 1, "", "", "", "", "", "", 0)
@@ -74,7 +74,7 @@ export default function UINManagement() {
 
   const getUINManagement = () => {
     setIsDataLoading(true);
-    uinManagmentGetCall(page, limit)
+    uinManagmentGetCall(page, limit, commune)
       .then(({ data }) => {
         setIsDataLoading(false);
         if (data.data.success) {
@@ -122,7 +122,7 @@ export default function UINManagement() {
     },
     {
       name: "Allocated Commune",
-      selector: (row) => row.code_commune,
+      selector: (row) => row.commune,
 
       sortable: true,
     },
@@ -295,6 +295,7 @@ export default function UINManagement() {
                 widthProp={"180px"}
                 placeholder={"Commune"}
                 options={communesList}
+                onChange={(e) => setCommune(e)}
               />
             </div>
           </div>

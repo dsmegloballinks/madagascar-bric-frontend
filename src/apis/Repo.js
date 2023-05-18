@@ -99,11 +99,11 @@ export const fileLogGetCall = async (page, limit, type) => {
   );
 };
 
-export const uinManagmentGetCall = async (page, limit, type) => {
+export const uinManagmentGetCall = async (page, limit, commune) => {
   let params = {};
   if (page) params.page = page;
   if (limit) params.limit = limit;
-  if (type) params.moduleType = type;
+  if (commune) params.commune = commune.value;
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-uin"),
     {
