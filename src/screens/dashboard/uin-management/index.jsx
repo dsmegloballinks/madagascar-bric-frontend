@@ -122,8 +122,7 @@ export default function UINManagement() {
     },
     {
       name: "Allocated Commune",
-      selector: (row) => row.commune,
-
+      selector: (row) => row.code_commune,
       sortable: true,
     },
     {
