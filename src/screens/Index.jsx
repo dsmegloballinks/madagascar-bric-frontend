@@ -22,12 +22,20 @@ export default function Index() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    // Check if 'id' exists in local storage
+    // If it exists, redirect to the dashboard page
+    // Replace the current URL in the browser history
+    // Commented out for now
     // let id = localStorage.getItem("id");
     // if (id) navigate("/dashboard", { replace: true });
   }, []);
 
   const isViewValid = () => {
+    // Check if the email is null or empty
+    // If true, set the email error message
     if (isNullOrEmpty(email)) setEmailErrorMessage("Enter Email");
+    // Check if the password is null or empty
+    // If true, set the password error message
     else if (isNullOrEmpty(passowrd)) setPasswordErrorMessage("Enter Password");
     else return true;
     return false;
@@ -40,35 +48,53 @@ export default function Index() {
         password: passowrd,
       };
       setIsLoading(true);
+      // Make a login API call with the provided object
       loginCall(object)
         .then(({ data }) => {
           setIsLoading(false);
           if (data.data.success) {
+            // Construct the user object with the returned user_id
             let user = {
               id: data.data.result.user_id,
             };
+            // Set the user object in the state
             setUser(user);
+            // Store the user_id in local storage
             localStorage.setItem("id", data.data.result.user_id);
+            // Store the isAdmin flag in local storage
             localStorage.setItem(
               "isAdmin",
               data.data.result.is_user_admin == 1 ? true : false
             );
 
+            // Split the user_name by dot and store the first part in local storage
             const name = data.data.result.user_name.split(".");
             localStorage.setItem("user_name", name[0]);
+
+            // Reset the sidebar hover state
             setIsSidebarHovered(false);
+
+            // Check if the user is an admin
+            // If true, redirect to the user management dashboard
+            // Replace the current URL in the browser history
+            // Otherwise, redirect to the regular dashboard
+            // Replace the current URL in the browser history
             if (data.data.result.is_user_admin == 1)
               navigate("/dashboard/user-management", { replace: true });
             else navigate("/dashboard", { replace: true });
           } else {
+            // Set the alert popup message with the error message returned from the API
             setAlertPopupMessage(data.data.message);
+            // Display the alert popup
             setAlertPopupVisibility(true);
           }
         })
         .catch((err) => {
           setIsLoading(false);
           console.log("err", err);
+          // Set a generic error message for the alert popup
           setAlertPopupMessage("Some error occurred, please try later");
+          // Display the alert popup
           setAlertPopupVisibility(true);
         });
     }
@@ -119,6 +145,7 @@ export default function Index() {
             <div
               className="login__button"
               onClick={() => {
+                // Check if isLoading is false before calling the login function
                 if (!isLoading) login();
               }}
             >

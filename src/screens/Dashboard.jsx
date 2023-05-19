@@ -4,6 +4,7 @@ import Sidebar from "@components/Sidebar";
 
 export default function screens() {
   return (
+    // Create a container div with flex display to hold the sidebar and outlet components
     <div
       style={{
         display: "flex",
@@ -14,7 +15,10 @@ export default function screens() {
         margin: "2em auto",
       }}
     >
+      {/* Render the Sidebar component */}
       <Sidebar />
+
+      {/* Render the Outlet component */}
       <Outlet />
     </div>
   );

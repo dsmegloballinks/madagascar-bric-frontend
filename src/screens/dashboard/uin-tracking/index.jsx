@@ -29,6 +29,12 @@ export default function UINTracking() {
   const [filterText, setFilterText] = useState("");
   const [selectedRecord, setSelectedRecord] = useState(null);
 
+  /* `filteredItems` is an array that contains the filtered items from the `list` array based on the
+value of `filterText`. The `filter` method is used to iterate through each item in the `list` array
+and return a new array that contains only the items that meet the condition specified in the
+callback function. In this case, the condition is that the `item` must have a `first_name` property and
+the value of the `first_name` property must include the value of `filterText` (ignoring case sensitivity).
+This allows the user to search for specific items in the table based on the first_name property. */
   const filteredItems = list.filter(
     (item) =>
       item.cr.first_name &&
@@ -37,6 +43,11 @@ export default function UINTracking() {
 
   let [hoverStyle, setHoverStyle] = useState("");
 
+  /* The above code is using the `useEffect` hook in React to update the `hoverStyle` state variable
+based on the value of `isSidebarHovered`. If `isSidebarHovered` is true, `hoverStyle` is set to
+"superAdmin__dashboard__container", otherwise it is set to "dashboard__container". This code is
+likely used to dynamically change the styling of a dashboard container based on whether or not the
+sidebar is being hovered over. */
   useEffect(() => {
     setHoverStyle(
       (hoverStyle = isSidebarHovered
@@ -49,6 +60,12 @@ export default function UINTracking() {
     getRegistrations();
   }, [page]);
 
+  /* The above code is creating a React functional component called `subHeaderComponentMemo` using the
+ `useMemo` hook. This component returns a `div` element containing an input field and a search icon.
+ The `onChange` event of the input field updates the `filterText` state variable with the current
+ value of the input field. The `value` of the input field is set to the current value of the
+ `filterText` state variable. The `useMemo` hook is used to memoize the component and re-render it
+ only when the `filterText` state variable changes. */
   const subHeaderComponentMemo = useMemo(() => {
     return (
       <div style={{ display: "flex" }}>
@@ -65,6 +82,11 @@ export default function UINTracking() {
     );
   }, [filterText]);
 
+  /* The above code is defining an array of objects called "columns" which is used to configure the
+columns of a table. Each object in the array represents a column and contains properties such as the
+column name, the data selector function, the cell format function, and whether the column is
+sortable. The code also includes JSX code to render a tooltip and an edit icon for each row in the
+table. */
   const columns = [
     {
       name: "NIU",
@@ -153,6 +175,10 @@ export default function UINTracking() {
     },
   ];
 
+  /* The above code is defining a JavaScript object `customStyles` that contains a property `headCells`
+which is also an object. The `headCells` object has a `style` property that is an object containing
+CSS styles for the font size and font weight of table header cells. These styles will be used to
+customize the appearance of a table in a React application. */
   const customStyles = {
     headCells: {
       style: {
@@ -162,6 +188,10 @@ export default function UINTracking() {
     },
   };
 
+  /**
+   * This function retrieves registrations data and sets the state of the list and total records based
+   * on the response, while also handling errors.
+   */
   const getRegistrations = (errorType) => {
     setIsLoading(true);
     registrationsGetCall(page, limit, "", "", "", "", "", "", errorType)
@@ -181,10 +211,17 @@ export default function UINTracking() {
       });
   };
 
+  /**
+   * The function `handlePageChange` sets the value of the `page` variable.
+   */
   const handlePageChange = (value) => {
     setPage(value);
   };
 
+  /**
+   * The function `onAdd` takes a number and an item, creates an object with specific properties, makes
+   * a POST call with the object, and handles the response.
+   */
   const onAdd = (number, item) => {
     let object = {
       uin: number,
@@ -193,7 +230,7 @@ export default function UINTracking() {
     console.log("object", object);
     uinTrackingPostCall(object)
       .then(({ data }) => {
-        if (data.success) getRegistrations();
+        if (data.error_code == 0) getRegistrations();
         else {
           setAlertPopupMessage("Some error occured, please try again");
           setAlertPopupVisibility(true);

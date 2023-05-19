@@ -9,7 +9,6 @@ import { PopupContext } from "../../../context/PopupContext";
 
 export default function UINManagementDetails() {
   const { isSidebarHovered } = useContext(PopupContext);
-  const isSuperAdmin = localStorage.getItem("isAdmin");
   const navigate = useNavigate();
   const [list, setList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -20,6 +19,12 @@ export default function UINManagementDetails() {
   const [filterText, setFilterText] = useState("");
   let [hoverStyle, setHoverStyle] = useState("");
 
+  /* The `useEffect` hook is used to update the `hoverStyle` state variable whenever the
+`isSidebarHovered` context variable changes. The `hoverStyle` variable is set to either
+`"superAdmin__dashboard__container"` or `"dashboard__container"` depending on the value of
+`isSidebarHovered`. This is used to dynamically change the class name of the container element based
+on whether the sidebar is hovered or not, which allows for customization of the appearance of the
+UI. */
   useEffect(() => {
     setHoverStyle(
       (hoverStyle = isSidebarHovered
@@ -28,11 +33,21 @@ export default function UINManagementDetails() {
     );
   }, [isSidebarHovered]);
 
+  /* `filteredItems` is an array that contains the filtered items from the `list` array based on the
+value of `filterText`. The `filter` method is used to iterate through each item in the `list` array
+and return a new array that contains only the items that meet the condition specified in the
+callback function. In this case, the condition is that the `item` must have a `file` property and
+the value of the `file` property must include the value of `filterText` (ignoring case sensitivity).
+This allows the user to search for specific items in the table based on the file name. */
   const filteredItems = list.filter(
     (item) =>
       item.file && item.file.toLowerCase().includes(filterText.toLowerCase())
   );
 
+  /* `subHeaderComponentMemo` is a memoized component that is used as the subheader of a `DataTable`
+ component. It returns a search bar that allows the user to filter the data displayed in the table
+ based on the value of `filterText`. The `useMemo` hook is used to memoize the component and prevent
+ unnecessary re-renders when `filterText` changes. */
   const subHeaderComponentMemo = useMemo(() => {
     return (
       <div style={{ display: "flex" }}>
@@ -49,6 +64,9 @@ export default function UINManagementDetails() {
     );
   }, [filterText]);
 
+  /* `columns` is an array of objects that defines the columns of a table to be displayed using the
+`DataTable` component. Each object in the array represents a column and has properties such as
+`name`, `selector`, `format`, and `sortable`. */
   const columns = [
     {
       name: "File Name",
@@ -65,7 +83,9 @@ export default function UINManagementDetails() {
       name: "Time of Import",
       selector: (row) => row.time_created,
       format: (row) =>
-        moment(row.time_created).subtract(4, "hour").format("hh:mm"),
+        moment(row.time_created)
+          .add({ hours: new Date().getTimezoneOffset() / 25 })
+          .format("hh:mm"),
       sortable: true,
     },
     {
@@ -75,6 +95,9 @@ export default function UINManagementDetails() {
     },
   ];
 
+  /* `customStyles` is an object that defines custom styles for the `DataTable` component. In this case,
+ it sets the font size to 14px and the font weight to bold for the header cells of the table. This
+ allows for customization of the appearance of the table. */
   const customStyles = {
     headCells: {
       style: {
@@ -84,10 +107,17 @@ export default function UINManagementDetails() {
     },
   };
 
+  /* The `useEffect` hook is used to perform side effects in a functional component. In this case, it is
+ used to make an API call to retrieve a log file and update the state with the results. The `getLog`
+ function is called when the `page` variable changes, which triggers the `useEffect` hook to run
+ again and fetch the updated data. */
   useEffect(() => {
     getLog();
   }, [page]);
 
+  /**
+   * This function makes an API call to retrieve a log file and updates the state with the results.
+   */
   const getLog = () => {
     setIsDataLoading(true);
     fileLogGetCall(page, limit, "F")
@@ -107,6 +137,9 @@ export default function UINManagementDetails() {
       });
   };
 
+  /**
+   * The function `handlePageChange` sets the value of the `page` variable.
+   */
   const handlePageChange = (value) => {
     setPage(value);
   };

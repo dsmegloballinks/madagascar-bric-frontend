@@ -17,6 +17,11 @@ export default function AddUserManagement() {
   const [confirmPassword, setConfirmPassword] = useState("");
   let [hoverStyle, setHoverStyle] = useState("");
 
+  /* This is a `useEffect` hook that is used to update the `hoverStyle` state variable whenever the
+`isSidebarHovered` state variable changes. It sets the `hoverStyle` to either
+`"superAdmin__dashboard__container"` or `"dashboard__container"` based on the value of
+`isSidebarHovered`. This is used to change the styling of the component based on whether the sidebar
+is being hovered over or not. */
   useEffect(() => {
     setHoverStyle(
       (hoverStyle = isSidebarHovered
@@ -25,11 +30,20 @@ export default function AddUserManagement() {
     );
   }, [isSidebarHovered]);
 
+  /**
+   * This function sets the message and visibility of an alert popup.
+   */
   const setErrorMessageAndVisibility = (text, visibility) => {
     setAlertPopupMessage(text);
     setAlertPopupVisibility(visibility);
   };
 
+  /**
+   * The function checks if the input fields for user registration are valid and returns true if they
+   * are, otherwise it sets an error message and returns false.
+   * @returns The function `isViewValid` returns a boolean value. It returns `true` if all the
+   * validation checks pass, and `false` if any of the validation checks fail.
+   */
   const isViewValid = () => {
     if (isNullOrEmpty(userName))
       setErrorMessageAndVisibility("Enter user name", true);
@@ -52,6 +66,10 @@ export default function AddUserManagement() {
     return false;
   };
 
+  /**
+   * The function saves user data by making a post call and navigating back if successful, or
+   * displaying an error message if not.
+   */
   const onSave = () => {
     if (isViewValid()) {
       let object = {

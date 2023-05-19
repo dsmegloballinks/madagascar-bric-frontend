@@ -16,7 +16,6 @@ import Tooltip from "@components/Tooltip";
 import DataTable from "react-data-table-component";
 
 export default function UserManagement() {
-  const isSuperAdmin = localStorage.getItem("isAdmin");
   const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
     useContext(PopupContext);
   const [deletePopupVisibility, setDeletePopupVisibility] = useState(false);
@@ -40,12 +39,21 @@ export default function UserManagement() {
     );
   }, [isSidebarHovered]);
 
+  /* Filtering the `list` array based on the `filterText` value. It checks if the `user_name` property of
+each item in the array contains the `filterText` value (ignoring case sensitivity) and returns a new
+array with the filtered items. */
   const filteredItems = list.filter(
     (item) =>
       item.user_name &&
       item.user_name.toLowerCase().includes(filterText.toLowerCase())
   );
 
+  /* The above code is creating a React functional component called `subHeaderComponentMemo` using the
+`useMemo` hook. This component returns a `div` element containing an input field and a search icon.
+The `onChange` event of the input field updates the `filterText` state variable with the current
+value of the input field. The `value` of the input field is set to the current value of the
+`filterText` state variable. The `useMemo` hook is used to memoize the component and re-render it
+only when the `filterText` state variable changes. */
   const subHeaderComponentMemo = useMemo(() => {
     return (
       <div style={{ display: "flex" }}>
@@ -62,6 +70,12 @@ export default function UserManagement() {
     );
   }, [filterText]);
 
+  /* The above code is defining an array of objects that represent columns in a table. Each object has a
+name, a selector function that selects the data for that column from the row data, and optionally a
+cell function that defines how the data should be displayed in the table cell. The first two columns
+are sortable, and the third column contains a custom component called TableEntryUpdateStatus that
+allows the user to update the status of a row. The fourth column contains two action buttons, one to
+reset the user's password and another to edit the user's details. */
   const columns = [
     {
       name: "User Name",
@@ -142,6 +156,9 @@ export default function UserManagement() {
     getUsers();
   }, [page]);
 
+  /**
+   * This function retrieves a list of users and updates the state with the results.
+   */
   const getUsers = () => {
     setIsLoading(true);
     usersGetCall(page, limit)
@@ -161,10 +178,17 @@ export default function UserManagement() {
       });
   };
 
+  /**
+   * The function `handlePageChange` sets the value of the `page` variable.
+   */
   const handlePageChange = (value) => {
     setPage(value);
   };
 
+  /**
+   * The function deletes a user from a list and updates the state accordingly, while also displaying
+   * error messages if necessary.
+   */
   const onDelete = () => {
     let object = {
       user_id: selectedItem.user_id,
@@ -191,6 +215,10 @@ export default function UserManagement() {
       });
   };
 
+  /**
+   * This function updates the status of a user and displays a success or error message based on the
+   * response from the server.
+   */
   const updateStatus = (status, item) => {
     let object = {
       status: status.value,

@@ -104,7 +104,7 @@ export const uinManagmentGetCall = async (page, limit, commune, niu_status) => {
   let params = {};
   if (page) params.page = page;
   if (limit) params.limit = limit;
-  if (commune) params.commune = commune.label;
+  if (commune) params.commune = commune.value;
   if (niu_status || niu_status == 0) params.niu_status = niu_status;
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-uin"),

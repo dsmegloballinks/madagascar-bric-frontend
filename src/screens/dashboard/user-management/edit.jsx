@@ -21,6 +21,11 @@ export default function EditUserManagement() {
   );
   let [hoverStyle, setHoverStyle] = useState("");
 
+  /* This is a `useEffect` hook that is used to update the `hoverStyle` state variable whenever the
+`isSidebarHovered` state variable changes. It sets the `hoverStyle` to either
+`"superAdmin__dashboard__container"` or `"dashboard__container"` based on the value of
+`isSidebarHovered`. This is used to change the class name of the main container div based on whether
+the sidebar is hovered or not. */
   useEffect(() => {
     setHoverStyle(
       (hoverStyle = isSidebarHovered
@@ -29,11 +34,21 @@ export default function EditUserManagement() {
     );
   }, [isSidebarHovered]);
 
+  /**
+   * This function sets the message and visibility of an alert popup.
+   */
   const setErrorMessageAndVisibility = (text, visibility) => {
     setAlertPopupMessage(text);
     setAlertPopupVisibility(visibility);
   };
 
+  /**
+   * The function checks if the user name and email are valid and returns true if they are, otherwise it
+   * sets an error message and returns false.
+   * @returns The function `isViewValid` returns a boolean value. It returns `true` if all the conditions
+   * in the if-else statements are false, indicating that the input values are valid. It returns `false`
+   * if any of the conditions are true, indicating that the input values are invalid.
+   */
   const isViewValid = () => {
     if (isNullOrEmpty(userName))
       setErrorMessageAndVisibility("Enter user name", true);
@@ -45,6 +60,10 @@ export default function EditUserManagement() {
     return false;
   };
 
+  /**
+   * The function onSave updates user information and navigates back if successful, otherwise displays
+   * an error message.
+   */
   const onSave = () => {
     if (isViewValid()) {
       let object = {

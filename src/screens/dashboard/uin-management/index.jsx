@@ -36,6 +36,11 @@ export default function UINManagement() {
 
   let [hoverStyle, setHoverStyle] = useState("");
 
+  /* The above code is using the `useEffect` hook in React to update the `hoverStyle` state variable
+based on the value of `isSidebarHovered`. If `isSidebarHovered` is true, `hoverStyle` is set to
+"superAdmin__dashboard__container", otherwise it is set to "dashboard__container". This code is
+likely used to dynamically change the styling of a dashboard container based on whether or not the
+sidebar is being hovered over. */
   useEffect(() => {
     setHoverStyle(
       (hoverStyle = isSidebarHovered
@@ -59,6 +64,10 @@ export default function UINManagement() {
     getUINManagement();
   }, [page, commune, selectedTabId]);
 
+  /**
+   * This function makes an API call to retrieve registration data and updates the tracking records
+   * accordingly.
+   */
   const getRegistrations = () => {
     registrationsGetCall(1, 1, "", "", "", "", "", "", 0)
       .then(({ data }) => {
@@ -73,6 +82,10 @@ export default function UINManagement() {
       });
   };
 
+  /**
+   * This function makes an API call to retrieve data for UIN management and updates the state with the
+   * results.
+   */
   const getUINManagement = () => {
     setIsDataLoading(true);
     uinManagmentGetCall(page, limit, commune, selectedTabId)
@@ -94,11 +107,22 @@ export default function UINManagement() {
 
   const [filterText, setFilterText] = useState("");
 
+  /* The above code is filtering a list of items based on a filter text. It is using the `filter` method
+ to iterate over each item in the list and return a new array of items that match the condition
+ specified in the callback function. The condition is that the `uin` property of each item must
+ exist and must contain the filter text (case-insensitive). The filtered items are then stored in
+ the `filteredItems` variable. */
   const filteredItems = list.filter(
     (item) =>
       item.uin && item.uin.toLowerCase().includes(filterText.toLowerCase())
   );
 
+  /* The above code is creating a React functional component called `subHeaderComponentMemo` using the
+ `useMemo` hook. This component returns a `div` element containing an input field and a search icon.
+ The `onChange` event of the input field updates the `filterText` state variable with the current
+ value of the input field. The `value` of the input field is set to the current value of the
+ `filterText` state variable. The `useMemo` hook is used to memoize the component and re-render it
+ only when the `filterText` state variable changes. */
   const subHeaderComponentMemo = useMemo(() => {
     return (
       <div style={{ display: "flex" }}>
@@ -115,6 +139,10 @@ export default function UINManagement() {
     );
   }, [filterText]);
 
+  /* The above code is defining an array of objects that represent columns for a table. Each object has
+  properties such as name, selector, format, cell, and sortable that define how the data should be
+  displayed and sorted in the table. The table is likely being rendered using a library such as
+  React-Table. The code also uses the moment.js library to format dates and times. */
   const columns = [
     {
       name: "NIU",
@@ -123,7 +151,7 @@ export default function UINManagement() {
     },
     {
       name: "Allocated Commune",
-      selector: (row) => row.code_commune,
+      selector: (row) => row.commune_name,
       sortable: true,
     },
     {
@@ -159,6 +187,10 @@ export default function UINManagement() {
     },
   ];
 
+  /* The above code is defining a JavaScript object called `customStyles` that contains a property
+ called `headCells`. The `headCells` property is an object that has a `style` property which is also
+ an object. The `style` object sets the font size to 14 pixels and the font weight to bold for table
+ header cells. This code is likely used in a React component to customize the styling of a table. */
   const customStyles = {
     headCells: {
       style: {
@@ -168,6 +200,10 @@ export default function UINManagement() {
     },
   };
 
+  /**
+   * The function uploads a file using FormData and makes a post call to a server, displaying an error
+   * message if necessary.
+   */
   const uploadFile = (file) => {
     var bodyFormData = new FormData();
     bodyFormData.append("file", file);
@@ -193,10 +229,17 @@ export default function UINManagement() {
       });
   };
 
+  /**
+   * The function `handlePageChange` sets the value of the `page` variable.
+   */
   const handlePageChange = (value) => {
     setPage(value);
   };
 
+  /**
+   * This function retrieves a list of communes and converts them into an array of objects with a value
+   * and label property.
+   */
   const getCommunes = () => {
     let newArray = [];
     communeGetCall()
@@ -205,8 +248,8 @@ export default function UINManagement() {
           for (let index = 0; index < data.data.result.length; index++) {
             const element = data.data.result[index];
             let object = {
-              value: index + 1,
-              label: element,
+              value: element.code_commune,
+              label: element.libelle_commune,
             };
             newArray.push(object);
           }

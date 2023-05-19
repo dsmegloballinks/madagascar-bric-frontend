@@ -27,10 +27,20 @@ export default function RegistrationDetail() {
     });
   }, []);
 
+  /**
+   * The function generates a PDF file using a React component.
+   */
   const generatePDFFile = (event) => {
     pdfExportComponent.current.save();
   };
 
+  /**
+   * The function sets form values by formatting data and returning it as an array of div elements.
+   * @returns an array of JSX elements, where each element is a `<div>` with a class name of
+   * `details__Info__wrapper__section__information__content` and contains a single character from the
+   * `newData` string. The `newData` string is generated based on the `data` and `id` parameters passed
+   * to the function. If `id` is not provided
+   */
   const setFormValues = (data, id) => {
     var cut = id ? id : 26;
 
@@ -49,15 +59,19 @@ export default function RegistrationDetail() {
     });
   };
 
+  /**
+   * The function takes in a string and an ID, pads the string with spaces, and returns an array of div
+   * elements containing each character of the string up to the specified ID.
+   * @returns The function `setDateValues` returns an array of JSX elements, where each element is a
+   * `div` with the class name `details__Info__wrapper__section__information__content` and contains a
+   * single character from the `data` string. The `data` string is padded with spaces to a length of 72
+   * characters, and then the substring up to the `id` index is
+   */
   const setDateValues = (data, id) => {
-    // if (data) {
     var newData = "";
-    // if (data.length < 50) {
     let count = 22 - data.length;
     let test = data.padEnd(count + 50, " ");
     newData = test.substring(0, id);
-    // }
-    // else newData = "                              ";
     return newData.split("").map((character) => {
       return (
         <div className="details__Info__wrapper__section__information__content">
@@ -65,7 +79,6 @@ export default function RegistrationDetail() {
         </div>
       );
     });
-    // }
   };
 
   return (

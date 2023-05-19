@@ -8,10 +8,13 @@ import { PopupContext } from "../../../context/PopupContext";
 export default function EditUinTracking() {
   const navigate = useNavigate();
   const { isSidebarHovered } = useContext(PopupContext);
-  const isSuperAdmin = localStorage.getItem("isAdmin");
 
   let [hoverStyle, setHoverStyle] = useState("");
 
+  /* A React hook that is used to update the state of the `hoverStyle` variable based on the value of the
+`isSidebarHovered` variable. Whenever the `isSidebarHovered` variable changes, the `useEffect` hook
+is triggered and updates the `hoverStyle` variable to either "superAdmin__dashboard__container" or
+"dashboard__container" based on the value of `isSidebarHovered`. */
   useEffect(() => {
     setHoverStyle(
       (hoverStyle = isSidebarHovered
@@ -58,10 +61,6 @@ export default function EditUinTracking() {
             <div className="form__bottom__content">NIU Number</div>
             <input placeholder="" />
           </div>
-          {/* <div className="form__bottom">
-            <div className="form__bottom__content">First Name</div>
-            <input placeholder="" />
-          </div> */}
         </div>
       </div>
     </div>

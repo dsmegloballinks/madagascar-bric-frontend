@@ -23,9 +23,11 @@ import { logo } from "@assets";
 import LocationPopup from "@components/LocationPopup";
 
 export default function dashboard() {
+  // Import necessary dependencies and hooks
   const { state } = useLocation();
   const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
     useContext(PopupContext);
+  // Define state variables using useState hook
   const [selectedFilter, setSelectedFilter] = useState("Graph");
   const filters = ["Graph", "Map", "List"];
   let [start, setStart] = useState("");
@@ -56,13 +58,15 @@ export default function dashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [locationPopupVisibility, setLocationPopupVisibility] = useState(false);
   let [locationData, setLocationData] = useState([]);
+  let [hoverStyle, setHoverStyle] = useState("");
 
+  // Get values from localStorage
   const isSuperAdmin = localStorage.getItem("isAdmin");
   const userName = localStorage.getItem("user_name");
   const isHover = localStorage.getItem("isHover");
-  let [hoverStyle, setHoverStyle] = useState("");
 
   useEffect(() => {
+    // Set the hoverStyle based on isSidebarHovered and isHover values
     setHoverStyle(
       (hoverStyle = isSidebarHovered
         ? "superAdmin__dashboard__container"
@@ -70,13 +74,13 @@ export default function dashboard() {
     );
   }, [isSidebarHovered, isHover]);
 
-  console.log("isSidebarHvered", isSidebarHovered);
-
   useEffect(() => {
+    // Fetch data for selectedFilter = "List" on page change
     if (selectedFilter == "List") getRegistrations();
   }, [page]);
 
   useEffect(() => {
+    // Set default dates and get analytics data
     setDefatulDates();
     setYearGraphDefaultDates();
     getAnalytics();
@@ -85,16 +89,22 @@ export default function dashboard() {
   }, []);
 
   useEffect(() => {
+    // Fetch maps list if selectedFilter = "Map"
     // if (selectedFilter == "Map")
     getMapsList();
   }, []);
 
   useEffect(() => {
+    // Set selectedFilter based on state value
     if (state == "List") setSelectedFilter("List");
     else if (state == "Map") setSelectedFilter("Map");
     else setSelectedFilter("Graph");
   }, [state]);
 
+  /**
+   * The function sets default start and end dates for a seven day period and retrieves analytics data
+   * for that period.
+   */
   const setDefatulDates = () => {
     var makeDate = new Date();
 
@@ -117,6 +127,10 @@ export default function dashboard() {
     getGraphAnalytics(sevenDayStartDate, sevenDayEndDate, 7);
   };
 
+  /**
+   * The function sets default start and end dates for a year ago and the current date, and then calls
+   * another function to get analytics data for a graph.
+   */
   const setYearGraphDefaultDates = () => {
     var makeDate = new Date();
 
@@ -131,6 +145,10 @@ export default function dashboard() {
     getGraphAnalytics(yearStartDate, yearEndDate, 12);
   };
 
+  /**
+   * The function retrieves registration data based on specified parameters and updates state variables
+   * accordingly.
+   */
   const getRegistrations = (sDate, eDate, candle, rg, dst, comun, fokonty) => {
     // setDataList([]);
     setTotalRecords(0);
@@ -162,6 +180,10 @@ export default function dashboard() {
       });
   };
 
+  /**
+   * The function uploads a file using FormData and makes a post call to a server, then handles the
+   * response accordingly.
+   */
   const uploadFile = (file) => {
     var bodyFormData = new FormData();
     bodyFormData.append("file", file);
@@ -182,6 +204,9 @@ export default function dashboard() {
       });
   };
 
+  /**
+   * The function `handlePageChange` sets the value of the `page` variable.
+   */
   const handlePageChange = (value) => {
     setPage(value);
   };
@@ -315,6 +340,10 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
     },
   ];
 
+  /**
+   * This function retrieves analytics data for a specific date using an API call and sets the data to
+   * state if successful.
+   */
   const getAnalytics = () => {
     let date = moment(new Date()).format("YYYY-MM-DD");
     analyticsGetCall(date)
@@ -327,6 +356,9 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
       });
   };
 
+  /**
+   * The function retrieves gender analytics data and converts it into a format suitable for a graph.
+   */
   const getGenderAnalytics = () => {
     let newArray = [];
     let date = start ? start : moment(new Date()).format("YYYY-MM-DD");
@@ -350,6 +382,9 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
       });
   };
 
+  /**
+   * The function retrieves data from an API and formats it into an array for use in a graph.
+   */
   const getGraphAnalytics = (sDate, eDate, candle, rg, dst, comun, fokonty) => {
     let newArray = [];
     graphAnalyticsGetCall(sDate, eDate, candle, rg, dst, comun, fokonty)
@@ -381,6 +416,10 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
       });
   };
 
+  /**
+   * The function retrieves data for regions, districts, communes, and fokontanys and sets the
+   * corresponding lists based on the input parameter.
+   */
   const getRegions = (region, district, commune) => {
     fokontanyGetCall(region, district, commune)
       .then(({ data }) => {
@@ -431,6 +470,9 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
       });
   };
 
+  /**
+   * This function retrieves a list of maps' latitude and longitude based on specified parameters.
+   */
   const getMapsList = (sDate, eDate, candle, rg, dst, comun, fokonty, item) => {
     getMapsLatLng(sDate, eDate, candle, rg, dst, comun, fokonty)
       .then(({ data }) => {
@@ -443,21 +485,35 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
       });
   };
 
+  /**
+   * The function `onRegionChange` sets the selected region and calls the `getRegions` function with the
+   * selected value as a parameter.
+   */
   const onRegionChange = (e) => {
     getRegions(e.value);
     setRegion(e);
   };
 
+  /**
+   * The function sets the selected district and retrieves the corresponding regions.
+   */
   const onDistrictChange = (e) => {
     getRegions("", e.value);
     setDistrict(e);
   };
 
+  /**
+   * The function sets the selected commune and retrieves the corresponding regions.
+   */
   const onCommuneChange = (e) => {
     getRegions("", "", e.value);
     setCommune(e);
   };
 
+  /**
+   * The function "onSearch" determines which analytics or data to retrieve based on the selected
+   * filter.
+   */
   const onSearch = () => {
     if (selectedFilter == "Graph") {
       getGraphAnalytics(
@@ -484,6 +540,10 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
     } else getMapsList(start, end, region, district, commune, fokontany);
   };
 
+  /**
+   * The function resets certain state variables and calls different functions based on the selected
+   * filter.
+   */
   const onReset = () => {
     setStart((start = ""));
     setEnd((end = ""));
@@ -528,15 +588,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
         </div>
       ) : (
         <>
-          <div
-            className={
-              hoverStyle
-              // isSidebarHvered == true
-              // ?
-              // "superAdmin__dashboard__container"
-              // : "dashboard__container"
-            }
-          >
+          <div className={hoverStyle}>
             <div
               style={{
                 display: "flex",
@@ -570,10 +622,6 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
                 className="dashboard__banner__button__wrapper"
                 style={{ width: "25%" }}
               >
-                {/* <button onClick={() => setIsUploadFilePopupOpen(true)}>
-                  {" "}
-                  <Plus size={15} /> Upload File
-                </button> */}
                 <div>
                   <Select
                     placeholder="English"
@@ -594,19 +642,8 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
             <div className="dashboard__banner__contianer">
               <div className="dashboard__banner__content">
                 <h2>Welcome {userName}!</h2>
-                {/* <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
-            </p> */}
               </div>
-              <div className="dashboard__banner__button__wrapper">
-                {/* <button onClick={() => navigate("/dashboard/addchild")}>
-              {" "}
-              <Plus size={15} /> Add a Child
-            </button> */}
-              </div>
+              <div className="dashboard__banner__button__wrapper"></div>
             </div>
             <div className="dashboard__filters__wrapper">
               <div className="dashboard__filters__container">
@@ -799,18 +836,6 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
                     ])
                   );
                   setLocationPopupVisibility(true);
-                  // setSelectedFilter("Map");
-                  // setMapList([]);
-                  // // getMapsList("", "", "", "", "", "", "", item);
-                  // setMapList(
-                  //   (mapList = [
-                  //     {
-                  //       name: item.last_name,
-                  //       lattitude: item.lattitude,
-                  //       longitude: item.longitude,
-                  //     },
-                  //   ])
-                  // );
                 }}
                 isLoading={isLoading}
               />
@@ -821,7 +846,6 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
           {isUploadFilePopupOpen ? (
             <UploadFileSingle
               onClose={() => setIsUploadFilePopupOpen(false)}
-              // onAdd={() => setAlertPopupVisibility(true)}
               onAdd={uploadFile}
             />
           ) : null}
