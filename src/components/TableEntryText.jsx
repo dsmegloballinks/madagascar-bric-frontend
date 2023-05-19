@@ -17,7 +17,7 @@ export default function TableEntryText({
         <div
           style={{
             background: colorBox,
-            width: "13px",
+            width: "19px",
             height: "13px",
             marginRight: ".5em",
           }}

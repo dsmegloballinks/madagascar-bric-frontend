@@ -29,6 +29,7 @@ export default function UINManagement() {
   const [page, setPage] = useState(1);
   const limit = 10;
   const [selectedTab, setSelectedTab] = useState("All");
+  const [selectedTabId, setSelectedTabId] = useState(null);
   const [communesList, setCommuneList] = useState([]);
   const [commune, setCommune] = useState("");
   const [tackingRecords, setTrackingRecords] = useState(0);
@@ -44,9 +45,9 @@ export default function UINManagement() {
   }, [isSidebarHovered]);
 
   const tabs = [
-    { label: "All", value: 1 },
-    { label: "Allocated", value: 2 },
-    { label: "Not Allocated", value: 0 },
+    { label: "All", value: null },
+    { label: "Allocated", value: 0 },
+    { label: "Not Allocated", value: 1 },
   ];
 
   useEffect(() => {
@@ -56,7 +57,7 @@ export default function UINManagement() {
 
   useEffect(() => {
     getUINManagement();
-  }, [page, commune]);
+  }, [page, commune, selectedTabId]);
 
   const getRegistrations = () => {
     registrationsGetCall(1, 1, "", "", "", "", "", "", 0)
@@ -74,7 +75,7 @@ export default function UINManagement() {
 
   const getUINManagement = () => {
     setIsDataLoading(true);
-    uinManagmentGetCall(page, limit, commune)
+    uinManagmentGetCall(page, limit, commune, selectedTabId)
       .then(({ data }) => {
         setIsDataLoading(false);
         if (data.data.success) {
@@ -151,7 +152,7 @@ export default function UINManagement() {
           className="container__main__content__listing__table__content__list__entry"
           id={row.id}
         >
-          {row.niu_status == 1 ? <Check color="#0acf66" /> : null}
+          {row.niu_status == 0 ? <Check color="#0acf66" /> : null}
         </div>
       ),
       sortable: true,
@@ -170,14 +171,14 @@ export default function UINManagement() {
   const uploadFile = (file) => {
     var bodyFormData = new FormData();
     bodyFormData.append("file", file);
-    bodyFormData.append("input_type", "file");
-    bodyFormData.append("module_type", "UIN");
-    bodyFormData.append("number_records", "50");
+    // bodyFormData.append("input_type", "file");
+    // bodyFormData.append("module_type", "UIN");
+    // bodyFormData.append("number_records", "50");
     setIsLoading(true);
     uinFilePostCall(bodyFormData)
       .then(({ data }) => {
         setIsLoading(false);
-        if (data.message == "File uploaded successfully") {
+        if (data.error_code == 0) {
           setIsUploadFilePopupOpen(false);
         } else {
           setAlertPopupMessage("Some error occurred, please try later");
@@ -267,7 +268,11 @@ export default function UINManagement() {
             </Tooltip>
             <Tooltip text="NIU Tracking">
               <Link className="bell__wrapper" to={"/dashboard/uin-tracking"}>
-                <div className="bell__wrapper__count">{tackingRecords}</div>
+                <div className="bell__wrapper__count">
+                  {tackingRecords.length > 3
+                    ? tackingRecords.substring(0, 1).concat("K")
+                    : tackingRecords}
+                </div>
                 <Bell style={{ marginLeft: ".5em" }} />
               </Link>
             </Tooltip>
@@ -283,7 +288,10 @@ export default function UINManagement() {
                       ? "tab__content__active"
                       : "tab__content"
                   }
-                  onClick={() => setSelectedTab(item.label)}
+                  onClick={() => {
+                    setSelectedTabId(item.value);
+                    setSelectedTab(item.label);
+                  }}
                 >
                   {item.label}
                 </div>

@@ -4,6 +4,7 @@ import { PopupContext } from "../../../context/PopupContext";
 import {
   fetchOdkRecordsGetCall,
   fileLogGetCall,
+  filePostCall,
   uinFilePostCall,
 } from "../../../apis/Repo";
 import UploadFileSingle from "@components/UploadFileSingle";
@@ -76,7 +77,7 @@ export default function OdkManagement() {
       name: "Time of Import",
       selector: (row) => row.time_created,
       format: (row) =>
-        moment(row.time_created).subtract(6, "hour").format("hh:mm"),
+        moment(row.time_created).subtract(4, "hour").format("hh:mm"),
       sortable: true,
     },
     {
@@ -107,14 +108,14 @@ export default function OdkManagement() {
   const uploadFile = (file) => {
     var bodyFormData = new FormData();
     bodyFormData.append("file", file);
-    bodyFormData.append("input_type", "file");
-    bodyFormData.append("module_type", "ODK");
-    bodyFormData.append("number_records", "50");
+    // bodyFormData.append("input_type", "file");
+    // bodyFormData.append("module_type", "ODK");
+    // bodyFormData.append("number_records", "50");
     setIsLoading(true);
-    uinFilePostCall(bodyFormData)
+    filePostCall(bodyFormData)
       .then(({ data }) => {
         setIsLoading(false);
-        if (data.message == "File uploaded successfully") {
+        if (data.error_code == 0) {
           setIsUploadFilePopupOpen(false);
           getLog("msg");
         } else {
@@ -157,6 +158,7 @@ export default function OdkManagement() {
     fetchOdkRecordsGetCall()
       .then(({ data }) => {
         console.log("data", data);
+        getLog("msg");
       })
       .catch((err) => {
         console.log("err", err);

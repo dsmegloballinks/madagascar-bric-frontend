@@ -12,6 +12,7 @@ export default function AppointmentStatusPopup({
   isPostCallLoading,
   selectedItem,
 }) {
+  console.log("selectedItem", selectedItem);
   const { setAlertPopupVisibility, setAlertPopupMessage } =
     useContext(PopupContext);
   const [appointmentAddress, setAppointmentAddress] = useState(

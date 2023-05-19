@@ -122,7 +122,7 @@ export default function RegistrarManagementDetails() {
                 <div
                   className="container__main__content__listing__table__content__list__entry__action__edit"
                   style={{ marginRight: ".5em" }}
-                  onClick={(row) => {
+                  onClick={() => {
                     setSelectedItem(row);
                     setUpdatePopupVisibility(true);
                   }}

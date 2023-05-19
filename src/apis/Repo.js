@@ -24,7 +24,7 @@ export const registrationsGetCall = async (
   district,
   commune,
   fokonatny,
-  niuStatus
+  error_id
 ) => {
   let params = {};
   if (page) params.page = page;
@@ -35,7 +35,7 @@ export const registrationsGetCall = async (
   if (district) params.code_district = district.value;
   if (commune) params.code_commune = commune.value;
   if (fokonatny) params.code_fokonatany = fokonatny.value;
-  if (niuStatus) params.niuStatus = niuStatus;
+  if (error_id) params.error_id = error_id;
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-all"),
     {
@@ -67,7 +67,8 @@ export const filePostCall = async (data) => {
 
 export const uinFilePostCall = async (data) => {
   return await axios.post(
-    import.meta.env.VITE_BASE_URL.concat("api/excel_upload_log/upload-file"),
+    // import.meta.env.VITE_BASE_URL.concat("api/excel_upload_log/upload-file"),
+    import.meta.env.VITE_BASE_URL.concat("api/civil_register/upload-uin-file"),
     data,
     {
       headers: {
@@ -99,11 +100,12 @@ export const fileLogGetCall = async (page, limit, type) => {
   );
 };
 
-export const uinManagmentGetCall = async (page, limit, commune) => {
+export const uinManagmentGetCall = async (page, limit, commune, niu_status) => {
   let params = {};
   if (page) params.page = page;
   if (limit) params.limit = limit;
-  if (commune) params.commune = commune.value;
+  if (commune) params.commune = commune.label;
+  if (niu_status || niu_status == 0) params.niu_status = niu_status;
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-uin"),
     {

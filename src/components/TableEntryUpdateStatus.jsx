@@ -10,14 +10,14 @@ export default function TableEntryUpdateStatus({
   const [status, setStatus] = useState(
     children == 1
       ? { value: 1, label: "Active" }
-      : { value: 0, label: "Revoke" }
+      : { value: 2, label: "Revoke" }
   );
 
   useEffect(() => {
     setStatus(
       children == 1
         ? { value: 1, label: "Active" }
-        : { value: 0, label: "Revoke" }
+        : { value: 2, label: "Revoke" }
     );
   }, [statusUpdated]);
   return (

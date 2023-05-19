@@ -47,7 +47,7 @@ export default function UINTracking() {
 
   useEffect(() => {
     getRegistrations();
-  }, []);
+  }, [page]);
 
   const subHeaderComponentMemo = useMemo(() => {
     return (

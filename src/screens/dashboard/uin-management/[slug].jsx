@@ -65,7 +65,7 @@ export default function UINManagementDetails() {
       name: "Time of Import",
       selector: (row) => row.time_created,
       format: (row) =>
-        moment(row.time_created).subtract(6, "hour").format("hh:mm"),
+        moment(row.time_created).subtract(4, "hour").format("hh:mm"),
       sortable: true,
     },
     {
@@ -90,7 +90,7 @@ export default function UINManagementDetails() {
 
   const getLog = () => {
     setIsDataLoading(true);
-    fileLogGetCall(page, limit, "U")
+    fileLogGetCall(page, limit, "F")
       .then(({ data }) => {
         setIsDataLoading(false);
         if (data.success) {
