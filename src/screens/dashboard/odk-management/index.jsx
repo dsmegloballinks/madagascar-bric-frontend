@@ -15,7 +15,6 @@ import Tooltip from "@components/Tooltip";
 import DataTable from "react-data-table-component";
 
 export default function OdkManagement() {
-  const isSuperAdmin = localStorage.getItem("isAdmin");
   const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
     useContext(PopupContext);
   const [isUploadFilePopupOpen, setIsUploadFilePopupOpen] = useState(false);
@@ -40,10 +39,10 @@ export default function OdkManagement() {
     );
   }, [isSidebarHovered]);
 
-  const filteredItems = list.filter(
-    (item) =>
-      item.file && item.file.toLowerCase().includes(filterText.toLowerCase())
-  );
+  /* `subHeaderComponentMemo` is a memoized component that renders a search bar for filtering the data in
+the table. It uses the `useMemo` hook to memoize the component and only re-render it when the
+`filterText` state variable changes. This helps to optimize performance by avoiding unnecessary
+re-renders of the component. */
 
   const subHeaderComponentMemo = useMemo(() => {
     return (
@@ -52,7 +51,10 @@ export default function OdkManagement() {
           <input
             type="text"
             placeholder="Search"
-            onChange={(e) => setFilterText(e.target.value)}
+            onChange={(e) => {
+              setPage(1);
+              setFilterText(e.target.value);
+            }}
             value={filterText}
           />
           <Search size={19} className="list__search__wrapper__icon" />
@@ -61,6 +63,12 @@ export default function OdkManagement() {
     );
   }, [filterText]);
 
+  /* `columns` is an array of objects that defines the columns of the table in the ODKManagement
+ component. Each object in the array represents a column and has a `name` property that specifies
+ the name of the column, a `selector` property that specifies the data field to display in the
+ column, and a `sortable` property that specifies whether the column is sortable or not.
+ Additionally, some columns have a `format` property that specifies a function to format the data in
+ the column. */
   const columns = [
     {
       name: "File Name",
@@ -92,6 +100,8 @@ export default function OdkManagement() {
     },
   ];
 
+  /* `customStyles` is an object that defines custom styles for the `DataTable` component. In this case,
+ it sets the font size and font weight of the table header cells to 14px and bold, respectively. */
   const customStyles = {
     headCells: {
       style: {
@@ -101,10 +111,18 @@ export default function OdkManagement() {
     },
   };
 
+  /* The `useEffect` hook is used to run the `getLog` function whenever the `page` variable changes.
+ This is because the `page` variable is used to determine which page of data to retrieve from the
+ server. So, whenever the user navigates to a different page of data, the `getLog` function is
+ called to retrieve the appropriate data and update the state with the results. */
   useEffect(() => {
     getLog();
-  }, [page]);
+  }, [page, filterText]);
 
+  /**
+   * The function uploads a file using FormData and makes a post call to a server, displaying an error
+   * message if the call fails.
+   */
   const uploadFile = (file) => {
     var bodyFormData = new FormData();
     bodyFormData.append("file", file);
@@ -131,9 +149,12 @@ export default function OdkManagement() {
       });
   };
 
+  /**
+   * This function retrieves data from a log file and updates the state with the results.
+   */
   const getLog = (msg) => {
     if (!msg) setIsDataLoading(true);
-    fileLogGetCall(page, limit, "O")
+    fileLogGetCall(page, limit, "O", filterText)
       .then(({ data }) => {
         setIsDataLoading(false);
         if (data.success) {
@@ -150,10 +171,16 @@ export default function OdkManagement() {
       });
   };
 
+  /**
+   * The function `handlePageChange` sets the value of the `page` variable.
+   */
   const handlePageChange = (value) => {
     setPage(value);
   };
 
+  /**
+   * This function fetches ODK records and logs the data or any errors.
+   */
   const fetchRecords = () => {
     fetchOdkRecordsGetCall()
       .then(({ data }) => {
@@ -222,7 +249,7 @@ export default function OdkManagement() {
             <div className="container__main__content__listing__table__content">
               <DataTable
                 columns={columns}
-                data={filteredItems}
+                data={list}
                 progressPending={isDataLoading}
                 progressComponent={<Loader />}
                 pagination

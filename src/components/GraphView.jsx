@@ -25,7 +25,6 @@ export default function GraphView({
           <div className="bar__graphr__container__heading">
             Gender Segregation
           </div>
-          {/* <div className="bar__graphr__container__info">Males or Females</div> */}
           <PieChartGraph genderGraphData={genderGraphData} />
         </div>
       </div>

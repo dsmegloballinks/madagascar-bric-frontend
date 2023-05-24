@@ -3,6 +3,18 @@ import ErrorBoundaryLoad from "./ErrorBoundary";
 import Loader from "./Loader";
 import { lazy } from "react";
 
+/**
+ * This function takes in two objects of routes and returns an array of routes with their respective
+ * components, loaders, actions, error boundaries, and preloads.
+ * @param eagers - An object containing eagerly loaded modules, where the keys are module names and the
+ * values are the module objects.
+ * @param lazys - An object containing lazy-loaded modules, where the keys are the names of the modules
+ * and the values are functions that return a Promise for the module.
+ * @returns A function that takes in two arguments, `eagers` and `lazys`, which are objects containing
+ * information about the routes of a web application. The function then processes this information and
+ * returns an array of route objects, each containing information about a specific route in the
+ * application.
+ */
 export default function RoutesReducer(
   eagers: Record<string, unknown>,
   lazys: Record<string, () => Promise<unknown>>

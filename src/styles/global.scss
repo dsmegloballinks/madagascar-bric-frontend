@@ -1929,6 +1929,18 @@ body {
   width: 15%;
 }
 
-.location__info__content{
+.details__container__filter__date__wrapper{
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
 
+.details__container__filter__date__wrapper input{
+  width: 20%;
+  border: none;
+  border-radius: 20px;
+  background-color: #d9d7d7;
+  padding: .8em 1em;
+  margin-right: 2em;
+  outline: none;
 }

@@ -9,7 +9,6 @@ const COLORS = ["#0ACF66", "#FF6161"];
 const RADIAN = Math.PI / 180;
 
 export default function PieChartGraph({ genderGraphData }) {
-  console.log("genderGraphData", genderGraphData);
   data = genderGraphData;
 
   return (

@@ -9,7 +9,6 @@ export default function AlertPopup({ onClose, alertPopupMessage }) {
         <div className="alert__popup__container">
           <div className="alert__background__dot"></div>
           <div className="alert__popup__card">
-            {/* <img src={logo} /> */}
             <AlertCircle size={100} className="alert__popup__logo" />
             <div className="alert__popup__content">
               <div className="alert__popup__content__title">Alert!</div>

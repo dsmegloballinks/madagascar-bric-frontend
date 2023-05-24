@@ -28,19 +28,6 @@ export default function UINTracking() {
   const limit = 10;
   const [filterText, setFilterText] = useState("");
   const [selectedRecord, setSelectedRecord] = useState(null);
-
-  /* `filteredItems` is an array that contains the filtered items from the `list` array based on the
-value of `filterText`. The `filter` method is used to iterate through each item in the `list` array
-and return a new array that contains only the items that meet the condition specified in the
-callback function. In this case, the condition is that the `item` must have a `first_name` property and
-the value of the `first_name` property must include the value of `filterText` (ignoring case sensitivity).
-This allows the user to search for specific items in the table based on the first_name property. */
-  const filteredItems = list.filter(
-    (item) =>
-      item.cr.first_name &&
-      item.cr.first_name.toLowerCase().includes(filterText.toLowerCase())
-  );
-
   let [hoverStyle, setHoverStyle] = useState("");
 
   /* The above code is using the `useEffect` hook in React to update the `hoverStyle` state variable
@@ -58,7 +45,7 @@ sidebar is being hovered over. */
 
   useEffect(() => {
     getRegistrations();
-  }, [page]);
+  }, [page, filterText]);
 
   /* The above code is creating a React functional component called `subHeaderComponentMemo` using the
  `useMemo` hook. This component returns a `div` element containing an input field and a search icon.
@@ -194,7 +181,18 @@ customize the appearance of a table in a React application. */
    */
   const getRegistrations = (errorType) => {
     setIsLoading(true);
-    registrationsGetCall(page, limit, "", "", "", "", "", "", errorType)
+    registrationsGetCall(
+      page,
+      limit,
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      errorType,
+      filterText
+    )
       .then(({ data }) => {
         setIsLoading(false);
         if (data.data.success) {
@@ -309,7 +307,7 @@ customize the appearance of a table in a React application. */
             <div className="container__main__content__listing__table__content">
               <DataTable
                 columns={columns}
-                data={filteredItems}
+                data={list}
                 progressPending={isLoading}
                 progressComponent={<Loader />}
                 pagination

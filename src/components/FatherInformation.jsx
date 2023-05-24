@@ -24,14 +24,6 @@ export default function FatherInformation({
   fatherCommune,
   setFatherFokontany,
   fatherFokontany,
-  setFatherUsualRegion,
-  fatherUsualRegion,
-  setFatherUsualDistrict,
-  fatherUsualDistrict,
-  setFatherUsualCommune,
-  fatherUsualCommune,
-  setFatherUsualFokontany,
-  fatherUsualFokontany,
 }) {
   return (
     <div className="form__wrapper">
@@ -130,18 +122,6 @@ export default function FatherInformation({
         </>
       ) : null}
 
-      {/* <div className="form__bottom">
-        <div className="form__bottom__content">Nationality</div>
-        <input placeholder="Malangasy" style={{ width: "43%" }} />
-        <input placeholder="Other(Precise)" style={{ width: "43%" }} />
-      </div> */}
-
-      {/* <div className="form__bottom__last__bar">
-        <div className="form__bottom__content">Birth in Health Center</div>
-        <input />
-        <div className="form__bottom__content">with health care worker</div>
-        <input />
-      </div> */}
       <div className="form__buttons__container">
         <button className="prev__button" onClick={onPrevClick}>
           {" "}

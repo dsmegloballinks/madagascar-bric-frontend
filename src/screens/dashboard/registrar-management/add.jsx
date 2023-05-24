@@ -35,24 +35,29 @@ export default function AddRegistrarManagement() {
     );
   }, [isSidebarHovered]);
 
+  /**
+   * This function sets the message and visibility of an alert popup.
+   */
   const setErrorMessageAndVisibility = (text, visibility) => {
     setAlertPopupMessage(text);
     setAlertPopupVisibility(visibility);
   };
 
-  const options = [
-    { value: 1, label: "registrar id 1" },
-    { value: 2, label: "registrar id 2" },
-    { value: 3, label: "registrar id 3" },
-    { value: 4, label: "registrar id 4" },
-  ];
-
+  /* The above code is declaring an array of objects called `appointmentOptions`. Each object has two
+properties: `value` and `label`. The `value` property is a number and the `label` property is a
+string. These objects represent options for an appointment selection dropdown or similar UI element. */
   const appointmentOptions = [
     { value: 1, label: "Appointed" },
     { value: 2, label: "Trasferred" },
     { value: 3, label: "Posting awaited" },
   ];
 
+  /**
+   * The function checks if all required fields are filled and valid before returning true, otherwise it
+   * sets an error message and returns false.
+   * @returns a boolean value. If all the conditions are met, it returns true, otherwise it returns
+   * false.
+   */
   const isViewValid = () => {
     if (isNullOrEmpty(lastName))
       setErrorMessageAndVisibility("Enter last name", true);
@@ -80,6 +85,10 @@ export default function AddRegistrarManagement() {
     return false;
   };
 
+  /**
+   * The function `postRegistrar` sends a POST request with user input data and handles the response
+   * accordingly.
+   */
   const postRegistrar = () => {
     if (isViewValid()) {
       let object = {

@@ -28,14 +28,9 @@ export default function RegistrarManagementDetails() {
   const [page, setPage] = useState(1);
   const limit = 10;
   const [isPostCallLoading, setIsPostCallLoading] = useState(false);
+  const [date, setDate] = useState("");
 
   const [filterText, setFilterText] = useState("");
-
-  const filteredItems = list.filter(
-    (item) =>
-      item.location &&
-      item.location.toLowerCase().includes(filterText.toLowerCase())
-  );
 
   let [hoverStyle, setHoverStyle] = useState("");
 
@@ -47,6 +42,11 @@ export default function RegistrarManagementDetails() {
     );
   }, [isSidebarHovered]);
 
+  /* The above code is creating a React functional component called `subHeaderComponentMemo` using the
+ `useMemo` hook. It returns a JSX element that contains a search input field and an icon. The
+ `filterText` state variable is used to control the value of the input field and update it when the
+ user types in it. The `useMemo` hook is used to memoize the component and re-render it only when
+ the `filterText` state variable changes. */
   const subHeaderComponentMemo = useMemo(() => {
     return (
       <div style={{ display: "flex" }}>
@@ -54,7 +54,10 @@ export default function RegistrarManagementDetails() {
           <input
             type="text"
             placeholder="Search"
-            onChange={(e) => setFilterText(e.target.value)}
+            onChange={(e) => {
+              setPage(1);
+              setFilterText(e.target.value);
+            }}
             value={filterText}
           />
           <Search size={19} className="list__search__wrapper__icon" />
@@ -63,6 +66,10 @@ export default function RegistrarManagementDetails() {
     );
   }, [filterText]);
 
+  /* The above code is defining an array of objects that represent columns for a table. Each object has
+  properties such as name, selector, format, and cell that define how the data should be displayed
+  in the table. The code also uses the moment library to format dates and includes a tooltip and
+  edit button in the "Action" column. */
   const columns = [
     {
       name: "Location",
@@ -137,6 +144,10 @@ export default function RegistrarManagementDetails() {
     },
   ];
 
+  /* The above code is defining a JavaScript object `customStyles` that contains a property `headCells`
+which is also an object. The `headCells` object has a `style` property that is an object containing
+CSS styles for the font size and font weight of table header cells. These styles will be used to
+customize the appearance of a table in a React application. */
   const customStyles = {
     headCells: {
       style: {
@@ -146,13 +157,23 @@ export default function RegistrarManagementDetails() {
     },
   };
 
+  /* The above code is using the `useEffect` hook in a React component to call the `getDetail` function
+when the `state` or `page` variables change. The `useEffect` hook is a way to perform side effects
+in a React component, such as fetching data or updating the DOM. In this case, the code is checking
+if `state` is truthy and then calling `getDetail` to retrieve more information. The `page` variable
+is also included in the dependency array, which means that the effect will be re-run whenever `page`
+changes. */
   useEffect(() => {
     if (state) getDetail();
-  }, [page]);
+  }, [page, filterText, date]);
 
+  /**
+   * The function retrieves appointment details by making an API call and updating state variables
+   * accordingly.
+   */
   const getDetail = (msg) => {
     if (!msg) setIsLoading(true);
-    registrarAppointmentsGetByIdCall(page, limit, state.id)
+    registrarAppointmentsGetByIdCall(page, limit, state.id, filterText, date)
       .then(({ data }) => {
         setIsLoading(false);
         if (data.success) {
@@ -169,9 +190,16 @@ export default function RegistrarManagementDetails() {
       });
   };
 
+  /**
+   * The function `handlePageChange` sets the value of the `page` variable.
+   */
   const handlePageChange = (value) => {
     setPage(value);
   };
+  /**
+   * The function `postRegistrarAppointment` is used to make a POST call to create or update a registrar
+   * appointment with the provided appointment details.
+   */
 
   const postRegistrarAppointment = (
     appointmentAddress,
@@ -237,6 +265,9 @@ export default function RegistrarManagementDetails() {
           console.log("err", err);
         });
   };
+  /**
+   * This function sets the message and visibility of an alert popup.
+   */
 
   const setErrorMessageAndVisibility = (text, visibility) => {
     setAlertPopupMessage(text);
@@ -274,11 +305,21 @@ export default function RegistrarManagementDetails() {
           </Tooltip>
         </div>
         <div className="details__container">
+          <div
+            style={{ width: "100%" }}
+            className="details__container__filter__date__wrapper"
+          >
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.currentTarget.value)}
+            />
+          </div>
           <div className="container__main__content__listing__table">
             <div className="container__main__content__listing__table__content">
               <DataTable
                 columns={columns}
-                data={filteredItems}
+                data={list}
                 progressPending={isLoading}
                 progressComponent={<Loader />}
                 pagination

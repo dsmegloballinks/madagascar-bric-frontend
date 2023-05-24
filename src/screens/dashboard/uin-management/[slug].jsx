@@ -33,17 +33,6 @@ UI. */
     );
   }, [isSidebarHovered]);
 
-  /* `filteredItems` is an array that contains the filtered items from the `list` array based on the
-value of `filterText`. The `filter` method is used to iterate through each item in the `list` array
-and return a new array that contains only the items that meet the condition specified in the
-callback function. In this case, the condition is that the `item` must have a `file` property and
-the value of the `file` property must include the value of `filterText` (ignoring case sensitivity).
-This allows the user to search for specific items in the table based on the file name. */
-  const filteredItems = list.filter(
-    (item) =>
-      item.file && item.file.toLowerCase().includes(filterText.toLowerCase())
-  );
-
   /* `subHeaderComponentMemo` is a memoized component that is used as the subheader of a `DataTable`
  component. It returns a search bar that allows the user to filter the data displayed in the table
  based on the value of `filterText`. The `useMemo` hook is used to memoize the component and prevent
@@ -55,7 +44,10 @@ This allows the user to search for specific items in the table based on the file
           <input
             type="text"
             placeholder="Search"
-            onChange={(e) => setFilterText(e.target.value)}
+            onChange={(e) => {
+              setPage(1);
+              setFilterText(e.target.value);
+            }}
             value={filterText}
           />
           <Search size={19} className="list__search__wrapper__icon" />
@@ -113,14 +105,14 @@ This allows the user to search for specific items in the table based on the file
  again and fetch the updated data. */
   useEffect(() => {
     getLog();
-  }, [page]);
+  }, [page, filterText]);
 
   /**
    * This function makes an API call to retrieve a log file and updates the state with the results.
    */
   const getLog = () => {
     setIsDataLoading(true);
-    fileLogGetCall(page, limit, "F")
+    fileLogGetCall(page, limit, "F", filterText)
       .then(({ data }) => {
         setIsDataLoading(false);
         if (data.success) {
@@ -179,7 +171,7 @@ This allows the user to search for specific items in the table based on the file
             <div className="container__main__content__listing__table__content">
               <DataTable
                 columns={columns}
-                data={filteredItems}
+                data={list}
                 progressPending={isDataLoading}
                 progressComponent={<Loader />}
                 pagination

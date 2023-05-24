@@ -17,7 +17,6 @@ export default function InputSelect({
         getOptionLabel={getOptionLabel}
         defaultValue={defaultValue}
         value={value}
-        // menuIsOpen={true}
         onChange={onChange}
         theme={(theme) => ({
           ...theme,

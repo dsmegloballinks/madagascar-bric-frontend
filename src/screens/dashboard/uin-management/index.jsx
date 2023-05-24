@@ -36,6 +36,8 @@ export default function UINManagement() {
 
   let [hoverStyle, setHoverStyle] = useState("");
 
+  const [filterText, setFilterText] = useState("");
+
   /* The above code is using the `useEffect` hook in React to update the `hoverStyle` state variable
 based on the value of `isSidebarHovered`. If `isSidebarHovered` is true, `hoverStyle` is set to
 "superAdmin__dashboard__container", otherwise it is set to "dashboard__container". This code is
@@ -62,7 +64,7 @@ sidebar is being hovered over. */
 
   useEffect(() => {
     getUINManagement();
-  }, [page, commune, selectedTabId]);
+  }, [page, commune, selectedTabId, filterText]);
 
   /**
    * This function makes an API call to retrieve registration data and updates the tracking records
@@ -88,7 +90,7 @@ sidebar is being hovered over. */
    */
   const getUINManagement = () => {
     setIsDataLoading(true);
-    uinManagmentGetCall(page, limit, commune, selectedTabId)
+    uinManagmentGetCall(page, limit, commune, selectedTabId, filterText)
       .then(({ data }) => {
         setIsDataLoading(false);
         if (data.data.success) {
@@ -105,18 +107,6 @@ sidebar is being hovered over. */
       });
   };
 
-  const [filterText, setFilterText] = useState("");
-
-  /* The above code is filtering a list of items based on a filter text. It is using the `filter` method
- to iterate over each item in the list and return a new array of items that match the condition
- specified in the callback function. The condition is that the `uin` property of each item must
- exist and must contain the filter text (case-insensitive). The filtered items are then stored in
- the `filteredItems` variable. */
-  const filteredItems = list.filter(
-    (item) =>
-      item.uin && item.uin.toLowerCase().includes(filterText.toLowerCase())
-  );
-
   /* The above code is creating a React functional component called `subHeaderComponentMemo` using the
  `useMemo` hook. This component returns a `div` element containing an input field and a search icon.
  The `onChange` event of the input field updates the `filterText` state variable with the current
@@ -130,7 +120,10 @@ sidebar is being hovered over. */
           <input
             type="text"
             placeholder="Search"
-            onChange={(e) => setFilterText(e.target.value)}
+            onChange={(e) => {
+              setPage(1);
+              setFilterText(e.target.value);
+            }}
             value={filterText}
           />
           <Search size={19} className="list__search__wrapper__icon" />
@@ -353,7 +346,7 @@ sidebar is being hovered over. */
             <div className="container__main__content__listing__table__content">
               <DataTable
                 columns={columns}
-                data={filteredItems}
+                data={list}
                 progressPending={isDataLoading}
                 progressComponent={<Loader />}
                 pagination

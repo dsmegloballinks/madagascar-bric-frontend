@@ -11,6 +11,12 @@ export default function App() {
   const [user] = useAtom(userAtom);
   const navigate = useNavigate();
 
+  /* This is a React hook called `useEffect` that is used to perform side effects in a functional
+  component. In this case, it is checking if there is an `id` value stored in the `localStorage` and
+  if the current `location.pathname` matches certain conditions. If the conditions are met, it uses
+  the `navigate` function from `react-router-dom` to redirect the user to a different page. The
+  `useEffect` hook is also dependent on the `location` variable, so it will re-run whenever the
+  `location` changes. */
   useEffect(() => {
     let id = localStorage.getItem("id");
     if (id === null && location.pathname.toLowerCase().includes("/dashboard")) {

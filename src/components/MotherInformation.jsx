@@ -20,14 +20,6 @@ export default function MotherInformation({
   motherCommune,
   setMotherFokontany,
   motherFokontany,
-  setMotherUsualRegion,
-  motherUsualRegion,
-  setMotherUsualDistrict,
-  motherUsualDistrict,
-  setMotherUsualCommune,
-  motherUsualCommune,
-  setMotherUsualFokontany,
-  motherUsualFokontany,
   setMotherProfession,
   motherProfession,
   setMotherNationality,
@@ -39,12 +31,7 @@ export default function MotherInformation({
       <div className="form__wrapper__content">
         Details about your business corporation and shares
       </div>
-      {/* <div className="form__bottom__last__bar">
-        <div className="form__bottom__content">Married Parents?</div>
-        <input />
-        <div className="form__bottom__content">Same usual residence?</div>
-        <input />
-      </div> */}
+
       <div className="form__bottom">
         <div className="form__bottom__content">NIU</div>
         <input
@@ -99,13 +86,7 @@ export default function MotherInformation({
           onChange={(e) => setMotherCommune(e.currentTarget.value)}
         />
       </div>
-      {/* <div className="form__bottom">
-        <div className="form__bottom__content">Municipality</div>
-        <input
-          value={municipality}
-          onChange={(e) => setMunicipality(e.currentTarget.value)}
-        />
-      </div> */}
+
       <div className="form__bottom">
         <div className="form__bottom__content">Fokontany</div>
         <input
@@ -113,50 +94,7 @@ export default function MotherInformation({
           onChange={(e) => setMotherFokontany(e.currentTarget.value)}
         />
       </div>
-      {/* <div className="form__bottom">
-        <div className="form__bottom__content">Profession</div>
-        <input
-          value={functions}
-          onChange={(e) => setFunctions(e.currentTarget.value)}
-        />
-      </div> */}
 
-      {/* <div className="form__bottom__heading">Usual Residence</div>
-      <div className="form__bottom">
-        <div className="form__bottom__content">Region</div>
-        <input
-          value={motherUsualRegion}
-          onChange={(e) => setMotherUsualRegion(e.currentTarget.value)}
-        />
-      </div>
-      <div className="form__bottom">
-        <div className="form__bottom__content">District</div>
-        <input
-          value={motherUsualDistrict}
-          onChange={(e) => setMotherUsualDistrict(e.currentTarget.value)}
-        />
-      </div>
-      <div className="form__bottom">
-        <div className="form__bottom__content">Commune</div>
-        <input
-          value={motherUsualCommune}
-          onChange={(e) => setMotherUsualCommune(e.currentTarget.value)}
-        />
-      </div> */}
-      {/* <div className="form__bottom">
-        <div className="form__bottom__content">Municipality</div>
-        <input
-          value={usualMunicipality}
-          onChange={(e) => setUsualMunicipality(e.currentTarget.value)}
-        />
-      </div> */}
-      {/* <div className="form__bottom">
-        <div className="form__bottom__content">Fokontany</div>
-        <input
-          value={motherUsualFokontany}
-          onChange={(e) => setMotherUsualFokontany(e.currentTarget.value)}
-        />
-      </div> */}
       <div className="form__bottom">
         <div className="form__bottom__content">Profession</div>
         <input
@@ -164,11 +102,6 @@ export default function MotherInformation({
           onChange={(e) => setMotherProfession(e.currentTarget.value)}
         />
       </div>
-      {/* <div className="form__bottom">
-        <div className="form__bottom__content">Nationality</div>
-        <input placeholder="Malangasy" style={{ width: "43%" }} />
-        <input placeholder="Other(Precise)" style={{ width: "43%" }} />
-      </div> */}
 
       <div className="form__bottom__last__bar">
         <div className="form__bottom__content">Nationality</div>
@@ -216,12 +149,6 @@ export default function MotherInformation({
         </div>
       </div>
 
-      {/* <div className="form__bottom__last__bar">
-        <div className="form__bottom__content">Birth in Health Center</div>
-        <input />
-        <div className="form__bottom__content">with health care worker</div>
-        <input />
-      </div> */}
       <div className="form__buttons__container">
         <button className="prev__button" onClick={onPrevClick}>
           {" "}

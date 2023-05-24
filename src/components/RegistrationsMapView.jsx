@@ -14,8 +14,6 @@ function RegistrationsMapView({ mapList }) {
     setMap(null);
   }, []);
 
-  console.log("mapList", mapList);
-
   return (
     <div>
       <div style={{ fontSize: "18px", fontWeight: "600", marginTop: "1em" }}>

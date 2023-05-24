@@ -1,13 +1,12 @@
 import { Link, NavLink } from "@router";
-import { sidebarCategories, sidebarEnteries, userAtom } from "../global/index";
+import { sidebarEnteries, userAtom } from "../global/index";
 
-import { Fragment, useContext } from "react";
+import { useContext } from "react";
 import { X, LogOut } from "react-feather";
 import { logo } from "@assets";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAtom } from "jotai";
 import { useNavigate } from "react-router-dom";
-import { isNullOrEmpty } from "../utils/isNullOrEmpty";
 import { PopupContext } from "../context/PopupContext";
 
 export default function Sidebar({ setSidebarOpen }) {
@@ -16,8 +15,6 @@ export default function Sidebar({ setSidebarOpen }) {
   const [user, setUser] = useAtom(userAtom);
   const isSuperAdmin = localStorage.getItem("isAdmin");
   const [isHover, setIsHover] = useState(false);
-  // const [isHover, setIsHover] = useState(isSuperAdmin == "true" ? true : false);
-  console.log("isHover", isHover);
 
   return (
     <>
@@ -25,19 +22,16 @@ export default function Sidebar({ setSidebarOpen }) {
         <div
           className="container__sidebar animate"
           onMouseOver={() => {
-            // if (isSuperAdmin != "true")
             setIsHover(true);
             setIsSidebarHovered(true);
             localStorage.setItem("isHover", true);
           }}
           onMouseOut={() => {
-            // if (isSuperAdmin != "true")
             setIsHover(false);
             setIsSidebarHovered(false);
             localStorage.setItem("isHover", false);
           }}
           style={{ position: "relative" }}
-          // style={isSuperAdmin == "true" ? { position: "relative" } : null}
         >
           <div className="container__sidebar__header">
             <Link to="/dashboard" className="container__sidebar__logo">

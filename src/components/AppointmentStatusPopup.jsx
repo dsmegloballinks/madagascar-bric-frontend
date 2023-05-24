@@ -3,7 +3,6 @@ import { X } from "react-feather";
 import InputSelect from "./InputSelect";
 import { PopupContext } from "../context/PopupContext";
 import { isNullOrEmpty } from "../utils/isNullOrEmpty";
-import { registrarAppointmentPostCall } from "../apis/Repo";
 import moment from "moment";
 
 export default function AppointmentStatusPopup({
@@ -12,7 +11,6 @@ export default function AppointmentStatusPopup({
   isPostCallLoading,
   selectedItem,
 }) {
-  console.log("selectedItem", selectedItem);
   const { setAlertPopupVisibility, setAlertPopupMessage } =
     useContext(PopupContext);
   const [appointmentAddress, setAppointmentAddress] = useState(
@@ -40,6 +38,9 @@ export default function AppointmentStatusPopup({
     if (selectedItem) setAppointmentStatusValue();
   }, []);
 
+  /**
+   * The function sets the appointment status value based on the selected item's appointment status.
+   */
   const setAppointmentStatusValue = () => {
     if (selectedItem && selectedItem.appointment_status == "Appointed")
       setAppointmentStatus({ value: 1, label: "Appointed" });
@@ -48,11 +49,20 @@ export default function AppointmentStatusPopup({
     else setAppointmentStatus({ value: 3, label: "Posting awaited" });
   };
 
+  /**
+   * This function sets the message and visibility of an alert popup.
+   */
   const setErrorMessageAndVisibility = (text, visibility) => {
     setAlertPopupMessage(text);
     setAlertPopupVisibility(visibility);
   };
 
+  /**
+   * The function checks if certain appointment details are null or empty and sets an error message if
+   * so, returning false if any are empty and true otherwise.
+   * @returns a boolean value. If all the conditions are met, it returns true, otherwise it returns
+   * false.
+   */
   const isViewValid = () => {
     if (isNullOrEmpty(appointmentAddress))
       setErrorMessageAndVisibility("Enter appointment address", true);
@@ -68,6 +78,9 @@ export default function AppointmentStatusPopup({
     return false;
   };
 
+  /**
+   * The function `postAppointment` adds a new appointment if the input values are valid.
+   */
   const postAppointment = () => {
     if (isViewValid()) {
       onAdd(
@@ -98,42 +111,6 @@ export default function AppointmentStatusPopup({
             className="certificate__wrapper__container "
             style={{ margin: "0em 0em" }}
           >
-            {/* <div className="form__bottom">
-              <div className="form__bottom__content" style={{ width: "30%" }}>
-                Civil Register ID
-              </div>
-              <input placeholder="" />
-            </div>
-            <div className="form__bottom">
-              <div className="form__bottom__content" style={{ width: "30%" }}>
-                Last Name
-              </div>
-              <input placeholder="" />
-            </div>
-            <div className="form__bottom">
-              <div className="form__bottom__content" style={{ width: "30%" }}>
-                First Name
-              </div>
-              <input placeholder="" />
-            </div>
-            <div className="form__bottom">
-              <div className="form__bottom__content" style={{ width: "30%" }}>
-                Email
-              </div>
-              <input placeholder="" />
-            </div>
-            <div className="form__bottom">
-              <div className="form__bottom__content" style={{ width: "30%" }}>
-                Department
-              </div>
-              <input placeholder="" />
-            </div>
-            <div className="form__bottom">
-              <div className="form__bottom__content" style={{ width: "30%" }}>
-                Official Contact Number
-              </div>
-              <input placeholder="" />
-            </div> */}
             <div className="form__bottom">
               <div className="form__bottom__content" style={{ width: "30%" }}>
                 Appointment Address

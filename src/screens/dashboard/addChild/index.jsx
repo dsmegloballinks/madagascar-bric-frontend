@@ -74,6 +74,10 @@ export default function addChild() {
 
   let [hoverStyle, setHoverStyle] = useState("");
 
+  /* The above code is using the `useEffect` hook in a React component to update the `hoverStyle` state
+ variable based on the value of the `isSidebarHovered` prop. If `isSidebarHovered` is true,
+ `hoverStyle` is set to "superAdmin__dashboard__container", otherwise it is set to
+ "dashboard__container". The `useEffect` hook is triggered whenever `isSidebarHovered` changes. */
   useEffect(() => {
     setHoverStyle(
       (hoverStyle = isSidebarHovered
@@ -82,6 +86,10 @@ export default function addChild() {
     );
   }, [isSidebarHovered]);
 
+  /**
+   * The function increments the active step by 1 and scrolls to the top of the page if the active step
+   * is not already at 5.
+   */
   const onNextClick = () => {
     if (activeStep != 5) {
       setActiveStep((activeStep = activeStep + 1));
@@ -89,6 +97,10 @@ export default function addChild() {
     }
   };
 
+  /**
+   * The function onPrevClick decrements the activeStep state by 1 and scrolls to the top of the page if
+   * the activeStep is not 0.
+   */
   const onPrevClick = () => {
     if (activeStep != 0) {
       setActiveStep((activeStep = activeStep - 1));

@@ -60,6 +60,8 @@ export default function dashboard() {
   let [locationData, setLocationData] = useState([]);
   let [hoverStyle, setHoverStyle] = useState("");
 
+  const [filterText, setFilterText] = useState("");
+
   // Get values from localStorage
   const isSuperAdmin = localStorage.getItem("isAdmin");
   const userName = localStorage.getItem("user_name");
@@ -77,7 +79,7 @@ export default function dashboard() {
   useEffect(() => {
     // Fetch data for selectedFilter = "List" on page change
     if (selectedFilter == "List") getRegistrations();
-  }, [page]);
+  }, [page, filterText]);
 
   useEffect(() => {
     // Set default dates and get analytics data
@@ -162,7 +164,9 @@ export default function dashboard() {
       rg,
       dst,
       comun,
-      fokonty
+      fokonty,
+      "",
+      filterText
     )
       .then(({ data }) => {
         setIsLoading(false);
@@ -345,8 +349,8 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
    * state if successful.
    */
   const getAnalytics = () => {
-    let date = moment(new Date()).format("YYYY-MM-DD");
-    analyticsGetCall(date)
+    let date = start ? start : moment(new Date()).format("YYYY-MM-DD");
+    analyticsGetCall(date, region, district, commune, fokontany)
       .then(({ data }) => {
         if (data.success) setAnalytics(data.result);
         else setAnalytics(null);
@@ -535,6 +539,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
         fokontany
       );
       getGenderAnalytics();
+      getAnalytics();
     } else if (selectedFilter == "List") {
       getRegistrations(start, end, region, district, commune, fokontany);
     } else getMapsList(start, end, region, district, commune, fokontany);
@@ -555,6 +560,7 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
       getGraphAnalytics(yearStartDate, yearEndDate, 12);
       getGraphAnalytics(sevenDayStartDate, sevenDayEndDate, 7);
       getGenderAnalytics();
+      getAnalytics();
     } else if (selectedFilter == "List") {
       getRegistrations();
     } else getMapsList();
@@ -838,6 +844,9 @@ c122 -28 234 -35 337 -23 245 31 422 114 593 280 260 251 362 607 274 953
                   setLocationPopupVisibility(true);
                 }}
                 isLoading={isLoading}
+                setFilterText={setFilterText}
+                filterText={filterText}
+                setPage={setPage}
               />
             ) : (
               <RegistrationsMapView mapList={mapList} />

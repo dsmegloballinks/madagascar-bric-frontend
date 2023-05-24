@@ -61,7 +61,10 @@ only when the `filterText` state variable changes. */
           <input
             type="text"
             placeholder="Search"
-            onChange={(e) => setFilterText(e.target.value)}
+            onChange={(e) => {
+              setPage(1);
+              setFilterText(e.target.value);
+            }}
             value={filterText}
           />
           <Search size={19} className="list__search__wrapper__icon" />
@@ -154,14 +157,14 @@ reset the user's password and another to edit the user's details. */
 
   useEffect(() => {
     getUsers();
-  }, [page]);
+  }, [page, filterText]);
 
   /**
    * This function retrieves a list of users and updates the state with the results.
    */
   const getUsers = () => {
     setIsLoading(true);
-    usersGetCall(page, limit)
+    usersGetCall(page, limit, filterText)
       .then(({ data }) => {
         setIsLoading(false);
         if (data.success) {
@@ -278,7 +281,7 @@ reset the user's password and another to edit the user's details. */
             <div className="container__main__content__listing__table__content">
               <DataTable
                 columns={columns}
-                data={filteredItems}
+                data={list}
                 progressPending={isLoading}
                 progressComponent={<Loader />}
                 pagination

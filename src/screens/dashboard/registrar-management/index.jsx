@@ -59,7 +59,10 @@ This allows the user to search for specific items in the table based on the last
           <input
             type="text"
             placeholder="Search"
-            onChange={(e) => setFilterText(e.target.value)}
+            onChange={(e) => {
+              setPage(1);
+              setFilterText(e.target.value);
+            }}
             value={filterText}
           />
           <Search size={19} className="list__search__wrapper__icon" />
@@ -155,7 +158,7 @@ This allows the user to search for specific items in the table based on the last
 
   useEffect(() => {
     getRegistrars();
-  }, [page]);
+  }, [page, filterText]);
 
   /**
    * This function makes an API call to retrieve registration data and updates the tracking records
@@ -163,7 +166,7 @@ This allows the user to search for specific items in the table based on the last
    */
   const getRegistrars = () => {
     setIsLoading(true);
-    registrarGetCall(page, limit)
+    registrarGetCall(page, limit, filterText)
       .then(({ data }) => {
         setIsLoading(false);
         if (data.success) {
@@ -247,7 +250,7 @@ This allows the user to search for specific items in the table based on the last
             <div className="container__main__content__listing__table__content">
               <DataTable
                 columns={columns}
-                data={filteredItems}
+                data={list}
                 progressPending={isLoading}
                 progressComponent={<Loader />}
                 pagination
