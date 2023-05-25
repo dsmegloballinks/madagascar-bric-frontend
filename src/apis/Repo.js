@@ -61,7 +61,7 @@ export const registrationsGetCall = async (
   fokonatny,
   error_id,
   niu,
-  child_name
+  name
 ) => {
   let params = {};
   if (page) params.page = page;
@@ -74,7 +74,7 @@ export const registrationsGetCall = async (
   if (fokonatny) params.code_fokonatany = fokonatny.value;
   if (error_id) params.error_id = error_id;
   if (niu) params.niu = niu;
-  if (child_name) params.child_name = child_name;
+  if (name) params.name = name;
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-all"),
     {
