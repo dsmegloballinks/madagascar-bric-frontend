@@ -4,6 +4,7 @@ import InputSelect from "./InputSelect";
 import { PopupContext } from "../context/PopupContext";
 import { isNullOrEmpty } from "../utils/isNullOrEmpty";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 export default function AppointmentStatusPopup({
   onClose,
@@ -11,6 +12,7 @@ export default function AppointmentStatusPopup({
   isPostCallLoading,
   selectedItem,
 }) {
+  const { t, i18n } = useTranslation();
   const { setAlertPopupVisibility, setAlertPopupMessage } =
     useContext(PopupContext);
   const [appointmentAddress, setAppointmentAddress] = useState(
@@ -29,9 +31,9 @@ export default function AppointmentStatusPopup({
     selectedItem && selectedItem.appointed_by
   );
   const appointmentOptions = [
-    { value: 1, label: "Appointed" },
-    { value: 2, label: "Trasferred" },
-    { value: 3, label: "Posting awaited" },
+    { value: 1, label: t("appoint"), title: "Appointed" },
+    { value: 2, label: t("transfer"), title: "Transferred" },
+    { value: 3, label: t("post_await"), title: "Posting awaited" },
   ];
 
   useEffect(() => {
@@ -65,15 +67,15 @@ export default function AppointmentStatusPopup({
    */
   const isViewValid = () => {
     if (isNullOrEmpty(appointmentAddress))
-      setErrorMessageAndVisibility("Enter appointment address", true);
+      setErrorMessageAndVisibility(t("enter_app_add"), true);
     else if (isNullOrEmpty(appointmentsStatus))
-      setErrorMessageAndVisibility("Enter appointment status", true);
+      setErrorMessageAndVisibility(t("enter_app_status"), true);
     else if (isNullOrEmpty(appointmentDate))
-      setErrorMessageAndVisibility("Enter appointment date", true);
+      setErrorMessageAndVisibility(t("enter_app_date"), true);
     else if (isNullOrEmpty(appointmentTime))
-      setErrorMessageAndVisibility("Enter appointment time", true);
+      setErrorMessageAndVisibility(t("enter_app_time"), true);
     else if (isNullOrEmpty(appointedBy))
-      setErrorMessageAndVisibility("Enter appointed by", true);
+      setErrorMessageAndVisibility(t("enter_app_by"), true);
     else return true;
     return false;
   };
@@ -105,7 +107,7 @@ export default function AppointmentStatusPopup({
           </button>
 
           <div className="certificate__wrapper__container__content">
-            Update Appointment Status
+            {t("update_appt")}
           </div>
           <div
             className="certificate__wrapper__container "
@@ -113,7 +115,7 @@ export default function AppointmentStatusPopup({
           >
             <div className="form__bottom">
               <div className="form__bottom__content" style={{ width: "30%" }}>
-                Appointment Address
+                {t("appt_address")}
               </div>
               <input
                 placeholder=""
@@ -123,7 +125,7 @@ export default function AppointmentStatusPopup({
             </div>
             <div className="form__bottom">
               <div className="form__bottom__content" style={{ width: "30%" }}>
-                Appointment Status
+                {t("appt_status")}
               </div>
               <InputSelect
                 placeholder="Select"
@@ -135,7 +137,7 @@ export default function AppointmentStatusPopup({
             </div>
             <div className="form__bottom">
               <div className="form__bottom__content" style={{ width: "30%" }}>
-                Appointment Date
+                {t("appt_date")}
               </div>
               <input
                 placeholder=""
@@ -146,7 +148,7 @@ export default function AppointmentStatusPopup({
             </div>
             <div className="form__bottom">
               <div className="form__bottom__content" style={{ width: "30%" }}>
-                Appointment Time
+                {t("appt_time")}
               </div>
               <input
                 placeholder=""
@@ -157,7 +159,7 @@ export default function AppointmentStatusPopup({
             </div>
             <div className="form__bottom">
               <div className="form__bottom__content" style={{ width: "30%" }}>
-                Appointed By
+                {t("appt_by")}
               </div>
               <input
                 placeholder=""
@@ -180,14 +182,14 @@ export default function AppointmentStatusPopup({
               style={{ marginRight: ".5em" }}
               onClick={() => onClose(false)}
             >
-              Cancel
+              {t("cancel")}
             </button>
             <button
               className="list__filter__button"
               onClick={() => postAppointment()}
               disabled={isPostCallLoading}
             >
-              {isPostCallLoading ? "Processing..." : "Save"}
+              {isPostCallLoading ? t("processing") : t("save")}
             </button>
           </div>
         </div>

@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { X, Plus } from "react-feather";
 import { logo } from "@assets";
+import { useTranslation } from "react-i18next";
 
 export default function UploadFileSingle({ onClose, onAdd, isLoading }) {
   const [certificate, setCertificate] = useState(null);
+
+  const { t, i18n } = useTranslation();
   return (
     <div className="popup">
       <div className="popup__overlay">
@@ -22,7 +25,7 @@ export default function UploadFileSingle({ onClose, onAdd, isLoading }) {
                 className="container__sidebar__logo__img"
               />
               <div className="container__sidebar__logo__name">
-                Madagascar Birth Registration
+                {t("project_title")}
               </div>
             </div>
             <button
@@ -37,7 +40,7 @@ export default function UploadFileSingle({ onClose, onAdd, isLoading }) {
             style={{ margin: "2em 0em" }}
           >
             <div className="certificate__wrapper__container__content">
-              Upload File
+              {t("upload_file")}
             </div>
             {certificate === null ? (
               <div className="container__main__content__details__main__input__field__wrapper__image">
@@ -111,14 +114,14 @@ export default function UploadFileSingle({ onClose, onAdd, isLoading }) {
               style={{ marginRight: ".5em" }}
               onClick={() => onClose(false)}
             >
-              Cancel
+              {t("cancel")}
             </button>
             <button
               className="list__filter__button"
               disabled={isLoading}
               onClick={() => onAdd(certificate)}
             >
-              {isLoading ? "Processing..." : "Add"}
+              {isLoading ? t("processing") : t("add")}
             </button>
           </div>
         </div>

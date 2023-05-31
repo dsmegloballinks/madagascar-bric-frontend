@@ -2,8 +2,10 @@ import React from "react";
 import { logo } from "@assets";
 import { AlertCircle, X } from "react-feather";
 import InputSelect from "./InputSelect";
+import { useTranslation } from "react-i18next";
 
 export default function SimpleConfirmationPopup({ onClose, text, onYes }) {
+  const { t, i18n } = useTranslation();
   return (
     <div className="popup">
       <div className="popup__overlay">
@@ -15,7 +17,9 @@ export default function SimpleConfirmationPopup({ onClose, text, onYes }) {
             <X size={20} color="white" />
           </button>
 
-          <div className="certificate__wrapper__container__content">Alert!</div>
+          <div className="certificate__wrapper__container__content">
+            {t("alert")}
+          </div>
           <div
             className="certificate__wrapper__container "
             style={{ margin: "0em 0em" }}
@@ -36,10 +40,10 @@ export default function SimpleConfirmationPopup({ onClose, text, onYes }) {
               style={{ marginRight: ".5em" }}
               onClick={() => onClose(false)}
             >
-              No
+              {t("yes")}
             </button>
             <button className="list__filter__button" onClick={() => onYes()}>
-              Yes
+              {t("no")}
             </button>
           </div>
         </div>

@@ -6,8 +6,10 @@ import { logo, certificateLogo, orgLogo } from "@assets";
 import { PDFExport } from "@progress/kendo-react-pdf";
 import moment from "moment";
 import { isNullOrEmpty } from "../../../utils/isNullOrEmpty";
+import { useTranslation } from "react-i18next";
 
 export default function RegistrationDetail() {
+  const { t, i18n } = useTranslation();
   const { state } = useLocation();
   const navigate = useNavigate();
   const pdfExportComponent = useRef(null);
@@ -90,12 +92,12 @@ export default function RegistrationDetail() {
             size={18}
             onClick={() => navigate(-1)}
           />
-          Registration Detail <ChevronRight />{" "}
+          {t("reg_destails")} <ChevronRight />{" "}
           {state.registrationData && state.registrationData.cr.given_name}
           {/* john */}
         </div>
         <button className="details__print" onClick={generatePDFFile}>
-          Print
+          {t("print")}
         </button>
       </div>
       <PDFExport
@@ -108,19 +110,19 @@ export default function RegistrationDetail() {
             <img src={orgLogo} />
             <img src={certificateLogo} />
             <div className="details__container__header__title">
-              DECLARATION OF BIRTH
+              {t("birth_declaration")}
             </div>
           </div>
           <div className="details__Info__wrapper">
             <div className="details__Info__wrapper__left">
               <div className="details__Info__wrapper__section">
                 <div className="details__Info__wrapper__section__title">
-                  Reporting Information
+                  {t("reporting_info")}
                 </div>
                 <div className="details__Info__wrapper__section__title__border"></div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Number
+                    {t("number")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.cr &&
@@ -138,7 +140,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Date of Declaration
+                    {t("dec_date")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {/* {name.split("").map((character) => {
@@ -148,7 +150,7 @@ export default function RegistrationDetail() {
                         </div>
                       );
                     })} */}
-                    <div className="details__dob__sections">Day</div>
+                    <div className="details__dob__sections">{t("day")}</div>
                     {state.registrationData.cr &&
                       setDateValues(
                         moment(state.registrationData.cr.dec_date)
@@ -160,7 +162,7 @@ export default function RegistrationDetail() {
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
-                      Month
+                      {t("month")}
                     </div>
                     {state.registrationData.cr &&
                       setDateValues(
@@ -171,7 +173,7 @@ export default function RegistrationDetail() {
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
-                      Year
+                      {t("year")}
                     </div>
                     {setDateValues(
                       moment(state.registrationData.cr.dec_date).format("YYYY"),
@@ -181,10 +183,10 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Date of Transcription of Declaration
+                    {t("trns_dec_date")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    <div className="details__dob__sections">Day</div>
+                    <div className="details__dob__sections">{t("day")}</div>
                     {state.registrationData.cr &&
                       setDateValues(
                         moment(state.registrationData.cr.transcription_date)
@@ -196,7 +198,7 @@ export default function RegistrationDetail() {
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
-                      Month
+                      {t("month")}
                     </div>
                     {state.registrationData.cr &&
                       setDateValues(
@@ -209,7 +211,7 @@ export default function RegistrationDetail() {
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
-                      Year
+                      {t("year")}
                     </div>
                     {state.registrationData.cr &&
                       setDateValues(
@@ -223,12 +225,12 @@ export default function RegistrationDetail() {
               </div>
               <div className="details__Info__wrapper__section">
                 <div className="details__Info__wrapper__section__title">
-                  Information About Child
+                  {t("child_info")}
                 </div>
                 <div className="details__Info__wrapper__section__title__border"></div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    NIU
+                    {t("niu")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.cr &&
@@ -237,7 +239,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Last Name
+                    {t("last_name")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.cr &&
@@ -246,7 +248,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    First Name
+                    {t("first_name")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.cr &&
@@ -255,10 +257,10 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Date of Birth
+                    {t("dob")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    <div className="details__dob__sections">Day</div>
+                    <div className="details__dob__sections">{t("day")}</div>
                     {state.registrationData.cr &&
                       setDateValues(
                         moment(state.registrationData.cr.date_of_birth)
@@ -270,7 +272,7 @@ export default function RegistrationDetail() {
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
-                      Month
+                      {t("month")}
                     </div>
                     {state.registrationData.cr &&
                       setDateValues(
@@ -283,7 +285,7 @@ export default function RegistrationDetail() {
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
-                      Year
+                      {t("year")}
                     </div>
                     {state.registrationData.cr &&
                       setDateValues(
@@ -296,7 +298,7 @@ export default function RegistrationDetail() {
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
-                      Hour
+                      {t("hour")}
                     </div>
                     {state.registrationData.cr &&
                       setDateValues(
@@ -337,13 +339,13 @@ export default function RegistrationDetail() {
                     className="details__Info__wrapper__section__information__content__wrapper"
                     style={{ fontSize: "16px", fontWeight: "600" }}
                   >
-                    Place Of Birth
+                    {t("bith_place")}
                   </div>
                 </div>
 
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Region
+                    {t("region")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.cr &&
@@ -352,7 +354,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    District
+                    {t("district")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.cr &&
@@ -361,7 +363,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Commune
+                    {t("commune")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.cr &&
@@ -370,7 +372,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Fokontany
+                    {t("fokontany")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.cr &&
@@ -380,7 +382,7 @@ export default function RegistrationDetail() {
 
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Gender
+                    {t("gender")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     <div style={{ display: "flex" }}>
@@ -397,7 +399,7 @@ export default function RegistrationDetail() {
                           }
                         />
                         <label for="radio-1" class="radio-label">
-                          Male
+                          {t("male")}
                         </label>
                       </div>
 
@@ -414,7 +416,7 @@ export default function RegistrationDetail() {
                           }
                         />
                         <label for="radio-2" class="radio-label">
-                          Female
+                          {t("female")}
                         </label>
                       </div>
                     </div>
@@ -422,7 +424,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Married Parents?
+                    {t("married_parents")}?
                   </div>
                   <div style={{ display: "flex" }}>
                     <div class="radio">
@@ -437,7 +439,7 @@ export default function RegistrationDetail() {
                         }
                       />
                       <label for="radio-3" class="radio-label">
-                        Yes
+                        {t("yes")}
                       </label>
                     </div>
 
@@ -453,14 +455,14 @@ export default function RegistrationDetail() {
                         }
                       />
                       <label for="radio-4" class="radio-label">
-                        No
+                        {t("no")}
                       </label>
                     </div>
                     <div
                       className="details__Info__wrapper__section__information__title"
                       style={{ paddingLeft: "1em" }}
                     >
-                      Same usual residence?
+                      {t("same_resid")}
                     </div>
                     <div class="radio">
                       <input
@@ -474,7 +476,7 @@ export default function RegistrationDetail() {
                         }
                       />
                       <label for="radio-5" class="radio-label">
-                        Yes
+                        {t("yes")}
                       </label>
                     </div>
 
@@ -490,14 +492,14 @@ export default function RegistrationDetail() {
                         }
                       />
                       <label for="radio-6" class="radio-label">
-                        No
+                        {t("no")}
                       </label>
                     </div>
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Birth in Health Center
+                    {t("birth_hc")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     <div style={{ display: "flex" }}>
@@ -512,7 +514,7 @@ export default function RegistrationDetail() {
                           }
                         />
                         <label for="radio-7" class="radio-label">
-                          Yes
+                          {t("yes")}
                         </label>
                       </div>
 
@@ -527,7 +529,7 @@ export default function RegistrationDetail() {
                           }
                         />
                         <label for="radio-8" class="radio-label">
-                          No
+                          {t("no")}
                         </label>
                       </div>
                     </div>
@@ -535,7 +537,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    With health care worker?
+                    {t("with_hcw")}?
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     <div style={{ display: "flex" }}>
@@ -552,7 +554,7 @@ export default function RegistrationDetail() {
                           }
                         />
                         <label for="radio-9" class="radio-label">
-                          Yes
+                          {t("yes")}
                         </label>
                       </div>
 
@@ -567,7 +569,7 @@ export default function RegistrationDetail() {
                           }
                         />
                         <label for="radio-10" class="radio-label">
-                          No
+                          {t("no")}
                         </label>
                       </div>
                     </div>
@@ -575,7 +577,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Birth Place Address
+                    {t("bith_address")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.cr &&
@@ -585,12 +587,12 @@ export default function RegistrationDetail() {
               </div>
               <div className="details__Info__wrapper__section">
                 <div className="details__Info__wrapper__section__title">
-                  Information About Mother
+                  {t("mother_info")}
                 </div>
                 <div className="details__Info__wrapper__section__title__border"></div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    NIU
+                    {t("niu")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.mother &&
@@ -599,7 +601,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Last Name
+                    {t("last_name")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.mother &&
@@ -608,7 +610,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    First Name
+                    {t("first_name")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.mother &&
@@ -617,10 +619,10 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Date of Birth
+                    {t("dob")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    <div className="details__dob__sections">Day</div>
+                    <div className="details__dob__sections">{t("day")}</div>
                     {state.registrationData.mother &&
                       setDateValues(
                         moment(state.registrationData.mother.date_of_birth)
@@ -632,7 +634,7 @@ export default function RegistrationDetail() {
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
-                      Month
+                      {t("month")}
                     </div>
                     {state.registrationData.mother &&
                       setDateValues(
@@ -645,7 +647,7 @@ export default function RegistrationDetail() {
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
-                      Year
+                      {t("year")}
                     </div>
                     {state.registrationData.mother &&
                       setDateValues(
@@ -663,12 +665,12 @@ export default function RegistrationDetail() {
                     className="details__Info__wrapper__section__information__content__wrapper"
                     style={{ fontSize: "16px", fontWeight: "600" }}
                   >
-                    Place Of Birth
+                    {t("bith_place")}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Region
+                    {t("region")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.mother &&
@@ -677,7 +679,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    District
+                    {t("district")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.mother &&
@@ -688,7 +690,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Commune
+                    {t("commune")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.mother &&
@@ -697,7 +699,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Fokontany
+                    {t("fokontany")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.mother &&
@@ -712,12 +714,12 @@ export default function RegistrationDetail() {
                     className="details__Info__wrapper__section__information__content__wrapper"
                     style={{ fontSize: "16px", fontWeight: "600" }}
                   >
-                    Usual Residence
+                    {t("usual_resid")}
                   </div>
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Region
+                    {t("region")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {setFormValues("")}
@@ -725,7 +727,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    District
+                    {t("district")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {setFormValues("")}
@@ -733,7 +735,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Commune
+                    {t("commune")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {setFormValues("")}
@@ -741,7 +743,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Fokontany
+                    {t("fokontany")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {setFormValues("")}
@@ -750,7 +752,7 @@ export default function RegistrationDetail() {
 
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Profession
+                    {t("profession")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.mother &&
@@ -762,7 +764,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Nationality
+                    {t("nationality")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     <div style={{ display: "flex", alignItems: "center" }}>
@@ -779,7 +781,7 @@ export default function RegistrationDetail() {
                           }
                         />
                         <label for="radio-17" class="radio-label">
-                          Malagasy
+                          {t("malagasy")}
                         </label>
                       </div>
 
@@ -796,10 +798,10 @@ export default function RegistrationDetail() {
                           }
                         />
                         <label for="radio-18" class="radio-label">
-                          Other
+                          {t("other_spec")}
                         </label>
                       </div>
-                      <div
+                      {/* <div
                         style={{
                           fontSize: "12px",
                           margin: "0em .3em",
@@ -807,7 +809,7 @@ export default function RegistrationDetail() {
                         }}
                       >
                         (To specify)
-                      </div>
+                      </div> */}
                       {state.registrationData.mother.nationality_name &&
                       state.registrationData.mother.nationality_name.toLowerCase() !=
                         "malagasy".toLowerCase()
@@ -824,12 +826,12 @@ export default function RegistrationDetail() {
             <div className="details__Info__wrapper__left">
               <div className="details__Info__wrapper__section">
                 <div className="details__Info__wrapper__section__title">
-                  Information About Father
+                  {t("father_info")}
                 </div>
                 <div className="details__Info__wrapper__section__title__border"></div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    NIU
+                    {t("niu")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.father &&
@@ -838,7 +840,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Last Name
+                    {t("last_name")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.father &&
@@ -847,7 +849,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    First Name
+                    {t("first_name")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.father &&
@@ -856,10 +858,10 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Date of Birth
+                    {t("dob")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    <div className="details__dob__sections">Day</div>
+                    <div className="details__dob__sections">{t("day")}</div>
                     {state.registrationData.father &&
                       setDateValues(
                         moment(state.registrationData.father.date_of_birth)
@@ -871,7 +873,7 @@ export default function RegistrationDetail() {
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
-                      Month
+                      {t("month")}
                     </div>
                     {state.registrationData.father &&
                       setDateValues(
@@ -884,7 +886,7 @@ export default function RegistrationDetail() {
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
-                      Year
+                      {t("year")}
                     </div>
                     {state.registrationData.father &&
                       setDateValues(
@@ -902,13 +904,13 @@ export default function RegistrationDetail() {
                     className="details__Info__wrapper__section__information__content__wrapper"
                     style={{ fontSize: "16px", fontWeight: "600" }}
                   >
-                    Place Of Birth
+                    {t("bith_place")}
                   </div>
                 </div>
 
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Region
+                    {t("region")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.father &&
@@ -917,7 +919,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    District
+                    {t("district")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.father &&
@@ -928,7 +930,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Commune
+                    {t("commune")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.father &&
@@ -937,7 +939,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Fokontany
+                    {t("fokontany")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.father &&
@@ -952,13 +954,13 @@ export default function RegistrationDetail() {
                     className="details__Info__wrapper__section__information__content__wrapper"
                     style={{ fontSize: "16px", fontWeight: "600" }}
                   >
-                    Usual Residence
+                    {t("usual_resid")}
                   </div>
                 </div>
 
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Region
+                    {t("region")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {setFormValues("")}
@@ -966,7 +968,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    District
+                    {t("district")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {setFormValues("")}
@@ -974,7 +976,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Commune
+                    {t("commune")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {setFormValues("")}
@@ -982,7 +984,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Fokontany
+                    {t("fokontany")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {setFormValues("")}
@@ -991,7 +993,7 @@ export default function RegistrationDetail() {
 
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Profession
+                    {t("profession")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.father &&
@@ -1004,12 +1006,12 @@ export default function RegistrationDetail() {
               </div>
               <div className="details__Info__wrapper__section">
                 <div className="details__Info__wrapper__section__title">
-                  Declarant Information
+                  {t("dec_info")}
                 </div>
                 <div className="details__Info__wrapper__section__title__border"></div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Link
+                    {t("link")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     <div style={{ display: "flex" }}>
@@ -1026,7 +1028,7 @@ export default function RegistrationDetail() {
                           }
                         />
                         <label for="radio-13" class="radio-label">
-                          Father
+                          {t("father")}
                         </label>
                       </div>
 
@@ -1043,7 +1045,7 @@ export default function RegistrationDetail() {
                           }
                         />
                         <label for="radio-14" class="radio-label">
-                          Mother
+                          {t("mother")}
                         </label>
                       </div>
                       <div class="radio">
@@ -1059,7 +1061,7 @@ export default function RegistrationDetail() {
                           }
                         />
                         <label for="radio-15" class="radio-label">
-                          Family
+                          {t("family")}
                         </label>
                       </div>
                       <div class="radio">
@@ -1075,7 +1077,7 @@ export default function RegistrationDetail() {
                           }
                         />
                         <label for="radio-16" class="radio-label">
-                          Health worker
+                          {t("health_worker")}
                         </label>
                       </div>
                       <div class="radio">
@@ -1091,25 +1093,10 @@ export default function RegistrationDetail() {
                           }
                         />
                         <label for="radio-19" class="radio-label">
-                          Matron
+                          {t("matron")}
                         </label>
                       </div>
-                      <div class="radio">
-                        <input
-                          id="radio-20"
-                          name="radio-13"
-                          type="radio"
-                          style={{ width: 0 }}
-                          checked={
-                            state.registrationData.cr.dec_relation &&
-                            state.registrationData.cr.dec_relation.toLowerCase() ==
-                              "agent_sante".toLowerCase()
-                          }
-                        />
-                        <label for="radio-20" class="radio-label">
-                          Matron
-                        </label>
-                      </div>
+
                       <div class="radio">
                         <input
                           id="radio-21"
@@ -1123,7 +1110,7 @@ export default function RegistrationDetail() {
                           }
                         />
                         <label for="radio-21" class="radio-label">
-                          AC
+                          {t("ac")}
                         </label>
                       </div>
                       <div class="radio">
@@ -1139,7 +1126,7 @@ export default function RegistrationDetail() {
                           }
                         />
                         <label for="radio-22" class="radio-label">
-                          Other
+                          {t("other")}
                         </label>
                       </div>
                     </div>
@@ -1147,7 +1134,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    NIU
+                    {t("niu")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.declarant
@@ -1157,7 +1144,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Last Name
+                    {t("last_name")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.declarant
@@ -1169,7 +1156,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    First Name
+                    {t("first_name")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.declarant
@@ -1181,10 +1168,10 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Date of Birth
+                    {t("dob")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
-                    <div className="details__dob__sections">Day</div>
+                    <div className="details__dob__sections">{"day"}</div>
                     {state.registrationData.declarant
                       ? setDateValues(
                           moment(state.registrationData.declarant.date_of_birth)
@@ -1197,7 +1184,7 @@ export default function RegistrationDetail() {
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
-                      Month
+                      {"month"}
                     </div>
                     {state.registrationData.declarant
                       ? setDateValues(
@@ -1211,7 +1198,7 @@ export default function RegistrationDetail() {
                       className="details__dob__sections"
                       style={{ marginLeft: ".5em" }}
                     >
-                      Year
+                      {t("year")}
                     </div>
                     {state.registrationData.declarant
                       ? setDateValues(
@@ -1239,13 +1226,13 @@ export default function RegistrationDetail() {
                     className="details__Info__wrapper__section__information__content__wrapper"
                     style={{ fontSize: "16px", fontWeight: "600" }}
                   >
-                    Place of Birth
+                    {t("bith_place")}
                   </div>
                 </div>
 
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Region
+                    {t("region")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.foko
@@ -1255,7 +1242,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    District
+                    {t("district")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.foko
@@ -1265,7 +1252,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Commune
+                    {t("commune")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.foko
@@ -1275,7 +1262,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Fokontany
+                    {t("fokontany")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {state.registrationData.foko
@@ -1291,13 +1278,13 @@ export default function RegistrationDetail() {
                     className="details__Info__wrapper__section__information__content__wrapper"
                     style={{ fontSize: "16px", fontWeight: "600" }}
                   >
-                    Usual Residence
+                    {t("usual_resid")}
                   </div>
                 </div>
 
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Region
+                    {t("region")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {setFormValues("")}
@@ -1305,7 +1292,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    District
+                    {t("district")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {setFormValues("")}
@@ -1313,7 +1300,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Commune
+                    {t("commune")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {setFormValues("")}
@@ -1321,7 +1308,7 @@ export default function RegistrationDetail() {
                 </div>
                 <div className="details__Info__wrapper__section__information">
                   <div className="details__Info__wrapper__section__information__title">
-                    Fokontany
+                    {t("fokontany")}
                   </div>
                   <div className="details__Info__wrapper__section__information__content__wrapper">
                     {setFormValues("")}
@@ -1347,13 +1334,11 @@ export default function RegistrationDetail() {
                 }}
               >
                 <div className="details__info__signatures_container__item__wrapper">
-                  <div className="details__info__content">
-                    Signature of the declarant
-                  </div>
+                  <div className="details__info__content">{t("dec_sign")}</div>
                 </div>
                 <div className="details__info__signatures_container__item__wrapper">
                   <div className="details__info__content">
-                    Signature of civil status officer
+                    {t("civil_sign")}
                   </div>
                 </div>
               </div>

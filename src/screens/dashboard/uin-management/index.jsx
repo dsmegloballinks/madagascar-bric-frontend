@@ -16,8 +16,10 @@ import Tooltip from "@components/Tooltip";
 import { file } from "../../../assets";
 import DataTable from "react-data-table-component";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 export default function UINManagement() {
+  const { t, i18n } = useTranslation();
   const isSuperAdmin = localStorage.getItem("isAdmin");
   const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
     useContext(PopupContext);
@@ -52,9 +54,9 @@ sidebar is being hovered over. */
   }, [isSidebarHovered]);
 
   const tabs = [
-    { label: "All", value: null },
-    { label: "Allocated", value: 0 },
-    { label: "Not Allocated", value: 1 },
+    { label: t("all"), value: null },
+    { label: t("allocated"), value: 0 },
+    { label: t("not_allocated"), value: 1 },
   ];
 
   useEffect(() => {
@@ -119,7 +121,7 @@ sidebar is being hovered over. */
         <div className="list__search__wrapper">
           <input
             type="text"
-            placeholder="Search"
+            placeholder={t("search")}
             onChange={(e) => {
               setPage(1);
               setFilterText(e.target.value);
@@ -138,17 +140,17 @@ sidebar is being hovered over. */
   React-Table. The code also uses the moment.js library to format dates and times. */
   const columns = [
     {
-      name: "NIU",
+      name: t("niu"),
       selector: (row) => row.uin,
       sortable: true,
     },
     {
-      name: "Allocated Commune",
+      name: t("allo_commune"),
       selector: (row) => row.commune_name,
       sortable: true,
     },
     {
-      name: "Allocation Date",
+      name: t("allo_date"),
       selector: (row) => row.date_created,
       format: (row) =>
         row.allocation_date
@@ -157,7 +159,7 @@ sidebar is being hovered over. */
       sortable: true,
     },
     {
-      name: "Allocation Time",
+      name: t("allo_time"),
       selector: (row) => row.allocation_time,
       format: (row) =>
         row.allocation_time
@@ -166,7 +168,7 @@ sidebar is being hovered over. */
       sortable: true,
     },
     {
-      name: "NIU Status",
+      name: t("niu_status"),
       selector: (row) => row.niu_status,
       cell: (row) => (
         <div
@@ -210,14 +212,14 @@ sidebar is being hovered over. */
         if (data.error_code == 0) {
           setIsUploadFilePopupOpen(false);
         } else {
-          setAlertPopupMessage("Some error occurred, please try later");
+          setAlertPopupMessage(t("error"));
           setAlertPopupVisibility(true);
         }
       })
       .catch((err) => {
         setIsLoading(false);
         console.log("err", err);
-        setAlertPopupMessage("Some error occurred, please try later");
+        setAlertPopupMessage(t("error"));
         setAlertPopupVisibility(true);
       });
   };
@@ -280,8 +282,8 @@ sidebar is being hovered over. */
               <path d="M13.5999 9.94336C13.8418 9.94336 14.0031 10.1046 14.0031 10.3196C14.0031 10.5615 13.8418 10.7496 13.5999 10.7496C13.3849 10.7496 13.1699 10.5615 13.1699 10.3465C13.1968 10.1315 13.358 9.94336 13.5999 9.94336Z" />
               <path d="M15.5352 13.1707C15.5352 12.9557 15.7233 12.7676 15.9383 12.7676C16.1533 12.7676 16.3683 12.9557 16.3683 13.1707C16.3683 13.3857 16.1802 13.5738 15.9652 13.5738C15.7233 13.5738 15.5352 13.4126 15.5352 13.1707Z" />
             </svg>
-            NIU Management
-            <Tooltip text="View History">
+            {t("niu_mng")}
+            <Tooltip text={t("view_history")}>
               <Link
                 className="action__buttons"
                 to={"/dashboard/uin-management/detail"}
@@ -290,7 +292,7 @@ sidebar is being hovered over. */
                 <img src={file} width={"60%"} />
               </Link>
             </Tooltip>
-            <Tooltip text="Upload File">
+            <Tooltip text={t("upload_file")}>
               <button
                 className="action__buttons"
                 onClick={() => setIsUploadFilePopupOpen(true)}
@@ -302,7 +304,7 @@ sidebar is being hovered over. */
                 />
               </button>
             </Tooltip>
-            <Tooltip text="NIU Tracking">
+            <Tooltip text={t("niu_track")}>
               <Link className="bell__wrapper" to={"/dashboard/uin-tracking"}>
                 <div className="bell__wrapper__count">
                   {tackingRecords.length > 3
@@ -336,7 +338,7 @@ sidebar is being hovered over. */
             <div>
               <Select
                 widthProp={"180px"}
-                placeholder={"Commune"}
+                placeholder={t("commune")}
                 options={communesList}
                 onChange={(e) => setCommune(e)}
               />

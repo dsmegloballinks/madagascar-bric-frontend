@@ -2,6 +2,7 @@ import React from "react";
 import BarChartGraph from "./BarChartGraph";
 import PieChartGraph from "./PieChartGraph";
 import AreaChartGraph from "./AreaChartGraph";
+import { useTranslation } from "react-i18next";
 
 export default function GraphView({
   genderGraphData,
@@ -9,6 +10,7 @@ export default function GraphView({
   yearsData,
   totalRegistrations,
 }) {
+  const { t, i18n } = useTranslation();
   return (
     <>
       <div className="graph__container">
@@ -17,19 +19,19 @@ export default function GraphView({
             className="bar__graphr__container__heading"
             style={{ marginBottom: "1em" }}
           >
-            Last 7 Days
+            {t("last_7_days")}
           </div>
           <BarChartGraph graphAnalytics={graphAnalytics} />
         </div>
         <div className="pie__graphr__container">
           <div className="bar__graphr__container__heading">
-            Gender Segregation
+            {t("gender_segregation")}
           </div>
           <PieChartGraph genderGraphData={genderGraphData} />
         </div>
       </div>
       <div className="area__graphr__container">
-        <div className="bar__graphr__container__heading">This Year</div>
+        <div className="bar__graphr__container__heading">{t("this_year")}</div>
         <div className="area__graphr__container__heading">
           {totalRegistrations}
         </div>

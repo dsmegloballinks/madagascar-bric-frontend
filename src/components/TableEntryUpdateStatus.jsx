@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import Select from "./Select";
 import { useState, useEffect } from "react";
 
@@ -7,17 +8,18 @@ export default function TableEntryUpdateStatus({
   statusUpdated,
   ...props
 }) {
+  const { t, i18n } = useTranslation();
   const [status, setStatus] = useState(
     children == 1
-      ? { value: 1, label: "Active" }
-      : { value: 2, label: "Revoke" }
+      ? { value: 1, label: t("active") }
+      : { value: 2, label: t("revoke") }
   );
 
   useEffect(() => {
     setStatus(
       children == 1
-        ? { value: 1, label: "Active" }
-        : { value: 2, label: "Revoke" }
+        ? { value: 1, label: t("active") }
+        : { value: 2, label: t("revoke") }
     );
   }, [statusUpdated]);
   return (
@@ -26,13 +28,13 @@ export default function TableEntryUpdateStatus({
       {...props}
     >
       <Select
-        placeholder="Active"
+        placeholder={t("active")}
         backgroundProp="red"
         widthProp="180px"
         value={status}
         options={[
-          { value: 1, label: "Active" },
-          { value: 2, label: "Revoke" },
+          { value: 1, label: t("active") },
+          { value: 2, label: t("revoke") },
         ]}
         onChange={(e) => {
           setStatus(e);

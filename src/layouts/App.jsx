@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { userAtom } from "../global";
 import { LoadScript } from "@react-google-maps/api";
+import "../../src/i18n";
 
 export default function App() {
   const [user] = useAtom(userAtom);

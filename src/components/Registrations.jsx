@@ -6,6 +6,7 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import ViewFiles from "./ViewFiles";
 import Loader from "./Loader";
 import DataTable from "react-data-table-component";
+import { useTranslation } from "react-i18next";
 
 export default function Registerations({
   dataList,
@@ -17,6 +18,7 @@ export default function Registerations({
   filterText,
   setPage,
 }) {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [fileViewVisibility, setFileViewVisibility] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -35,7 +37,7 @@ performance by preventing unnecessary re-renders of the component. */
         <div className="list__search__wrapper">
           <input
             type="text"
-            placeholder="Search"
+            placeholder={t("search")}
             onChange={(e) => {
               setPage(1);
               setFilterText(e.target.value);
@@ -110,24 +112,24 @@ performance by preventing unnecessary re-renders of the component. */
       sortable: true,
     },
     {
-      name: "Child Name",
+      name: t("child_name"),
       selector: (row) => row.cr.first_name,
       format: (row) => row.cr.first_name + " " + row.cr.last_name,
       sortable: true,
     },
     {
-      name: "Mother Name",
+      name: t("mother_name"),
       selector: (row) => row.mother.given_name,
       format: (row) => row.mother.given_name + " " + row.mother.last_name,
     },
     {
-      name: "DOB",
+      name: t("dob"),
       selector: (row) => row.cr.date_of_birth,
       format: (row) =>
         moment(row.cr.date_of_birth).subtract(1, "day").format("DD MMM, YYYY"),
     },
     {
-      name: "Commune, Fokontany",
+      name: t("commune") + ", " + t("fokontany"),
       selector: (row) => row.foko.commune_name,
       cell: (row) => (
         <div
@@ -144,7 +146,7 @@ performance by preventing unnecessary re-renders of the component. */
       ),
     },
     {
-      name: "Office Address",
+      name: t("office_address"),
       selector: (row) => row.input_type,
       cell: (row) => (
         <TableEntryText
@@ -152,12 +154,12 @@ performance by preventing unnecessary re-renders of the component. */
           onClick={() => onAddressViewClick(row.cr)}
           id={row.id}
         >
-          view
+          {t("view")}
         </TableEntryText>
       ),
     },
     {
-      name: "Attached Files",
+      name: t("attached_files"),
       selector: (row) => row.input_type,
       cell: (row, index) => (
         <div
@@ -194,7 +196,7 @@ performance by preventing unnecessary re-renders of the component. */
                   className="action__wrapper__img"
                 />
                 <div className="action__wrapper__content">
-                  Registered Picture
+                  {t("registered_pic")}
                 </div>
               </div>
               <div
@@ -207,9 +209,7 @@ performance by preventing unnecessary re-renders of the component. */
                   )}
                   className="action__wrapper__img"
                 />
-                <div className="action__wrapper__content">
-                  Birth Certificate
-                </div>
+                <div className="action__wrapper__content">{t("bith_cert")}</div>
               </div>
             </div>
           )}
@@ -236,7 +236,7 @@ component. */
       <div className="list__container">
         <div className="list__container__top">
           <div style={{ fontSize: "18px", fontWeight: "600" }}>
-            Form Submission
+            {t("form_submit")}
           </div>
         </div>
         <div className="container__main__content__listing__table">

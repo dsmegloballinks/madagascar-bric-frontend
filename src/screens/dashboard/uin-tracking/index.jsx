@@ -10,15 +10,17 @@ import Loader from "@components/Loader";
 import { registrationsGetCall, uinTrackingPostCall } from "../../../apis/Repo";
 import { PopupContext } from "../../../context/PopupContext";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 export default function UINTracking() {
+  const { t, i18n } = useTranslation();
   const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
     useContext(PopupContext);
   const navigate = useNavigate();
   const errorTypeOptions = [
-    { label: "Wrong NIU Number", color: "red", value: 2 },
-    { label: "Wrong NIU Location Allocation", color: "orange", value: 3 },
-    { label: "Duplicate NIU Number", color: "yellow", value: 1 },
+    { label: t("wrg_niu_no"), color: "red", value: 2 },
+    { label: t("wrg_loc_allo"), color: "orange", value: 3 },
+    { label: t("dup_niu"), color: "yellow", value: 1 },
   ];
   const [isEdit, setIsEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -76,28 +78,28 @@ sortable. The code also includes JSX code to render a tooltip and an edit icon f
 table. */
   const columns = [
     {
-      name: "NIU",
+      name: t("niu"),
       selector: (row) => row.cr.uin,
       sortable: true,
     },
     {
-      name: "Child Name",
+      name: t("child_name"),
       selector: (row) => row.cr.first_name,
       format: (row) => row.cr.first_name + " " + row.cr.last_name,
       sortable: true,
     },
     {
-      name: "Commune",
+      name: t("commune"),
       selector: (row) => row.foko.commune_name,
       sortable: true,
     },
     {
-      name: "Fokontany",
+      name: t("fokontany"),
       selector: (row) => row.foko.fokontonay_name,
       sortable: true,
     },
     {
-      name: "Error Type",
+      name: t("error_type"),
       selector: (row) => row.cr.error_id,
       cell: (row) => (
         <TableEntryText
@@ -113,11 +115,11 @@ table. */
         >
           {row.cr.error_id
             ? row.cr.error_id == 1
-              ? "Duplicate NIU Number"
+              ? t("dup_niu")
               : row.cr.error_id == 2
-              ? "Wrong NIU Number"
+              ? t("wrg_niu_no")
               : row.cr.error_id == 3
-              ? "Wrong NIU Location Allocation"
+              ? t("wrg_loc_allo")
               : row.cr.error_id
             : "---"}
         </TableEntryText>
@@ -125,7 +127,7 @@ table. */
       sortable: true,
     },
     {
-      name: "Error Reported Date",
+      name: t("error_rep_date"),
       selector: (row) => row.cr.error_date,
       format: (row) =>
         row.cr.error_date
@@ -134,19 +136,19 @@ table. */
       sortable: true,
     },
     {
-      name: "Error Corrected Date",
+      name: t("error_cor_date"),
       selector: (row) => "pending",
       sortable: true,
     },
     {
-      name: "Action",
+      name: t("action"),
       selector: (row) => row.year,
       cell: (row) => (
         <div
           className="container__main__content__listing__table__content__list__entry"
           id={row.id}
         >
-          <Tooltip text="Edit NIU">
+          <Tooltip text={t("edit_niu")}>
             <Link
               className="container__main__content__listing__table__content__list__entry__action__edit"
               onClick={() => {
@@ -230,13 +232,13 @@ customize the appearance of a table in a React application. */
       .then(({ data }) => {
         if (data.error_code == 0) getRegistrations();
         else {
-          setAlertPopupMessage("Some error occured, please try again");
+          setAlertPopupMessage(t("error"));
           setAlertPopupVisibility(true);
         }
       })
       .catch((err) => {
         console.log("err", err);
-        setAlertPopupMessage("Some error occured, please try again");
+        setAlertPopupMessage(t("error"));
         setAlertPopupVisibility(true);
       });
   };
@@ -271,7 +273,7 @@ customize the appearance of a table in a React application. */
               <path d="M1.7975 14.8682C1.37454 14.8682 0.951582 14.8682 0.486328 14.8682C0.930434 14.3133 1.3534 13.7815 1.7975 13.2266C1.7975 13.7815 1.7975 14.3133 1.7975 14.8682Z" />
               <path d="M10.9546 1.04102C12.1178 1.04102 13.0694 2.0815 13.0694 3.3532C13.0694 4.6249 12.1178 5.66538 10.9546 5.66538C9.7915 5.66538 8.83984 4.6249 8.83984 3.3532C8.83984 2.05838 9.77035 1.04102 10.9546 1.04102ZM10.722 4.6249C10.722 4.80988 10.722 4.97173 10.722 5.13358C10.8912 5.13358 11.0392 5.13358 11.1873 5.13358C11.1873 4.97173 11.1873 4.80988 11.1873 4.64802C11.2296 4.64802 11.2296 4.64802 11.2507 4.6249C11.6525 4.53241 11.9063 4.18559 11.8851 3.79252C11.8428 3.3532 11.5468 3.09886 11.1238 3.07574C10.9969 3.07574 10.8489 3.07574 10.722 3.07574C10.5951 3.07574 10.5105 2.98325 10.5105 2.84452C10.4894 2.70579 10.574 2.59018 10.6797 2.56706C10.9335 2.54394 11.1873 2.56706 11.441 2.56706C11.441 2.65955 11.441 2.72891 11.4622 2.79828C11.6314 2.79828 11.7794 2.79828 11.9063 2.79828C11.9063 2.54394 11.9063 2.2896 11.9063 2.03526C11.6737 2.03526 11.441 2.03526 11.2084 2.03526C11.2084 1.85028 11.2084 1.68843 11.2084 1.5497C11.0392 1.5497 10.8912 1.5497 10.7432 1.5497C10.7432 1.71155 10.7432 1.8734 10.7432 2.03526C10.722 2.03526 10.7009 2.03526 10.6797 2.05838C10.2779 2.15086 10.003 2.47457 10.0453 2.86764C10.0876 3.30696 10.3836 3.58442 10.8277 3.58442C10.9546 3.58442 11.1027 3.58442 11.2296 3.58442C11.3564 3.58442 11.441 3.70003 11.441 3.83876C11.441 3.97749 11.3564 4.0931 11.2507 4.0931C11.0181 4.0931 10.7643 4.0931 10.5105 4.0931C10.5105 4.00061 10.5105 3.93125 10.4894 3.83876C10.3202 3.83876 10.1933 3.83876 10.0453 3.83876C10.0453 4.0931 10.0453 4.34744 10.0453 4.60178C10.2567 4.6249 10.4682 4.6249 10.722 4.6249Z" />
             </svg>
-            NIU Tracking
+            {t("niu_track")}
           </div>
           <div style={{ display: "flex" }}></div>
         </div>
@@ -295,7 +297,7 @@ customize the appearance of a table in a React application. */
             <div>
               <Select
                 widthProp={"180px"}
-                placeholder={"Error type"}
+                placeholder={t("err_type")}
                 options={errorTypeOptions}
                 onChange={(e) => {
                   getRegistrations(e.value);

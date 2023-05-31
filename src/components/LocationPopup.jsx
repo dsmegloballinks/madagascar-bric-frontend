@@ -1,8 +1,10 @@
 import { AlertCircle, X } from "react-feather";
 import { useRef, useCallback, useState } from "react";
 import { GoogleMap, Marker } from "@react-google-maps/api";
+import { useTranslation } from "react-i18next";
 
 export default function LocationPopup({ onClose, locationData }) {
+  const { t, i18n } = useTranslation();
   const [map, setMap] = useState(null);
 
   const onUnmount = useCallback(function callback(map) {
@@ -32,25 +34,25 @@ export default function LocationPopup({ onClose, locationData }) {
           </div>
           <div className="location__info__container">
             <div className="location__info__wrapper">
-              <div className="location__info__title">District</div>
+              <div className="location__info__title">{t("district")}</div>
               <div className="location__info__content">
                 {locationData && locationData[0].childData.district_name}
               </div>
             </div>
             <div className="location__info__wrapper">
-              <div className="location__info__title">Region</div>
+              <div className="location__info__title">{t("region")}</div>
               <div className="location__info__content">
                 {locationData && locationData[0].childData.region_name}
               </div>
             </div>
             <div className="location__info__wrapper">
-              <div className="location__info__title">Commune</div>
+              <div className="location__info__title">{t("commune")}</div>
               <div className="location__info__content">
                 {locationData && locationData[0].childData.commune_name}
               </div>
             </div>
             <div className="location__info__wrapper">
-              <div className="location__info__title">Fokontany</div>
+              <div className="location__info__title">{t("fokontany")}</div>
               <div className="location__info__content">
                 {locationData && locationData[0].childData.fokontonay_name}
               </div>

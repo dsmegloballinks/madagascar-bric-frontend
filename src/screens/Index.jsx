@@ -6,11 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { isNullOrEmpty } from "../utils/isNullOrEmpty";
 import { loginCall } from "../apis/Repo";
 import { PopupContext } from "../context/PopupContext";
-// import { logo } from "src/assets";
 import { useAtom } from "jotai";
 import { userAtom } from "../global";
+import { useTranslation } from "react-i18next";
 
 export default function Index() {
+  const { t, i18n } = useTranslation();
   const [, setUser] = useAtom(userAtom);
   const { setAlertPopupVisibility, setAlertPopupMessage, setIsSidebarHovered } =
     useContext(PopupContext);
@@ -21,22 +22,13 @@ export default function Index() {
   const [passowrdErrorMessage, setPasswordErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    // Check if 'id' exists in local storage
-    // If it exists, redirect to the dashboard page
-    // Replace the current URL in the browser history
-    // Commented out for now
-    // let id = localStorage.getItem("id");
-    // if (id) navigate("/dashboard", { replace: true });
-  }, []);
-
   const isViewValid = () => {
     // Check if the email is null or empty
     // If true, set the email error message
-    if (isNullOrEmpty(email)) setEmailErrorMessage("Enter Email");
+    if (isNullOrEmpty(email)) setEmailErrorMessage(t("enter_mail"));
     // Check if the password is null or empty
     // If true, set the password error message
-    else if (isNullOrEmpty(passowrd)) setPasswordErrorMessage("Enter Password");
+    else if (isNullOrEmpty(passowrd)) setPasswordErrorMessage(t("enter_pass"));
     else return true;
     return false;
   };
@@ -93,7 +85,7 @@ export default function Index() {
           setIsLoading(false);
           console.log("err", err);
           // Set a generic error message for the alert popup
-          setAlertPopupMessage("Some error occurred, please try later");
+          setAlertPopupMessage(t("error"));
           // Display the alert popup
           setAlertPopupVisibility(true);
         });
@@ -107,18 +99,17 @@ export default function Index() {
           <img src={loginBg} />
         </div>
         <form className="login__container__form">
-          <div className="login__container__content">Let's sign in</div>
+          <div className="login__container__content">{t("lets_signin")}</div>
           <img className="login__container__logo" src={logo} />
           <div className="login__container__content__heading">
-            Madagascar <br /> Birth Registration{" "}
+            {t("madag")} <br /> {t("brth_reg")}{" "}
           </div>
           <div className="login__container__content__text">
-            Get the process started in less than 10 minutes. Let us handle the
-            rest.
+            {t("signin_desc")}
           </div>
           <LoginInput
             src={contact}
-            placeholder="Username / Email"
+            placeholder={t("user_email")}
             type="text"
             value={email}
             onChange={(e) => {
@@ -129,7 +120,7 @@ export default function Index() {
           />
           <LoginInput
             src={lock}
-            placeholder="Password"
+            placeholder={t("password")}
             type="Password"
             value={passowrd}
             onChange={(e) => {
@@ -139,7 +130,7 @@ export default function Index() {
             error={passowrdErrorMessage}
           />
           <div className="login__container__content__bottom__text">
-            Forgot your password?
+            {t("forgot_password")}
           </div>
           <div className="login__button__container">
             <div
@@ -150,7 +141,7 @@ export default function Index() {
               }}
             >
               <div className="login__button__text">
-                {isLoading ? "Processing..." : "Login"}
+                {isLoading ? t("processing") : t("login")}
               </div>
               {isLoading ? (
                 <Loader size={30} className="login__button__icon" />

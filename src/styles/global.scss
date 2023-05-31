@@ -1831,8 +1831,9 @@ body {
   border-radius: 20px;
   padding: 1em;
   display: flex;
+  flex-direction: column;
   width: 100%;
-  justify-content: center;
+  // justify-content: center;
 }
 
 .dashboard__view__container{
@@ -1840,6 +1841,7 @@ body {
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  margin-top: 10em;
 }
 
 .dashboard__view__title{

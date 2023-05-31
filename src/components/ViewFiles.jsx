@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { X, Plus } from "react-feather";
 import { logo } from "@assets";
+import { useTranslation } from "react-i18next";
 
 export default function ViewFiles({ onClose, selectedUser }) {
+  const { t, i18n } = useTranslation();
   return (
     <div className="popup">
       <div className="popup__overlay">
@@ -21,7 +23,7 @@ export default function ViewFiles({ onClose, selectedUser }) {
                 className="container__sidebar__logo__img"
               />
               <div className="container__sidebar__logo__name">
-                Madagascar Birth Registration
+                {t("project_title")}
               </div>
             </div>
             <button
@@ -38,7 +40,7 @@ export default function ViewFiles({ onClose, selectedUser }) {
             <div className="files__container">
               <div className="files__container__wrapper">
                 <div className="certificate__wrapper__container__content">
-                  Registry
+                  {t("registered_pic")}
                 </div>
                 <img
                   src={import.meta.env.VITE_BASE_URL.concat(
@@ -49,7 +51,7 @@ export default function ViewFiles({ onClose, selectedUser }) {
               </div>
               <div className="files__container__wrapper">
                 <div className="certificate__wrapper__container__content">
-                  Birth Certificate
+                  {t("bith_cert")}
                 </div>
                 <img
                   src={import.meta.env.VITE_BASE_URL.concat(

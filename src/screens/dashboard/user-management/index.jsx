@@ -14,8 +14,10 @@ import Loader from "@components/Loader";
 import { passLock } from "../../../assets/index";
 import Tooltip from "@components/Tooltip";
 import DataTable from "react-data-table-component";
+import { useTranslation } from "react-i18next";
 
 export default function UserManagement() {
+  const { t, i18n } = useTranslation();
   const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
     useContext(PopupContext);
   const [deletePopupVisibility, setDeletePopupVisibility] = useState(false);
@@ -60,7 +62,7 @@ only when the `filterText` state variable changes. */
         <div className="list__search__wrapper">
           <input
             type="text"
-            placeholder="Search"
+            placeholder={t("search")}
             onChange={(e) => {
               setPage(1);
               setFilterText(e.target.value);
@@ -81,17 +83,17 @@ allows the user to update the status of a row. The fourth column contains two ac
 reset the user's password and another to edit the user's details. */
   const columns = [
     {
-      name: "User Name",
+      name: t("username"),
       selector: (row) => row.user_name,
       sortable: true,
     },
     {
-      name: "Email",
+      name: t("email"),
       selector: (row) => row.email,
       sortable: true,
     },
     {
-      name: "Status",
+      name: t("status"),
       selector: (row) => row.status,
       cell: (row) => (
         <TableEntryUpdateStatus
@@ -104,14 +106,14 @@ reset the user's password and another to edit the user's details. */
       sortable: true,
     },
     {
-      name: "Action",
+      name: t("action"),
       selector: (row) => row.year,
       cell: (row) => (
         <div
           className="container__main__content__listing__table__content__list__entry"
           id={row.id}
         >
-          <Tooltip text="Reset Password">
+          <Tooltip text={t("reset_pass")}>
             <div
               className="container__main__content__listing__table__content__list__entry__action__edit"
               style={{ marginRight: ".5em", background: "#de8f21" }}
@@ -120,7 +122,7 @@ reset the user's password and another to edit the user's details. */
               <img src={passLock} width={"120%"} />
             </div>
           </Tooltip>
-          <Tooltip text="Edit User">
+          <Tooltip text={t("edit_user")}>
             <Link
               className="container__main__content__listing__table__content__list__entry__action__edit"
               style={{ marginRight: ".5em" }}
@@ -207,13 +209,13 @@ reset the user's password and another to edit the user's details. */
           setSelectedItem(null);
           setDeletePopupVisibility(false);
         } else {
-          setAlertPopupMessage("Some error occurred, please try again");
+          setAlertPopupMessage(t("error"));
           setAlertPopupVisibility(true);
         }
       })
       .catch((err) => {
         console.log("err", err);
-        setAlertPopupMessage("Some error occurred, please try again");
+        setAlertPopupMessage(t("error"));
         setAlertPopupVisibility(true);
       });
   };
@@ -230,18 +232,18 @@ reset the user's password and another to edit the user's details. */
     updateUserStatusPostCall(object)
       .then(({ data }) => {
         if (data.success) {
-          setAlertPopupMessage("Information updated successfully");
+          setAlertPopupMessage(t("success"));
           setAlertPopupVisibility(true);
         } else {
           setStatusUpdated(!statusUpdated);
-          setAlertPopupMessage("Some error occurred, please try again");
+          setAlertPopupMessage(t("error"));
           setAlertPopupVisibility(true);
         }
       })
       .catch((err) => {
         console.log("err", err);
         setStatusUpdated(!statusUpdated);
-        setAlertPopupMessage("Some error occurred, please try again");
+        setAlertPopupMessage(t("error"));
         setAlertPopupVisibility(true);
       });
   };
@@ -264,8 +266,8 @@ reset the user's password and another to edit the user's details. */
               <path d="M9.26579 3.15175C9.49428 3.20253 9.67199 3.2533 9.84971 3.30408C10.916 3.65951 11.6269 4.67502 11.6269 5.7667C11.6269 6.09674 11.3984 6.32523 11.0683 6.32523C9.67199 6.32523 8.27566 6.32523 6.87933 6.32523C6.54929 6.32523 6.34618 6.09675 6.34618 5.79209C6.32079 4.54808 7.31092 3.40563 8.52954 3.20253C8.58031 3.20253 8.63109 3.17714 8.68186 3.15175C8.25027 3.0502 7.89484 2.82171 7.64096 2.44089C7.38708 2.06007 7.33631 1.62848 7.43786 1.19688C7.61558 0.435248 8.32643 -0.047121 9.11346 0.00365474C9.82432 0.0544305 10.4844 0.689127 10.5352 1.42538C10.6367 2.16162 10.2051 2.94865 9.26579 3.15175Z" />
               <path d="M14.8014 9.49782C13.0242 9.49782 11.2978 9.49782 9.52068 9.49782C9.52068 9.67554 9.52068 9.82786 9.52068 10.0056C9.52068 10.3102 9.29219 10.5387 8.98753 10.5387C8.68288 10.5387 8.47978 10.3102 8.45439 10.0056C8.45439 9.85325 8.45439 9.67554 8.45439 9.49782C6.70263 9.49782 4.95086 9.49782 3.17371 9.49782C3.17371 9.67554 3.17371 9.82786 3.17371 10.0056C3.17371 10.3102 2.94522 10.5387 2.64057 10.5387C2.33591 10.5387 2.10742 10.3102 2.10742 10.0056C2.10742 9.67554 2.10742 9.34549 2.10742 9.01545C2.10742 8.66002 2.31052 8.45692 2.66595 8.45692C4.51927 8.45692 6.3472 8.45692 8.20051 8.45692C8.27667 8.45692 8.32745 8.45692 8.429 8.45692C8.429 8.2792 8.429 8.10149 8.429 7.94916C8.429 7.64451 8.65749 7.41602 8.96215 7.41602C9.2668 7.41602 9.4699 7.64451 9.49529 7.94916C9.49529 8.10149 9.49529 8.2792 9.49529 8.45692C9.57145 8.45692 9.64762 8.45692 9.69839 8.45692C11.5263 8.45692 13.3542 8.45692 15.2076 8.45692C15.6138 8.45692 15.8169 8.66002 15.8169 9.06623C15.8169 9.37088 15.8169 9.70092 15.8169 10.0056C15.8169 10.3356 15.5884 10.5641 15.2837 10.5641C14.9791 10.5641 14.776 10.3356 14.7506 10.031C14.776 9.85325 14.8014 9.67554 14.8014 9.49782Z" />
             </svg>
-            User Management
-            <Tooltip text="Add User">
+            {t("user_mng")}
+            <Tooltip text={t("add_user")}>
               <Link
                 className="action__buttons"
                 to={"/dashboard/user-management/add"}
@@ -306,7 +308,7 @@ reset the user's password and another to edit the user's details. */
       {resetPasswordConfirmationPopup && (
         <SimpleConfirmationPopup
           onClose={() => setResetPasswordConfirmationPopup(false)}
-          text={"Are you sure, you want to reset the password?"}
+          text={t("reset_pass_msg")}
         />
       )}
     </>

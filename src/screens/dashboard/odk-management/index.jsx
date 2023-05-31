@@ -13,8 +13,10 @@ import Loader from "@components/Loader";
 import moment from "moment";
 import Tooltip from "@components/Tooltip";
 import DataTable from "react-data-table-component";
+import { useTranslation } from "react-i18next";
 
 export default function OdkManagement() {
+  const { t, i18n } = useTranslation();
   const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
     useContext(PopupContext);
   const [isUploadFilePopupOpen, setIsUploadFilePopupOpen] = useState(false);
@@ -50,7 +52,7 @@ re-renders of the component. */
         <div className="list__search__wrapper">
           <input
             type="text"
-            placeholder="Search"
+            placeholder={t("search")}
             onChange={(e) => {
               setPage(1);
               setFilterText(e.target.value);
@@ -71,30 +73,30 @@ re-renders of the component. */
  the column. */
   const columns = [
     {
-      name: "File Name",
+      name: t("file_name"),
       selector: (row) => row.file.split("_")[3],
       sortable: true,
     },
     {
-      name: "Date of Import",
+      name: t("import_date"),
       selector: (row) => row.date_created,
       format: (row) => moment(row.date_created).format("DD MMM, YYYY"),
       sortable: true,
     },
     {
-      name: "Time of Import",
+      name: t("import_time"),
       selector: (row) => row.time_created,
       format: (row) =>
         moment(row.time_created).subtract(4, "hour").format("hh:mm"),
       sortable: true,
     },
     {
-      name: "No. of Records",
+      name: t("no_records"),
       selector: (row) => row.number_record,
       sortable: true,
     },
     {
-      name: "Import Type",
+      name: t("imp_type"),
       selector: (row) => row.input_type,
       sortable: true,
     },
@@ -137,14 +139,14 @@ re-renders of the component. */
           setIsUploadFilePopupOpen(false);
           getLog("msg");
         } else {
-          setAlertPopupMessage("Some error occurred, please try later");
+          setAlertPopupMessage(t("error"));
           setAlertPopupVisibility(true);
         }
       })
       .catch((err) => {
         setIsLoading(false);
         console.log("err", err);
-        setAlertPopupMessage("Some error occurred, please try later");
+        setAlertPopupMessage(t("error"));
         setAlertPopupVisibility(true);
       });
   };
@@ -216,8 +218,8 @@ re-renders of the component. */
                 </clipPath>
               </defs>
             </svg>
-            ODK Record Management
-            <Tooltip text="Upload File">
+            {t("odk_mng")}
+            <Tooltip text={t("upload_file")}>
               <button
                 className="action__buttons"
                 onClick={() => setIsUploadFilePopupOpen(true)}
@@ -229,7 +231,7 @@ re-renders of the component. */
                 />
               </button>
             </Tooltip>
-            <Tooltip text="Fetch Records">
+            <Tooltip text={t("fetch_rec")}>
               <button
                 className="action__buttons"
                 style={{ marginRight: ".5em", background: "#333333" }}
@@ -275,7 +277,7 @@ re-renders of the component. */
       {resetPasswordConfirmationPopup && (
         <SimpleConfirmationPopup
           onClose={() => setResetPasswordConfirmationPopup(false)}
-          text={"Are you sure, you want to fetch records?"}
+          text={t("fetch_rec_msg")}
           onYes={fetchRecords}
         />
       )}
