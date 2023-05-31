@@ -221,7 +221,7 @@ export default function dashboard() {
 
   useEffect(() => {
     // Fetch data for selectedFilter = "List" on page change
-    if (selectedFilter == "List") getRegistrations();
+    getRegistrations();
   }, [page, filterText]);
 
   useEffect(() => {
@@ -585,7 +585,7 @@ export default function dashboard() {
       {isSuperAdmin == "true" ? (
         <div className={hoverStyle}>
           <div className="dashboard__view">
-            <div
+            {/* <div
               style={{
                 display: "flex",
                 width: "100%",
@@ -618,7 +618,7 @@ export default function dashboard() {
                   }}
                 />
               </div>
-            </div>
+            </div> */}
             <div className="dashboard__view__container">
               <img
                 src={logo}
@@ -672,7 +672,7 @@ export default function dashboard() {
                 </svg>
                 {t("dashboard")}
               </div>
-              <div
+              {/* <div
                 className="dashboard__banner__button__wrapper"
                 style={{ width: "25%" }}
               >
@@ -702,7 +702,7 @@ export default function dashboard() {
                     }}
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="dashboard__banner__contianer">
               <div className="dashboard__banner__content">
@@ -723,8 +723,8 @@ export default function dashboard() {
                     }
                     onClick={() => {
                       setSelectedFilter(item.title);
-                      if (item == "List") getRegistrations();
-                      if (item == "Map") getMapsList();
+                      getRegistrations();
+                      getMapsList();
                     }}
                   >
                     {item.value}

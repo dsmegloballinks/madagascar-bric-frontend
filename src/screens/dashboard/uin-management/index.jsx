@@ -191,6 +191,7 @@ sidebar is being hovered over. */
       style: {
         fontSize: "14px",
         fontWeight: "bold",
+        textTransform: "capitalize",
       },
     },
   };
@@ -359,6 +360,7 @@ sidebar is being hovered over. */
                 subHeaderComponent={subHeaderComponentMemo}
                 persistTableHead
                 customStyles={customStyles}
+                noDataComponent={t("noData")}
               />
             </div>
           </div>

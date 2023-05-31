@@ -154,6 +154,7 @@ customize the appearance of a table in a React application. */
       style: {
         fontSize: "14px",
         fontWeight: "bold",
+        textTransform: "capitalize",
       },
     },
   };
@@ -323,6 +324,7 @@ changes. */
                 subHeaderComponent={subHeaderComponentMemo}
                 persistTableHead
                 customStyles={customStyles}
+                noDataComponent={t("noData")}
               />
             </div>
           </div>

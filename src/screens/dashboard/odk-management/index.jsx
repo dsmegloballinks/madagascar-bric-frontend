@@ -109,6 +109,7 @@ re-renders of the component. */
       style: {
         fontSize: "14px",
         fontWeight: "bold",
+        textTransform: "capitalize",
       },
     },
   };
@@ -262,6 +263,7 @@ re-renders of the component. */
                 subHeaderComponent={subHeaderComponentMemo}
                 persistTableHead
                 customStyles={customStyles}
+                noDataComponent={t("noData")}
               />
             </div>
           </div>

@@ -147,6 +147,7 @@ reset the user's password and another to edit the user's details. */
       style: {
         fontSize: "14px",
         fontWeight: "bold",
+        textTransform: "capitalize",
       },
     },
     // cells: {
@@ -294,6 +295,7 @@ reset the user's password and another to edit the user's details. */
                 subHeaderComponent={subHeaderComponentMemo}
                 persistTableHead
                 customStyles={customStyles}
+                noDataComponent={t("noData")}
               />
             </div>
           </div>

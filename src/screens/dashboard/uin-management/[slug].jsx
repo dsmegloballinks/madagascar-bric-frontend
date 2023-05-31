@@ -97,6 +97,7 @@ UI. */
       style: {
         fontSize: "14px",
         fontWeight: "bold",
+        textTransform: "capitalize",
       },
     },
   };
@@ -184,6 +185,7 @@ UI. */
                 subHeaderComponent={subHeaderComponentMemo}
                 persistTableHead
                 customStyles={customStyles}
+                noDataComponent={t("noData")}
               />
             </div>
           </div>

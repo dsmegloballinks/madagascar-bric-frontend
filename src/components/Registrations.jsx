@@ -227,6 +227,7 @@ component. */
       style: {
         fontSize: "14px",
         fontWeight: "bold",
+        textTransform: "capitalize",
       },
     },
   };
@@ -235,7 +236,13 @@ component. */
     <>
       <div className="list__container">
         <div className="list__container__top">
-          <div style={{ fontSize: "18px", fontWeight: "600" }}>
+          <div
+            style={{
+              fontSize: "18px",
+              fontWeight: "600",
+              textTransform: "capitalize",
+            }}
+          >
             {t("form_submit")}
           </div>
         </div>
@@ -254,6 +261,7 @@ component. */
               subHeaderComponent={subHeaderComponentMemo}
               persistTableHead
               customStyles={customStyles}
+              noDataComponent={t("noData")}
             />
           </div>
         </div>

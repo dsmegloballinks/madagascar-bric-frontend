@@ -99,7 +99,7 @@ table. */
       sortable: true,
     },
     {
-      name: t("error_type"),
+      name: t("err_type"),
       selector: (row) => row.cr.error_id,
       cell: (row) => (
         <TableEntryText
@@ -173,6 +173,7 @@ customize the appearance of a table in a React application. */
       style: {
         fontSize: "14px",
         fontWeight: "bold",
+        textTransform: "capitalize",
       },
     },
   };
@@ -320,6 +321,7 @@ customize the appearance of a table in a React application. */
                 subHeaderComponent={subHeaderComponentMemo}
                 persistTableHead
                 customStyles={customStyles}
+                noDataComponent={t("noData")}
               />
             </div>
           </div>

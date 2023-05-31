@@ -154,6 +154,7 @@ This allows the user to search for specific items in the table based on the last
       style: {
         fontSize: "14px",
         fontWeight: "bold",
+        textTransform: "capitalize",
       },
     },
   };
@@ -263,6 +264,7 @@ This allows the user to search for specific items in the table based on the last
                 subHeaderComponent={subHeaderComponentMemo}
                 persistTableHead
                 customStyles={customStyles}
+                noDataComponent={t("noData")}
               />
             </div>
           </div>

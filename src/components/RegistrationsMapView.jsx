@@ -18,7 +18,14 @@ function RegistrationsMapView({ mapList }) {
 
   return (
     <div>
-      <div style={{ fontSize: "18px", fontWeight: "600", marginTop: "1em" }}>
+      <div
+        style={{
+          fontSize: "18px",
+          fontWeight: "600",
+          marginTop: "1em",
+          textTransform: "capitalize",
+        }}
+      >
         {t("field_acivity")}
       </div>
       <GoogleMap

@@ -59,7 +59,12 @@ body {
   font-size: 16px;
   background-color: var(--backgroundColor);
   font-family: "Roboto Slab", serif;
+  // 
   // overflow-x: hidden;
+}
+
+.rdt_TableHeadRow{
+  
 }
 
 .login__container__wrapper {
@@ -320,6 +325,7 @@ body {
   font-size: 18px;
   font-weight: 700;
   margin-left: 0.5em;
+  text-transform: capitalize;
 }
 
 .container__sidebar__logo__content {
@@ -408,6 +414,7 @@ body {
   margin-bottom: 0.5em;
   background-color: var(--backgroundColor);
   color: black;
+  text-transform: capitalize;
 }
 
 // .container__sidebar__entry__content__entry:hover {
@@ -449,6 +456,7 @@ body {
   align-items: center;
   font-weight: 700;
   font-size: 20px;
+  text-transform: capitalize;
   
 }
 
@@ -476,6 +484,7 @@ body {
 .dashboard__banner__content h2 {
   color: var(--tertiary);
   text-transform: capitalize;
+  
 }
 
 .dashboard__banner__content {
@@ -558,6 +567,7 @@ body {
 
 .dashboard__analytics__container__top {
   font-size: 18px;
+  text-transform: capitalize;
   font-weight: 500;
 }
 
@@ -781,6 +791,7 @@ body {
 
 .bar__graphr__container__heading {
   font-weight: 600;
+  text-transform: capitalize;
 }
 
 .bar__graphr__container__info {
@@ -996,6 +1007,8 @@ body {
 .form__bottom__content {
   font-size: 13px;
   width: 15%;
+  text-transform: capitalize;
+  
 }
 
 .form__bottom__last__bar {
@@ -1244,6 +1257,8 @@ body {
   align-items: center;
   text-decoration: none;
   color: var(--color);
+  text-transform: capitalize;
+  
 }
 
 .details__header svg{
@@ -1452,6 +1467,7 @@ body {
 .certificate__wrapper__container__content {
   margin-bottom: 0.5em;
   font-weight: 600;
+  text-transform: capitalize;
 }
 
 .popup {
@@ -1489,6 +1505,7 @@ body {
   border-radius: 8px;
   position: relative;
   // overflow: auto;
+  
 }
 
 .popup__overlay__card__close {
@@ -1549,6 +1566,7 @@ body {
   border-top-left-radius: 100px;
   margin-left: 2em;
   align-items: center;
+  
 }
 
 .alert__popup__logo {
@@ -1591,6 +1609,7 @@ body {
   cursor: pointer;
   border-radius: 20px;
   color: white;
+  text-transform: capitalize;
 }
 
 .alert__popup__content__button:hover {
@@ -1826,14 +1845,14 @@ body {
 }
 
 .dashboard__view{
-  height: 600px;
+  height: 550px;
   background: var(--colorReverse);
   border-radius: 20px;
   padding: 1em;
   display: flex;
   flex-direction: column;
   width: 100%;
-  // justify-content: center;
+  justify-content: center;
 }
 
 .dashboard__view__container{
@@ -1841,7 +1860,7 @@ body {
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  margin-top: 10em;
+  // margin-top: 10em;
 }
 
 .dashboard__view__title{
@@ -1885,6 +1904,7 @@ body {
   color: white;
   font-size: 13px;
   margin-right: .5em;
+  text-transform: capitalize;
 }
 
 .tab__content:hover{
@@ -1914,6 +1934,8 @@ body {
   // max-width: fit-content;
   top: -18px;
   z-index: 10;
+  text-transform: capitalize;
+  
 }
 
 .location__info__container{
