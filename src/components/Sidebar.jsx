@@ -261,7 +261,11 @@ export default function Sidebar({ setSidebarOpen }) {
             }}
             onClick={() => {
               setUser(null);
-              localStorage.clear();
+              // localStorage.clear();
+              localStorage.removeItem("isHover");
+              localStorage.removeItem("id");
+              localStorage.removeItem("user_name");
+              localStorage.removeItem("isAdmin");
               navigate("/");
             }}
           >
@@ -344,7 +348,11 @@ export default function Sidebar({ setSidebarOpen }) {
               onClick={() => {
                 setUser(null);
                 setIsSidebarHovered(false);
-                localStorage.clear();
+                // localStorage.clear();
+                localStorage.removeItem("isHover");
+                localStorage.removeItem("id");
+                localStorage.removeItem("user_name");
+                localStorage.removeItem("isAdmin");
                 navigate("/");
               }}
             />

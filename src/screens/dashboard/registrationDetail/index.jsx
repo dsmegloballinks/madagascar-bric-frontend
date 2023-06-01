@@ -337,7 +337,11 @@ export default function RegistrationDetail() {
                   <div className="details__Info__wrapper__section__information__title"></div>
                   <div
                     className="details__Info__wrapper__section__information__content__wrapper"
-                    style={{ fontSize: "16px", fontWeight: "600" }}
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "600",
+                      textTransform: "capitalize",
+                    }}
                   >
                     {t("bith_place")}
                   </div>
@@ -663,7 +667,11 @@ export default function RegistrationDetail() {
                   <div className="details__Info__wrapper__section__information__title"></div>
                   <div
                     className="details__Info__wrapper__section__information__content__wrapper"
-                    style={{ fontSize: "16px", fontWeight: "600" }}
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "600",
+                      textTransform: "capitalize",
+                    }}
                   >
                     {t("bith_place")}
                   </div>
@@ -712,7 +720,11 @@ export default function RegistrationDetail() {
                   <div className="details__Info__wrapper__section__information__title"></div>
                   <div
                     className="details__Info__wrapper__section__information__content__wrapper"
-                    style={{ fontSize: "16px", fontWeight: "600" }}
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "600",
+                      textTransform: "capitalize",
+                    }}
                   >
                     {t("usual_resid")}
                   </div>
@@ -902,7 +914,11 @@ export default function RegistrationDetail() {
                   <div className="details__Info__wrapper__section__information__title"></div>
                   <div
                     className="details__Info__wrapper__section__information__content__wrapper"
-                    style={{ fontSize: "16px", fontWeight: "600" }}
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "600",
+                      textTransform: "capitalize",
+                    }}
                   >
                     {t("bith_place")}
                   </div>
@@ -952,7 +968,11 @@ export default function RegistrationDetail() {
                   <div className="details__Info__wrapper__section__information__title"></div>
                   <div
                     className="details__Info__wrapper__section__information__content__wrapper"
-                    style={{ fontSize: "16px", fontWeight: "600" }}
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "600",
+                      textTransform: "capitalize",
+                    }}
                   >
                     {t("usual_resid")}
                   </div>
@@ -1224,7 +1244,11 @@ export default function RegistrationDetail() {
                   <div className="details__Info__wrapper__section__information__title"></div>
                   <div
                     className="details__Info__wrapper__section__information__content__wrapper"
-                    style={{ fontSize: "16px", fontWeight: "600" }}
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "600",
+                      textTransform: "capitalize",
+                    }}
                   >
                     {t("bith_place")}
                   </div>
@@ -1276,7 +1300,11 @@ export default function RegistrationDetail() {
                   <div className="details__Info__wrapper__section__information__title"></div>
                   <div
                     className="details__Info__wrapper__section__information__content__wrapper"
-                    style={{ fontSize: "16px", fontWeight: "600" }}
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "600",
+                      textTransform: "capitalize",
+                    }}
                   >
                     {t("usual_resid")}
                   </div>

@@ -474,7 +474,8 @@ body {
 .dashboard__banner__contianer {
   display: flex;
   padding: 1em 2em;
-  background-color: var(--secondary);
+  // background-color: var(--secondary);
+  background-color: #b2b2eb;
   width: 100%;
   border-radius: 20px;
   margin: 1em 0em;
@@ -482,8 +483,10 @@ body {
 }
 
 .dashboard__banner__content h2 {
-  color: var(--tertiary);
+  // color: var(--tertiary);
+  color: white;
   text-transform: capitalize;
+  text-shadow: 2px 2px 5px black;
   
 }
 
@@ -1698,6 +1701,7 @@ body {
 .details__Info__wrapper__section__title {
   font-weight: 600;
   margin-top: 2em;
+  text-transform: capitalize;
 }
 
 .details__Info__wrapper__section__title__border {
@@ -1717,6 +1721,7 @@ body {
 .details__Info__wrapper__section__information__title {
   width: 28%;
   font-size: 12px;
+  text-transform: capitalize;
 }
 
 .details__Info__wrapper__section__information__content__wrapper {
@@ -1789,6 +1794,7 @@ body {
 
 .details__info__content{
   font-size: 12px;
+  text-transform: capitalize;
 }
 
 .details__info__content__line{

@@ -221,7 +221,7 @@ export default function dashboard() {
 
   useEffect(() => {
     // Fetch data for selectedFilter = "List" on page change
-    getRegistrations();
+    if (selectedFilter == t("list")) getRegistrations();
   }, [page, filterText]);
 
   useEffect(() => {
@@ -723,8 +723,8 @@ export default function dashboard() {
                     }
                     onClick={() => {
                       setSelectedFilter(item.title);
-                      getRegistrations();
-                      getMapsList();
+                      if (item.title == "List") getRegistrations();
+                      if ((item.title = "Map")) getMapsList();
                     }}
                   >
                     {item.value}
