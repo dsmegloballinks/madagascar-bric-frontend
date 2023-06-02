@@ -26,8 +26,8 @@ export default function RegistrarManagementDetails() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [page, setPage] = useState(1);
-  const limit = 10;
+  let [page, setPage] = useState(1);
+  let [limit, setLimit] = useState(10);
   const [isPostCallLoading, setIsPostCallLoading] = useState(false);
   const [date, setDate] = useState("");
 
@@ -325,6 +325,11 @@ changes. */
                 persistTableHead
                 customStyles={customStyles}
                 noDataComponent={t("noData")}
+                onChangeRowsPerPage={(e) => {
+                  setPage((page = 1));
+                  setLimit((limit = e));
+                  getDetail();
+                }}
               />
             </div>
           </div>

@@ -26,8 +26,8 @@ export default function UINTracking() {
   const [isLoading, setIsLoading] = useState(false);
   const [list, setList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [page, setPage] = useState(1);
-  const limit = 10;
+  let [page, setPage] = useState(1);
+  let [limit, setLimit] = useState(10);
   const [filterText, setFilterText] = useState("");
   const [selectedRecord, setSelectedRecord] = useState(null);
   let [hoverStyle, setHoverStyle] = useState("");
@@ -110,7 +110,7 @@ table. */
               ? "red"
               : row.cr.error_id == 3
               ? "orange"
-              : "black"
+              : "red"
           }
         >
           {row.cr.error_id
@@ -121,7 +121,7 @@ table. */
               : row.cr.error_id == 3
               ? t("wrg_loc_allo")
               : row.cr.error_id
-            : "---"}
+            : t("wrg_niu_no")}
         </TableEntryText>
       ),
       sortable: true,
@@ -322,6 +322,11 @@ customize the appearance of a table in a React application. */
                 persistTableHead
                 customStyles={customStyles}
                 noDataComponent={t("noData")}
+                onChangeRowsPerPage={(e) => {
+                  setPage((page = 1));
+                  setLimit((limit = e));
+                  getRegistrations();
+                }}
               />
             </div>
           </div>

@@ -15,8 +15,8 @@ export default function UINManagementDetails() {
   const [list, setList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
   const [isDataLoading, setIsDataLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const limit = 10;
+  let [page, setPage] = useState(1);
+  let [limit, setLimit] = useState(10);
 
   const [filterText, setFilterText] = useState("");
   let [hoverStyle, setHoverStyle] = useState("");
@@ -186,6 +186,11 @@ UI. */
                 persistTableHead
                 customStyles={customStyles}
                 noDataComponent={t("noData")}
+                onChangeRowsPerPage={(e) => {
+                  setPage((page = 1));
+                  setLimit((limit = e));
+                  getLog();
+                }}
               />
             </div>
           </div>

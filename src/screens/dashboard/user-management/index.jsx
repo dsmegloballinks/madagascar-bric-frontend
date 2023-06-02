@@ -27,8 +27,8 @@ export default function UserManagement() {
   const [isLoading, setIsLoading] = useState(false);
   const [list, setList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [page, setPage] = useState(1);
-  const limit = 10;
+  let [page, setPage] = useState(1);
+  let [limit, setLimit] = useState(10);
   const [statusUpdated, setStatusUpdated] = useState(false);
   const [filterText, setFilterText] = useState("");
   let [hoverStyle, setHoverStyle] = useState("dashboard__container");
@@ -159,6 +159,7 @@ reset the user's password and another to edit the user's details. */
   };
 
   useEffect(() => {
+    debugger;
     getUsers();
   }, [page, filterText]);
 
@@ -249,6 +250,8 @@ reset the user's password and another to edit the user's details. */
       });
   };
 
+  const onLimitChange = () => {};
+
   return (
     <>
       <div className={hoverStyle}>
@@ -296,6 +299,11 @@ reset the user's password and another to edit the user's details. */
                 persistTableHead
                 customStyles={customStyles}
                 noDataComponent={t("noData")}
+                onChangeRowsPerPage={(e) => {
+                  setPage((page = 1));
+                  setLimit((limit = e));
+                  getUsers();
+                }}
               />
             </div>
           </div>

@@ -172,8 +172,8 @@ export default function dashboard() {
   let [end, setEnd] = useState("");
   const [dataList, setDataList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [page, setPage] = useState(1);
-  const limit = 10;
+  let [page, setPage] = useState(1);
+  let [limit, setLimit] = useState(10);
   const [isUploadFilePopupOpen, setIsUploadFilePopupOpen] = useState(false);
   const [analytics, setAnalytics] = useState(null);
   const [regionList, setRegionList] = useState([]);
@@ -199,11 +199,7 @@ export default function dashboard() {
   let [hoverStyle, setHoverStyle] = useState("");
   const [startDateFocus, setStartDateFocus] = useState(false);
   const [endDateFocus, setEndDateFocus] = useState(false);
-
   const [filterText, setFilterText] = useState("");
-
-  var language = localStorage.getItem("lang");
-  var [currentLang, setCurrentLang] = useState(language ? language : "en");
 
   // Get values from localStorage
   const isSuperAdmin = localStorage.getItem("isAdmin");
@@ -585,40 +581,6 @@ export default function dashboard() {
       {isSuperAdmin == "true" ? (
         <div className={hoverStyle}>
           <div className="dashboard__view">
-            {/* <div
-              style={{
-                display: "flex",
-                width: "100%",
-                justifyContent: "flex-end",
-              }}
-            >
-              <div>
-                <Select
-                  placeholder="English"
-                  background="white"
-                  widthProp="150px"
-                  options={languageOptions}
-                  defaultValue={
-                    language == "fr"
-                      ? languageOptions[2]
-                      : language == "mg"
-                      ? languageOptions[1]
-                      : languageOptions[0]
-                  }
-                  getOptionLabel={(e) => (
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      {e.icon}
-                      <span style={{ marginLeft: 5 }}>{e.text}</span>
-                    </div>
-                  )}
-                  onChange={(e) => {
-                    i18n.changeLanguage(e.nativeName);
-                    setCurrentLang((currentLang = e.nativeName));
-                    localStorage.setItem("lang", e.nativeName);
-                  }}
-                />
-              </div>
-            </div> */}
             <div className="dashboard__view__container">
               <img
                 src={logo}
@@ -672,37 +634,6 @@ export default function dashboard() {
                 </svg>
                 {t("dashboard")}
               </div>
-              {/* <div
-                className="dashboard__banner__button__wrapper"
-                style={{ width: "25%" }}
-              >
-                <div>
-                  <Select
-                    placeholder="English"
-                    background="white"
-                    widthProp="150px"
-                    options={languageOptions}
-                    defaultValue={
-                      language == "fr"
-                        ? languageOptions[2]
-                        : language == "mg"
-                        ? languageOptions[1]
-                        : languageOptions[0]
-                    }
-                    getOptionLabel={(e) => (
-                      <div style={{ display: "flex", alignItems: "center" }}>
-                        {e.icon}
-                        <span style={{ marginLeft: 5 }}>{e.text}</span>
-                      </div>
-                    )}
-                    onChange={(e) => {
-                      i18n.changeLanguage(e.nativeName);
-                      setCurrentLang((currentLang = e.nativeName));
-                      localStorage.setItem("lang", e.nativeName);
-                    }}
-                  />
-                </div>
-              </div> */}
             </div>
             <div className="dashboard__banner__contianer">
               <div className="dashboard__banner__content">
@@ -916,6 +847,11 @@ export default function dashboard() {
                 setFilterText={setFilterText}
                 filterText={filterText}
                 setPage={setPage}
+                onChangeRowsPerPage={(e) => {
+                  setPage((page = 1));
+                  setLimit((limit = e));
+                  getRegistrations();
+                }}
               />
             ) : (
               <RegistrationsMapView mapList={mapList} />

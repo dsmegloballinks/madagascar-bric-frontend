@@ -40,10 +40,10 @@ export default function SimpleConfirmationPopup({ onClose, text, onYes }) {
               style={{ marginRight: ".5em" }}
               onClick={() => onClose(false)}
             >
-              {t("yes")}
+              {t("no")}
             </button>
             <button className="list__filter__button" onClick={() => onYes()}>
-              {t("no")}
+              {t("yes")}
             </button>
           </div>
         </div>

@@ -17,6 +17,7 @@ export default function Registerations({
   setFilterText,
   filterText,
   setPage,
+  onChangeRowsPerPage,
 }) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
@@ -262,6 +263,9 @@ component. */
               persistTableHead
               customStyles={customStyles}
               noDataComponent={t("noData")}
+              onChangeRowsPerPage={(e) => {
+                onChangeRowsPerPage(e);
+              }}
             />
           </div>
         </div>

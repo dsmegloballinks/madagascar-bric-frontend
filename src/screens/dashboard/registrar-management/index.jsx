@@ -19,8 +19,8 @@ export default function RegistrarManagement() {
   const [isLoading, setIsLoading] = useState(false);
   const [list, setList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [page, setPage] = useState(1);
-  const limit = 10;
+  let [page, setPage] = useState(1);
+  let [limit, setLimit] = useState(10);
   const [filterText, setFilterText] = useState("");
   let [hoverStyle, setHoverStyle] = useState("");
 
@@ -265,6 +265,11 @@ This allows the user to search for specific items in the table based on the last
                 persistTableHead
                 customStyles={customStyles}
                 noDataComponent={t("noData")}
+                onChangeRowsPerPage={(e) => {
+                  setPage((page = 1));
+                  setLimit((limit = e));
+                  getRegistrars();
+                }}
               />
             </div>
           </div>
