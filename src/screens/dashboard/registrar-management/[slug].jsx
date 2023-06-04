@@ -13,6 +13,7 @@ import moment from "moment";
 import Tooltip from "@components/Tooltip";
 import DataTable from "react-data-table-component";
 import { useTranslation } from "react-i18next";
+import { useAppointmentsQuery } from "../../../apis/rtkApi";
 
 export default function RegistrarManagementDetails() {
   const { t, i18n } = useTranslation();
@@ -34,6 +35,14 @@ export default function RegistrarManagementDetails() {
   const [filterText, setFilterText] = useState("");
 
   let [hoverStyle, setHoverStyle] = useState("");
+  let object = {
+    id: state.id,
+    page: page,
+    limit: limit,
+  };
+  if (state) var { data } = useAppointmentsQuery(object);
+
+  console.log("data", data);
 
   useEffect(() => {
     setHoverStyle(
