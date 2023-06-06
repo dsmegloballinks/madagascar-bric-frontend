@@ -84,6 +84,7 @@ export default function EditRegistrarManagement() {
         .then(({ data }) => {
           setIsLoading(false);
           if (data.data.success) {
+            setErrorMessageAndVisibility(t("success"), true);
             navigate(-1);
           } else setErrorMessageAndVisibility(t("error"), true);
         })

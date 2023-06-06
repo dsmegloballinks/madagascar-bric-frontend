@@ -48,7 +48,7 @@ properties: `value` and `label`. The `value` property is a number and the `label
 string. These objects represent options for an appointment selection dropdown or similar UI element. */
   const appointmentOptions = [
     { value: 1, label: t("appoint"), title: "Appointed" },
-    { value: 2, label: t("transfer"), title: "Transferred" },
+    // { value: 2, label: t("transfer"), title: "Transferred" },
     { value: 3, label: t("post_await"), title: "Posting awaited" },
   ];
 
@@ -108,6 +108,7 @@ string. These objects represent options for an appointment selection dropdown or
         .then(({ data }) => {
           setIsLoading(false);
           if (data.data.success) {
+            setErrorMessageAndVisibility(t("addsuccess"), true);
             navigate(-1);
           } else setErrorMessageAndVisibility(t("error"), true);
         })

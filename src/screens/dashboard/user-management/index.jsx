@@ -18,7 +18,7 @@ import { useTranslation } from "react-i18next";
 
 export default function UserManagement() {
   const { t, i18n } = useTranslation();
-  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
+  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered, setIsGlobalLoading } =
     useContext(PopupContext);
   const [deletePopupVisibility, setDeletePopupVisibility] = useState(false);
   const [resetPasswordConfirmationPopup, setResetPasswordConfirmationPopup] =
@@ -159,7 +159,6 @@ reset the user's password and another to edit the user's details. */
   };
 
   useEffect(() => {
-    debugger;
     getUsers();
   }, [page, filterText]);
 
@@ -231,8 +230,10 @@ reset the user's password and another to edit the user's details. */
       status: status.value,
       user_id: item.user_id,
     };
+    setIsGlobalLoading(true);
     updateUserStatusPostCall(object)
       .then(({ data }) => {
+        setIsGlobalLoading(false)
         if (data.success) {
           setAlertPopupMessage(t("success"));
           setAlertPopupVisibility(true);
@@ -243,14 +244,13 @@ reset the user's password and another to edit the user's details. */
         }
       })
       .catch((err) => {
+        setIsGlobalLoading(false)
         console.log("err", err);
         setStatusUpdated(!statusUpdated);
         setAlertPopupMessage(t("error"));
         setAlertPopupVisibility(true);
       });
   };
-
-  const onLimitChange = () => {};
 
   return (
     <>

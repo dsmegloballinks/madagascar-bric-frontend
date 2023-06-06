@@ -55,8 +55,8 @@ sidebar is being hovered over. */
 
   const tabs = [
     { label: t("all"), value: null },
-    { label: t("allocated"), value: 0 },
-    { label: t("not_allocated"), value: 1 },
+    { label: t("allocated"), value: 1 },
+    { label: t("not_allocated"), value: 0 },
   ];
 
   useEffect(() => {
@@ -146,7 +146,7 @@ sidebar is being hovered over. */
     },
     {
       name: t("allo_commune"),
-      selector: (row) => row.commune_name,
+      selector: (row) => row.libelle_commune,
       sortable: true,
     },
     {
@@ -175,7 +175,7 @@ sidebar is being hovered over. */
           className="container__main__content__listing__table__content__list__entry"
           id={row.id}
         >
-          {row.niu_status == 0 ? <Check color="#0acf66" /> : null}
+          {row.niu_status == 1 ? <Check color="#0acf66" /> : null}
         </div>
       ),
       sortable: true,
@@ -211,6 +211,8 @@ sidebar is being hovered over. */
       .then(({ data }) => {
         setIsLoading(false);
         if (data.error_code == 0) {
+          setAlertPopupMessage(t("success"));
+          setAlertPopupVisibility(true);
           setIsUploadFilePopupOpen(false);
         } else {
           setAlertPopupMessage(t("error"));

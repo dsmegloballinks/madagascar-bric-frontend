@@ -49,6 +49,8 @@ is being hovered over or not. */
   const isViewValid = () => {
     if (isNullOrEmpty(userName))
       setErrorMessageAndVisibility(t("enter_username"), true);
+    else if (userName.includes(" "))
+      setErrorMessageAndVisibility(t("nospace_username"), true);
     else if (isNullOrEmpty(email))
       setErrorMessageAndVisibility(t("enter_mail"), true);
     else if (isInvalidEmail(email))
@@ -79,6 +81,7 @@ is being hovered over or not. */
       userPostCall(object)
         .then(({ data }) => {
           if (data.data.success) {
+            setErrorMessageAndVisibility(t("addsuccess"), true);
             navigate(-1);
           } else {
             setErrorMessageAndVisibility(data.data.message, true);

@@ -102,7 +102,7 @@ export default function Index() {
           <div className="login__container__content">{t("lets_signin")}</div>
           <img className="login__container__logo" src={logo} />
           <div className="login__container__content__heading">
-            {t("madag")} <br /> {t("brth_reg")}{" "}
+          {t("brth_reg")} <br />  {t("madag")}{" "}
           </div>
           <div className="login__container__content__text">
             {t("signin_desc")}

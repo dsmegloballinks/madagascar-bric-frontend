@@ -78,33 +78,66 @@ export default function RegistrarManagementDetails() {
       sortable: true,
     },
     {
-      name: t("appt_date"),
+      name: t("appt_date_time"),
       selector: (row) => row.appointment_date,
       format: (row) => moment(row.appointment_date).format("DD MMM, YYYY"),
       sortable: true,
+      cell: (row, index) => (
+        <>
+          
+            <div
+              className="container__main__content__listing__table__content__list__entry"
+              id={row.id}
+              style={{flexDirection:"column"}}
+            >
+             
+                <div>{moment(row.appointment_date).format("DD MMM, YYYY")}</div>
+                <div>{row.appointment_time}</div>
+            </div>
+        </>
+      ),
     },
+    // {
+    //   name: t("appt_time"),
+    //   selector: (row) => row.appointment_time,
+    //   sortable: true,
+      
+    // },
     {
-      name: t("appt_time"),
-      selector: (row) => row.appointment_time,
-      sortable: true,
-    },
-    {
-      name: t("appt_end_date"),
+      name: t("appt_end_date_time"),
       selector: (row) => row.appointment_date,
       format: (row, index) =>
         list[index + 1] != undefined
           ? moment(list[index + 1].appointment_date).format("DD MMM, YYYY")
           : "-----",
       sortable: true,
-    },
-    {
-      name: t("appt_end_time"),
-      selector: (row, index) =>
-        list[index + 1] != undefined
+      cell: (row, index) => (
+        <>
+          
+            <div
+              className="container__main__content__listing__table__content__list__entry"
+              id={row.id}
+              style={{flexDirection:"column"}}
+            >
+             
+                <div>{list[index + 1] != undefined
+          ? moment(list[index + 1].appointment_date).format("DD MMM, YYYY")
+          : "-----"}</div>
+                <div>{ list[index + 1] != undefined
           ? list[index + 1].appointment_time
-          : "-----",
-      sortable: true,
+          : "-----"}</div>
+            </div>
+        </>
+      ),
     },
+    // {
+    //   name: t("appt_end_time"),
+    //   selector: (row, index) =>
+    //     list[index + 1] != undefined
+    //       ? list[index + 1].appointment_time
+    //       : "-----",
+    //   sortable: true,
+    // },
     {
       name: t("appt_status"),
       selector: (row) => row.appointment_status,
@@ -236,6 +269,7 @@ changes. */
         .then(({ data }) => {
           setIsPostCallLoading(false);
           if (data.success) {
+            setErrorMessageAndVisibility(t("success"), true);
             getDetail("msg");
             setUpdatePopupVisibility(false);
           } else setErrorMessageAndVisibility(t("error"), true);
@@ -249,6 +283,7 @@ changes. */
         .then(({ data }) => {
           setIsPostCallLoading(false);
           if (data.data.success) {
+            setErrorMessageAndVisibility(t("addsuccess"), true);
             // list.push(data.data.result.appointment_registrar);
             getDetail("msg");
             setUpdatePopupVisibility(false);

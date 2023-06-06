@@ -19,7 +19,7 @@ export default function EditUserManagement() {
   const [userName, setUserName] = useState(state && state.user_name);
   const [email, setEmail] = useState(state && state.email);
   const [status, setStatus] = useState(
-    state.status == 1 ? { value: 1, label: "Active" } : ""
+    state.status == 1 ? { value: 1, label: "Active" } : state.status == 2 ?{ value: 2, label: "Revoke" } : null
   );
   let [hoverStyle, setHoverStyle] = useState("");
 
@@ -78,6 +78,7 @@ the sidebar is hovered or not. */
       updateUserPostCall(object)
         .then(({ data }) => {
           if (data.data.success) {
+            setErrorMessageAndVisibility(t("success"), true);
             navigate(-1);
           } else {
             setErrorMessageAndVisibility(data.data.message, true);

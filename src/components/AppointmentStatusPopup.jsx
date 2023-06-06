@@ -32,7 +32,7 @@ export default function AppointmentStatusPopup({
   );
   const appointmentOptions = [
     { value: 1, label: t("appoint"), title: "Appointed" },
-    { value: 2, label: t("transfer"), title: "Transferred" },
+    // { value: 2, label: t("transfer"), title: "Transferred" },
     { value: 3, label: t("post_await"), title: "Posting awaited" },
   ];
 

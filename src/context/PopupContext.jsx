@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
 import AlertPopup from "@components/AlertPopup";
+import TransparentLoader from "@components/TransparentLoader";
 
 export const PopupContext = createContext();
 
@@ -7,6 +8,7 @@ export default function PopupContextProvider({ children }) {
   const [alertPopupVisibility, setAlertPopupVisibility] = useState(false);
   const [alertPopupMessage, setAlertPopupMessage] = useState("");
   const [isSidebarHovered, setIsSidebarHovered] = useState(false);
+  const [isGlobalLoading, setIsGlobalLoading] = useState(false);
   return (
     <PopupContext.Provider
       value={{
@@ -16,6 +18,8 @@ export default function PopupContextProvider({ children }) {
         setAlertPopupMessage,
         isSidebarHovered,
         setIsSidebarHovered,
+        isGlobalLoading,
+        setIsGlobalLoading
       }}
     >
       {children}
@@ -25,6 +29,9 @@ export default function PopupContextProvider({ children }) {
           alertPopupMessage={alertPopupMessage}
         />
       )}
+      {
+        isGlobalLoading && <TransparentLoader />
+      }
     </PopupContext.Provider>
   );
 }

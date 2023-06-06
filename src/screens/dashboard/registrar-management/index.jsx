@@ -204,6 +204,7 @@ This allows the user to search for specific items in the table based on the last
     deleteRegistrar(object)
       .then(({ data }) => {
         if (data.success) {
+          
           let newArray = [...list];
           newArray = newArray.filter(
             (element) => element.id != selectedItem.id
@@ -211,13 +212,14 @@ This allows the user to search for specific items in the table based on the last
           setList(newArray);
           setSelectedItem(null);
           setDeletePopupVisibility(false);
+          setAlertPopupMessage(t("delete_success"));
+          setAlertPopupVisibility(true);
         } else {
           setAlertPopupMessage(t("error"));
           setAlertPopupVisibility(true);
         }
       })
       .catch((err) => {
-        console.log("err", err);
         setAlertPopupMessage(t("error"));
         setAlertPopupVisibility(true);
       });
