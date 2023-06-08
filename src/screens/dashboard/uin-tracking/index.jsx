@@ -299,7 +299,7 @@ customize the appearance of a table in a React application. */
               <Select
                 widthProp={"180px"}
                 placeholder={t("err_type")}
-                options={errorTypeOptions}
+                options={[{label: "All", color: "", value: 0}, ...errorTypeOptions]}
                 onChange={(e) => {
                   getRegistrations(e.value);
                 }}

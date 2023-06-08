@@ -919,3 +919,20 @@ export const niuTrackingGetCall = async (
     }
   );
 };
+
+export const resetPasswordCall = async (id) => {
+  let params = {};
+  if (id) params.id = id;
+  return await axios.get(
+    import.meta.env.VITE_BASE_URL.concat("api/civil_register/forget-password"),
+    {
+      params,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};

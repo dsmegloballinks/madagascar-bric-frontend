@@ -90,7 +90,8 @@ sidebar is being hovered over. */
    * This function makes an API call to retrieve data for UIN management and updates the state with the
    * results.
    */
-  const getUINManagement = () => {
+  const getUINManagement = (msg) => {
+    if(!msg)
     setIsDataLoading(true);
     uinManagmentGetCall(page, limit, commune, selectedTabId, filterText)
       .then(({ data }) => {
@@ -211,6 +212,7 @@ sidebar is being hovered over. */
       .then(({ data }) => {
         setIsLoading(false);
         if (data.error_code == 0) {
+          getUINManagement("msg")
           setAlertPopupMessage(t("success"));
           setAlertPopupVisibility(true);
           setIsUploadFilePopupOpen(false);

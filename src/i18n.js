@@ -194,6 +194,7 @@ i18next
           revoke: "Revoke",
           noData: "There are no records to display",
           delete_success: "Information deleted successfully",
+          reset_pass_success: "Password has been sent to the user email",
         },
       },
       mg: {
@@ -383,6 +384,7 @@ i18next
           revoke: "Manafoana",
           noData: "Tsy misy firaketana haseho",
           delete_success: "Voafafa soa aman-tsara ny fampahalalana",
+          reset_pass_success: "Nalefa tamin'ny mailaka mpampiasa ny tenimiafina"
         },
       },
       fr: {
@@ -573,6 +575,7 @@ i18next
           revoke: "Révoquer",
           noData: "Il n'y a aucun enregistrement à afficher",
           delete_success: "Informations supprimées avec succès",
+          reset_pass_success: "Le mot de passe a été envoyé à l'adresse e-mail de l'utilisateur",
         },
       },
     },

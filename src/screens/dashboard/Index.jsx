@@ -216,30 +216,36 @@ export default function dashboard() {
   }, [isSidebarHovered, isHover]);
 
   useEffect(() => {
-    // Fetch data for selectedFilter = "List" on page change
-    if (selectedFilter == t("list")) getRegistrations();
+    getRegistrations();
   }, [page, filterText]);
 
   useEffect(() => {
-    // Set default dates and get analytics data
-    setDefatulDates();
-    setYearGraphDefaultDates();
-    getAnalytics();
-    getGenderAnalytics();
     getRegions();
   }, []);
 
-  useEffect(() => {
-    // Fetch maps list if selectedFilter = "Map"
-    // if (selectedFilter == "Map")
-    getMapsList();
-  }, []);
+  // useEffect(() => {
+  //   // Fetch maps list if selectedFilter = "Map"
+  //   // if (selectedFilter == "Map")
+  //   // getMapsList();
+  // }, []);
 
   useEffect(() => {
     // Set selectedFilter based on state value
-    if (state == "List") setSelectedFilter("List");
-    else if (state == "Map") setSelectedFilter("Map");
-    else setSelectedFilter("Graph");
+    if (state == "List") {
+      setSelectedFilter("List"); 
+      getRegistrations();
+    }
+    else if (state == "Map"){ 
+      setSelectedFilter("Map"); 
+      getMapsList();
+    }
+    else {
+      setSelectedFilter("Graph"); 
+      getAnalytics();
+      getGenderAnalytics(); 
+      setDefatulDates();
+      setYearGraphDefaultDates();
+  }
   }, [state]);
 
   /**
@@ -573,7 +579,11 @@ export default function dashboard() {
       getAnalytics();
     } else if (selectedFilter == "List") {
       getRegistrations();
-    } else getMapsList();
+      getAnalytics();
+    } else {
+      getMapsList(); 
+      getAnalytics();
+    }
   };
 
   return (
@@ -644,7 +654,7 @@ export default function dashboard() {
               <div className="dashboard__banner__button__wrapper"></div>
             </div>
             <div className="dashboard__filters__wrapper">
-              <div className="dashboard__filters__container">
+              {/* <div className="dashboard__filters__container">
                 {filters.map((item) => (
                   <div
                     className={
@@ -661,7 +671,7 @@ export default function dashboard() {
                     {item.value}
                   </div>
                 ))}
-              </div>
+              </div> */}
             </div>
             <div className="dashboard__analytics">
               <div className="dashboard__analytics__container">

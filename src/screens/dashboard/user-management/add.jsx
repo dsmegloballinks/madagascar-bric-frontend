@@ -18,6 +18,7 @@ export default function AddUserManagement() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   let [hoverStyle, setHoverStyle] = useState("");
+  const [readOnly, setReadOnly] = useState(true);
 
   /* This is a `useEffect` hook that is used to update the `hoverStyle` state variable whenever the
 `isSidebarHovered` state variable changes. It sets the `hoverStyle` to either
@@ -143,6 +144,7 @@ is being hovered over or not. */
             <input
               placeholder=""
               value={email}
+              autoComplete={false}
               onChange={(e) => setEmail(e.currentTarget.value)}
             />
           </div>
@@ -151,8 +153,12 @@ is being hovered over or not. */
             <input
               placeholder=""
               type="password"
+              autoComplete={false}
               value={password}
               onChange={(e) => setPassword(e.currentTarget.value)}
+              readOnly={readOnly}
+              onFocus={ () => setReadOnly(false) }
+              onBlur={ () => setReadOnly(true) }
             />
           </div>
           <div className="form__bottom">
@@ -161,7 +167,11 @@ is being hovered over or not. */
               placeholder=""
               type="password"
               value={confirmPassword}
+              autoComplete={false}
               onChange={(e) => setConfirmPassword(e.currentTarget.value)}
+              readOnly={readOnly}
+              onFocus={ () => setReadOnly(false) }
+              onBlur={ () => setReadOnly(true) }
             />
           </div>
         </div>

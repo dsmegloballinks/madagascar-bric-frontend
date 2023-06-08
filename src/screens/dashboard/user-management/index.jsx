@@ -6,6 +6,7 @@ import TableEntryUpdateStatus from "@components/TableEntryUpdateStatus";
 import SimpleConfirmationPopup from "@components/SimpleConfirmationPopup";
 import {
   deleteUser,
+  resetPasswordCall,
   updateUserStatusPostCall,
   usersGetCall,
 } from "../../../apis/Repo";
@@ -32,6 +33,7 @@ export default function UserManagement() {
   const [statusUpdated, setStatusUpdated] = useState(false);
   const [filterText, setFilterText] = useState("");
   let [hoverStyle, setHoverStyle] = useState("dashboard__container");
+  const [selectedUser, setSelectedUser] = useState(null)
 
   useEffect(() => {
     setHoverStyle(
@@ -117,7 +119,7 @@ reset the user's password and another to edit the user's details. */
             <div
               className="container__main__content__listing__table__content__list__entry__action__edit"
               style={{ marginRight: ".5em", background: "#de8f21" }}
-              onClick={() => setResetPasswordConfirmationPopup(true)}
+              onClick={() =>{setSelectedUser(row); setResetPasswordConfirmationPopup(true)}}
             >
               <img src={passLock} width={"120%"} />
             </div>
@@ -202,6 +204,8 @@ reset the user's password and another to edit the user's details. */
     deleteUser(object)
       .then(({ data }) => {
         if (data.data.success) {
+          setAlertPopupMessage(t("delete_success"));
+          setAlertPopupVisibility(true);
           let newArray = [...list];
           newArray = newArray.filter(
             (element) => element.user_id !== selectedItem.user_id
@@ -251,6 +255,23 @@ reset the user's password and another to edit the user's details. */
         setAlertPopupVisibility(true);
       });
   };
+
+  const resetPassword = () =>{
+    resetPasswordCall(selectedUser.id).then(({data})=>{
+      if(data.success){
+        setResetPasswordConfirmationPopup(false);
+        setAlertPopupMessage(t("reset_pass_success"));
+        setAlertPopupVisibility(true);
+      }else{
+        setAlertPopupMessage(t("error"));
+        setAlertPopupVisibility(true);
+      }
+    }).catch((err)=>{
+      console.log("err",err);
+      setAlertPopupMessage(t("error"));
+      setAlertPopupVisibility(true);
+    })
+  }
 
   return (
     <>
@@ -319,6 +340,7 @@ reset the user's password and another to edit the user's details. */
         <SimpleConfirmationPopup
           onClose={() => setResetPasswordConfirmationPopup(false)}
           text={t("reset_pass_msg")}
+          onYes={resetPassword}
         />
       )}
     </>
