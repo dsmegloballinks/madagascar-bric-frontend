@@ -147,7 +147,7 @@ sidebar is being hovered over. */
     },
     {
       name: t("allo_commune"),
-      selector: (row) => row.libelle_commune,
+      selector: (row) => row.allocated_commune,
       sortable: true,
     },
     {

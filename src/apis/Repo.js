@@ -73,8 +73,8 @@ export const registrationsGetCall = async (
   if (commune) params.code_commune = commune.value;
   if (fokonatny) params.code_fokonatany = fokonatny.value;
   if (error_id) params.error_id = error_id;
-  if (niu) params.niu = niu;
-  if (name) params.name = name;
+  if (niu) params.search = niu;
+  if (name) params.search = name;
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-all"),
     {
@@ -158,7 +158,7 @@ export const fileLogGetCall = async (page, limit, type, file) => {
   if (page) params.page = page;
   if (limit) params.limit = limit;
   if (type) params.moduleType = type;
-  if (file) params.file = file;
+  if (file) params.search = file;
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat("api/excel_upload_log/get-all-logs"),
     {
@@ -202,7 +202,7 @@ export const uinManagmentGetCall = async (
   if (limit) params.limit = limit;
   if (commune) params.commune = commune.value;
   if (niu_status || niu_status == 0) params.niu_status = niu_status;
-  if (niu) params.niu = niu;
+  if (niu) params.search = niu;
 
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-uin"),
@@ -489,7 +489,7 @@ export const usersGetCall = async (page, limit, email) => {
   let params = {};
   if (page) params.page = page;
   if (limit) params.limit = limit;
-  if (email) params.email = email;
+  if (email) params.search = email;
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-all-users"),
     {
@@ -652,7 +652,7 @@ export const registrarGetCall = async (page, limit, email) => {
   let params = {};
   if (page) params.page = page;
   if (limit) params.limit = limit;
-  if (email) params.email = email;
+  if (email) params.search = email;
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat("api/registrar_register/get-all"),
     {
@@ -689,7 +689,7 @@ export const registrarAppointmentsGetByIdCall = async (
   if (page) params.page = page;
   if (limit) params.limit = limit;
   if (id) params.id = id;
-  if (location) params.location = location;
+  if (location) params.search = location;
   if (date) params.date = date;
   return await axios.get(
     import.meta.env.VITE_BASE_URL.concat(
