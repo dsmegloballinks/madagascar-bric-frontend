@@ -97,7 +97,7 @@ re-renders of the component. */
     },
     {
       name: t("imp_type"),
-      selector: (row) => row.input_type,
+      selector: (row) => row.input_type == "ODK" ? "ODK Excel File" : row.input_type == "FILE" ? "ODK API" : "OperCRVS",
       sortable: true,
     },
   ];
@@ -187,10 +187,12 @@ re-renders of the component. */
   const fetchRecords = () => {
     fetchOdkRecordsGetCall()
       .then(({ data }) => {
+        setResetPasswordConfirmationPopup(false);
         console.log("data", data);
         getLog("msg");
       })
       .catch((err) => {
+        setResetPasswordConfirmationPopup(false);
         console.log("err", err);
       });
   };
