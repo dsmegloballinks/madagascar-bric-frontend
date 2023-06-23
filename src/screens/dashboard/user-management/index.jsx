@@ -249,7 +249,7 @@ reset the user's password and another to edit the user's details. */
   };
 
   const resetPassword = () =>{
-    resetPasswordCall(selectedUser.id).then(({data})=>{
+    resetPasswordCall(selectedUser.user_id).then(({data})=>{
       if(data.success){
         setResetPasswordConfirmationPopup(false);
         NotificationMessage(t("reset_pass_success"));
@@ -260,6 +260,8 @@ reset the user's password and another to edit the user's details. */
       CustomError(t("error"));
     })
   }
+
+  console.log("selectedUser",selectedUser)
 
   return (
     <>

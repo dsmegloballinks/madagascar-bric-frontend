@@ -31,6 +31,7 @@ export default function RegistrarManagementDetails() {
   let [limit, setLimit] = useState(10);
   const [isPostCallLoading, setIsPostCallLoading] = useState(false);
   const [date, setDate] = useState("");
+  const [totalPages, setTotalPages] = useState(0)
 
   const [filterText, setFilterText] = useState("");
 
@@ -155,7 +156,7 @@ export default function RegistrarManagementDetails() {
       cell: (row, index) => (
         <>
           {index ==
-          list.findLastIndex((e) => e.appointment_status == "Appointed") ? (
+          list.findLastIndex((e) => e.appointment_status == "Appointed") && totalPages == page ? (
             <div
               className="container__main__content__listing__table__content__list__entry"
               id={row.id}
@@ -215,6 +216,7 @@ changes. */
         if (data.success) {
           setList(data.result);
           setTotalRecords(data.total_records);
+          setTotalPages(data.total_pages)
         } else {
           setList([]);
           setTotalRecords(0);

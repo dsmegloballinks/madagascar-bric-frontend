@@ -51,10 +51,10 @@ is being hovered over or not. */
       CustomError(t("enter_valid_mail"));
     else if (isNullOrEmpty(password))
       CustomError(t("enter_pass"));
-    else if (password.length < 8)
-      CustomError(t("enter_valid_pass"));
-    else if (isNullOrEmpty(confirmPassword))
-      CustomError(t("enter_conf_pass"));
+    // else if (password.length < 8)
+    //   CustomError(t("enter_valid_pass"));
+    // else if (isNullOrEmpty(confirmPassword))
+    //   CustomError(t("enter_conf_pass"));
     else if (password != confirmPassword)
       CustomError(t("match_pass"));
     else return true;

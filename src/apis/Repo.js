@@ -921,6 +921,7 @@ export const niuTrackingGetCall = async (
 };
 
 export const resetPasswordCall = async (id) => {
+  debugger;
   let params = {};
   if (id) params.id = id;
   return await axios.get(
