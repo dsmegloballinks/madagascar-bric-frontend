@@ -13,10 +13,11 @@ import moment from "moment";
 import Tooltip from "@components/Tooltip";
 import DataTable from "react-data-table-component";
 import { useTranslation } from "react-i18next";
+import { NotificationMessage } from "@components/Toast";
 
 export default function RegistrarManagementDetails() {
   const { t, i18n } = useTranslation();
-  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
+  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered, setPopupTitle } =
     useContext(PopupContext);
   const [updateStatusPopupVisibility, setUpdatePopupVisibility] =
     useState(false);
@@ -269,10 +270,10 @@ changes. */
         .then(({ data }) => {
           setIsPostCallLoading(false);
           if (data.success) {
-            setErrorMessageAndVisibility(t("success"), true);
+            NotificationMessage(t("success"))
             getDetail("msg");
             setUpdatePopupVisibility(false);
-          } else setErrorMessageAndVisibility(t("error"), true);
+          } else setErrorMessageAndVisibility(data.message, true);
         })
         .catch((err) => {
           setIsPostCallLoading(false);
@@ -283,11 +284,10 @@ changes. */
         .then(({ data }) => {
           setIsPostCallLoading(false);
           if (data.data.success) {
-            setErrorMessageAndVisibility(t("addsuccess"), true);
-            // list.push(data.data.result.appointment_registrar);
+            NotificationMessage(t("addsuccess"))
             getDetail("msg");
             setUpdatePopupVisibility(false);
-          } else setErrorMessageAndVisibility(t("error"), true);
+          } else setErrorMessageAndVisibility(data.data.message, true);
         })
         .catch((err) => {
           setIsPostCallLoading(false);
@@ -301,6 +301,7 @@ changes. */
   const setErrorMessageAndVisibility = (text, visibility) => {
     setAlertPopupMessage(text);
     setAlertPopupVisibility(visibility);
+    setPopupTitle(t("alert"))
   };
 
   return (

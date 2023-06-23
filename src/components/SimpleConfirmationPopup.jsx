@@ -4,7 +4,7 @@ import { AlertCircle, X } from "react-feather";
 import InputSelect from "./InputSelect";
 import { useTranslation } from "react-i18next";
 
-export default function SimpleConfirmationPopup({ onClose, text, onYes }) {
+export default function SimpleConfirmationPopup({ onClose, text, onYes, isFetchLoading }) {
   const { t, i18n } = useTranslation();
   return (
     <div className="popup">
@@ -35,8 +35,8 @@ export default function SimpleConfirmationPopup({ onClose, text, onYes }) {
               marginTop: "1em",
             }}
           >
-            <button className="list__filter__button" style={{ marginRight: ".5em" }}onClick={() => onYes()}>
-              {t("yes")}
+            <button disabled={isFetchLoading} className="list__filter__button" style={{ marginRight: ".5em" }}onClick={() => onYes()}>
+              {isFetchLoading ? t("processing") : t("yes")}
             </button>
             <button
               className="list__filter__button__reset"

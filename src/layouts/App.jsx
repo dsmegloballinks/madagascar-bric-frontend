@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { userAtom } from "../global";
 import { LoadScript } from "@react-google-maps/api";
 import "../../src/i18n";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function App() {
   const [user] = useAtom(userAtom);
@@ -31,10 +32,10 @@ export default function App() {
   return (
     <>
       <Head
-        title="Madagascar Birth Registration"
+        title="Birth Registration Information Center (BRIC)"
         image="/favicon.svg"
         url="https://vitefilerouter.com"
-        description="Madagascar Birth Registration"
+        description="Birth Registration Information Center (BRIC)"
       />
       {/* {!location.pathname.toLowerCase().includes("/dashboard") ? (
         <Outlet />
@@ -48,6 +49,7 @@ export default function App() {
         loadingElement={<></>}
       >
         <Outlet />
+        <ToastContainer/>
       </LoadScript>
     </>
   );

@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 export default function Index() {
   const { t, i18n } = useTranslation();
   const [, setUser] = useAtom(userAtom);
-  const { setAlertPopupVisibility, setAlertPopupMessage, setIsSidebarHovered } =
+  const { setAlertPopupVisibility, setAlertPopupMessage, setIsSidebarHovered, setPopupTitle } =
     useContext(PopupContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -79,6 +79,7 @@ export default function Index() {
             setAlertPopupMessage(data.data.message);
             // Display the alert popup
             setAlertPopupVisibility(true);
+            setPopupTitle(t("alert"))
           }
         })
         .catch((err) => {
@@ -86,6 +87,7 @@ export default function Index() {
           console.log("err", err);
           // Set a generic error message for the alert popup
           setAlertPopupMessage(t("error"));
+          setPopupTitle(t("alert"))
           // Display the alert popup
           setAlertPopupVisibility(true);
         });

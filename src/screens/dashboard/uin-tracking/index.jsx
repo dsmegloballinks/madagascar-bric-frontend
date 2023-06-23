@@ -11,10 +11,11 @@ import { registrationsGetCall, uinTrackingPostCall } from "../../../apis/Repo";
 import { PopupContext } from "../../../context/PopupContext";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
+import { CustomError, NotificationMessage } from "@components/Toast";
 
 export default function UINTracking() {
   const { t, i18n } = useTranslation();
-  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
+  const {isSidebarHovered } =
     useContext(PopupContext);
   const navigate = useNavigate();
   const errorTypeOptions = [
@@ -90,12 +91,12 @@ table. */
     },
     {
       name: t("commune"),
-      selector: (row) => row.foko.commune_name,
+      selector: (row) => row.mother.commune_name,
       sortable: true,
     },
     {
       name: t("fokontany"),
-      selector: (row) => row.foko.fokontonay_name,
+      selector: (row) => row.mother.fokontonay_name,
       sortable: true,
     },
     {
@@ -228,19 +229,15 @@ customize the appearance of a table in a React application. */
       uin: number,
       cr_id: item.cr.id,
     };
-    console.log("object", object);
     uinTrackingPostCall(object)
       .then(({ data }) => {
-        if (data.error_code == 0) getRegistrations();
+        if (data.error_code == 0){NotificationMessage(t("success")); getRegistrations();}
         else {
-          setAlertPopupMessage(t("error"));
-          setAlertPopupVisibility(true);
+          CustomError(data.message);
         }
       })
       .catch((err) => {
-        console.log("err", err);
-        setAlertPopupMessage(t("error"));
-        setAlertPopupVisibility(true);
+        CustomError(t("error"));
       });
   };
 

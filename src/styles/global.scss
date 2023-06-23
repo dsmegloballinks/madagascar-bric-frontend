@@ -63,8 +63,9 @@ body {
   // overflow-x: hidden;
 }
 
-.rdt_TableHeadRow{
-  
+.toast__msg {
+  position: relative;
+  z-index: 9999999;
 }
 
 .login__container__wrapper {

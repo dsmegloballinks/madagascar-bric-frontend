@@ -14,11 +14,11 @@ import moment from "moment";
 import Tooltip from "@components/Tooltip";
 import DataTable from "react-data-table-component";
 import { useTranslation } from "react-i18next";
+import { CustomError, NotificationMessage } from "@components/Toast";
 
 export default function OdkManagement() {
   const { t, i18n } = useTranslation();
-  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
-    useContext(PopupContext);
+  const {isSidebarHovered} = useContext(PopupContext);
   const [isUploadFilePopupOpen, setIsUploadFilePopupOpen] = useState(false);
   const [resetPasswordConfirmationPopup, setResetPasswordConfirmationPopup] =
     useState(false);
@@ -28,6 +28,7 @@ export default function OdkManagement() {
   const [isDataLoading, setIsDataLoading] = useState(false);
   let [page, setPage] = useState(1);
   let [limit, setLimit] = useState(10);
+  const [isFetchLoading, setIsFetchLoading] = useState(false)
 
   const [filterText, setFilterText] = useState("");
 
@@ -137,18 +138,16 @@ re-renders of the component. */
       .then(({ data }) => {
         setIsLoading(false);
         if (data.error_code == 0) {
+          NotificationMessage(data.message)
           setIsUploadFilePopupOpen(false);
           getLog("msg");
         } else {
-          setAlertPopupMessage(t("error"));
-          setAlertPopupVisibility(true);
+          CustomError(t("error"));
         }
       })
       .catch((err) => {
         setIsLoading(false);
-        console.log("err", err);
-        setAlertPopupMessage(t("error"));
-        setAlertPopupVisibility(true);
+        CustomError(t("error"));
       });
   };
 
@@ -185,15 +184,22 @@ re-renders of the component. */
    * This function fetches ODK records and logs the data or any errors.
    */
   const fetchRecords = () => {
+    setIsFetchLoading(true);
     fetchOdkRecordsGetCall()
       .then(({ data }) => {
+        setIsFetchLoading(false)
         setResetPasswordConfirmationPopup(false);
-        console.log("data", data);
-        getLog("msg");
+        if(data.error_code == 0){
+          NotificationMessage("");
+          getLog("msg");
+        }
+        else CustomError(t("error"));   
       })
       .catch((err) => {
+        setIsFetchLoading(false)
         setResetPasswordConfirmationPopup(false);
         console.log("err", err);
+        CustomError(t("error"));
       });
   };
 
@@ -288,6 +294,7 @@ re-renders of the component. */
           onClose={() => setResetPasswordConfirmationPopup(false)}
           text={t("fetch_rec_msg")}
           onYes={fetchRecords}
+          isFetchLoading={isFetchLoading}
         />
       )}
     </>

@@ -16,10 +16,11 @@ import { passLock } from "../../../assets/index";
 import Tooltip from "@components/Tooltip";
 import DataTable from "react-data-table-component";
 import { useTranslation } from "react-i18next";
+import { CustomError, NotificationMessage } from "@components/Toast";
 
 export default function UserManagement() {
   const { t, i18n } = useTranslation();
-  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered, setIsGlobalLoading } =
+  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered, setIsGlobalLoading, setPopupTitle } =
     useContext(PopupContext);
   const [deletePopupVisibility, setDeletePopupVisibility] = useState(false);
   const [resetPasswordConfirmationPopup, setResetPasswordConfirmationPopup] =
@@ -43,14 +44,6 @@ export default function UserManagement() {
     );
   }, [isSidebarHovered]);
 
-  /* Filtering the `list` array based on the `filterText` value. It checks if the `user_name` property of
-each item in the array contains the `filterText` value (ignoring case sensitivity) and returns a new
-array with the filtered items. */
-  const filteredItems = list.filter(
-    (item) =>
-      item.user_name &&
-      item.user_name.toLowerCase().includes(filterText.toLowerCase())
-  );
 
   /* The above code is creating a React functional component called `subHeaderComponentMemo` using the
 `useMemo` hook. This component returns a `div` element containing an input field and a search icon.
@@ -204,6 +197,7 @@ reset the user's password and another to edit the user's details. */
     deleteUser(object)
       .then(({ data }) => {
         if (data.data.success) {
+          setPopupTitle(t("data_info"))
           setAlertPopupMessage(t("delete_success"));
           setAlertPopupVisibility(true);
           let newArray = [...list];
@@ -214,11 +208,13 @@ reset the user's password and another to edit the user's details. */
           setSelectedItem(null);
           setDeletePopupVisibility(false);
         } else {
+          setPopupTitle(t("alert"))
           setAlertPopupMessage(t("error"));
           setAlertPopupVisibility(true);
         }
       })
       .catch((err) => {
+        setPopupTitle(t("alert"))
         console.log("err", err);
         setAlertPopupMessage(t("error"));
         setAlertPopupVisibility(true);
@@ -239,20 +235,16 @@ reset the user's password and another to edit the user's details. */
       .then(({ data }) => {
         setIsGlobalLoading(false)
         if (data.success) {
-          setAlertPopupMessage(t("success"));
-          setAlertPopupVisibility(true);
+          NotificationMessage(status.value == 1 ? t("active_status") : t("revoke_status"));
         } else {
           setStatusUpdated(!statusUpdated);
-          setAlertPopupMessage(t("error"));
-          setAlertPopupVisibility(true);
+          CustomError(data.message);
         }
       })
       .catch((err) => {
         setIsGlobalLoading(false)
-        console.log("err", err);
         setStatusUpdated(!statusUpdated);
-        setAlertPopupMessage(t("error"));
-        setAlertPopupVisibility(true);
+        CustomError(t("error"));
       });
   };
 
@@ -260,16 +252,12 @@ reset the user's password and another to edit the user's details. */
     resetPasswordCall(selectedUser.id).then(({data})=>{
       if(data.success){
         setResetPasswordConfirmationPopup(false);
-        setAlertPopupMessage(t("reset_pass_success"));
-        setAlertPopupVisibility(true);
+        NotificationMessage(t("reset_pass_success"));
       }else{
-        setAlertPopupMessage(t("error"));
-        setAlertPopupVisibility(true);
+        CustomError(data.message);
       }
     }).catch((err)=>{
-      console.log("err",err);
-      setAlertPopupMessage(t("error"));
-      setAlertPopupVisibility(true);
+      CustomError(t("error"));
     })
   }
 

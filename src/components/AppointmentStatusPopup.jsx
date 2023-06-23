@@ -5,6 +5,7 @@ import { PopupContext } from "../context/PopupContext";
 import { isNullOrEmpty } from "../utils/isNullOrEmpty";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
+import { CustomError } from "./Toast";
 
 export default function AppointmentStatusPopup({
   onClose,
@@ -13,7 +14,7 @@ export default function AppointmentStatusPopup({
   selectedItem,
 }) {
   const { t, i18n } = useTranslation();
-  const { setAlertPopupVisibility, setAlertPopupMessage } =
+  const { setAlertPopupVisibility, setAlertPopupMessage, setPopupTitle } =
     useContext(PopupContext);
   const [appointmentAddress, setAppointmentAddress] = useState(
     selectedItem && selectedItem.location
@@ -57,6 +58,7 @@ export default function AppointmentStatusPopup({
   const setErrorMessageAndVisibility = (text, visibility) => {
     setAlertPopupMessage(text);
     setAlertPopupVisibility(visibility);
+    setPopupTitle(t("alert"))
   };
 
   /**
@@ -67,15 +69,16 @@ export default function AppointmentStatusPopup({
    */
   const isViewValid = () => {
     if (isNullOrEmpty(appointmentAddress))
-      setErrorMessageAndVisibility(t("enter_app_add"), true);
+    CustomError(t("enter_app_add"))
+      // setErrorMessageAndVisibility(t("enter_app_add"));
     else if (isNullOrEmpty(appointmentsStatus))
-      setErrorMessageAndVisibility(t("enter_app_status"), true);
+      CustomError(t("enter_app_status"));
     else if (isNullOrEmpty(appointmentDate))
-      setErrorMessageAndVisibility(t("enter_app_date"), true);
+      CustomError(t("enter_app_date"));
     else if (isNullOrEmpty(appointmentTime))
-      setErrorMessageAndVisibility(t("enter_app_time"), true);
+      CustomError(t("enter_app_time"));
     else if (isNullOrEmpty(appointedBy))
-      setErrorMessageAndVisibility(t("enter_app_by"), true);
+      CustomError(t("enter_app_by"));
     else return true;
     return false;
   };
@@ -107,7 +110,7 @@ export default function AppointmentStatusPopup({
           </button>
 
           <div className="certificate__wrapper__container__content">
-            {t("update_appt")}
+            {selectedItem ? t("update_appt") : t("add_newappt")}
           </div>
           <div
             className="certificate__wrapper__container "

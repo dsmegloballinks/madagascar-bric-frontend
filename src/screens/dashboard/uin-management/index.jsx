@@ -17,11 +17,11 @@ import { file } from "../../../assets";
 import DataTable from "react-data-table-component";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
+import { CustomError, NotificationMessage } from "@components/Toast";
 
 export default function UINManagement() {
   const { t, i18n } = useTranslation();
-  const isSuperAdmin = localStorage.getItem("isAdmin");
-  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
+  const {isSidebarHovered } =
     useContext(PopupContext);
   const [isUploadFilePopupOpen, setIsUploadFilePopupOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -213,19 +213,16 @@ sidebar is being hovered over. */
         setIsLoading(false);
         if (data.error_code == 0) {
           getUINManagement("msg")
-          setAlertPopupMessage(t("success"));
-          setAlertPopupVisibility(true);
+          NotificationMessage(data.message);
           setIsUploadFilePopupOpen(false);
+          
         } else {
-          setAlertPopupMessage(t("error"));
-          setAlertPopupVisibility(true);
+          CustomError(t("error"));
         }
       })
       .catch((err) => {
         setIsLoading(false);
-        console.log("err", err);
-        setAlertPopupMessage(t("error"));
-        setAlertPopupVisibility(true);
+        CustomError(t("error"));
       });
   };
 

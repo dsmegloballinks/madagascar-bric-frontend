@@ -9,11 +9,11 @@ export default function ConfirmationPopup({ onClose, onDelete }) {
     <div className="popup">
       <div className="popup__overlay" style={{ zIndex: "99999" }}>
         <div className="alert__popup__container">
-          <div className="alert__background__dot"></div>
+          <div className="alert__background__dot" style={ {background: "#9b8af2" }}></div>
           <div className="alert__popup__card">
-            <AlertCircle size={100} className="alert__popup__logo" />
+            <AlertCircle size={100} className="alert__popup__logo" style={ {background: "#9b8af2" }} />
             <div className="alert__popup__content">
-              <div className="alert__popup__content__title">{t("alert")}</div>
+              <div className="alert__popup__content__title">{t("warning")}</div>
               <div className="alert__popup__content__info">
                 {t("delete_msg")}
               </div>
@@ -24,6 +24,7 @@ export default function ConfirmationPopup({ onClose, onDelete }) {
                 <button
                   className="alert__popup__content__button"
                   onClick={onDelete}
+                  style={{ background: "#9b8af2" }}
                 >
                   {t("yes")}
                 </button>

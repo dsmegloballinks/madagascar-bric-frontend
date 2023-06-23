@@ -8,11 +8,12 @@ import { updateUserPostCall } from "../../../apis/Repo";
 import InputSelect from "@components/InputSelect";
 import Tooltip from "@components/Tooltip";
 import { useTranslation } from "react-i18next";
+import { CustomError, NotificationMessage } from "@components/Toast";
 
 export default function EditUserManagement() {
   const { t, i18n } = useTranslation();
   const isSuperAdmin = localStorage.getItem("isAdmin");
-  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
+  const {isSidebarHovered} =
     useContext(PopupContext);
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -37,14 +38,6 @@ the sidebar is hovered or not. */
   }, [isSidebarHovered]);
 
   /**
-   * This function sets the message and visibility of an alert popup.
-   */
-  const setErrorMessageAndVisibility = (text, visibility) => {
-    setAlertPopupMessage(text);
-    setAlertPopupVisibility(visibility);
-  };
-
-  /**
    * The function checks if the user name and email are valid and returns true if they are, otherwise it
    * sets an error message and returns false.
    * @returns The function `isViewValid` returns a boolean value. It returns `true` if all the conditions
@@ -53,11 +46,11 @@ the sidebar is hovered or not. */
    */
   const isViewValid = () => {
     if (isNullOrEmpty(userName))
-      setErrorMessageAndVisibility(t("enter_username"), true);
+      CustomError(t("enter_username"));
     else if (isNullOrEmpty(email))
-      setErrorMessageAndVisibility(t("enter_mail"), true);
+      CustomError(t("enter_mail"));
     else if (isInvalidEmail(email))
-      setErrorMessageAndVisibility(t("enter_valid_mail"), true);
+      CustomError(t("enter_valid_mail"));
     else return true;
     return false;
   };
@@ -78,15 +71,15 @@ the sidebar is hovered or not. */
       updateUserPostCall(object)
         .then(({ data }) => {
           if (data.data.success) {
-            setErrorMessageAndVisibility(t("success"), true);
+            NotificationMessage(t("update_user"));
             navigate(-1);
           } else {
-            setErrorMessageAndVisibility(data.data.message, true);
+            CustomError(data.data.message);
           }
         })
         .catch((err) => {
           console.log("err", err);
-          setErrorMessageAndVisibility(t("error"), true);
+          CustomError(t("error"));
         });
     }
   };

@@ -8,11 +8,13 @@ import { registrarPostCall } from "../../../apis/Repo";
 import { isInvalidEmail } from "../../../utils/validations";
 import Tooltip from "@components/Tooltip";
 import { useTranslation } from "react-i18next";
+import { CustomError } from "@components/Toast";
+import { NotificationMessage } from "@components/Toast";
 
 export default function AddRegistrarManagement() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
+  const { isSidebarHovered } =
     useContext(PopupContext);
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -35,13 +37,6 @@ export default function AddRegistrarManagement() {
     );
   }, [isSidebarHovered]);
 
-  /**
-   * This function sets the message and visibility of an alert popup.
-   */
-  const setErrorMessageAndVisibility = (text, visibility) => {
-    setAlertPopupMessage(text);
-    setAlertPopupVisibility(visibility);
-  };
 
   /* The above code is declaring an array of objects called `appointmentOptions`. Each object has two
 properties: `value` and `label`. The `value` property is a number and the `label` property is a
@@ -60,27 +55,27 @@ string. These objects represent options for an appointment selection dropdown or
    */
   const isViewValid = () => {
     if (isNullOrEmpty(lastName))
-      setErrorMessageAndVisibility(t("enter_last_name"), true);
+      CustomError(t("enter_last_name"));
     else if (isNullOrEmpty(firstName))
-      setErrorMessageAndVisibility(t("enter_first_name"), true);
+      CustomError(t("enter_first_name"));
     else if (isNullOrEmpty(email))
-      setErrorMessageAndVisibility(t("enter_mail"), true);
+      CustomError(t("enter_mail"));
     else if (isInvalidEmail(email))
-      setErrorMessageAndVisibility(t("enter_valid_mail"), true);
+      CustomError(t("enter_valid_mail"));
     else if (isNullOrEmpty(department))
-      setErrorMessageAndVisibility(t("enter_dept"), true);
+      CustomError(t("enter_dept"));
     else if (isNullOrEmpty(contactNumber))
-      setErrorMessageAndVisibility(t("enter_contact"), true);
+      CustomError(t("enter_contact"));
     else if (isNullOrEmpty(appointmentAddress))
-      setErrorMessageAndVisibility(t("enter_app_add"), true);
+      CustomError(t("enter_app_add"));
     else if (isNullOrEmpty(appointmentsStatus))
-      setErrorMessageAndVisibility(t("enter_app_status"), true);
+      CustomError(t("enter_app_status"));
     else if (isNullOrEmpty(appointmentDate))
-      setErrorMessageAndVisibility(t("enter_app_date"), true);
+      CustomError(t("enter_app_date"));
     else if (isNullOrEmpty(appointmentTime))
-      setErrorMessageAndVisibility(t("enter_app_time"), true);
+      CustomError(t("enter_app_time"));
     else if (isNullOrEmpty(appointedBy))
-      setErrorMessageAndVisibility(t("enter_app_by"), true);
+      CustomError(t("enter_app_by"));
     else return true;
     return false;
   };
@@ -108,13 +103,14 @@ string. These objects represent options for an appointment selection dropdown or
         .then(({ data }) => {
           setIsLoading(false);
           if (data.data.success) {
-            setErrorMessageAndVisibility(t("addsuccess"), true);
+            NotificationMessage(t("add_reg_msg"));
             navigate(-1);
-          } else setErrorMessageAndVisibility(t("error"), true);
+          } else CustomError(data.data.message);
         })
         .catch((err) => {
           setIsLoading(false);
           console.log("err", err);
+          CustomError(t("error"));
         });
     }
   };

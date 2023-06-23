@@ -7,10 +7,11 @@ import { isInvalidEmail } from "../../../utils/validations";
 import { userPostCall } from "../../../apis/Repo";
 import Tooltip from "@components/Tooltip";
 import { useTranslation } from "react-i18next";
+import { CustomError, NotificationMessage } from "@components/Toast";
 
 export default function AddUserManagement() {
   const { t, i18n } = useTranslation();
-  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
+  const {isSidebarHovered} =
     useContext(PopupContext);
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
@@ -34,14 +35,6 @@ is being hovered over or not. */
   }, [isSidebarHovered]);
 
   /**
-   * This function sets the message and visibility of an alert popup.
-   */
-  const setErrorMessageAndVisibility = (text, visibility) => {
-    setAlertPopupMessage(text);
-    setAlertPopupVisibility(visibility);
-  };
-
-  /**
    * The function checks if the input fields for user registration are valid and returns true if they
    * are, otherwise it sets an error message and returns false.
    * @returns The function `isViewValid` returns a boolean value. It returns `true` if all the
@@ -49,21 +42,21 @@ is being hovered over or not. */
    */
   const isViewValid = () => {
     if (isNullOrEmpty(userName))
-      setErrorMessageAndVisibility(t("enter_username"), true);
+      CustomError(t("enter_username"));
     else if (userName.includes(" "))
-      setErrorMessageAndVisibility(t("nospace_username"), true);
+      CustomError(t("nospace_username"));
     else if (isNullOrEmpty(email))
-      setErrorMessageAndVisibility(t("enter_mail"), true);
+      CustomError(t("enter_mail"));
     else if (isInvalidEmail(email))
-      setErrorMessageAndVisibility(t("enter_valid_mail"), true);
+      CustomError(t("enter_valid_mail"));
     else if (isNullOrEmpty(password))
-      setErrorMessageAndVisibility(t("enter_pass"), true);
+      CustomError(t("enter_pass"));
     else if (password.length < 8)
-      setErrorMessageAndVisibility(t("enter_valid_pass"), true);
+      CustomError(t("enter_valid_pass"));
     else if (isNullOrEmpty(confirmPassword))
-      setErrorMessageAndVisibility(t("enter_conf_pass"), true);
+      CustomError(t("enter_conf_pass"));
     else if (password != confirmPassword)
-      setErrorMessageAndVisibility(t("match_pass"), true);
+      CustomError(t("match_pass"));
     else return true;
     return false;
   };
@@ -82,15 +75,15 @@ is being hovered over or not. */
       userPostCall(object)
         .then(({ data }) => {
           if (data.data.success) {
-            setErrorMessageAndVisibility(t("addsuccess"), true);
+            NotificationMessage(t("add_user_msg"));
             navigate(-1);
           } else {
-            setErrorMessageAndVisibility(data.data.message, true);
+            CustomError(data.data.message);
           }
         })
         .catch((err) => {
           console.log("err", err);
-          setErrorMessageAndVisibility(t("error"), true);
+          CustomError(t("error"));
         });
     }
   };

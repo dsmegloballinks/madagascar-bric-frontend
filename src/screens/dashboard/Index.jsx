@@ -159,7 +159,7 @@ export default function dashboard() {
   // Import necessary dependencies and hooks
   const { t, i18n } = useTranslation();
   const { state } = useLocation();
-  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
+  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered, setPopupTitle } =
     useContext(PopupContext);
   // Define state variables using useState hook
   const [selectedFilter, setSelectedFilter] = useState("Graph");
@@ -344,12 +344,14 @@ export default function dashboard() {
         } else {
           setAlertPopupVisibility(true);
           setAlertPopupMessage(data.message);
+          setPopupTitle(t("alert"))
         }
       })
       .catch((err) => {
         console.log("err", err);
         setAlertPopupVisibility(true);
         setAlertPopupMessage(t("error"));
+        setPopupTitle(t("alert"))
       });
   };
 

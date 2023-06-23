@@ -9,10 +9,12 @@ import Tooltip from "@components/Tooltip";
 import { file } from "../../../assets";
 import DataTable from "react-data-table-component";
 import { useTranslation } from "react-i18next";
+import { NotificationMessage } from "@components/Toast";
+import { CustomError } from "@components/Toast";
 
 export default function RegistrarManagement() {
   const { t, i18n } = useTranslation();
-  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
+  const { isSidebarHovered } =
     useContext(PopupContext);
   const [deletePopupVisibility, setDeletePopupVisibility] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -212,16 +214,13 @@ This allows the user to search for specific items in the table based on the last
           setList(newArray);
           setSelectedItem(null);
           setDeletePopupVisibility(false);
-          setAlertPopupMessage(t("delete_success"));
-          setAlertPopupVisibility(true);
+          NotificationMessage(t("delete_success"))
         } else {
-          setAlertPopupMessage(t("error"));
-          setAlertPopupVisibility(true);
+          CustomError(data.message);
         }
       })
       .catch((err) => {
-        setAlertPopupMessage(t("error"));
-        setAlertPopupVisibility(true);
+        CustomError(t("error"));
       });
   };
   return (

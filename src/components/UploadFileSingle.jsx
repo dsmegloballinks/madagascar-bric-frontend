@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { X, Plus } from "react-feather";
 import { logo } from "@assets";
 import { useTranslation } from "react-i18next";
+import { isNullOrEmpty } from "../utils/isNullOrEmpty";
+import { CustomError } from "./Toast";
 
 export default function UploadFileSingle({ onClose, onAdd, isLoading }) {
   const [certificate, setCertificate] = useState(null);
@@ -119,7 +121,7 @@ export default function UploadFileSingle({ onClose, onAdd, isLoading }) {
             <button
               className="list__filter__button"
               disabled={isLoading}
-              onClick={() => onAdd(certificate)}
+              onClick={() => {if(isNullOrEmpty(certificate)) CustomError(t("up_file_msg")); else onAdd(certificate)}}
             >
               {isLoading ? t("processing") : t("add")}
             </button>

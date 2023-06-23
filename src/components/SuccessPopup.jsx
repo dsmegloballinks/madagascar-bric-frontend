@@ -3,19 +3,19 @@ import { logo } from "@assets";
 import { AlertCircle } from "react-feather";
 import { useTranslation } from "react-i18next";
 
-export default function AlertPopup({ onClose, alertPopupMessage, popupTitle }) {
+export default function SuccessPopup({ onClose, sucessPopupMessage }) {
   const { t, i18n } = useTranslation();
   return (
     <div className="popup">
       <div className="popup__overlay" style={{ zIndex: "99999" }}>
         <div className="alert__popup__container">
-          <div className="alert__background__dot" style={ {background: popupTitle == t("alert") ?  "#ff6161" : t("warning") ? "#9b8af2" : "#0acf66"}}  ></div>
+          <div className="alert__background__dot" style={ {background: "#09bd5d"}}  ></div>
           <div className="alert__popup__card">
-            <AlertCircle size={100} className="alert__popup__logo" style={ {background: popupTitle == t("alert") ?  "#ff6161" : t("warning") ? "#9b8af2" : "#0acf66"}}  />
+            <AlertCircle size={100} className="alert__popup__logo" style={ {background: "#09bd5d"}}  />
             <div className="alert__popup__content">
-              <div className="alert__popup__content__title">{popupTitle}</div>
+              <div className="alert__popup__content__title">{t("data_info")}</div>
               <div className="alert__popup__content__info">
-                {alertPopupMessage}
+                {sucessPopupMessage}
               </div>
               <div className="alert__popup__content__button__wrapper">
                 <button

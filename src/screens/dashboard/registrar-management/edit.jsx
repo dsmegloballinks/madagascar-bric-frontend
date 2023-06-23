@@ -7,12 +7,14 @@ import { updateRegistrarPostCall } from "../../../apis/Repo";
 import { isInvalidEmail } from "../../../utils/validations";
 import Tooltip from "@components/Tooltip";
 import { useTranslation } from "react-i18next";
+import { CustomError } from "@components/Toast";
+import { NotificationMessage } from "@components/Toast";
 
 export default function EditRegistrarManagement() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { setAlertPopupVisibility, setAlertPopupMessage, isSidebarHovered } =
+  const {isSidebarHovered } =
     useContext(PopupContext);
   const [lastName, setLastName] = useState(state && state.last_name);
   const [firstName, setFirstName] = useState(state && state.first_name);
@@ -32,13 +34,6 @@ export default function EditRegistrarManagement() {
     );
   }, [isSidebarHovered]);
 
-  /**
-   * This function sets the message and visibility of an alert popup.
-   */
-  const setErrorMessageAndVisibility = (text, visibility) => {
-    setAlertPopupMessage(text);
-    setAlertPopupVisibility(visibility);
-  };
 
   /**
    * The function checks if certain input fields are valid and returns true if they are, otherwise it
@@ -50,17 +45,17 @@ export default function EditRegistrarManagement() {
    */
   const isViewValid = () => {
     if (isNullOrEmpty(lastName))
-      setErrorMessageAndVisibility(t("enter_last_name"), true);
+      CustomError(t("enter_last_name"));
     else if (isNullOrEmpty(firstName))
-      setErrorMessageAndVisibility(t("enter_first_name"), true);
+      CustomError(t("enter_first_name"));
     else if (isNullOrEmpty(email))
-      setErrorMessageAndVisibility(t("enter_mail"), true);
+      CustomError(t("enter_mail"));
     else if (isInvalidEmail(email))
-      setErrorMessageAndVisibility(t("enter_valid_mail"), true);
+      CustomError(t("enter_valid_mail"));
     else if (isNullOrEmpty(department))
-      setErrorMessageAndVisibility(t("enter_dept"), true);
+      CustomError(t("enter_dept"));
     else if (isNullOrEmpty(contactNumber))
-      setErrorMessageAndVisibility(t("enter_contact"), true);
+      CustomError(t("enter_contact"));
     else return true;
     return false;
   };
@@ -84,13 +79,14 @@ export default function EditRegistrarManagement() {
         .then(({ data }) => {
           setIsLoading(false);
           if (data.data.success) {
-            setErrorMessageAndVisibility(t("success"), true);
+            NotificationMessage(t("update_reg_msg"));
             navigate(-1);
-          } else setErrorMessageAndVisibility(t("error"), true);
+          } else CustomError(data.data.message);
         })
         .catch((err) => {
           setIsLoading(false);
           console.log("err", err);
+          CustomError(t("error"));
         });
     }
   };
