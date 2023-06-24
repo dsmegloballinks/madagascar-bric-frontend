@@ -138,7 +138,7 @@ re-renders of the component. */
       .then(({ data }) => {
         setIsLoading(false);
         if (data.error_code == 0) {
-          NotificationMessage(data.message)
+          NotificationMessage(t("up_file_suc_msg"));
           setIsUploadFilePopupOpen(false);
           getLog("msg");
         } else {
@@ -190,7 +190,7 @@ re-renders of the component. */
         setIsFetchLoading(false)
         setResetPasswordConfirmationPopup(false);
         if(data.error_code == 0){
-          NotificationMessage("");
+          NotificationMessage(t("fetch_record_msg"));
           getLog("msg");
         }
         else CustomError(t("error"));   

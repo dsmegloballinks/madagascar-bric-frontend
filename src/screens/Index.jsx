@@ -36,7 +36,7 @@ export default function Index() {
   const login = () => {
     if (isViewValid()) {
       let object = {
-        user_name: email,
+        email: email,
         password: passowrd,
       };
       setIsLoading(true);

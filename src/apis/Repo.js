@@ -89,6 +89,45 @@ export const registrationsGetCall = async (
   );
 };
 
+export const uinTrackingGetCall = async (
+  page,
+  limit,
+  s_start_date,
+  s_end_date,
+  region,
+  district,
+  commune,
+  fokonatny,
+  error_id,
+  niu,
+  name
+) => {
+  let params = {};
+  if (page) params.page = page;
+  if (limit) params.limit = limit;
+  if (s_start_date) params.s_start_date = s_start_date;
+  if (s_end_date) params.s_end_date = s_end_date;
+  if (region) params.code_region = region.value;
+  if (district) params.code_district = district.value;
+  if (commune) params.code_commune = commune.value;
+  if (fokonatny) params.code_fokonatany = fokonatny.value;
+  if (error_id) params.error_id = error_id;
+  if (niu) params.search = niu;
+  if (name) params.search = name;
+  return await axios.get(
+    import.meta.env.VITE_BASE_URL.concat("api/civil_register/get-all-tracking"),
+    {
+      params,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      "axios-retry": {
+        retries: 5,
+      },
+    }
+  );
+};
+
 /**
  * The function performs a POST request to a specified API endpoint with provided data using Axios
  * library.

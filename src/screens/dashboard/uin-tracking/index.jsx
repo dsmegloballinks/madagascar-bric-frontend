@@ -7,7 +7,7 @@ import Select from "@components/Select";
 import Tooltip from "@components/Tooltip";
 import DataTable from "react-data-table-component";
 import Loader from "@components/Loader";
-import { registrationsGetCall, uinTrackingPostCall } from "../../../apis/Repo";
+import { registrationsGetCall, uinTrackingGetCall, uinTrackingPostCall } from "../../../apis/Repo";
 import { PopupContext } from "../../../context/PopupContext";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
@@ -185,7 +185,7 @@ customize the appearance of a table in a React application. */
    */
   const getRegistrations = (errorType) => {
     setIsLoading(true);
-    registrationsGetCall(
+    uinTrackingGetCall(
       page,
       limit,
       "",

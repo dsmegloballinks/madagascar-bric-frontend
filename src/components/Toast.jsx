@@ -17,14 +17,23 @@ export function CustomError(msg) {
 
 export function NotificationMessage(notification) {
    
-  toast.info(<Display notification={notification} />);
+  toast.success(<Display notification={notification} />, {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+  });
 
   function Display({notification}) {
     const { t, i18n } = useTranslation();
     return (
       <div>
-        <h4>{t("data_info")}</h4>
-        <p>{notification}</p>
+        <div style={{fontSize:"18px", fontWeight:"600", marginBottom:".5em"}}>{t("data_info")}</div>
+        <div>{notification}</div>
       </div>
     );
   }

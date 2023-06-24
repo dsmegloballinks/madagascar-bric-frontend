@@ -34,7 +34,8 @@ export default function UserManagement() {
   const [statusUpdated, setStatusUpdated] = useState(false);
   const [filterText, setFilterText] = useState("");
   let [hoverStyle, setHoverStyle] = useState("dashboard__container");
-  const [selectedUser, setSelectedUser] = useState(null)
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [isResetLoading, setIsResetLoading] = useState(false);
 
   useEffect(() => {
     setHoverStyle(
@@ -249,7 +250,9 @@ reset the user's password and another to edit the user's details. */
   };
 
   const resetPassword = () =>{
+    setIsResetLoading(true);
     resetPasswordCall(selectedUser.user_id).then(({data})=>{
+      setIsResetLoading(false);
       if(data.success){
         setResetPasswordConfirmationPopup(false);
         NotificationMessage(t("reset_pass_success"));
@@ -257,6 +260,7 @@ reset the user's password and another to edit the user's details. */
         CustomError(data.message);
       }
     }).catch((err)=>{
+      setIsResetLoading(false);
       CustomError(t("error"));
     })
   }
@@ -331,6 +335,7 @@ reset the user's password and another to edit the user's details. */
           onClose={() => setResetPasswordConfirmationPopup(false)}
           text={t("reset_pass_msg")}
           onYes={resetPassword}
+          isFetchLoading={isResetLoading}
         />
       )}
     </>

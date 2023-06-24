@@ -204,7 +204,9 @@ i18next
           revoke_status: "User Status Revoked",
           add_reg_msg: "New Registrar Created Successfully",
           update_reg_msg: "Registrar Updated Successfully",
-          up_file_msg: "Upload File"
+          up_file_msg: "Upload File",
+          fetch_record_msg: "Records Fetched Successfully",
+          up_file_suc_msg: "File uploaded successfully",
         },
       },
       mg: {
@@ -404,7 +406,9 @@ i18next
           revoke_status: "Nofoanana ny satan'ny mpampiasa",
           add_reg_msg: "Noforonina soa aman-tsara ny fisoratana anarana vaovao",
           update_reg_msg: "Nohavaozina soa aman-tsara ny Registrar",
-          up_file_msg: "Mampiakatra rakitra"
+          up_file_msg: "Mampiakatra rakitra",
+          fetch_record_msg: "Enregistrements récupérés avec succès",
+          up_file_suc_msg: "Tafiditra soa aman-tsara ny rakitra",
         },
       },
       fr: {
@@ -605,7 +609,9 @@ i18next
           revoke_status: "Statut utilisateur révoqué",
           add_reg_msg: "Nouveau bureau d'enregistrement créé avec succès",
           update_reg_msg: "Le bureau d'enregistrement a été mis à jour avec succès",
-          up_file_msg: "Téléverser un fichier"
+          up_file_msg: "Téléverser un fichier",
+          fetch_record_msg: "Enregistrements récupérés avec succès",
+          up_file_suc_msg: "Fichier téléchargé avec succès",
         },
       },
     },

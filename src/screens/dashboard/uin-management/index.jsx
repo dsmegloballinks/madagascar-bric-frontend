@@ -8,6 +8,7 @@ import {
   registrationsGetCall,
   uinFilePostCall,
   uinManagmentGetCall,
+  uinTrackingGetCall,
 } from "../../../apis/Repo";
 import UploadFileSingle from "@components/UploadFileSingle";
 import Loader from "@components/Loader";
@@ -73,7 +74,7 @@ sidebar is being hovered over. */
    * accordingly.
    */
   const getRegistrations = () => {
-    registrationsGetCall(1, 1, "", "", "", "", "", "", 0)
+    uinTrackingGetCall(1, 1, "", "", "", "", "", "", 0)
       .then(({ data }) => {
         if (data.data.success) {
           setTrackingRecords(data.data.total_records);
@@ -217,7 +218,7 @@ sidebar is being hovered over. */
           setIsUploadFilePopupOpen(false);
           
         } else {
-          CustomError(t("error"));
+          CustomError(data.message);
         }
       })
       .catch((err) => {
