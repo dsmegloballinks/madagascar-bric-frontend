@@ -8,7 +8,7 @@ import { registrarPostCall } from "../../../apis/Repo";
 import { isInvalidEmail } from "../../../utils/validations";
 import Tooltip from "@components/Tooltip";
 import { useTranslation } from "react-i18next";
-import { CustomError } from "@components/Toast";
+import { CustomError, InfoMessage } from "@components/Toast";
 import { NotificationMessage } from "@components/Toast";
 
 export default function AddRegistrarManagement() {
@@ -55,27 +55,27 @@ string. These objects represent options for an appointment selection dropdown or
    */
   const isViewValid = () => {
     if (isNullOrEmpty(lastName))
-      CustomError(t("enter_last_name"));
+      InfoMessage(t("enter_last_name"));
     else if (isNullOrEmpty(firstName))
-      CustomError(t("enter_first_name"));
+      InfoMessage(t("enter_first_name"));
     else if (isNullOrEmpty(email))
-      CustomError(t("enter_mail"));
+      InfoMessage(t("enter_mail"));
     else if (isInvalidEmail(email))
-      CustomError(t("enter_valid_mail"));
+      InfoMessage(t("enter_valid_mail"));
     else if (isNullOrEmpty(department))
-      CustomError(t("enter_dept"));
+      InfoMessage(t("enter_dept"));
     else if (isNullOrEmpty(contactNumber))
-      CustomError(t("enter_contact"));
+      InfoMessage(t("enter_contact"));
     else if (isNullOrEmpty(appointmentAddress))
-      CustomError(t("enter_app_add"));
+      InfoMessage(t("enter_app_add"));
     else if (isNullOrEmpty(appointmentsStatus))
-      CustomError(t("enter_app_status"));
+      InfoMessage(t("enter_app_status"));
     else if (isNullOrEmpty(appointmentDate))
-      CustomError(t("enter_app_date"));
+      InfoMessage(t("enter_app_date"));
     else if (isNullOrEmpty(appointmentTime))
-      CustomError(t("enter_app_time"));
+      InfoMessage(t("enter_app_time"));
     else if (isNullOrEmpty(appointedBy))
-      CustomError(t("enter_app_by"));
+      InfoMessage(t("enter_app_by"));
     else return true;
     return false;
   };

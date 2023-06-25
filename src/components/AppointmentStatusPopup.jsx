@@ -5,7 +5,7 @@ import { PopupContext } from "../context/PopupContext";
 import { isNullOrEmpty } from "../utils/isNullOrEmpty";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
-import { CustomError } from "./Toast";
+import { CustomError, InfoMessage } from "./Toast";
 
 export default function AppointmentStatusPopup({
   onClose,
@@ -69,16 +69,16 @@ export default function AppointmentStatusPopup({
    */
   const isViewValid = () => {
     if (isNullOrEmpty(appointmentAddress))
-    CustomError(t("enter_app_add"))
+    InfoMessage(t("enter_app_add"))
       // setErrorMessageAndVisibility(t("enter_app_add"));
     else if (isNullOrEmpty(appointmentsStatus))
-      CustomError(t("enter_app_status"));
+      InfoMessage(t("enter_app_status"));
     else if (isNullOrEmpty(appointmentDate))
-      CustomError(t("enter_app_date"));
+      InfoMessage(t("enter_app_date"));
     else if (isNullOrEmpty(appointmentTime))
-      CustomError(t("enter_app_time"));
+      InfoMessage(t("enter_app_time"));
     else if (isNullOrEmpty(appointedBy))
-      CustomError(t("enter_app_by"));
+      InfoMessage(t("enter_app_by"));
     else return true;
     return false;
   };

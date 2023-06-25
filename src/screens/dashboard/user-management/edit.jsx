@@ -8,7 +8,7 @@ import { updateUserPostCall } from "../../../apis/Repo";
 import InputSelect from "@components/InputSelect";
 import Tooltip from "@components/Tooltip";
 import { useTranslation } from "react-i18next";
-import { CustomError, NotificationMessage } from "@components/Toast";
+import { CustomError, NotificationMessage, InfoMessage } from "@components/Toast";
 
 export default function EditUserManagement() {
   const { t, i18n } = useTranslation();
@@ -46,11 +46,11 @@ the sidebar is hovered or not. */
    */
   const isViewValid = () => {
     if (isNullOrEmpty(userName))
-      CustomError(t("enter_username"));
+      InfoMessage(t("enter_username"));
     else if (isNullOrEmpty(email))
-      CustomError(t("enter_mail"));
+      InfoMessage(t("enter_mail"));
     else if (isInvalidEmail(email))
-      CustomError(t("enter_valid_mail"));
+      InfoMessage(t("enter_valid_mail"));
     else return true;
     return false;
   };

@@ -7,7 +7,7 @@ import { isInvalidEmail } from "../../../utils/validations";
 import { userPostCall } from "../../../apis/Repo";
 import Tooltip from "@components/Tooltip";
 import { useTranslation } from "react-i18next";
-import { CustomError, NotificationMessage } from "@components/Toast";
+import { CustomError, NotificationMessage, InfoMessage } from "@components/Toast";
 
 export default function AddUserManagement() {
   const { t, i18n } = useTranslation();
@@ -42,21 +42,21 @@ is being hovered over or not. */
    */
   const isViewValid = () => {
     if (isNullOrEmpty(userName))
-      CustomError(t("enter_username"));
+      InfoMessage(t("enter_username"));
     else if (userName.includes(" "))
-      CustomError(t("nospace_username"));
+      InfoMessage(t("nospace_username"));
     else if (isNullOrEmpty(email))
-      CustomError(t("enter_mail"));
+      InfoMessage(t("enter_mail"));
     else if (isInvalidEmail(email))
-      CustomError(t("enter_valid_mail"));
+      InfoMessage(t("enter_valid_mail"));
     else if (isNullOrEmpty(password))
-      CustomError(t("enter_pass"));
+      InfoMessage(t("enter_pass"));
     // else if (password.length < 8)
-    //   CustomError(t("enter_valid_pass"));
+    //   InfoMessage(t("enter_valid_pass"));
     // else if (isNullOrEmpty(confirmPassword))
-    //   CustomError(t("enter_conf_pass"));
+    //   InfoMessage(t("enter_conf_pass"));
     else if (password != confirmPassword)
-      CustomError(t("match_pass"));
+      InfoMessage(t("match_pass"));
     else return true;
     return false;
   };

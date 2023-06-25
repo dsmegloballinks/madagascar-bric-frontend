@@ -15,11 +15,33 @@ export function CustomError(msg) {
   });
 }
 
+export function InfoMessage(msg) {
+  toast.info(<Display msg={msg} />, {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+
+  function Display({msg}) {
+    const { t, i18n } = useTranslation();
+    return (
+      <div>
+        <div style={{fontSize:"18px", fontWeight:"600", marginBottom:".5em"}}>{t("wrning")}</div>
+        <div>{msg}</div>
+      </div>
+    );
+  }
+}
+
 export function NotificationMessage(notification) {
    
   toast.success(<Display notification={notification} />, {
     position: "top-right",
-    autoClose: 5000,
+    autoClose: 3000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
