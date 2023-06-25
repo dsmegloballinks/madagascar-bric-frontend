@@ -98,7 +98,7 @@ re-renders of the component. */
     },
     {
       name: t("imp_type"),
-      selector: (row) => row.input_type == "ODK" ? "ODK Excel File" : row.input_type == "FILE" ? "ODK API" : "OperCRVS",
+      selector: (row) => row.input_type == "ODK" ? "ODK API" : row.input_type == "FILE" ? "ODK Excel File" : "OperCRVS",
       sortable: true,
     },
   ];

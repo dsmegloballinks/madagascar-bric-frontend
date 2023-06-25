@@ -47,6 +47,8 @@ the sidebar is hovered or not. */
   const isViewValid = () => {
     if (isNullOrEmpty(userName))
       InfoMessage(t("enter_username"));
+      else if (userName.includes(" "))
+      InfoMessage(t("nospace_username"));
     else if (isNullOrEmpty(email))
       InfoMessage(t("enter_mail"));
     else if (isInvalidEmail(email))

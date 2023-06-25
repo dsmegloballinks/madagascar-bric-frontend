@@ -131,17 +131,17 @@ performance by preventing unnecessary re-renders of the component. */
     },
     {
       name: t("commune") + ", " + t("fokontany"),
-      selector: (row) => row.foko.commune_name,
+      selector: (row) => row.mother.commune_name,
       cell: (row) => (
         <div
           className="container__main__content__listing__table__content__list__entry"
           id={row.id}
         >
           <TableEntryText className="container__main__content__listing__table__content__list__entry__hover">
-            {row.foko.commune_name}
+            {row.mother.commune_name}
           </TableEntryText>
           <TableEntryText className="container__main__content__listing__table__content__list__entry__hover">
-            {row.foko.fokontonay_name}
+            {row.mother.fokontonay_name}
           </TableEntryText>
         </div>
       ),
